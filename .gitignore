@@ -252,3 +252,6 @@ hs_err_pid*
 
 /.fastRequest/
 **/.fastRequest/
+
+/.tool-versions
+**/.tool-versions
