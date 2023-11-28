@@ -88,8 +88,6 @@
         <spring-boot.version>2.6.6</spring-boot.version>
         <spring-brick.version>3.0.1</spring-brick.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
-        <!-- SOFAboot -->
-        <!--        <SOFAboot.version>3.9.0</SOFAboot.version>-->
         <!-- cache -->
         <cache-caffeine.version>3.0.5</cache-caffeine.version>
         <!-- mybatis -->
@@ -518,14 +516,6 @@
                 <artifactId>javax.annotation-api</artifactId>
                 <version>${javax.annotation-api.version}</version>
             </dependency>
-            <!-- SOFA boot -->
-            <!--            <dependency>-->
-            <!--                <groupId>com.alipay.sofa</groupId>-->
-            <!--                <artifactId>sofaboot-dependencies</artifactId>-->
-            <!--                <version>${SOFAboot.version}</version>-->
-            <!--                <type>pom</type>-->
-            <!--                <scope>import</scope>-->
-            <!--            </dependency>-->
             <!-- Spring Boot Dependency  -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
