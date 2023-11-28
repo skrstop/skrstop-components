@@ -213,6 +213,7 @@ local.properties
 
 ### Maven template
 target/
+**/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -250,3 +251,4 @@ buildNumber.properties
 hs_err_pid*
 
 /.fastRequest/
+**/.fastRequest/

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.jphoebe.framework</groupId>
+        <artifactId>components-parent</artifactId>
+        <version>${framework.components.revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>components-starters-dependencies</artifactId>
+    <modules>
+        <module>components-starter-spring-support</module>
+        <module>components-starter-annotation</module>
+        <module>components-starter-port-shift</module>
+        <module>components-starter-web</module>
+        <module>components-starter-feign-protostuff</module>
+        <module>components-starter-id</module>
+        <module>components-starter-redis</module>
+        <module>components-starter-ftp</module>
+        <module>components-starter-database</module>
+        <module>components-starter-mongodb</module>
+        <module>components-starter-banner</module>
+        <module>components-starter-metrics</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <name>JPhoebe Mix Micro-service Project Starters Module :: ${project.version}</name>
+    <description>🏗 JPhoebe Mix Micro-service Starters Module</description>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- private package -->
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-core-dependencies</artifactId>
+                <version>${framework.components.revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- util module -->
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-utils-dependencies</artifactId>
+                <version>${framework.components.revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- self modules -->
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-web</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-annotation</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-spring-support</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-port-shift</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-mongodb</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-feign-protostuff</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-id</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-ftp</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-metrics</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-redis</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-database</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-starter-banner</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

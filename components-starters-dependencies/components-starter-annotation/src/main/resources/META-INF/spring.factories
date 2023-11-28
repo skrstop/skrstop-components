@@ -1,0 +1,10 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    cn.auntec.framework.components.starter.annotation.config.WebMvcConfig,\
+    cn.auntec.framework.components.starter.annotation.aspect.AccessLimitAspect,\
+    cn.auntec.framework.components.starter.annotation.aspect.AccessControlAspect,\
+    cn.auntec.framework.components.starter.annotation.aspect.IntranetLimitAspect,\
+    cn.auntec.framework.components.starter.annotation.aspect.PrivacyInfoAspect,\
+    cn.auntec.framework.components.starter.annotation.aspect.ServiceLockAspect,\
+    cn.auntec.framework.components.starter.annotation.aspect.ExecuteTimeLogAspect,\
+    cn.auntec.framework.components.starter.annotation.trim.TrimAnnotationFormatterFactory,\
+    cn.auntec.framework.components.starter.annotation.ddd.processor.ProcessorContainerAutoConfiguration

@@ -1,0 +1,71 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.ftp.config.GlobalFtpConfig",
+      "name": "ftp服务配置",
+      "type": "cn.auntec.framework.components.starter.ftp.config.GlobalFtpConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auntec.ftp.config.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启ftp.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.ftp.config.host",
+      "type": "java.lang.String",
+      "description": "ftp ip."
+    },
+    {
+      "name": "auntec.ftp.config.port",
+      "type": "java.lang.Integer",
+      "description": "ftp 端口.",
+      "defaultValue": "21"
+    },
+    {
+      "name": "auntec.ftp.config.username",
+      "type": "java.lang.String",
+      "description": "用户."
+    },
+    {
+      "name": "auntec.ftp.config.password",
+      "type": "java.lang.String",
+      "description": "密码."
+    },
+    {
+      "name": "auntec.ftp.config.base-path",
+      "type": "java.lang.String",
+      "description": "基本路径."
+    },
+    {
+      "name": "auntec.ftp.config.upload-path",
+      "type": "java.lang.String",
+      "description": "上传路径."
+    },
+    {
+      "name": "auntec.ftp.config.mode",
+      "type": "cn.hutool.extra.ftp.FtpMode",
+      "description": "ftp模式."
+    },
+    {
+      "name": "auntec.ftp.config.charset",
+      "type": "java.lang.String",
+      "description": "编码.",
+      "defaultValue": "UTF-8"
+    }
+  ],
+  "hints": [
+    {
+      "name": "auntec.ftp.config.charset",
+      "values": [
+        {
+          "value": "UTF-8",
+          "description": "UTF-8"
+        }
+      ]
+    }
+  ]
+}
+

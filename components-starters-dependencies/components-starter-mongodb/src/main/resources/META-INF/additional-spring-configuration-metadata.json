@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.mongodb.config.GlobalMongodbConfig",
+      "name": "Mongodb配置",
+      "type": "cn.auntec.framework.components.starter.mongodb.config.GlobalMongodbConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auntec.mongodb.config.map-package",
+      "type": "java.lang.String",
+      "description": "实体映射包地址.",
+      "defaultValue": "cn.auntec.business"
+    },
+    {
+      "name": "auntec.mongodb.config.underline-properties",
+      "type": "java.lang.Boolean",
+      "description": "属性是否是下划线格式.",
+      "defaultValue": "false"
+    }
+  ]
+}
+

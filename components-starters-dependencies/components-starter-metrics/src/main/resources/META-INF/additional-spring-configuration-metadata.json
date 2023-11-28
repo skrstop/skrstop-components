@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.metrics.properties.MetricsProperties",
+      "name": "metrics配置",
+      "type": "cn.auntec.framework.components.starter.metrics.properties.MetricsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auntec.metrics.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启metrics.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.metrics.process.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启process metrics.",
+      "defaultValue": "true"
+    }
+  ]
+}
+

@@ -1,0 +1,51 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.id.config.GlobalIdConfig",
+      "name": "id生成器配置",
+      "type": "cn.auntec.framework.components.starter.id.config.GlobalIdConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auntec.id.config.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启id.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.id.config.worker-id",
+      "type": "java.lang.Long",
+      "description": "终端id.",
+      "defaultValue": "1"
+    },
+    {
+      "name": "auntec.id.config.datacenter-id",
+      "type": "java.lang.Long",
+      "description": "数据中心id.",
+      "defaultValue": "1"
+    },
+    {
+      "name": "auntec.id.config.generate-type",
+      "type": "java.lang.Integer",
+      "description": "生成策略:1/本地，2/统一远端服务.",
+      "defaultValue": "1"
+    }
+  ],
+  "hints": [
+    {
+      "name": "auntec.id.config.generate-type",
+      "values": [
+        {
+          "value": "1",
+          "description": "本地雪花算法生成"
+        },
+        {
+          "value": "2",
+          "description": "统一分发中心生成"
+        }
+      ]
+    }
+  ]
+}
+

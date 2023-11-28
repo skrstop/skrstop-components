@@ -1,0 +1,16 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.annotation.config.AccessControlConfig",
+      "name": "访问控制参数配置",
+      "type": "cn.auntec.framework.components.starter.annotation.config.AccessControlConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auntec.annotation.access.controller.release-alias",
+      "type": "java.util.List",
+      "description": "放行的别名列表."
+    }
+  ]
+}

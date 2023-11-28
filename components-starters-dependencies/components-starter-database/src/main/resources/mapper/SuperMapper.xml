@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jphoebe.framework.components.starter.database.mapper.SuperMapper">
+    <delete id="removePhysicalById">
+        DELETE FROM `${tableName}` WHERE `${idName}` = #{id}
+    </delete>
+
+
+    <delete id="removePhysicalByIds">
+        DELETE FROM `${tableName}` WHERE `${idName}` IN
+        <foreach collection="ids" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removePhysicalByMap">
+        DELETE FROM `${tableName}` WHERE
+        <foreach collection="columnMap" index="key" item="value" separator=" and ">
+            `${key}` = #{value}
+        </foreach>
+    </delete>
+
+    <delete id="removePhysicalByCustom">
+        DELETE FROM `${tableName}` WHERE ${customSql}
+    </delete>
+</mapper>

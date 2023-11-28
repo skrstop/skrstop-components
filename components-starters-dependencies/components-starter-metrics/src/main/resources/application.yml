@@ -1,0 +1,33 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    enable:
+      druid: false
+    mongo:
+      command:
+        enabled: false
+      connectionpool:
+        enabled: false
+  health:
+    rabbit:
+      enabled: false
+    redis:
+      enabled: false
+    mongo:
+      enabled: false
+    elasticsearch:
+      enabled: false
+    solr:
+      enabled: false
+    mail:
+      enabled: false
+    jms:
+      enabled: false

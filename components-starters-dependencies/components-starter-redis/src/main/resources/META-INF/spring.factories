@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    cn.auntec.framework.components.starter.redis.autoconfig.CustomRedisAutoConfiguration,\
+    cn.auntec.framework.components.starter.redis.redisson.RedissonAutoConfiguration

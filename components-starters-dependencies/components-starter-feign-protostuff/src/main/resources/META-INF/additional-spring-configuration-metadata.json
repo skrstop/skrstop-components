@@ -1,0 +1,65 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "name": "okhttp配置",
+      "type": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auntec.http2.config.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启http2.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "feign.okhttp.connection-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": 2000
+    },
+    {
+      "name": "feign.okhttp.read-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": 3000
+    },
+    {
+      "name": "feign.okhttp.write-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": 3000
+    },
+    {
+      "name": "feign.okhttp.disable-ssl-validation",
+      "type": "java.lang.Boolean",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "feign.okhttp.follow-redirects",
+      "type": "java.lang.Boolean",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "feign.okhttp.max-connections",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": 200
+    },
+    {
+      "name": "feign.okhttp.time-to-live",
+      "type": "java.lang.Long",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
+      "defaultValue": 900
+    },
+    {
+      "name": "feign.okhttp.time-to-live-unit",
+      "type": "java.util.concurrent.TimeUnit",
+      "sourceType": "cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties"
+    }
+  ]
+}
+

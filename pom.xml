@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.auntec.framework</groupId>
+    <groupId>com.jphoebe.framework</groupId>
     <artifactId>components-parent</artifactId>
     <packaging>pom</packaging>
     <version>${framework.components.revision}</version>
 
     <organization>
-        <name>The Auntec+ Organization</name>
-        <url>http://www.auntec.cn/</url>
+        <name>JPhoebe Components</name>
+        <url>https://blog.jiangsh.fun/</url>
     </organization>
 
     <modules>
@@ -21,8 +21,8 @@
         <module>components-extra-dependencies</module>
     </modules>
 
-    <name>Auntec Mix Micro-service Components :: parent ${project.version}</name>
-    <description>🏗 Auntec Mix Micro-service Components Parent</description>
+    <name>JPhoebe Mix Micro-service Components :: parent ${project.version}</name>
+    <description>🏗 JPhoebe Mix Micro-service Components Parent</description>
     <inceptionYear>2020</inceptionYear>
 
     <repositories>
@@ -374,9 +374,9 @@
 
     <developers>
         <developer>
-            <id>Auntec+</id>
+            <id>JPhoebe</id>
             <name>Developer</name>
-            <email>developer@Auntec.com</email>
+            <email>developer@JPhoebe.com</email>
             <roles>
                 <role>Architect</role>
                 <role>Developer</role>
@@ -2253,14 +2253,14 @@
     <distributionManagement>
         <!-- 配置快照版本发布的仓库-->
         <snapshotRepository>
-            <id>auntec-prod</id>
-            <name>auntec Snapshots Repository</name>
+            <id>jphoebe-prod</id>
+            <name>jphoebe Snapshots Repository</name>
             <url>http://prod-nexus.auntec.cn:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
         <!-- 配置release版本发布的仓库-->
         <repository>
-            <id>auntec-prod</id>
-            <name>auntec Releases Repository</name>
+            <id>jphoebe-prod</id>
+            <name>jphoebe Releases Repository</name>
             <url>http://prod-nexus.auntec.cn:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>

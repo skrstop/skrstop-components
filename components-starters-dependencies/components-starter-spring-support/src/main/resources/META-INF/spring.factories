@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.auntec.framework.components.starter.spring.support.bean.SpringUtil

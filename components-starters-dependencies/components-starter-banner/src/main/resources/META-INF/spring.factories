@@ -1,0 +1,3 @@
+# EnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  cn.auntec.framework.components.starter.banner.DefaultPropertySourceEnvironmentPostProcessor

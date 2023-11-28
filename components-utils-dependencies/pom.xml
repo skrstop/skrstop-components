@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.jphoebe.framework</groupId>
+        <artifactId>components-parent</artifactId>
+        <version>${framework.components.revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>components-utils-dependencies</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>components-util-compression</module>
+        <module>components-util-constant</module>
+        <module>components-util-executor</module>
+        <module>components-util-event</module>
+        <module>components-util-http</module>
+        <module>components-util-serialization</module>
+        <module>components-util-extra</module>
+        <module>components-util-system</module>
+        <module>components-util-value</module>
+        <module>components-util-setting</module>
+        <module>components-util-media</module>
+        <module>components-util-crypto</module>
+        <module>components-util-stress</module>
+        <module>components-util-db</module>
+    </modules>
+
+    <name>JPhoebe Mix Micro-service Project Utils Module :: ${project.version}</name>
+    <description>🏗 JPhoebe Mix Micro-service Utils Module</description>
+
+    <properties>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jphoebe.framework</groupId>
+            <artifactId>components-core-exception</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jphoebe.framework</groupId>
+            <artifactId>components-core-annotation</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <!-- private package -->
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-core-dependencies</artifactId>
+                <version>${framework.components.revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- self package -->
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-compression</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-event</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-executor</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-http</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-serialization</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-constant</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-extra</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-setting</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-system</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-value</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-crypto</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-media</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-stress</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-util-db</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>

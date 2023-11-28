@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jphoebe.framework</groupId>
+        <artifactId>components-parent</artifactId>
+        <version>${framework.components.revision}</version>
+    </parent>
+
+    <artifactId>components-core-dependencies</artifactId>
+    <packaging>pom</packaging>
+
+    <name>JPhoebe Mix Micro-service Project Core Module :: ${project.version}</name>
+    <description>🏗 JPhoebe Mix Micro-service Core Module</description>
+
+    <modules>
+        <module>components-core-common</module>
+        <module>components-core-exception</module>
+        <module>components-core-annotation</module>
+    </modules>
+
+    <properties>
+        <!-- Module Version -->
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-core-common</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-core-exception</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jphoebe.framework</groupId>
+                <artifactId>components-core-annotation</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

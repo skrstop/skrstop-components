@@ -1,0 +1,14 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    cn.auntec.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern,\
+    cn.auntec.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern,\
+    cn.auntec.framework.components.starter.web.response.core.ResponseHandleChainPattern,\
+    cn.auntec.framework.components.starter.web.config.JacksonAutoConfig,\
+    cn.auntec.framework.components.starter.web.response.webflux.WebFluxResponseJacksonAutoConfig,\
+    cn.auntec.framework.components.starter.web.response.webmvc.ReturnResponseAutoConfig,\
+    cn.auntec.framework.components.starter.web.response.webflux.ReturnResponseAutoConfig,\
+    cn.auntec.framework.components.starter.web.exception.global.webmvc.ErrorMvcAutoConfiguration,\
+    cn.auntec.framework.components.starter.web.exception.global.webmvc.RequestExceptionHandler,\
+    cn.auntec.framework.components.starter.web.exception.global.webflux.ExceptionAutoConfiguration,\
+    cn.auntec.framework.components.starter.web.config.sentinel.SentinelDefaultResponseConfiguration,\
+    cn.auntec.framework.components.starter.web.event.ShutdownEventController,\
+    cn.auntec.framework.components.starter.web.event.StatusEventController

@@ -1,0 +1,83 @@
+{
+  "groups": [
+    {
+      "sourceType": "cn.auntec.framework.components.starter.web.config.GlobalResponseConfig",
+      "name": "全局返回值处理",
+      "type": "cn.auntec.framework.components.starter.web.config.GlobalResponseConfig"
+    },
+    {
+      "sourceType": "cn.auntec.framework.components.starter.web.config.GlobalExceptionConfig",
+      "name": "全局异常处理",
+      "type": "cn.auntec.framework.components.starter.web.config.GlobalExceptionConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "server.shutdown.task.path",
+      "type": "java.lang.String",
+      "description": "shutdown task事件请求地址.",
+      "defaultValue": "/event/shutdown"
+    },
+    {
+      "name": "server.status.path",
+      "type": "java.lang.String",
+      "description": "服务状态事件请求地址.",
+      "defaultValue": "/event/status/up"
+    },
+    {
+      "name": "auntec.response.config.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启全局返回值处理.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.response.config.show-null-value",
+      "type": "java.lang.Boolean",
+      "description": "是否显示null字段节点.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.response.config.long-to-string",
+      "type": "java.lang.Boolean",
+      "description": "long 类型转换成string.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.response.config.support-feign",
+      "type": "java.lang.Boolean",
+      "description": "使用feign, 是否统一处理.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.response.config.date-time-format",
+      "type": "java.lang.String",
+      "description": "时间格式化.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.response.config.trans-result-response",
+      "type": "java.lang.Boolean",
+      "description": "根据返回值类型自动转换Result.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.exception.config.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启全局异常处理.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "auntec.exception.config.has-html-error",
+      "type": "java.lang.Boolean",
+      "description": "是否有错误页面展示.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "auntec.exception.config.show-business-service-exception",
+      "type": "java.lang.Boolean",
+      "description": "是否打印业务异常.",
+      "defaultValue": "false"
+    }
+  ]
+}
+
