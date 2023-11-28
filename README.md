@@ -49,7 +49,24 @@
 
 ```
 
-# 类库版本
+# 常用可用类库版本
 
 * JDK 11
-* 
+* springBoot 2.6.6
+* springCloud 2021.0.1
+* springCloudAlibaba 2021.0.1.0
+* log4j 2.17.2
+* lombok 1.8.22
+* mybatis 3.5.9
+* mybatis-plus 3.5.1
+* mybatis-fluent 1.9.5
+* druid 1.2.9
+* hutool 5.8.0.M2
+* fastjson 1.2.80
+* dubbo 3.0.7
+* protostuff 1.8.0
+* lettuce 6.1.8.RELEASE
+* jedis 4.2.2
+* morphia 2.2.6
+* javacv 1.5.7
+* ...
