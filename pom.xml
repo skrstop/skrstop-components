@@ -1,0 +1,2269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.auntec.framework</groupId>
+    <artifactId>components-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>${framework.components.revision}</version>
+
+    <organization>
+        <name>The Auntec+ Organization</name>
+        <url>http://www.auntec.cn/</url>
+    </organization>
+
+    <modules>
+        <module>components-project-dependencies</module>
+        <module>components-core-dependencies</module>
+        <module>components-utils-dependencies</module>
+        <module>components-starters-dependencies</module>
+        <module>components-extra-dependencies</module>
+    </modules>
+
+    <name>Auntec Mix Micro-service Components :: parent ${project.version}</name>
+    <description>🏗 Auntec Mix Micro-service Components Parent</description>
+    <inceptionYear>2020</inceptionYear>
+
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <url>http://repo.e-iceblue.cn/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <properties>
+        <!-- 项目版本 -->
+        <framework.components.revision>1.2.3.20220414-RELEASE</framework.components.revision>
+
+        <java.version>1.8</java.version>
+
+        <!-- Deploy Properties -->
+        <maven.deploy.skip>false</maven.deploy.skip>
+
+        <!-- base properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <resource.delimiter>@</resource.delimiter>
+
+        <!-- metrics -->
+        <metrics-jvm-extras.version>0.2.2</metrics-jvm-extras.version>
+        <simpleclient.version>0.15.0</simpleclient.version>
+
+        <!-- jdk9+ 移除的包 -->
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+        <javax.transaction-api.version>1.3</javax.transaction-api.version>
+        <jaxws-ri.version>3.0.2</jaxws-ri.version>
+        <javax.activation.version>1.2.0</javax.activation.version>
+        <jaxb.version>2.3.1</jaxb.version>
+        <jaxb-core.version>2.3.0.1</jaxb-core.version>
+        <jersey-client.version>1.19.4</jersey-client.version>
+
+        <!-- dependencies  -->
+        <lombok.version>1.18.22</lombok.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
+        <log4j.version>2.17.2</log4j.version>
+        <checker.version>3.21.4</checker.version>
+
+        <!-- oshi -->
+        <oshi.version>6.1.6</oshi.version>
+
+        <!-- dependencies management libs -->
+        <!-- spring's version -->
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-brick.version>3.0.1</spring-brick.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <!-- SOFAboot -->
+        <!--        <SOFAboot.version>3.9.0</SOFAboot.version>-->
+        <!-- cache -->
+        <cache-caffeine.version>3.0.5</cache-caffeine.version>
+        <!-- mybatis -->
+        <mybatis.version>3.5.9</mybatis.version>
+        <mybatis-spring.version>2.0.7</mybatis-spring.version>
+        <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
+        <mybatis-starter.version>2.2.2</mybatis-starter.version>
+        <mybatis-plus-starter.version>3.5.1</mybatis-plus-starter.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
+        <mybatis-fluent.version>1.9.5</mybatis-fluent.version>
+        <!-- cglib -->
+        <cglib.version>3.3.0</cglib.version>
+        <!-- disruptor -->
+        <disruptor.version>3.4.4</disruptor.version>
+        <!-- pageHelper -->
+        <pagehelper.version>5.3.0</pagehelper.version>
+        <page-helper-starter.version>1.4.2</page-helper-starter.version>
+        <!-- druid -->
+        <druid.version>1.2.9</druid.version>
+        <!-- dozer -->
+        <dozer.version>5.5.1</dozer.version>
+        <!-- sky walking -->
+        <sky-walking.version>8.9.0</sky-walking.version>
+        <prometheus.varsion>1.8.4</prometheus.varsion>
+        <!-- apache common -->
+        <apache-commons-lang3.version>3.12.0</apache-commons-lang3.version>
+        <apache-commons-net.version>3.8.0</apache-commons-net.version>
+        <apache-commons-io.version>2.11.0</apache-commons-io.version>
+        <apache-commons-compress.version>1.21</apache-commons-compress.version>
+        <apache-commons-beanutils.version>1.9.4</apache-commons-beanutils.version>
+        <apache-commons-pool2.version>2.11.1</apache-commons-pool2.version>
+        <apache-commons-cli.version>1.4</apache-commons-cli.version>
+        <apache-commons-codec.version>1.15</apache-commons-codec.version>
+        <apache-commons-configuration.version>1.10</apache-commons-configuration.version>
+        <!-- reflections -->
+        <reflections.version>0.10.2</reflections.version>
+        <!-- hutool -->
+        <hutool.version>5.8.0.M2</hutool.version>
+        <!-- concurrentlinkedhashmap-lru -->
+        <concurrentlinkedhashmap-lru.version>1.4.2</concurrentlinkedhashmap-lru.version>
+        <!-- json -->
+        <fastjson.version>1.2.80</fastjson.version>
+        <gson.version>2.9.0</gson.version>
+        <jackson.version>2.13.2</jackson.version>
+        <!-- bouncy castle -->
+        <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+        <bcprov-jdk16.version>1.46</bcprov-jdk16.version>
+        <bcprov-jdk15.version>1.46</bcprov-jdk15.version>
+        <bcprov-jdk15to18.version>1.70</bcprov-jdk15to18.version>
+        <!-- swagger -->
+        <swagger.version>3.0.0</swagger.version>
+        <swagger-annotations.version>2.1.13</swagger-annotations.version>
+        <swagger-stater.version>2.0.2.RELEASE</swagger-stater.version>
+        <!-- validation -->
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <hibernate-validator.version>6.2.3.Final</hibernate-validator.version>
+        <jakarta-validator.version>2.0.2</jakarta-validator.version>
+        <!-- dubbo -->
+        <dubbo.version>3.0.7</dubbo.version>
+        <!-- zk client -->
+        <curator.version>5.2.1</curator.version>
+        <zkclient.version>0.11</zkclient.version>
+        <!-- xxl-job -->
+        <xxl-job.version>2.3.0</xxl-job.version>
+        <!-- protostuff -->
+        <io.protostuff.version>1.8.0</io.protostuff.version>
+        <!-- kryo -->
+        <kryo.version>5.3.0</kryo.version>
+        <!-- hessian -->
+        <hessian.version>4.0.65</hessian.version>
+        <!-- msgpack -->
+        <msgpack.version>0.9.1</msgpack.version>
+        <msgpack-old.version>0.6.12</msgpack-old.version>
+        <!-- db driver -->
+        <db-driver-mysql.version>8.0.28</db-driver-mysql.version>
+        <db-driver-h2.version>2.1.212</db-driver-h2.version>
+        <!-- redis -->
+        <lettuce.version>6.1.8.RELEASE</lettuce.version>
+        <jedis.version>4.2.2</jedis.version>
+        <redisson.version>3.17.0</redisson.version>
+        <!-- mongodb -->
+        <mongo-driver.version>3.12.10</mongo-driver.version>
+        <mongo-driver-sync.version>4.5.1</mongo-driver-sync.version>
+        <morphia.version>1.3.2</morphia.version>
+        <morphia-core.version>2.2.6</morphia-core.version>
+        <morphia-core-old.version>1.6.1</morphia-core-old.version>
+        <!-- lz4 -->
+        <lz4.version>1.8.0</lz4.version>
+        <!-- snappy -->
+        <snappy.version>1.1.8.4</snappy.version>
+        <!-- guava -->
+        <google-guava.version>31.1-jre</google-guava.version>
+        <error_prone_annotations.version>2.12.1</error_prone_annotations.version>
+        <!-- servlet api-->
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <!-- ali TTL -->
+        <ttl.version>2.12.6</ttl.version>
+        <!-- 图片处理 -->
+        <simpleImage.version>1.2.3</simpleImage.version>
+        <jai.version>1.1.3</jai.version>
+        <thumbnailator.version>0.4.17</thumbnailator.version>
+        <twelvemonkeys.version>3.8.2</twelvemonkeys.version>
+        <!-- 视频处理 -->
+        <media-analyzer.version>1.0.3</media-analyzer.version>
+        <javacv.version>1.5.7</javacv.version>
+        <opencv-platform.version>4.5.5-${javacv.version}</opencv-platform.version>
+        <ffmpeg-platform.version>5.0-${javacv.version}</ffmpeg-platform.version>
+        <flycapture-platform.version>2.13.3.31-${javacv.version}</flycapture-platform.version>
+        <spinnaker-platform.version>2.4.0.143-${javacv.version}</spinnaker-platform.version>
+        <libdc1394-platform.version>2.2.6-${javacv.version}</libdc1394-platform.version>
+        <libfreenect-platform.version>0.5.7-${javacv.version}</libfreenect-platform.version>
+        <libfreenect2-platform.version>0.2.0-${javacv.version}</libfreenect2-platform.version>
+        <librealsense-platform.version>1.12.4-${javacv.version}</librealsense-platform.version>
+        <librealsense2-platform.version>2.50.0-${javacv.version}</librealsense2-platform.version>
+        <videoinput-platform.version>0.200-${javacv.version}</videoinput-platform.version>
+        <artoolkitplus-platform.version>2.3.1-${javacv.version}</artoolkitplus-platform.version>
+        <chilitags-platform.version>master-${javacv.version}</chilitags-platform.version>
+        <flandmark-platform.version>1.07-${javacv.version}</flandmark-platform.version>
+        <arrow-platform.version>6.0.1-${javacv.version}</arrow-platform.version>
+        <hdf5-platform.version>1.12.1-${javacv.version}</hdf5-platform.version>
+        <hyperscan-platform.version>5.4.0-${javacv.version}</hyperscan-platform.version>
+        <lz4-platform.version>1.9.3-${javacv.version}</lz4-platform.version>
+        <mkl-platform.version>2022.0-${javacv.version}</mkl-platform.version>
+        <mkl-dnn-platform.version>0.21.5-${javacv.version}</mkl-dnn-platform.version>
+        <dnnl-platform.version>2.5.2-${javacv.version}</dnnl-platform.version>
+        <openblas-platform.version>0.3.19-${javacv.version}</openblas-platform.version>
+        <arpack-ng-platform.version>3.8.0-${javacv.version}</arpack-ng-platform.version>
+        <cminpack-platform.version>1.3.8-${javacv.version}</cminpack-platform.version>
+        <fftw-platform.version>3.3.10-${javacv.version}</fftw-platform.version>
+        <gsl-platform.version>2.7-${javacv.version}</gsl-platform.version>
+        <cpython-platform.version>3.10.2-${javacv.version}</cpython-platform.version>
+        <numpy-platform.version>1.22.2-${javacv.version}</numpy-platform.version>
+        <scipy-platform.version>1.8.0-${javacv.version}</scipy-platform.version>
+        <gym-platform.version>0.21.0-${javacv.version}</gym-platform.version>
+        <llvm-platform.version>13.0.1-${javacv.version}</llvm-platform.version>
+        <libffi-platform.version>3.4.2-${javacv.version}</libffi-platform.version>
+        <libpostal-platform.version>1.1-${javacv.version}</libpostal-platform.version>
+        <leptonica-platform.version>1.82.0-${javacv.version}</leptonica-platform.version>
+        <tesseract-platform.version>5.0.1-${javacv.version}</tesseract-platform.version>
+        <caffe-platform.version>1.0-${javacv.version}</caffe-platform.version>
+        <openpose-platform.version>1.7.0-${javacv.version}</openpose-platform.version>
+        <cuda-platform.version>11.6-8.3-${javacv.version}</cuda-platform.version>
+        <nvcodec-platform.version>11.1.5-${javacv.version}</nvcodec-platform.version>
+        <opencl-platform.version>3.0-${javacv.version}</opencl-platform.version>
+        <mxnet-platform.version>1.9.0-${javacv.version}</mxnet-platform.version>
+        <pytorch-platform.version>1.10.2-${javacv.version}</pytorch-platform.version>
+        <tensorflow-platform.version>1.15.5-${javacv.version}</tensorflow-platform.version>
+        <tensorflow-lite-platform.version>2.8.0-${javacv.version}</tensorflow-lite-platform.version>
+        <tensorrt-platform.version>8.2-${javacv.version}</tensorrt-platform.version>
+        <ale-platform.version>0.7.3-${javacv.version}</ale-platform.version>
+        <depthai-platform.version>2.14.1-${javacv.version}</depthai-platform.version>
+        <onnx-platform.version>1.10.2-${javacv.version}</onnx-platform.version>
+        <ngraph-platform.version>0.26.0-${javacv.version}</ngraph-platform.version>
+        <onnxruntime-platform.version>1.10.0-${javacv.version}</onnxruntime-platform.version>
+        <tvm-platform.version>0.8.0-${javacv.version}</tvm-platform.version>
+        <liquidfun-platform.version>master-${javacv.version}</liquidfun-platform.version>
+        <qt-platform.version>5.15.2-${javacv.version}</qt-platform.version>
+        <skia-platform.version>2.80.3-${javacv.version}</skia-platform.version>
+        <cpu_features-platform.version>0.6.0-${javacv.version}</cpu_features-platform.version>
+        <modsecurity-platform.version>3.0.6-${javacv.version}</modsecurity-platform.version>
+        <opencv-platform-gpu.version>4.5.5-${javacv.version}</opencv-platform-gpu.version>
+        <caffe-platform-gpu.version>1.0-${javacv.version}</caffe-platform-gpu.version>
+        <mxnet-platform-gpu.version>1.9.0-${javacv.version}</mxnet-platform-gpu.version>
+        <pytorch-platform-gpu.version>1.10.2-${javacv.version}</pytorch-platform-gpu.version>
+        <tensorflow-platform-gpu.version>1.15.5-${javacv.version}</tensorflow-platform-gpu.version>
+        <onnxruntime-platform-gpu.version>1.10.0-${javacv.version}</onnxruntime-platform-gpu.version>
+        <tvm-platform-gpu.version>0.8.0-${javacv.version}</tvm-platform-gpu.version>
+        <tensorflow-platform-python.version>1.15.5-${javacv.version}</tensorflow-platform-python.version>
+        <tensorflow-platform-python-gpu.version>1.15.5-${javacv.version}</tensorflow-platform-python-gpu.version>
+        <cuda-platform-redist.version>11.6-8.3-${javacv.version}</cuda-platform-redist.version>
+        <tensorrt-platform-redist.version>8.2-${javacv.version}</tensorrt-platform-redist.version>
+        <mkl-platform-redist.version>2022.0-${javacv.version}</mkl-platform-redist.version>
+        <!-- javax-el -->
+        <javax-el.version>3.0.0</javax-el.version>
+        <!-- glassfish-el -->
+        <glassfish-el.version>2.2.6</glassfish-el.version>
+        <!-- emoji -->
+        <emoji.version>5.1.1</emoji.version>
+        <!-- tika -->
+        <tika.version>2.3.0</tika.version>
+        <!-- 二维码 -->
+        <zxing.version>3.4.1</zxing.version>
+        <!-- email -->
+        <email.version>1.4.7</email.version>
+        <!-- jsonp -->
+        <jsonp.version>1.14.3</jsonp.version>
+        <!-- netty -->
+        <netty.version>4.1.75.Final</netty.version>
+        <!-- vert.x -->
+        <vertx.version>4.2.7</vertx.version>
+        <!-- findbugs-jsr305 -->
+        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
+        <!-- http -->
+        <async-http-client.version>2.12.3</async-http-client.version>
+        <mica-http.version>2.6.6</mica-http.version>
+        <okhttp.version>4.9.3</okhttp.version>
+        <okhttp-feign.version>11.8</okhttp-feign.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <httpclient-feign.version>11.8</httpclient-feign.version>
+        <httpclient5.version>5.1.3</httpclient5.version>
+        <httpclient5-feign.version>11.8</httpclient5-feign.version>
+        <hystrix-feign.version>11.8</hystrix-feign.version>
+        <retrofit.version>2.9.0</retrofit.version>
+        <!-- platform-bom -->
+        <platform-bom.version>Cairo-SR8</platform-bom.version>
+        <!-- jwt -->
+        <java-jwt.version>3.18.23</java-jwt.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <jjwt-impl.version>0.11.2</jjwt-impl.version>
+        <jjwt-api.version>0.11.2</jjwt-api.version>
+        <jjwt-jackson.version>0.11.2</jjwt-jackson.version>
+        <jjwt-orgjson.version>0.11.2</jjwt-orgjson.version>
+        <jjwt-gson.version>0.11.2</jjwt-gson.version>
+        <jjwt-root.version>0.11.2</jjwt-root.version>
+        <jjwt-extensions.version>0.11.2</jjwt-extensions.version>
+        <jwks-rsa.version>0.21.1</jwks-rsa.version>
+
+        <!-- pinyin -->
+        <TinyPinyin.version>2.0.3.RELEASE</TinyPinyin.version>
+        <pinyin4j.version>2.5.1</pinyin4j.version>
+        <jpinyin.version>1.1.8</jpinyin.version>
+        <houbb.pinyin.version>0.3.1</houbb.pinyin.version>
+
+        <!-- document -->
+        <!-- apache-pdfbox -->
+        <apache-pdfbox.version>2.0.25</apache-pdfbox.version>
+        <!-- docx4j -->
+        <docx4j.version>11.4.5</docx4j.version>
+        <!-- poi -->
+        <poi.version>5.2.2</poi.version>
+        <easyexcel.version>3.0.5</easyexcel.version>
+        <!-- mock -->
+        <testale-mock.version>0.7.5</testale-mock.version>
+
+        <!-- script engine -->
+        <nashorn.version>15.3</nashorn.version>
+        <nashorn-sandbox.version>0.2.5</nashorn-sandbox.version>
+        <rhino.version>1.7.14</rhino.version>
+        <rhino-sandbox.version>0.0.15</rhino-sandbox.version>
+
+        <!-- maven plugins -->
+        <maven-archetype-plugin.version>3.2.1</maven-archetype-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+        <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
+        <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+        <maven-lombok-plugin.version>1.18.20.0</maven-lombok-plugin.version>
+        <maven-versions-plugin.version>2.10.0</maven-versions-plugin.version>
+        <maven-exec-plugin.version>3.0.0</maven-exec-plugin.version>
+        <maven-kotlin-plugin.version>1.6.20</maven-kotlin-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M6</maven-failsafe-plugin.version>
+        <maven-git-commit-id-plugin>4.9.10</maven-git-commit-id-plugin>
+        <maven-shade-plugin.version>3.3.0</maven-shade-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <maven-findbugs-plugin.version>3.0.5</maven-findbugs-plugin.version>
+        <maven-cobertura-plugin.version>2.7</maven-cobertura-plugin.version>
+        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+        <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
+        <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
+        <maven-flatten-plugin.version>1.2.7</maven-flatten-plugin.version>
+
+    </properties>
+
+    <prerequisites>
+        <!-- min version maven -->
+        <maven>3.2.5</maven>
+    </prerequisites>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://choosealicense.com/licenses/mit/</url>
+            <distribution>manual</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>Auntec+</id>
+            <name>Developer</name>
+            <email>developer@Auntec.com</email>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+
+        <!-- lombok support -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- simple log -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- mock  -->
+            <dependency>
+                <groupId>com.alibaba.testable</groupId>
+                <artifactId>testable-all</artifactId>
+                <version>testale-mock.version</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>${checker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_annotations</artifactId>
+                <version>${error_prone_annotations.version}</version>
+            </dependency>
+            <!-- log4j2 -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jul</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <!-- metrics -->
+            <dependency>
+                <groupId>io.github.mweirauch</groupId>
+                <artifactId>micrometer-jvm-extras</artifactId>
+                <version>${metrics-jvm-extras.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_common</artifactId>
+                <version>${simpleclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient</artifactId>
+                <version>${simpleclient.version}</version>
+            </dependency>
+            <!-- jdk9+ 移除的包 -->
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${jaxb-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.jersey.contribs</groupId>
+                <artifactId>jersey-apache-client4</artifactId>
+                <version>${jersey-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.activation</groupId>
+                <artifactId>javax.activation</artifactId>
+                <version>${javax.activation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-ri</artifactId>
+                <version>${jaxws-ri.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>javax.transaction</groupId>
+                <artifactId>javax.transaction-api</artifactId>
+                <version>${javax.transaction-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${javax.annotation-api.version}</version>
+            </dependency>
+            <!-- SOFA boot -->
+            <!--            <dependency>-->
+            <!--                <groupId>com.alipay.sofa</groupId>-->
+            <!--                <artifactId>sofaboot-dependencies</artifactId>-->
+            <!--                <version>${SOFAboot.version}</version>-->
+            <!--                <type>pom</type>-->
+            <!--                <scope>import</scope>-->
+            <!--            </dependency>-->
+            <!-- Spring Boot Dependency  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.gitee.starblues</groupId>
+                <artifactId>spring-brick</artifactId>
+                <version>${spring-brick.version}</version>
+            </dependency>
+            <!-- Spring Cloud Dependency  -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud Alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- redisson -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data</artifactId>
+                <version>${redisson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-tomcat</artifactId>
+                <version>${redisson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- oshi -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core-java11</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+            <!-- cglib -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+            <!-- disruptor -->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+            <!-- cache -->
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${cache-caffeine.version}</version>
+            </dependency>
+            <!-- Mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-typehandlers-jsr310</artifactId>
+                <version>${mybatis-typehandlers-jsr310.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.atool</groupId>
+                <artifactId>fluent-mybatis</artifactId>
+                <version>${mybatis-fluent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.atool</groupId>
+                <artifactId>fluent-mybatis-processor</artifactId>
+                <version>${mybatis-fluent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.atool</groupId>
+                <artifactId>fluent-mybatis-boot-starter</artifactId>
+                <version>${mybatis-fluent.version}</version>
+            </dependency>
+            <!-- pageHelper -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${page-helper-starter.version}</version>
+            </dependency>
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- dozer -->
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <!-- sky walking trace support -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${sky-walking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-log4j-2.x</artifactId>
+                <version>${sky-walking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-log4j-1.x</artifactId>
+                <version>${sky-walking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${sky-walking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-opentracing</artifactId>
+                <version>${sky-walking.version}</version>
+            </dependency>
+            <!-- prometheus -->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${prometheus.varsion}</version>
+            </dependency>
+            <!-- Commons Kit-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache-commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${apache-commons-net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${apache-commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${apache-commons-compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${apache-commons-beanutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${apache-commons-pool2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${apache-commons-cli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${apache-commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${apache-commons-configuration.version}</version>
+            </dependency>
+            <!-- reflections -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
+            <!-- hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-aop</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bloomFilter</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-cache</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-cron</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-crypto</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-db</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-dfa</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-extra</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-http</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-log</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-script</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-setting</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-system</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-json</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-poi</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-socket</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
+                <artifactId>concurrentlinkedhashmap-lru</artifactId>
+                <version>${concurrentlinkedhashmap-lru.version}</version>
+            </dependency>
+            <!-- jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- bouncy castle -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov-jdk15on.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk16</artifactId>
+                <version>${bcprov-jdk16.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15</artifactId>
+                <version>${bcprov-jdk15.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>${bcprov-jdk15to18.version}</version>
+            </dependency>
+            <!-- Swagger Support -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-bean-validators</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spring4all</groupId>
+                <artifactId>swagger-spring-boot-starter</artifactId>
+                <version>${swagger-stater.version}</version>
+            </dependency>
+            <!-- Java Validation -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta-validator.version}</version>
+            </dependency>
+            <!-- dubbo -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <!-- zk client -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient.version}</version>
+            </dependency>
+            <!-- xxl-job -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
+            </dependency>
+            <!-- io.protostuff -->
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-bom</artifactId>
+                <version>${io.protostuff.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- kryo -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
+            <!-- hessian -->
+            <dependency>
+                <groupId>com.caucho</groupId>
+                <artifactId>hessian</artifactId>
+                <version>${hessian.version}</version>
+            </dependency>
+            <!-- msgpack -->
+            <dependency>
+                <groupId>org.msgpack</groupId>
+                <artifactId>msgpack-core</artifactId>
+                <version>${msgpack.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.msgpack</groupId>
+                <artifactId>jackson-dataformat-msgpack</artifactId>
+                <version>${msgpack.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.msgpack</groupId>
+                <artifactId>msgpack</artifactId>
+                <version>${msgpack-old.version}</version>
+            </dependency>
+            <!-- db driver -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${db-driver-mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${db-driver-h2.version}</version>
+            </dependency>
+            <!-- redis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.lettuce</groupId>
+                <artifactId>lettuce-core</artifactId>
+                <version>${lettuce.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-mybatis</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-all</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <!-- mongodb -->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>${mongo-driver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver</artifactId>
+                <version>${mongo-driver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-core</artifactId>
+                <version>${mongo-driver-sync.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-sync</artifactId>
+                <version>${mongo-driver-sync.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>bson</artifactId>
+                <version>${mongo-driver-sync.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-legacy</artifactId>
+                <version>${mongo-driver-sync.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-async</artifactId>
+                <version>${mongo-driver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb.morphia</groupId>
+                <artifactId>morphia</artifactId>
+                <version>${morphia.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.morphia.morphia</groupId>
+                <artifactId>morphia-core</artifactId>
+                <version>${morphia-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.morphia.morphia</groupId>
+                <artifactId>core</artifactId>
+                <version>${morphia-core-old.version}</version>
+            </dependency>
+
+            <!-- lz4 -->
+            <dependency>
+                <groupId>org.lz4</groupId>
+                <artifactId>lz4-java</artifactId>
+                <version>${lz4.version}</version>
+            </dependency>
+            <!-- snappy -->
+            <dependency>
+                <groupId>org.xerial.snappy</groupId>
+                <artifactId>snappy-java</artifactId>
+                <version>${snappy.version}</version>
+            </dependency>
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google-guava.version}</version>
+            </dependency>
+            <!-- servlet-api -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>
+            <!-- ali ttl -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${ttl.version}</version>
+            </dependency>
+            <!-- 图片处理工具 -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>simpleimage</artifactId>
+                <version>${simpleImage.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.media.jai</groupId>
+                <artifactId>com.springsource.javax.media.jai.core</artifactId>
+                <version>${jai.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.media.jai</groupId>
+                <artifactId>com.springsource.javax.media.jai.codec</artifactId>
+                <version>${jai.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.twelvemonkeys.bom</groupId>
+                <artifactId>bom</artifactId>
+                <version>${twelvemonkeys.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 视频处理 -->
+            <dependency>
+                <groupId>se.svt.oss</groupId>
+                <artifactId>media-analyzer</artifactId>
+                <version>${media-analyzer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacv-platform</artifactId>
+                <version>${javacv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacv</artifactId>
+                <version>${javacv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacpp-platform</artifactId>
+                <version>${javacv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>systems-platform</artifactId>
+                <version>${javacv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>opencv-platform</artifactId>
+                <version>${opencv-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg-platform</artifactId>
+                <version>${ffmpeg-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg-platform-gpl</artifactId>
+                <version>${ffmpeg-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>flycapture-platform</artifactId>
+                <version>${flycapture-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>spinnaker-platform</artifactId>
+                <version>${spinnaker-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>libdc1394-platform</artifactId>
+                <version>${libdc1394-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>libfreenect-platform</artifactId>
+                <version>${libfreenect-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>libfreenect2-platform</artifactId>
+                <version>${libfreenect2-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>librealsense-platform</artifactId>
+                <version>${librealsense-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>librealsense2-platform</artifactId>
+                <version>${librealsense2-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>videoinput-platform</artifactId>
+                <version>${videoinput-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>artoolkitplus-platform</artifactId>
+                <version>${artoolkitplus-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>chilitags-platform</artifactId>
+                <version>${chilitags-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>flandmark-platform</artifactId>
+                <version>${flandmark-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>arrow-platform</artifactId>
+                <version>${arrow-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>hdf5-platform</artifactId>
+                <version>${hdf5-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>hyperscan-platform</artifactId>
+                <version>${hyperscan-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>lz4-platform</artifactId>
+                <version>${lz4-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>mkl-platform</artifactId>
+                <version>${mkl-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>mkl-dnn-platform</artifactId>
+                <version>${mkl-dnn-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>dnnl-platform</artifactId>
+                <version>${dnnl-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>openblas-platform</artifactId>
+                <version>${openblas-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>arpack-ng-platform</artifactId>
+                <version>${arpack-ng-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>cminpack-platform</artifactId>
+                <version>${cminpack-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>fftw-platform</artifactId>
+                <version>${fftw-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>gsl-platform</artifactId>
+                <version>${gsl-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>cpython-platform</artifactId>
+                <version>${cpython-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>numpy-platform</artifactId>
+                <version>${numpy-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>scipy-platform</artifactId>
+                <version>${scipy-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>gym-platform</artifactId>
+                <version>${gym-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>llvm-platform</artifactId>
+                <version>${llvm-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>libffi-platform</artifactId>
+                <version>${libffi-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>libpostal-platform</artifactId>
+                <version>${libpostal-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>leptonica-platform</artifactId>
+                <version>${leptonica-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tesseract-platform</artifactId>
+                <version>${tesseract-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>caffe-platform</artifactId>
+                <version>${caffe-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>openpose-platform</artifactId>
+                <version>${openpose-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>cuda-platform</artifactId>
+                <version>${cuda-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>nvcodec-platform</artifactId>
+                <version>${nvcodec-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>opencl-platform</artifactId>
+                <version>${opencl-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>mxnet-platform</artifactId>
+                <version>${mxnet-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>pytorch-platform</artifactId>
+                <version>${pytorch-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorflow-platform</artifactId>
+                <version>${tensorflow-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorflow-lite-platform</artifactId>
+                <version>${tensorflow-lite-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorrt-platform</artifactId>
+                <version>${tensorrt-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ale-platform</artifactId>
+                <version>${ale-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>depthai-platform</artifactId>
+                <version>${depthai-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>onnx-platform</artifactId>
+                <version>${onnx-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ngraph-platform</artifactId>
+                <version>${ngraph-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>onnxruntime-platform</artifactId>
+                <version>${onnxruntime-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tvm-platform</artifactId>
+                <version>${tvm-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>liquidfun-platform</artifactId>
+                <version>${liquidfun-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>qt-platform</artifactId>
+                <version>${qt-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>skia-platform</artifactId>
+                <version>${skia-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>cpu_features-platform</artifactId>
+                <version>${cpu_features-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>modsecurity-platform</artifactId>
+                <version>${modsecurity-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>systems-platform</artifactId>
+                <version>${javacv.version}</version>
+            </dependency>
+            <!-- Additional dependencies required to use CUDA, cuDNN, NCCL, and TensorRT -->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>opencv-platform-gpu</artifactId>
+                <version>${opencv-platform-gpu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>caffe-platform-gpu</artifactId>
+                <version>${caffe-platform-gpu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>mxnet-platform-gpu</artifactId>
+                <version>${mxnet-platform-gpu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>pytorch-platform-gpu</artifactId>
+                <version>${pytorch-platform-gpu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorflow-platform-gpu</artifactId>
+                <version>${tensorflow-platform-gpu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>onnxruntime-platform-gpu</artifactId>
+                <version>${onnxruntime-platform-gpu.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tvm-platform-gpu</artifactId>
+                <version>${tvm-platform-gpu.version}</version>
+            </dependency>
+            <!-- Optional dependencies to load Python-enabled builds -->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorflow-platform-python</artifactId>
+                <version>${tensorflow-platform-python.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorflow-platform-python-gpu</artifactId>
+                <version>${tensorflow-platform-python-gpu.version}</version>
+            </dependency>
+            <!-- Additional dependencies to use bundled CUDA, cuDNN, NCCL, and TensorRT -->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>cuda-platform-redist</artifactId>
+                <version>${cuda-platform-redist.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>tensorrt-platform-redist</artifactId>
+                <version>${tensorrt-platform-redist.version}</version>
+            </dependency>
+            <!-- Additional dependencies to use bundled full version of MKL -->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>mkl-platform-redist</artifactId>
+                <version>${mkl-platform-redist.version}</version>
+            </dependency>
+
+
+            <!-- javax-el -->
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>${javax-el.version}</version>
+            </dependency>
+            <!-- glassfish-el -->
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>${glassfish-el.version}</version>
+            </dependency>
+            <!-- tika -->
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>${tika.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-parsers-standard-package</artifactId>
+                <version>${tika.version}</version>
+            </dependency>
+            <!-- emoji -->
+            <dependency>
+                <groupId>com.vdurmont</groupId>
+                <artifactId>emoji-java</artifactId>
+                <version>${emoji.version}</version>
+            </dependency>
+            <!-- email -->
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${email.version}</version>
+            </dependency>
+            <!-- 二维码 -->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <!-- jsonp -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsonp.version}</version>
+            </dependency>
+            <!-- netty -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <!-- vert.x -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-unit</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-codegen</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!-- findbugs-jsr305 -->
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${findbugs-jsr305.version}</version>
+            </dependency>
+            <!-- http -->
+            <!-- async-http-client -->
+            <dependency>
+                <groupId>org.asynchttpclient</groupId>
+                <artifactId>async-http-client-bom</artifactId>
+                <version>${async-http-client.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.dreamlu</groupId>
+                <artifactId>mica-http</artifactId>
+                <version>${mica-http.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-json</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version>${httpclient-feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-hc5</artifactId>
+                <version>${httpclient5-feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-okhttp</artifactId>
+                <version>${okhttp-feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-hystrix</artifactId>
+                <version>${hystrix-feign.version}</version>
+            </dependency>
+            <!-- platform-bom -->
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${platform-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- jwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt-jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-orgjson</artifactId>
+                <version>${jjwt-orgjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-gson</artifactId>
+                <version>${jjwt-gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-root</artifactId>
+                <version>${jjwt-root.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-extensions</artifactId>
+                <version>${jjwt-extensions.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>jwks-rsa</artifactId>
+                <version>${jwks-rsa.version}</version>
+            </dependency>
+
+            <!-- pinyin -->
+            <dependency>
+                <groupId>io.github.biezhi</groupId>
+                <artifactId>TinyPinyin</artifactId>
+                <version>${TinyPinyin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>${pinyin4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.stuxuhai</groupId>
+                <artifactId>jpinyin</artifactId>
+                <version>${jpinyin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>pinyin</artifactId>
+                <version>${houbb.pinyin.version}</version>
+            </dependency>
+
+            <!-- document -->
+            <!-- pdf -->
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${apache-pdfbox.version}</version>
+            </dependency>
+            <!-- docx4j -->
+            <dependency>
+                <groupId>org.docx4j</groupId>
+                <artifactId>docx4j-JAXB-ReferenceImpl</artifactId>
+                <version>${docx4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.docx4j</groupId>
+                <artifactId>docx4j-JAXB-MOXy</artifactId>
+                <version>${docx4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.docx4j</groupId>
+                <artifactId>docx4j-export-fo</artifactId>
+                <version>${docx4j.version}</version>
+            </dependency>
+            <!-- poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-scratchpad</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-excelant</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml-full</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
+            <!-- script engine -->
+            <dependency>
+                <groupId>org.openjdk.nashorn</groupId>
+                <artifactId>nashorn-core</artifactId>
+                <version>${ashorn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javadelight</groupId>
+                <artifactId>delight-nashorn-sandbox</artifactId>
+                <version>${nashorn-sandbox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+                <version>${rhino.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javadelight</groupId>
+                <artifactId>delight-rhino-sandbox</artifactId>
+                <version>${rhino-sandbox.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <id>repackage</id>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <mainClass>${start-class}</mainClass>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-archetype-plugin</artifactId>
+                    <version>${maven-archetype-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>${start-class}</mainClass>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>${start-class}</mainClass>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok-maven-plugin</artifactId>
+                    <version>${maven-lombok-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven-versions-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${maven-exec-plugin.version}</version>
+                    <configuration>
+                        <mainClass>${start-class}</mainClass>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-maven-plugin</artifactId>
+                    <version>${maven-kotlin-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>compile</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test-compile</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <jvmTarget>${java.version}</jvmTarget>
+                        <javaParameters>true</javaParameters>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${maven-git-commit-id-plugin}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>revision</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <verbose>true</verbose>
+                        <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
+                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                        </generateGitPropertiesFilename>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven-shade-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <transformers>
+                                    <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                        <resource>META-INF/spring.handlers</resource>
+                                    </transformer>
+                                    <transformer
+                                            implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                                        <resource>META-INF/spring.factories</resource>
+                                    </transformer>
+                                    <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                        <resource>META-INF/spring.schemas</resource>
+                                    </transformer>
+                                    <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                    <transformer
+                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        <mainClass>${start-class}</mainClass>
+                                    </transformer>
+                                </transformers>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-maven-plugin</artifactId>
+                            <version>${maven-spring-boot.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                        <createDependencyReducedPom>true</createDependencyReducedPom>
+                        <filters>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                    <configuration>
+                        <delimiters>
+                            <delimiter>${resource.delimiter}</delimiter>
+                        </delimiters>
+                        <useDefaultDelimiters>false</useDefaultDelimiters>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${maven-findbugs-plugin.version}</version>
+                    <configuration>
+                        <xmlOutput>true</xmlOutput>
+                        <effort>Max</effort>
+                        <threshold>Low</threshold>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>${maven-cobertura-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${maven-docker-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${maven-dockerfile-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${maven-flatten-plugin.version}</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.gitee.starblues</groupId>
+                    <artifactId>spring-brick-maven-packager</artifactId>
+                    <version>${spring-brick.version}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <distributionManagement>
+        <!-- 配置快照版本发布的仓库-->
+        <snapshotRepository>
+            <id>auntec-prod</id>
+            <name>auntec Snapshots Repository</name>
+            <url>http://prod-nexus.auntec.cn:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <!-- 配置release版本发布的仓库-->
+        <repository>
+            <id>auntec-prod</id>
+            <name>auntec Releases Repository</name>
+            <url>http://prod-nexus.auntec.cn:8081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+</project>
