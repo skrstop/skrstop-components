@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.database.config.GlobalDataConfig",
+      "sourceType": "com.jphoebe.framework.components.starter.database.config.GlobalDataConfig",
       "name": "database配置",
-      "type": "cn.auntec.framework.components.starter.database.config.GlobalDataConfig"
+      "type": "com.jphoebe.framework.components.starter.database.config.GlobalDataConfig"
     }
   ],
   "properties": [

@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.mongodb.config.GlobalMongodbConfig",
+      "sourceType": "com.jphoebe.framework.components.starter.mongodb.config.GlobalMongodbConfig",
       "name": "Mongodb配置",
-      "type": "cn.auntec.framework.components.starter.mongodb.config.GlobalMongodbConfig"
+      "type": "com.jphoebe.framework.components.starter.mongodb.config.GlobalMongodbConfig"
     }
   ],
   "properties": [

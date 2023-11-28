@@ -3,4 +3,4 @@ org.springframework.boot.autoconfigure.condition.OnBeanCondition,\
 org.springframework.boot.autoconfigure.condition.OnClassCondition,\
 org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.auntec.framework.components.starter.ftp.autoconfig.FTPServiceAutoConfig
+  com.jphoebe.framework.components.starter.ftp.autoconfig.FTPServiceAutoConfig

@@ -2255,13 +2255,13 @@
         <snapshotRepository>
             <id>jphoebe-prod</id>
             <name>jphoebe Snapshots Repository</name>
-            <url>http://prod-nexus.auntec.cn:8081/repository/maven-snapshots/</url>
+            <url>http://prod-nexus.jphoebe.com:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
         <!-- 配置release版本发布的仓库-->
         <repository>
             <id>jphoebe-prod</id>
             <name>jphoebe Releases Repository</name>
-            <url>http://prod-nexus.auntec.cn:8081/repository/maven-releases/</url>
+            <url>http://prod-nexus.jphoebe.com:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 

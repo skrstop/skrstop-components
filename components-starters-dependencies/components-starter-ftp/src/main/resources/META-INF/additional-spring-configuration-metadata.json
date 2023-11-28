@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.ftp.config.GlobalFtpConfig",
+      "sourceType": "com.jphoebe.framework.components.starter.ftp.config.GlobalFtpConfig",
       "name": "ftp服务配置",
-      "type": "cn.auntec.framework.components.starter.ftp.config.GlobalFtpConfig"
+      "type": "com.jphoebe.framework.components.starter.ftp.config.GlobalFtpConfig"
     }
   ],
   "properties": [

@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.metrics.properties.MetricsProperties",
+      "sourceType": "com.jphoebe.framework.components.starter.metrics.properties.MetricsProperties",
       "name": "metrics配置",
-      "type": "cn.auntec.framework.components.starter.metrics.properties.MetricsProperties"
+      "type": "com.jphoebe.framework.components.starter.metrics.properties.MetricsProperties"
     }
   ],
   "properties": [

@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.id.config.GlobalIdConfig",
+      "sourceType": "com.jphoebe.framework.components.starter.id.config.GlobalIdConfig",
       "name": "id生成器配置",
-      "type": "cn.auntec.framework.components.starter.id.config.GlobalIdConfig"
+      "type": "com.jphoebe.framework.components.starter.id.config.GlobalIdConfig"
     }
   ],
   "properties": [

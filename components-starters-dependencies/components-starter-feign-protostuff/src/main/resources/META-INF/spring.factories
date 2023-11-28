@@ -1,8 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.webmvc.FeignMessageConverterAutoConfiguration,\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtostuffReturnResponseHandlerAutoConfiguration,\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.Http2UndertowAutoConfiguration,\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.Http2TomcatAutoConfiguration,\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.OkHttpAutoConfiguration,\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtobufFeignClientBeanPostProcessor,\
-    cn.auntec.framework.components.starter.feign.protostuff.autoconfigure.FeignCustomAutoConfiguration
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.FeignMessageConverterAutoConfiguration,\
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtostuffReturnResponseHandlerAutoConfiguration,\
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.Http2UndertowAutoConfiguration,\
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.Http2TomcatAutoConfiguration,\
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.OkHttpAutoConfiguration,\
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtobufFeignClientBeanPostProcessor,\
+    com.jphoebe.framework.components.starter.feign.protostuff.autoconfigure.FeignCustomAutoConfiguration
