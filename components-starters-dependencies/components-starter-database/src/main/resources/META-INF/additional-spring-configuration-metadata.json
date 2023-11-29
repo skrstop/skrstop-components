@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.jphoebe.framework.components.starter.database.config.GlobalDataConfig",
+      "sourceType": "com.zoe.framework.components.starter.database.config.GlobalDataConfig",
       "name": "database配置",
-      "type": "com.jphoebe.framework.components.starter.database.config.GlobalDataConfig"
+      "type": "com.zoe.framework.components.starter.database.config.GlobalDataConfig"
     }
   ],
   "properties": [
     {
-      "name": "auntec.database.config.sql-healthy-check",
+      "name": "zoe.database.config.sql-healthy-check",
       "type": "java.lang.Boolean",
       "description": "是否开启sql健康检查.",
       "defaultValue": "false"

@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <artifactId>components-core-dependencies</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,13 +11,13 @@
 
     <artifactId>components-core-common</artifactId>
 
-    <name>JPhoebe Mix Micro-service Project Core common Module :: ${project.version}</name>
-    <description>🏗 JPhoebe Mix Micro-service Core common Module</description>
+    <name>Zoe Mix Micro-service Project Core common Module :: ${project.version}</name>
+    <description>🏗 Zoe Mix Micro-service Core common Module</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>

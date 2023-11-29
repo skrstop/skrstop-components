@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.jphoebe.framework.components.starter.annotation.config.AccessControlConfig",
+      "sourceType": "com.zoe.framework.components.starter.annotation.config.AccessControlConfig",
       "name": "访问控制参数配置",
-      "type": "com.jphoebe.framework.components.starter.annotation.config.AccessControlConfig"
+      "type": "com.zoe.framework.components.starter.annotation.config.AccessControlConfig"
     }
   ],
   "properties": [
     {
-      "name": "auntec.annotation.access.controller.release-alias",
+      "name": "zoe.annotation.access.controller.release-alias",
       "type": "java.util.List",
       "description": "放行的别名列表."
     }

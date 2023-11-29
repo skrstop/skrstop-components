@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>components-utils-dependencies</artifactId>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>components-util-setting</artifactId>
 
-    <name>JPhoebe Mix Micro-service util setting ${project.version}</name>
+    <name>Zoe Mix Micro-service util setting ${project.version}</name>
     <description>Mixmicro+ Setting Util</description>
 
     <dependencies>

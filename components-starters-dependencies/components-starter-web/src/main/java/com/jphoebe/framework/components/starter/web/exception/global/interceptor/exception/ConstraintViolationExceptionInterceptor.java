@@ -6,11 +6,11 @@ import com.jphoebe.framework.components.core.exception.common.CommonExceptionCod
 import com.jphoebe.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
 import com.jphoebe.framework.components.util.value.data.CollectionUtil;
 import com.jphoebe.framework.components.util.value.validate.ErrorMessageUtil;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

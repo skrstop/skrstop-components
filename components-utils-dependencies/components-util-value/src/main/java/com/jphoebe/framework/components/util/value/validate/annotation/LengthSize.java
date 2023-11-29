@@ -3,9 +3,9 @@ package com.jphoebe.framework.components.util.value.validate.annotation;
 import com.jphoebe.framework.components.util.value.validate.validator.LengthStrConstraintValidatorForCollection;
 import com.jphoebe.framework.components.util.value.validate.validator.LengthStrConstraintValidatorForObj;
 import com.jphoebe.framework.components.util.value.validate.validator.LengthStrConstraintValidatorForString;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.auntec.framework.components.starter.port.shift.autoconfig.HttpPortShiftAutoConfig
+  com.zoe.framework.components.starter.port.shift.autoconfig.HttpPortShiftAutoConfig

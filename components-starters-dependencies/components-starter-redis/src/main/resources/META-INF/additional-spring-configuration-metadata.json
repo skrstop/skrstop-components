@@ -1,38 +1,38 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.redis.config.GlobalRedisConfig",
+      "sourceType": "cn.zoe.framework.components.starter.redis.config.GlobalRedisConfig",
       "name": "redis参数配置",
-      "type": "cn.auntec.framework.components.starter.redis.config.GlobalRedisConfig"
+      "type": "cn.zoe.framework.components.starter.redis.config.GlobalRedisConfig"
     }
   ],
   "properties": [
     {
-      "name": "auntec.redis.config.fastjson-pretty-format-json",
+      "name": "zoe.redis.config.fastjson-pretty-format-json",
       "type": "java.lang.Boolean",
       "description": "是够格式化json.",
       "defaultValue": "false"
     },
     {
-      "name": "auntec.redis.config.fastjson-safe-mode",
+      "name": "zoe.redis.config.fastjson-safe-mode",
       "type": "java.lang.Boolean",
       "description": "是否开启safeMode.",
       "defaultValue": "true"
     },
     {
-      "name": "auntec.redis.config.fastjson-auto-type",
+      "name": "zoe.redis.config.fastjson-auto-type",
       "type": "java.lang.Boolean",
       "description": "是否开启autoType.",
       "defaultValue": "false"
     },
     {
-      "name": "auntec.redis.config.value-processor",
+      "name": "zoe.redis.config.value-processor",
       "type": "java.lang.Byte",
       "description": "值处理器：1、二进制，2、字符串，3，fastjson.",
       "defaultValue": "3"
     },
     {
-      "name": "auntec.redis.config.fastjson-filter-each",
+      "name": "zoe.redis.config.fastjson-filter-each",
       "type": "java.lang.Boolean",
       "description": "此开关用于filter过滤，当autoType序列化和非autoType穿插使用是则开启遍历过滤，建议不要autoType穿插使用.",
       "defaultValue": "false"

@@ -1,10 +1,10 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.jphoebe.framework.components.starter.annotation.config.WebMvcConfig,\
-    com.jphoebe.framework.components.starter.annotation.aspect.AccessLimitAspect,\
-    com.jphoebe.framework.components.starter.annotation.aspect.AccessControlAspect,\
-    com.jphoebe.framework.components.starter.annotation.aspect.IntranetLimitAspect,\
-    com.jphoebe.framework.components.starter.annotation.aspect.PrivacyInfoAspect,\
-    com.jphoebe.framework.components.starter.annotation.aspect.ServiceLockAspect,\
-    com.jphoebe.framework.components.starter.annotation.aspect.ExecuteTimeLogAspect,\
-    com.jphoebe.framework.components.starter.annotation.trim.TrimAnnotationFormatterFactory,\
-    com.jphoebe.framework.components.starter.annotation.ddd.processor.ProcessorContainerAutoConfiguration
+    com.zoe.framework.components.starter.annotation.config.WebMvcConfig,\
+    com.zoe.framework.components.starter.annotation.aspect.AccessLimitAspect,\
+    com.zoe.framework.components.starter.annotation.aspect.AccessControlAspect,\
+    com.zoe.framework.components.starter.annotation.aspect.IntranetLimitAspect,\
+    com.zoe.framework.components.starter.annotation.aspect.PrivacyInfoAspect,\
+    com.zoe.framework.components.starter.annotation.aspect.ServiceLockAspect,\
+    com.zoe.framework.components.starter.annotation.aspect.ExecuteTimeLogAspect,\
+    com.zoe.framework.components.starter.annotation.trim.TrimAnnotationFormatterFactory,\
+    com.zoe.framework.components.starter.annotation.ddd.processor.ProcessorContainerAutoConfiguration

@@ -1,20 +1,20 @@
 {
   "groups": [
     {
-      "sourceType": "com.jphoebe.framework.components.starter.metrics.properties.MetricsProperties",
+      "sourceType": "com.zoe.framework.components.starter.metrics.properties.MetricsProperties",
       "name": "metrics配置",
-      "type": "com.jphoebe.framework.components.starter.metrics.properties.MetricsProperties"
+      "type": "com.zoe.framework.components.starter.metrics.properties.MetricsProperties"
     }
   ],
   "properties": [
     {
-      "name": "auntec.metrics.enabled",
+      "name": "zoe.metrics.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启metrics.",
       "defaultValue": "true"
     },
     {
-      "name": "auntec.metrics.process.enabled",
+      "name": "zoe.metrics.process.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启process metrics.",
       "defaultValue": "true"

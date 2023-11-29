@@ -40,6 +40,8 @@ public class GlobalResponseConfig {
 
     /*** 时间格式化 */
     private String dateTimeFormat;
+    private String dateFormat;
+    private String timeFormat;
 
     /*** 根据返回值类型自动转换Result */
     private Boolean transResultResponse;
@@ -53,6 +55,8 @@ public class GlobalResponseConfig {
         this.supportFeign = true;
         this.longToString = true;
         this.dateTimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;
+        this.dateFormat = DateFormatConst.NORM_DATE_PATTERN;
+        this.timeFormat = DateFormatConst.NORM_TIME_PATTERN;
         this.transResultResponse = true;
         /*** 默认添加：不转换请求结果类型的路径 */
         this.notTransResultList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_TRANS_RESULT_LIST);

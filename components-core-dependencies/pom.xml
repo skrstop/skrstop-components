@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <artifactId>components-parent</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -13,8 +13,8 @@
     <artifactId>components-core-dependencies</artifactId>
     <packaging>pom</packaging>
 
-    <name>JPhoebe Mix Micro-service Project Core Module :: ${project.version}</name>
-    <description>🏗 JPhoebe Mix Micro-service Core Module</description>
+    <name>Zoe Mix Micro-service Project Core Module :: ${project.version}</name>
+    <description>🏗 Zoe Mix Micro-service Core Module</description>
 
     <modules>
         <module>components-core-common</module>
@@ -34,17 +34,17 @@
         <dependencies>
 
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-core-common</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-core-exception</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-core-annotation</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>

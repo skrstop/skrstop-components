@@ -4,6 +4,7 @@ import com.jphoebe.framework.components.starter.redis.filter.ValueFilter;
 import com.jphoebe.framework.components.starter.redis.service.RedisService;
 import com.jphoebe.framework.components.util.value.data.CollectionUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.*;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by 蒋时华 on 2017/9/21.
  */
+@Slf4j
 public class RedisServiceImpl implements RedisService {
 
     @Getter
@@ -37,7 +39,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             return operations.increment(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -51,7 +53,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             return operations.increment(key, delta);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -65,7 +67,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             return operations.increment(key, delta);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -79,7 +81,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             return operations.decrement(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -93,7 +95,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             return operations.decrement(key, delta);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -107,7 +109,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             return operations.append(key, value);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -123,7 +125,7 @@ public class RedisServiceImpl implements RedisService {
             operations.set(key, value);
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -139,7 +141,7 @@ public class RedisServiceImpl implements RedisService {
             operations.set(key, value, expireTime, timeUnit);
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -155,7 +157,7 @@ public class RedisServiceImpl implements RedisService {
             operations.multiSet(map);
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -174,7 +176,7 @@ public class RedisServiceImpl implements RedisService {
             });
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -189,7 +191,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.multiSetIfAbsent(map);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -207,7 +209,7 @@ public class RedisServiceImpl implements RedisService {
                 this.expire(key, expireTime, timeUnit);
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -222,7 +224,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfAbsent(key, value);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -237,7 +239,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfAbsent(key, value, duration);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -252,7 +254,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfPresent(key, value);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -267,7 +269,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfPresent(key, value, duration);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -283,7 +285,7 @@ public class RedisServiceImpl implements RedisService {
             operations.set(key, value, expireTime, TimeUnit.SECONDS);
             result = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -298,7 +300,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfAbsent(key, value, expireTime, TimeUnit.SECONDS);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -313,7 +315,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfAbsent(key, value, expireTime, timeUnit);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -328,7 +330,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfPresent(key, value, expireTime, TimeUnit.SECONDS);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -343,7 +345,7 @@ public class RedisServiceImpl implements RedisService {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             result = operations.setIfPresent(key, value, expireTime, timeUnit);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -1078,7 +1080,7 @@ public class RedisServiceImpl implements RedisService {
         try {
             return redisTemplate.getRequiredConnectionFactory().getConnection().isClosed();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return false;
         }
     }

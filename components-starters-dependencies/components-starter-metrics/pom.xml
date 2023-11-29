@@ -4,23 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>components-starters-dependencies</artifactId>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>components-starter-metrics</artifactId>
 
-    <name>JPhoebe Mix Micro-service starter metrics ${project.version}</name>
+    <name>Zoe Mix Micro-service starter metrics ${project.version}</name>
     <description>Mixmicro+ FTP Starter</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.jphoebe.framework</groupId>
+            <groupId>com.zoe.framework</groupId>
             <artifactId>components-core-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.jphoebe.framework</groupId>
+            <groupId>com.zoe.framework</groupId>
             <artifactId>components-util-value</artifactId>
         </dependency>
         <dependency>

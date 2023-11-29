@@ -1,20 +1,20 @@
 {
   "groups": [
     {
-      "sourceType": "cn.auntec.framework.components.starter.port.shift.config.GlobalPortConfig",
+      "sourceType": "cn.zoe.framework.components.starter.port.shift.config.GlobalPortConfig",
       "name": "http参数配置",
-      "type": "cn.auntec.framework.components.starter.port.shift.config.GlobalPortConfig"
+      "type": "cn.zoe.framework.components.starter.port.shift.config.GlobalPortConfig"
     }
   ],
   "properties": [
     {
-      "name": "auntec.http.port.config.enable",
+      "name": "zoe.http.port.config.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启端口偏移.",
       "defaultValue": "true"
     },
     {
-      "name": "auntec.http.port.config.port-area",
+      "name": "zoe.http.port.config.port-area",
       "type": "java.lang.String",
       "description": "指定端口范围, 如果不写则无限制，如: 8080-9090 .",
       "defaultValue": ""

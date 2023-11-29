@@ -1,9 +1,10 @@
 package com.jphoebe.framework.components.core.common.serializable;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.PropertyNamingStrategy;
-import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONFactory;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.PropertyNamingStrategy;
+import com.alibaba.fastjson2.writer.ObjectWriterProvider;
 
 import java.io.Serializable;
 
@@ -17,11 +18,11 @@ public class SerializableBean implements Serializable {
 
     @Override
     public String toString() {
-        return this.encodePropertyName(PropertyNamingStrategy.NoChange, false);
+        return this.encodePropertyName(null, false);
     }
 
     public String toStringIgnoreNull() {
-        return this.encodePropertyName(PropertyNamingStrategy.NoChange, true);
+        return this.encodePropertyName(null, true);
     }
 
     public String toStringPascalCase() {
@@ -46,29 +47,23 @@ public class SerializableBean implements Serializable {
      * @return json result
      */
     public String encodePropertyName(PropertyNamingStrategy propertyNamingStrategy, boolean ignoreNull) {
-        SerializeConfig config = new SerializeConfig();
-        config.setPropertyNamingStrategy(propertyNamingStrategy);
-        SerializerFeature[] plugins;
+        ObjectWriterProvider config = new ObjectWriterProvider();
+        config.setNamingStrategy(propertyNamingStrategy != null ? propertyNamingStrategy : JSONFactory.getDefaultObjectWriterProvider().getNamingStrategy());
+        JSONWriter.Feature[] features;
         if (ignoreNull) {
-            plugins = new SerializerFeature[4];
-            plugins[0] = SerializerFeature.WriteDateUseDateFormat;
-            plugins[1] = SerializerFeature.WriteBigDecimalAsPlain;
-            plugins[2] = SerializerFeature.WriteEnumUsingToString;
-            plugins[3] = SerializerFeature.DisableCircularReferenceDetect;
+            features = new JSONWriter.Feature[2];
+            features[0] = JSONWriter.Feature.WriteBigDecimalAsPlain;
+            features[1] = JSONWriter.Feature.WriteEnumUsingToString;
         } else {
-            plugins = new SerializerFeature[7];
-            plugins[0] = SerializerFeature.WriteDateUseDateFormat;
-            plugins[1] = SerializerFeature.WriteBigDecimalAsPlain;
-            plugins[2] = SerializerFeature.WriteEnumUsingToString;
-            plugins[3] = SerializerFeature.DisableCircularReferenceDetect;
-            plugins[4] = SerializerFeature.WriteMapNullValue;
-            plugins[5] = SerializerFeature.WriteNullListAsEmpty;
-            plugins[6] = SerializerFeature.WriteNullStringAsEmpty;
+            features = new JSONWriter.Feature[5];
+            features[0] = JSONWriter.Feature.WriteBigDecimalAsPlain;
+            features[1] = JSONWriter.Feature.WriteEnumUsingToString;
+            features[2] = JSONWriter.Feature.WriteMapNullValue;
+            features[3] = JSONWriter.Feature.WriteNullListAsEmpty;
+            features[4] = JSONWriter.Feature.WriteNullStringAsEmpty;
         }
-        return JSON.toJSONString(this
-                , config
-                , plugins
-        );
+        JSONWriter.Context context = new JSONWriter.Context(config, features);
+        return JSON.toJSONString(this, context);
     }
 
     /**
@@ -77,15 +72,16 @@ public class SerializableBean implements Serializable {
      * @return json result
      */
     public byte[] bytes() {
+        // 循环引用，fastjson2中默认是关闭的【同fastjson1种SerializerFeature.DisableCircularReferenceDetect, 1中默认是开启的，参数语义相反】
+//        JSONWriter.Feature.ReferenceDetection
+        // fastjson2 默认就是fastjson1中的 SerializerFeature.WriteDateUseDateFormat
         return JSON.toJSONBytes(this
-                , SerializerFeature.WriteMapNullValue
-                , SerializerFeature.WriteNullListAsEmpty
-                , SerializerFeature.WriteNullStringAsEmpty
-                , SerializerFeature.WriteDateUseDateFormat
-                , SerializerFeature.WriteBigDecimalAsPlain
-                , SerializerFeature.WriteEnumUsingToString
-                // 禁用“循环引用检测”
-                , SerializerFeature.DisableCircularReferenceDetect);
+                , JSONWriter.Feature.WriteMapNullValue
+                , JSONWriter.Feature.WriteNullListAsEmpty
+                , JSONWriter.Feature.WriteNullStringAsEmpty
+                , JSONWriter.Feature.WriteBigDecimalAsPlain
+                , JSONWriter.Feature.WriteEnumUsingToString
+        );
     }
 
     /**

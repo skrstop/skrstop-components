@@ -3,7 +3,7 @@ org.springframework.boot.autoconfigure.condition.OnBeanCondition,\
 org.springframework.boot.autoconfigure.condition.OnClassCondition,\
 org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.jphoebe.framework.components.starter.metrics.autoconfig.MetricsAutoConfig,\
-  com.jphoebe.framework.components.starter.metrics.prometheus.log4j2.Log4j2RingBufferExport,\
-  com.jphoebe.framework.components.starter.metrics.prometheus.log4j2.Log4j2CountExport,\
-  com.jphoebe.framework.components.starter.metrics.prometheus.druid.DruidPrometheusAutoConfiguration
+  com.zoe.framework.components.starter.metrics.autoconfig.MetricsAutoConfig,\
+  com.zoe.framework.components.starter.metrics.prometheus.log4j2.Log4j2RingBufferExport,\
+  com.zoe.framework.components.starter.metrics.prometheus.log4j2.Log4j2CountExport,\
+  com.zoe.framework.components.starter.metrics.prometheus.druid.DruidPrometheusAutoConfiguration

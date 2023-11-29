@@ -2,17 +2,16 @@ package com.jphoebe.framework.components.util.serialization.json;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.parser.Feature;
-import com.alibaba.fastjson.parser.ParserConfig;
-import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONReader;
+import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.jphoebe.framework.components.core.common.response.*;
 import com.jphoebe.framework.components.core.common.response.common.CommonResultCode;
+import com.jphoebe.framework.components.core.common.response.core.IResult;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,19 +20,13 @@ import java.util.Map;
 
 /**
  * fastjson 工具类
+ * fastjson 打开autotype功能，默认关闭
+ * -Dfastjson2.parser.safeMode=true
  *
  * @author 蒋时华
  * @date 2018/11/29
  */
 public class FastJsonUtil {
-
-    private static final ParserConfig parserConfig;
-
-    static {
-        parserConfig = new ParserConfig();
-        parserConfig.setAutoTypeSupport(false);
-        parserConfig.setSafeMode(true);
-    }
 
     /**
      * object 2 json
@@ -46,9 +39,7 @@ public class FastJsonUtil {
             return null;
         }
         // 禁用循环引用检测
-        return JSON.toJSONString(object
-                , SerializerFeature.DisableCircularReferenceDetect
-        );
+        return JSON.toJSONString(object);
     }
 
     /**
@@ -62,9 +53,7 @@ public class FastJsonUtil {
             return null;
         }
         // 禁用循环引用检测
-        return JSON.toJSONStringWithDateFormat(object
-                , dateFormat
-                , SerializerFeature.DisableCircularReferenceDetect);
+        return JSON.toJSONString(object, dateFormat);
     }
 
     /**
@@ -79,27 +68,10 @@ public class FastJsonUtil {
             return null;
         }
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 //        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper.writeValueAsString(object);
     }
-
-    /**
-     * bean中的枚举自动映射成java类
-     *
-     * @param cls    枚举对应的java类
-     * @param object
-     * @return
-     */
-    public static String toJsonByEnum(Class cls, Object object) {
-        if (ObjectUtil.isNull(object) || ObjectUtil.isNull(cls)) {
-            return null;
-        }
-        SerializeConfig config = new SerializeConfig();
-        config.configEnumAsJavaBean(cls);
-        return JSON.toJSONString(object, config);
-    }
-
 
     /**
      * json to bean
@@ -115,10 +87,7 @@ public class FastJsonUtil {
         }
         return JSON.parseObject(json
                 , cls
-                , parserConfig
-                , Feature.IgnoreAutoType
-                , Feature.IgnoreNotMatch
-                , Feature.SafeMode
+                , JSONReader.Feature.IgnoreAutoTypeNotMatch
         );
     }
 
@@ -153,10 +122,7 @@ public class FastJsonUtil {
         if (StrUtil.isBlank(json) || ObjectUtil.isNull(cls)) {
             return null;
         }
-        return JSON.parseArray(json
-                , cls
-                , parserConfig
-        );
+        return JSON.parseArray(json, cls);
     }
 
     /**
@@ -170,13 +136,11 @@ public class FastJsonUtil {
         if (StrUtil.isBlank(json)) {
             return null;
         }
-        List<Map<String, T>> list = JSON.parseObject(json
+        return JSON.parseObject(json
                 , new TypeReference<List<Map<String, T>>>() {
                 }
-                , Feature.IgnoreAutoType
-                , Feature.IgnoreNotMatch
+                , JSONReader.Feature.IgnoreAutoTypeNotMatch
         );
-        return list;
     }
 
     /**
@@ -190,13 +154,11 @@ public class FastJsonUtil {
         if (StrUtil.isBlank(json)) {
             return null;
         }
-        List<Map<String, T>> list = JSON.parseObject(json
+        return JSON.parseObject(json
                 , new TypeReference<List<Map<String, T>>>() {
                 }
-                , Feature.IgnoreAutoType
-                , Feature.IgnoreNotMatch
+                , JSONReader.Feature.IgnoreAutoTypeNotMatch
         );
-        return list;
     }
 
     /**
@@ -213,8 +175,7 @@ public class FastJsonUtil {
         return JSON.parseObject(jsonString,
                 new TypeReference<HashMap<String, T>>() {
                 }
-                , Feature.IgnoreAutoType
-                , Feature.IgnoreNotMatch
+                , JSONReader.Feature.IgnoreAutoTypeNotMatch
         );
     }
 
@@ -232,8 +193,7 @@ public class FastJsonUtil {
         return JSON.parseObject(jsonString,
                 new TypeReference<HashMap<String, T>>() {
                 }
-                , Feature.IgnoreAutoType
-                , Feature.IgnoreNotMatch
+                , JSONReader.Feature.IgnoreAutoTypeNotMatch
         );
     }
 
@@ -327,7 +287,8 @@ public class FastJsonUtil {
 
 
     public static void main(String[] args) {
-        CommonResultCode success = CommonResultCode.SUCCESS;
+//        CommonResultCode success = CommonResultCode.SUCCESS;
+        IResult success = CommonResultCode.BUSY;
         Result<DefaultResult> result = Result.Builder.result(success, DefaultResult.Builder.result(success));
         String json = FastJsonUtil.toJson(result);
         System.out.println(json);

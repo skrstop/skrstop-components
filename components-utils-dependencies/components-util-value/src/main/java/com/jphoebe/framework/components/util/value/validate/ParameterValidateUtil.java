@@ -2,11 +2,11 @@ package com.jphoebe.framework.components.util.value.validate;
 
 import cn.hutool.core.util.StrUtil;
 import com.jphoebe.framework.components.core.exception.defined.illegal.ParameterException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import org.hibernate.validator.HibernateValidator;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

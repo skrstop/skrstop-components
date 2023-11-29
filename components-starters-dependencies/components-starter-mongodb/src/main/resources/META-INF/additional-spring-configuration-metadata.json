@@ -1,23 +1,249 @@
 {
   "groups": [
     {
-      "sourceType": "com.jphoebe.framework.components.starter.mongodb.config.GlobalMongodbConfig",
+      "sourceType": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbConfig",
       "name": "Mongodb配置",
-      "type": "com.jphoebe.framework.components.starter.mongodb.config.GlobalMongodbConfig"
+      "type": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbConfig"
     }
   ],
   "properties": [
     {
-      "name": "auntec.mongodb.config.map-package",
+      "name": "zoe.mongodb.config.map-package",
       "type": "java.lang.String",
       "description": "实体映射包地址.",
-      "defaultValue": "cn.auntec.business"
+      "defaultValue": "cn.zoe.business"
     },
     {
-      "name": "auntec.mongodb.config.underline-properties",
+      "name": "zoe.mongodb.config.apply-caps",
       "type": "java.lang.Boolean",
-      "description": "属性是否是下划线格式.",
+      "description": "自动创建caps.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.mongodb.config.apply-document-validations",
+      "type": "java.lang.Boolean",
+      "description": "自动创建校验.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.mongodb.config.apply-indexes",
+      "type": "java.lang.Boolean",
+      "description": "自动创建索引.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.mongodb.config.auto-import-models",
+      "type": "java.lang.Boolean",
+      "description": "自动引入实体.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.mongodb.config.collection-naming",
+      "type": "java.lang.String",
+      "description": "集合命名规则.",
+      "defaultValue": "snakeCase"
+    },
+    {
+      "name": "zoe.mongodb.config.property-naming",
+      "type": "java.lang.String",
+      "description": "属性命名规则.",
+      "defaultValue": "snakeCase"
+    },
+    {
+      "name": "zoe.mongodb.config.date-storage",
+      "type": "java.lang.String",
+      "description": "时区.",
+      "defaultValue": "system_default"
+    },
+    {
+      "name": "zoe.mongodb.config.discriminator",
+      "type": "java.lang.String",
+      "description": "实体标识value.",
+      "defaultValue": "className"
+    },
+    {
+      "name": "zoe.mongodb.config.discriminator-key",
+      "type": "java.lang.String",
+      "description": "实体标识key.",
+      "defaultValue": "_class"
+    },
+    {
+      "name": "zoe.mongodb.config.enable-polymorphic-queries",
+      "type": "java.lang.Boolean",
+      "description": "是否启用多态查询.",
       "defaultValue": "false"
+    },
+    {
+      "name": "zoe.mongodb.config.ignore-finals",
+      "type": "java.lang.Boolean",
+      "description": "是否忽略final字段.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.mongodb.config.property-discovery",
+      "type": "java.lang.String",
+      "description": "属性发现规则.",
+      "defaultValue": "fields"
+    },
+    {
+      "name": "zoe.mongodb.config.query-factory",
+      "type": "java.lang.String",
+      "description": "查询工厂.",
+      "defaultValue": "dev.morphia.query.DefaultQueryFactor"
+    },
+    {
+      "name": "zoe.mongodb.config.store-empties",
+      "type": "java.lang.Boolean",
+      "description": "是否存储null值.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.mongodb.config.store-nulls",
+      "type": "java.lang.Boolean",
+      "description": "是否忽略final字段.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.mongodb.config.uuid-representation",
+      "type": "java.lang.String",
+      "description": "uuid实现规则.",
+      "defaultValue": "java_legacy"
+    }
+  ],
+  "hints": [
+    {
+      "name": "zoe.mongodb.config.collection-naming",
+      "values": [
+        {
+          "value": "camelCase",
+          "description": "驼峰."
+        },
+        {
+          "value": "identity",
+          "description": "原本格式."
+        },
+        {
+          "value": "kebabCase",
+          "description": "中划线."
+        },
+        {
+          "value": "lowerCase",
+          "description": "原本格式小写."
+        },
+        {
+          "value": "snakeCase",
+          "description": "下划线."
+        },
+        {
+          "value": "fqcn",
+          "description": "全限定."
+        }
+      ]
+    },
+    {
+      "name": "zoe.mongodb.config.property-naming",
+      "values": [
+        {
+          "value": "camelCase",
+          "description": "驼峰."
+        },
+        {
+          "value": "identity",
+          "description": "原本格式."
+        },
+        {
+          "value": "kebabCase",
+          "description": "中划线."
+        },
+        {
+          "value": "lowerCase",
+          "description": "原本格式小写."
+        },
+        {
+          "value": "snakeCase",
+          "description": "下划线."
+        },
+        {
+          "value": "fqcn",
+          "description": "全限定."
+        }
+      ]
+    },
+    {
+      "name": "zoe.mongodb.config.date-storage",
+      "values": [
+        {
+          "value": "tuc",
+          "description": "UTC."
+        },
+        {
+          "value": "system_default",
+          "description": "系统默认."
+        }
+      ]
+    },
+    {
+      "name": "zoe.mongodb.config.discriminator",
+      "values": [
+        {
+          "value": "className",
+          "description": "全路径类名."
+        },
+        {
+          "value": "lowerClassName",
+          "description": "小写全路径类名."
+        },
+        {
+          "value": "lowerSimpleName",
+          "description": "小写类名."
+        },
+        {
+          "value": "simpleName",
+          "description": "类型名."
+        },
+        {
+          "value": "fqcn",
+          "description": "fqcn."
+        }
+      ]
+    },
+    {
+      "name": "zoe.mongodb.config.property-discovery",
+      "values": [
+        {
+          "value": "fields",
+          "description": "字段."
+        },
+        {
+          "value": "methods",
+          "description": "get/set方法."
+        }
+      ]
+    },
+    {
+      "name": "zoe.mongodb.config.uuid-representation",
+      "values": [
+        {
+          "value": "unspecified",
+          "description": "unspecified."
+        },
+        {
+          "value": "standard",
+          "description": "standard."
+        },
+        {
+          "value": "c_sharp_legacy",
+          "description": "c_sharp_legacy."
+        },
+        {
+          "value": "java_legacy",
+          "description": "java_legacy."
+        },
+        {
+          "value": "python_legacy",
+          "description": "python_legacy."
+        }
+      ]
     }
   ]
 }

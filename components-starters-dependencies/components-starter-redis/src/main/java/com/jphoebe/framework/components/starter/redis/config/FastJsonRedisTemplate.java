@@ -1,10 +1,9 @@
 package com.jphoebe.framework.components.starter.redis.config;
 
-import com.alibaba.fastjson.parser.Feature;
-import com.alibaba.fastjson.parser.ParserConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
+import com.alibaba.fastjson2.JSONReader;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.support.config.FastJsonConfig;
+import com.alibaba.fastjson2.support.spring.data.redis.FastJsonRedisSerializer;
 import com.jphoebe.framework.components.util.value.data.ArrayUtil;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -82,32 +81,25 @@ public class FastJsonRedisTemplate extends StringRedisTemplate {
          */
         fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         // 序列化
-        ArrayList<SerializerFeature> serializerFeatures = new ArrayList<>();
-        serializerFeatures.add(SerializerFeature.WriteMapNullValue);
-        serializerFeatures.add(SerializerFeature.WriteNonStringKeyAsString);
-        serializerFeatures.add(SerializerFeature.QuoteFieldNames);
-        serializerFeatures.add(SerializerFeature.WriteDateUseDateFormat);
+        ArrayList<JSONWriter.Feature> serializerFeatures = new ArrayList<>();
+        serializerFeatures.add(JSONWriter.Feature.WriteMapNullValue);
+        serializerFeatures.add(JSONWriter.Feature.WriteNonStringKeyAsString);
         if (prettyFormatJson) {
-            serializerFeatures.add(SerializerFeature.PrettyFormat);
+            serializerFeatures.add(JSONWriter.Feature.PrettyFormat);
         }
         if (!safeMode && autoType) {
-            serializerFeatures.add(SerializerFeature.WriteClassName);
+            serializerFeatures.add(JSONWriter.Feature.WriteClassName);
         } else {
-            serializerFeatures.add(SerializerFeature.NotWriteRootClassName);
+            serializerFeatures.add(JSONWriter.Feature.NotWriteRootClassName);
         }
-        fastJsonConfig.setSerializerFeatures(ArrayUtil.toArray(serializerFeatures, SerializerFeature.class));
+        fastJsonConfig.setWriterFeatures(ArrayUtil.toArray(serializerFeatures, JSONWriter.Feature.class));
         // 反序列化
-        ArrayList<Feature> features = new ArrayList<>();
+        ArrayList<JSONReader.Feature> features = new ArrayList<>();
 
-        features.add(Feature.IgnoreNotMatch);
         if (!(!safeMode && autoType)) {
-            features.add(Feature.IgnoreAutoType);
+            features.add(JSONReader.Feature.IgnoreAutoTypeNotMatch);
         }
-        fastJsonConfig.setFeatures(ArrayUtil.toArray(features, Feature.class));
-        ParserConfig parserConfig = fastJsonConfig.getParserConfig();
-        parserConfig.setAutoTypeSupport(autoType);
-        parserConfig.setSafeMode(safeMode);
-        parserConfig.setJacksonCompatible(true);
+        fastJsonConfig.setReaderFeatures(ArrayUtil.toArray(features, JSONReader.Feature.class));
         fastJsonRedisSerializer.setFastJsonConfig(fastJsonConfig);
         return fastJsonRedisSerializer;
     }

@@ -30,7 +30,7 @@ public class ResponseOutUtil extends ServletUtil {
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.getHeaders()
                 .setAcceptCharset(CollectionUtil.newArrayList(Charset.forName(CharSetEnum.UTF8.toString())));
-        String body = FastJsonUtil.toJsonByEnum(errorCodeCls, IResult);
+        String body = FastJsonUtil.toJson(errorCodeCls);
         DataBuffer wrap = response.bufferFactory().wrap(body.getBytes(CharSetEnum.UTF8.toString()));
         return response.writeWith(Flux.just(wrap));
     }
@@ -40,7 +40,7 @@ public class ResponseOutUtil extends ServletUtil {
         response.getHeaders().setContentType(MediaType.parseMediaType(httpContentTypeEnum.getContentType()));
         response.getHeaders()
                 .setAcceptCharset(CollectionUtil.newArrayList(Charset.forName(charSetEnum.getCharSet())));
-        String body = FastJsonUtil.toJsonByEnum(errorCodeCls, IResult);
+        String body = FastJsonUtil.toJson(errorCodeCls);
         DataBuffer wrap = response.bufferFactory().wrap(body.getBytes(charSetEnum.getCharSet()));
         return response.writeWith(Flux.just(wrap));
     }
@@ -50,7 +50,7 @@ public class ResponseOutUtil extends ServletUtil {
         response.setContentType(DEFAULT_APPLICATION);
 
         try (PrintWriter writer = response.getWriter()) {
-            writer.print(FastJsonUtil.toJsonByEnum(errorCodeCls, IResult));
+            writer.print(FastJsonUtil.toJson(errorCodeCls));
         }
     }
 
@@ -61,7 +61,7 @@ public class ResponseOutUtil extends ServletUtil {
         response.setContentType(httpContentTypeEnum.toString());
 
         try (PrintWriter writer = response.getWriter()) {
-            writer.print(FastJsonUtil.toJsonByEnum(errorCodeCls, IResult));
+            writer.print(FastJsonUtil.toJson(errorCodeCls));
         }
     }
 }

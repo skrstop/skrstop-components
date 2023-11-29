@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <artifactId>components-starters-dependencies</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-mongodb</artifactId>
 
-    <name>JPhoebe Mix Micro-service starter mongodb ${project.version}</name>
-    <description>JPhoebe+ Mongodb Starter</description>
+    <name>Zoe Mix Micro-service starter mongodb ${project.version}</name>
+    <description>Zoe+ Mongodb Starter</description>
 
     <dependencies>
 
@@ -25,18 +25,21 @@
             <groupId>dev.morphia.morphia</groupId>
             <artifactId>morphia-core</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.jphoebe.framework</groupId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-id</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.jphoebe.framework</groupId>
+            <groupId>com.zoe.framework</groupId>
             <artifactId>components-util-value</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.jphoebe.framework</groupId>
+            <groupId>com.zoe.framework</groupId>
             <artifactId>components-util-constant</artifactId>
         </dependency>
     </dependencies>

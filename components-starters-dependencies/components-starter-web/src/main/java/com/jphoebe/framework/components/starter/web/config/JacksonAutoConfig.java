@@ -1,7 +1,6 @@
 package com.jphoebe.framework.components.starter.web.config;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -18,7 +17,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
@@ -71,9 +72,7 @@ public class JacksonAutoConfig {
             simpleModule.addSerializer(PageInfo.class, new JsonSerializer<PageInfo>() {
                 @Override
                 public void serialize(PageInfo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                    gen.writeRawValue(JSON.toJSONString(value
-                            , SerializerFeature.DisableCircularReferenceDetect
-                    ));
+                    gen.writeRawValue(JSON.toJSONString(value));
                 }
             });
             simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
@@ -83,6 +82,14 @@ public class JacksonAutoConfig {
         if (globalResponseConfig == null || !StrUtil.isBlank(globalResponseConfig.getDateTimeFormat())) {
             simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(globalResponseConfig.getDateTimeFormat()));
             simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(globalResponseConfig.getDateTimeFormat()));
+        }
+        if (globalResponseConfig == null || !StrUtil.isBlank(globalResponseConfig.getDateFormat())) {
+            simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(globalResponseConfig.getDateFormat()));
+            simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(globalResponseConfig.getDateFormat()));
+        }
+        if (globalResponseConfig == null || !StrUtil.isBlank(globalResponseConfig.getTimeFormat())) {
+            simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(globalResponseConfig.getTimeFormat()));
+            simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(globalResponseConfig.getTimeFormat()));
         }
         // 设置过滤掉null值得属性
         if (globalResponseConfig == null || !globalResponseConfig.getShowNullValue()) {
@@ -125,6 +132,84 @@ public class JacksonAutoConfig {
                 throws IOException {
             TimeZone zone = TimeZone.getTimeZone("GMT+8");
             return LocalDateTime.parse(p.getValueAsString(), DateTimeFormatter
+                    .ofPattern(format)
+                    .withZone(zone.toZoneId())
+            );
+        }
+    }
+
+    static class LocalDateSerializer extends JsonSerializer<LocalDate> {
+
+        private String format;
+
+        public LocalDateSerializer(String format) {
+            this.format = format;
+        }
+
+        @Override
+        public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers)
+                throws IOException {
+            TimeZone zone = TimeZone.getTimeZone("GMT+8");
+            gen.writeString(value.format(DateTimeFormatter
+                            .ofPattern(format)
+                            .withZone(zone.toZoneId())
+                    )
+            );
+        }
+    }
+
+    static class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
+
+        private String format;
+
+        public LocalDateDeserializer(String format) {
+            this.format = format;
+        }
+
+        @Override
+        public LocalDate deserialize(JsonParser p, DeserializationContext deserializationContext)
+                throws IOException {
+            TimeZone zone = TimeZone.getTimeZone("GMT+8");
+            return LocalDate.parse(p.getValueAsString(), DateTimeFormatter
+                    .ofPattern(format)
+                    .withZone(zone.toZoneId())
+            );
+        }
+    }
+
+    static class LocalTimeSerializer extends JsonSerializer<LocalTime> {
+
+        private String format;
+
+        public LocalTimeSerializer(String format) {
+            this.format = format;
+        }
+
+        @Override
+        public void serialize(LocalTime value, JsonGenerator gen, SerializerProvider serializers)
+                throws IOException {
+            TimeZone zone = TimeZone.getTimeZone("GMT+8");
+            gen.writeString(value.format(DateTimeFormatter
+                            .ofPattern(format)
+                            .withZone(zone.toZoneId())
+                    )
+            );
+        }
+    }
+
+    static class LocalTimeDeserializer extends JsonDeserializer<LocalTime> {
+
+        private String format;
+
+        public LocalTimeDeserializer(String format) {
+            this.format = format;
+        }
+
+        @Override
+        public LocalTime deserialize(JsonParser p, DeserializationContext deserializationContext)
+                throws IOException {
+            TimeZone zone = TimeZone.getTimeZone("GMT+8");
+            return LocalTime.parse(p.getValueAsString(), DateTimeFormatter
                     .ofPattern(format)
                     .withZone(zone.toZoneId())
             );

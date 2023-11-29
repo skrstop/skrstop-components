@@ -1,9 +1,9 @@
 package com.jphoebe.framework.components.util.value.validate.annotation;
 
 import com.jphoebe.framework.components.util.value.validate.validator.NotContainNullConstraintValidatorForCollection;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,7 +24,7 @@ public @interface NotContainNull {
 
     String charset() default "UTF-8";
 
-    String message() default "{javax.validation.constraints.NotNull.message}";
+    String message() default "{jakarta.validation.constraints.NotNull.message}";
 
     Class<?>[] groups() default {};
 

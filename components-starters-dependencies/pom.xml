@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <artifactId>components-parent</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -26,8 +26,8 @@
     </modules>
     <packaging>pom</packaging>
 
-    <name>JPhoebe Mix Micro-service Project Starters Module :: ${project.version}</name>
-    <description>🏗 JPhoebe Mix Micro-service Starters Module</description>
+    <name>Zoe Mix Micro-service Project Starters Module :: ${project.version}</name>
+    <description>🏗 Zoe Mix Micro-service Starters Module</description>
 
     <properties>
     </properties>
@@ -49,7 +49,7 @@
         <dependencies>
             <!-- private package -->
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-core-dependencies</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>
@@ -57,7 +57,7 @@
             </dependency>
             <!-- util module -->
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-utils-dependencies</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>
@@ -66,62 +66,62 @@
 
             <!-- self modules -->
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-web</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-annotation</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-spring-support</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-port-shift</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-mongodb</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-feign-protostuff</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-id</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-ftp</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-metrics</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-redis</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-database</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.jphoebe.framework</groupId>
+                <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-banner</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>

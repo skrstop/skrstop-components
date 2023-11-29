@@ -1,16 +1,14 @@
 package com.jphoebe.framework.components.util.extra.document;
 
-import cn.hutool.core.util.URLUtil;
 import com.jphoebe.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 /**
  * @author 蒋时华
@@ -44,7 +42,7 @@ public class PdfBoxUtil implements Closeable {
      * @throws IOException
      */
     public static PdfBoxUtil load(File file, String password) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(file, password));
+        return new PdfBoxUtil(Loader.loadPDF(file, password));
     }
 
     /**
@@ -55,30 +53,7 @@ public class PdfBoxUtil implements Closeable {
      * @throws IOException
      */
     public static PdfBoxUtil load(File file) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(file));
-    }
-
-    /**
-     * 加载pdf文件
-     *
-     * @param in
-     * @param password
-     * @return
-     * @throws IOException
-     */
-    public static PdfBoxUtil load(InputStream in, String password) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(in, password));
-    }
-
-    /**
-     * 加载pdf文件
-     *
-     * @param in
-     * @return
-     * @throws IOException
-     */
-    public static PdfBoxUtil load(InputStream in) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(in));
+        return new PdfBoxUtil(Loader.loadPDF(file));
     }
 
     /**
@@ -90,7 +65,7 @@ public class PdfBoxUtil implements Closeable {
      * @throws IOException
      */
     public static PdfBoxUtil load(byte[] bytes, String password) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(bytes, password));
+        return new PdfBoxUtil(Loader.loadPDF(bytes, password));
     }
 
     /**
@@ -101,53 +76,7 @@ public class PdfBoxUtil implements Closeable {
      * @throws IOException
      */
     public static PdfBoxUtil load(byte[] bytes) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(bytes));
-    }
-
-    /**
-     * 加载pdf文件
-     *
-     * @param url
-     * @param password
-     * @return
-     * @throws IOException
-     */
-    public static PdfBoxUtil load(String url, String password) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(URLUtil.getStream(URLUtil.url(url)), password));
-    }
-
-    /**
-     * 加载pdf文件
-     *
-     * @param url
-     * @return
-     * @throws IOException
-     */
-    public static PdfBoxUtil load(String url) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(URLUtil.getStream(URLUtil.url(url))));
-    }
-
-    /**
-     * 加载pdf文件
-     *
-     * @param url
-     * @param password
-     * @return
-     * @throws IOException
-     */
-    public static PdfBoxUtil load(URL url, String password) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(URLUtil.getStream(url), password));
-    }
-
-    /**
-     * 加载pdf文件
-     *
-     * @param url
-     * @return
-     * @throws IOException
-     */
-    public static PdfBoxUtil load(URL url) throws IOException {
-        return new PdfBoxUtil(PDDocument.load(URLUtil.getStream(url)));
+        return new PdfBoxUtil(Loader.loadPDF(bytes));
     }
 
     /**

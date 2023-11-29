@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.jphoebe.framework</groupId>
+        <groupId>com.zoe.framework</groupId>
         <artifactId>components-extra-dependencies</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-compatible-ribbon-to-loadbalancer</artifactId>
 
-    <name>JPhoebe Mix Micro-service starter compatible ribbon to load balancer ${project.version}</name>
-    <description>JPhoebe+ compatible ribbon to load balancer Starter</description>
+    <name>Zoe Mix Micro-service starter compatible ribbon to load balancer ${project.version}</name>
+    <description>Zoe+ compatible ribbon to load balancer Starter</description>
 
     <properties>
         <ribbon.version>2.3.0</ribbon.version>

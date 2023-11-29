@@ -1,6 +1,6 @@
 package com.jphoebe.framework.components.core.exception;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.jphoebe.framework.components.core.common.response.DefaultResult;
 import com.jphoebe.framework.components.core.common.response.common.CommonResultCode;
 import com.jphoebe.framework.components.core.common.response.core.IResult;
