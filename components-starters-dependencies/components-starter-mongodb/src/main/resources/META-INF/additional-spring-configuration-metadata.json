@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbConfig",
+      "sourceType": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbProperties",
       "name": "Mongodb配置",
-      "type": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbConfig"
+      "type": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbProperties"
     }
   ],
   "properties": [
@@ -41,13 +41,13 @@
       "name": "zoe.mongodb.config.collection-naming",
       "type": "java.lang.String",
       "description": "集合命名规则.",
-      "defaultValue": "snakeCase"
+      "defaultValue": "identity"
     },
     {
       "name": "zoe.mongodb.config.property-naming",
       "type": "java.lang.String",
       "description": "属性命名规则.",
-      "defaultValue": "snakeCase"
+      "defaultValue": "identity"
     },
     {
       "name": "zoe.mongodb.config.date-storage",
