@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zoe.framework</groupId>
-    <artifactId>components-parent</artifactId>
+    <artifactId>zoe-components</artifactId>
     <packaging>pom</packaging>
     <version>${framework.components.revision}</version>
 
@@ -14,11 +14,11 @@
     </organization>
 
     <modules>
-        <module>components-project-dependencies</module>
-        <module>components-core-dependencies</module>
-        <module>components-utils-dependencies</module>
-        <module>components-starters-dependencies</module>
-        <module>components-extra-dependencies</module>
+        <module>components-project</module>
+        <module>components-core</module>
+        <module>components-utils</module>
+        <module>components-starters</module>
+        <module>components-extra</module>
     </modules>
 
     <name>Zoe Mix Micro-service Components :: parent ${project.version}</name>
