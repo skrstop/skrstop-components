@@ -1,8 +1,7 @@
 package com.zoe.framework.components.core.common.response.page;
 
 import com.zoe.framework.components.core.common.serializable.SerializableBean;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.List;

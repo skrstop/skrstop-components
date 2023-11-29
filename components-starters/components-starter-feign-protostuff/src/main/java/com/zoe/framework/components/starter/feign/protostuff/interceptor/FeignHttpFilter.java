@@ -4,6 +4,7 @@ import com.zoe.framework.components.util.constant.CharSetEnum;
 import com.zoe.framework.components.util.constant.FeignConst;
 import com.zoe.framework.components.util.constant.HttpContentTypeEnum;
 
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 

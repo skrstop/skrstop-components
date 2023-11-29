@@ -2,8 +2,7 @@ package com.zoe.framework.components.starter.annotation.ddd.processor;
 
 import com.zoe.framework.components.core.common.serializable.SerializableBean;
 import com.zoe.framework.components.starter.annotation.ddd.processor.asserts.ProcessorAssert;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
