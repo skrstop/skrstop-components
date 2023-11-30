@@ -1,5 +1,6 @@
 package com.zoe.framework.components.util.value.net;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
  * @date 2019/8/30
  */
 @Slf4j
+@UtilityClass
 public class IPUtil {
 
     private static final String ANYHOST = "0.0.0.0";

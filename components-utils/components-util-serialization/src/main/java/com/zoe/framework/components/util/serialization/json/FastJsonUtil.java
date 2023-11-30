@@ -10,8 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.zoe.framework.components.core.common.response.*;
-import com.zoe.framework.components.core.common.response.common.CommonResultCode;
-import com.zoe.framework.components.core.common.response.core.IResult;
+import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +25,7 @@ import java.util.Map;
  * @author 蒋时华
  * @date 2018/11/29
  */
+@UtilityClass
 public class FastJsonUtil {
 
     /**
@@ -283,22 +283,6 @@ public class FastJsonUtil {
             return null;
         }
         return toBean(json, DefaultPageResult.class);
-    }
-
-
-    public static void main(String[] args) {
-//        CommonResultCode success = CommonResultCode.SUCCESS;
-        IResult success = CommonResultCode.BUSY;
-        Result<DefaultResult> result = Result.Builder.result(success, DefaultResult.Builder.result(success));
-        String json = FastJsonUtil.toJson(result);
-        System.out.println(json);
-
-        Result<DefaultResult> defaultResultResult = FastJsonUtil.toBeanForResult(json, DefaultResult.class);
-        System.out.println(defaultResultResult);
-
-        final HashMap<String, Object> stringObjectHashMap = FastJsonUtil.toBeanForHashMap("");
-        final HashMap<String, String> stringStringHashMap = FastJsonUtil.toBeanForHashMap("", String.class);
-
     }
 
 }

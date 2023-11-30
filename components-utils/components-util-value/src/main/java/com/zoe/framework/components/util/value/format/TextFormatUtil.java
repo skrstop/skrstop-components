@@ -2,6 +2,7 @@ package com.zoe.framework.components.util.value.format;
 
 
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
  * @author 蒋时华
  * @date 2020-09-04 11:10:39
  */
+@UtilityClass
 public class TextFormatUtil {
 
     private static final String FORMAT_SPECIFIER = "%(\\d+\\$)?([-#+ 0,(\\<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";

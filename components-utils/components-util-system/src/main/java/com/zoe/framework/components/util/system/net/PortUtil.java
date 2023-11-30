@@ -1,5 +1,7 @@
 package com.zoe.framework.components.util.system.net;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -9,6 +11,7 @@ import java.net.ServerSocket;
  * @author 蒋时华
  * @date 2019/8/26
  */
+@UtilityClass
 public class PortUtil {
 
     /**

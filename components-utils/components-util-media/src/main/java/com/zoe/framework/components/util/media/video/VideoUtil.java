@@ -35,7 +35,7 @@ public class VideoUtil {
 
     @Setter
     @Getter
-    public class VideoSnapshotValue {
+    public static class VideoSnapshotValue {
         /*** 原 */
         private byte[] sourceBytes;
         /*** 处理后 */
@@ -706,27 +706,6 @@ public class VideoUtil {
             return ofUrl(new URL(url));
         }
 
-    }
-
-    public static void main(String[] args) {
-        File file = new File("/Users/jphoebe/Downloads/1.mp4");
-//        File out = new File("/Users/jphoebe/Downloads/11.jpg");
-        File out = new File("/Users/jphoebe/Downloads/11.gif");
-        long start = System.currentTimeMillis();
-        Builder.ofFile(file)
-                .format(ImageTypeConst.JPG_FORMAT_NAME)
-                .p720()
-                .audioQuality(35.0)
-                .videoQuality(35.0)
-//                .executeVideo()
-//                .executeVideoCover()
-//                .gifStartFrame(5)
-//                .gifFrameCount(15)
-//                .gifFrameRate(3)
-                .executeVideoGif()
-                .toFile(out);
-        long end = System.currentTimeMillis();
-        System.out.println(end - start);
     }
 
 }

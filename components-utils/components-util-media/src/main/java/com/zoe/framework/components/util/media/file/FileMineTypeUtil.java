@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.media.file;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.experimental.UtilityClass;
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MediaType;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @author 蒋时华
  * @date 2019/7/29
  */
+@UtilityClass
 public class FileMineTypeUtil {
 
     /**

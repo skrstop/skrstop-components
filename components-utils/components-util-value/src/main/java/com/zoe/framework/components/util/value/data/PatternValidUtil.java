@@ -4,6 +4,7 @@ package com.zoe.framework.components.util.value.data;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.zoe.framework.components.util.constant.RegularExpressionConst;
+import lombok.experimental.UtilityClass;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
  * @author: 蒋时华
  * @date: 2018/5/17
  */
+@UtilityClass
 public class PatternValidUtil extends ReUtil {
 
 

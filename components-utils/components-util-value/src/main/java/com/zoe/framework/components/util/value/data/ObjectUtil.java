@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.value.data;
 
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -12,6 +13,7 @@ import java.util.*;
  * @author: 蒋时华
  * @date: 2018/10/16
  */
+@UtilityClass
 public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {
 
     private static final int INITIAL_HASH = 7;

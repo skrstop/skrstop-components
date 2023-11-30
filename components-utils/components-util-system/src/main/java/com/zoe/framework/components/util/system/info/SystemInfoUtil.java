@@ -7,6 +7,7 @@ import com.zoe.framework.components.core.exception.ZoeException;
 import com.zoe.framework.components.core.exception.ZoeRuntimeException;
 import com.zoe.framework.components.util.value.data.BigDecimalUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.util.List;
  * @date 2021-08-11 14:43:20
  */
 @Slf4j
+@UtilityClass
 public class SystemInfoUtil extends SystemUtil {
 
     public static List<NvidiaGPUInfo> getNvidiaGPUInfo() throws IOException, ZoeException {

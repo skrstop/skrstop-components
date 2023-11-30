@@ -9,6 +9,7 @@ import com.zoe.framework.components.util.compression.tar.TarUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import java.util.List;
  * @author 蒋时华
  * @version v1.0 - 07/09/2018.
  */
+@UtilityClass
 public final class CompressUtil {
 
     private static final Logger log = LoggerFactory.getLogger(CompressUtil.class);

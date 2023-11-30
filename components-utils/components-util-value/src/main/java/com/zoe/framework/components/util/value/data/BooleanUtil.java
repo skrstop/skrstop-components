@@ -1,11 +1,13 @@
 package com.zoe.framework.components.util.value.data;
 
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import lombok.experimental.UtilityClass;
 
 /**
  * @author 蒋时华
  * @date 2020-08-07 10:10:52
  */
+@UtilityClass
 public class BooleanUtil extends cn.hutool.core.util.BooleanUtil {
 
     /**

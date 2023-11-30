@@ -1,12 +1,15 @@
 package com.zoe.framework.components.util.value.data;
 
 
+import lombok.experimental.UtilityClass;
+
 /**
  * NumberUtil class
  *
  * @author 蒋时华
  * @date 2019/6/19
  */
+@UtilityClass
 public class NumberUtil extends cn.hutool.core.util.NumberUtil {
 
     /**

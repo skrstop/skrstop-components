@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.ftp.config;
 
 import cn.hutool.extra.ftp.FtpMode;
 import com.zoe.framework.components.starter.ftp.constant.GlobalConfigConst;
-import com.zoe.framework.components.util.constant.CharSetEnum;
+import com.zoe.framework.components.util.enums.CharSetEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

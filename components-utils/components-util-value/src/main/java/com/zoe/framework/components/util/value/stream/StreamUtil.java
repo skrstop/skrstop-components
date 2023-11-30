@@ -1,10 +1,11 @@
 package com.zoe.framework.components.util.value.stream;
 
 import com.zoe.framework.components.core.exception.defined.io.IOStreamingException;
-import com.zoe.framework.components.util.constant.CharSetEnum;
-import com.zoe.framework.components.util.constant.HttpMethodEnum;
+import com.zoe.framework.components.util.enums.CharSetEnum;
+import com.zoe.framework.components.util.enums.HttpMethodEnum;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
+import lombok.experimental.UtilityClass;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -13,6 +14,7 @@ import java.net.URL;
 /**
  * @author 蒋时华
  */
+@UtilityClass
 public class StreamUtil {
 
     private static final String DEFAULT_CHARSET = CharSetEnum.UTF8.getCharSet();

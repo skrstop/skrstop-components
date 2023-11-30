@@ -6,6 +6,7 @@ import com.zoe.framework.components.util.stress.result.StressResult;
 import com.zoe.framework.components.util.stress.result.StressResultFormater;
 import com.zoe.framework.components.util.stress.task.StressTask;
 import com.zoe.framework.components.util.stress.task.StressTester;
+import lombok.experimental.UtilityClass;
 
 import java.io.StringWriter;
 
@@ -13,6 +14,7 @@ import java.io.StringWriter;
  * @author 蒋时华
  * @date 2018-02-15
  **/
+@UtilityClass
 public class StressStoreUtil {
 
     private static StressTester stressTester = new StressTester();
@@ -92,38 +94,6 @@ public class StressStoreUtil {
         StringWriter sw = new StringWriter();
         stressResultFormater.format(stressResult, sw);
         return sw.toString();
-    }
-
-    public static void main(String[] args) {
-
-        // demo 1
-        StressResult stressResult = StressStoreUtil.test(10, 10, new StressTask() {
-            @Override
-            public Object doTask() throws Exception {
-                /**
-                 *  your task code
-                 */
-                Thread.sleep(10);
-                System.out.println(100);
-                return null;
-            }
-        });
-        String str = StressStoreUtil.format(stressResult);
-        System.out.println(str);
-
-        // demo 2
-        StressStoreUtil.testAndPrint(10, 10, new StressTask() {
-            @Override
-            public Object doTask() throws Exception {
-                /**
-                 *  your task code
-                 */
-                Thread.sleep(10);
-                System.out.println(100);
-                return null;
-            }
-        });
-
     }
 
 }

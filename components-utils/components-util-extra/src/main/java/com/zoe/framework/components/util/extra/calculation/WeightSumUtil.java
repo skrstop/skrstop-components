@@ -1,24 +1,17 @@
 package com.zoe.framework.components.util.extra.calculation;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.experimental.UtilityClass;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author 蒋时华
  * 权值计算帮助类
  */
+@UtilityClass
 public class WeightSumUtil {
-
-    public static void main(String[] args) {
-        List<Integer> integers = Arrays.asList(10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
-        String s = WeightSumUtil.sumWeight(integers);
-        System.out.println(s);
-        System.out.println(WeightSumUtil.testWeight(s, 1));
-        System.out.println(WeightSumUtil.testWeight(s, 19));
-    }
 
     /**
      * 利用BigInteger对权限进行2的权的和计算

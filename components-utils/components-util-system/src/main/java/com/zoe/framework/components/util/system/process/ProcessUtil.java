@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
  * @date 2021-11-24 13:40:59
  */
 @Slf4j
+@UtilityClass
 public class ProcessUtil extends RuntimeUtil {
 
     private static boolean enableLogInfo = false;

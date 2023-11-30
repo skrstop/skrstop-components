@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.serialization.json;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zoe.framework.components.core.common.response.*;
+import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author 蒋时华
  * @date 2019/6/10
  */
+@UtilityClass
 public class GsonUtil {
 
     /**

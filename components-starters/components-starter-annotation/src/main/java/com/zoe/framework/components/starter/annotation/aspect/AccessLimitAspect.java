@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.RateLimiter;
 import com.zoe.framework.components.starter.annotation.AccessLimit;
 import com.zoe.framework.components.starter.annotation.exception.AccessLimitException;
 import com.zoe.framework.components.starter.annotation.utils.MethodUtil;
-import com.zoe.framework.components.util.constant.CharSetEnum;
+import com.zoe.framework.components.util.enums.CharSetEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

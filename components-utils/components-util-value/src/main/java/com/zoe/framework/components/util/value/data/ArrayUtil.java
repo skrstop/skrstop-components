@@ -1,6 +1,7 @@
 package com.zoe.framework.components.util.value.data;
 
 import cn.hutool.core.util.BooleanUtil;
+import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.Collection;
  * @author 蒋时华
  * @date 2019/6/19
  */
+@UtilityClass
 public class ArrayUtil extends cn.hutool.core.util.ArrayUtil {
 
     /**

@@ -4,6 +4,7 @@ import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.text.StrSplitter;
 import cn.hutool.core.util.EscapeUtil;
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import lombok.experimental.UtilityClass;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
  * @author 蒋时华
  * @date 2019/6/19
  */
+@UtilityClass
 public class StrUtil extends cn.hutool.core.util.StrUtil {
 
     public static final int INDEX_NOT_FOUND = -1;

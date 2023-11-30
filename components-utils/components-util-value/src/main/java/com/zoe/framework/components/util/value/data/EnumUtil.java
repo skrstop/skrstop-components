@@ -2,6 +2,7 @@ package com.zoe.framework.components.util.value.data;
 
 
 import cn.hutool.core.util.StrUtil;
+import lombok.experimental.UtilityClass;
 
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
  * @author: 蒋时华
  * @date: 2018/10/17
  */
+@UtilityClass
 public class EnumUtil extends cn.hutool.core.util.EnumUtil {
 
     /**

@@ -1,12 +1,14 @@
 package com.zoe.framework.components.util.value.version;
 
 import cn.hutool.core.comparator.VersionComparator;
+import lombok.experimental.UtilityClass;
 
 /**
  * @author 蒋时华
  * @date 2020-06-17 17:44:25
  */
-public abstract class VersionCompareUtil extends VersionComparator {
+@UtilityClass
+public class VersionCompareUtil extends VersionComparator {
 
     // 大于
     public final static byte GTR = 1;

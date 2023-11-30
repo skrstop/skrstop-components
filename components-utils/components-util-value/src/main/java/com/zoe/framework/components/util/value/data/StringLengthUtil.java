@@ -2,7 +2,8 @@ package com.zoe.framework.components.util.value.data;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.zoe.framework.components.core.exception.defined.coding.EncodingException;
-import com.zoe.framework.components.util.constant.CharSetEnum;
+import com.zoe.framework.components.util.enums.CharSetEnum;
+import lombok.experimental.UtilityClass;
 
 import java.io.UnsupportedEncodingException;
 
@@ -12,6 +13,7 @@ import java.io.UnsupportedEncodingException;
  * @author 蒋时华
  * @date 2018/10/30
  */
+@UtilityClass
 public class StringLengthUtil {
 
     private static final String DEFAULT_CHARSET = CharSetEnum.UTF8.getCharSet();

@@ -8,6 +8,7 @@ import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
+import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 蒋时华
  * @date 2020-05-09 17:19:55
  */
+@UtilityClass
 public class ProtostuffUtil {
 
     /**

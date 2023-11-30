@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.value.bean;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  * @author 蒋时华
  * @date 2019/6/19
  */
+@UtilityClass
 public class BeanUtil extends cn.hutool.core.bean.BeanUtil {
 
     /**

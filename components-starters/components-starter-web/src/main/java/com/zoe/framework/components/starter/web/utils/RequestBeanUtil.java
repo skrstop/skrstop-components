@@ -1,8 +1,8 @@
 package com.zoe.framework.components.starter.web.utils;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.zoe.framework.components.util.constant.HttpContentTypeEnum;
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import com.zoe.framework.components.util.enums.HttpContentTypeEnum;
 import com.zoe.framework.components.util.serialization.json.FastJsonUtil;
 import com.zoe.framework.components.util.value.validate.ParameterValidateUtil;
 

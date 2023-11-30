@@ -53,31 +53,6 @@ public class ImageUtil {
         this.imageSnapshot.set(imageSnapshotValue);
     }
 
-//    public static void main(String[] args) throws IOException {
-//        File file = new File("/Users/jphoebe/test/abcdefg.png");
-//        File out = new File("/Users/jphoebe/test/test.jpg");
-//
-//        ImageSnapshotValue imageSnapshot = Builder.ofUrl("http://ftpfile.yunlsp.com/storage/landtransport/waterMarkImage/yunlsp_full.jpg")
-//                .rotate(-45)
-//                .scale(1.2)
-//                .getImageSnapshot();
-//
-//
-//        Builder.ofFile(file)
-//                .scale(0.2)
-//                .waterMarkImage(Positions.CENTER, imageSnapshot.getTargetBuffedImage(), 0.3F)
-//                .toFile(file);
-//
-////        InputStream inputStream = Builder.ofFile(file).toInputStream(0.05, JPG_FORMAT_NAME);
-////        FileUtil.writeFromStream(inputStream, out);
-//
-////        Builder.ofFile(file).rotate(90).scale(0.5).compress(720).toFile(out, 0.5, JPG_FORMAT_NAME);
-//
-////        InputStream inputStream = Builder.ofFile(file).rotate(90).scale(0.5).compress(720).toInputStream(0.5, JPG_FORMAT_NAME);
-////        FileUtil.writeFromStream(inputStream, out);
-//
-//    }
-
     /**
      * 1080P 分辨率处理
      *
@@ -673,7 +648,7 @@ public class ImageUtil {
 
     @Setter
     @Getter
-    public class ImageSnapshotValue {
+    public static class ImageSnapshotValue {
         /*** 原图 */
         private byte[] sourceBytes;
         /*** 处理后的图片 */

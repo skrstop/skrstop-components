@@ -1,8 +1,11 @@
 package com.zoe.framework.components.util.serialization.json;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * @author 蒋时华
  */
+@UtilityClass
 public class JsonFormatUtil {
 
     /**

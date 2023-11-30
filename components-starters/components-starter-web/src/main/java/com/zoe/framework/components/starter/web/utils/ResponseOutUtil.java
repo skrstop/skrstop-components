@@ -1,8 +1,8 @@
 package com.zoe.framework.components.starter.web.utils;
 
 import com.zoe.framework.components.core.common.response.core.IResult;
-import com.zoe.framework.components.util.constant.CharSetEnum;
-import com.zoe.framework.components.util.constant.HttpContentTypeEnum;
+import com.zoe.framework.components.util.enums.CharSetEnum;
+import com.zoe.framework.components.util.enums.HttpContentTypeEnum;
 import com.zoe.framework.components.util.serialization.json.FastJsonUtil;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import org.springframework.core.io.buffer.DataBuffer;

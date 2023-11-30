@@ -4,6 +4,7 @@ import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.NumberUtil;
 import com.zoe.framework.components.util.value.data.PatternValidUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * @author 蒋时华
  * @date 2021-01-11 20:38:56
  */
+@UtilityClass
 public class ErrorMessageUtil {
 
 

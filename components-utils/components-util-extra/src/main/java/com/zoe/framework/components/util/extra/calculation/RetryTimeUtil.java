@@ -1,11 +1,14 @@
 package com.zoe.framework.components.util.extra.calculation;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * 重试工具类
  *
  * @author 蒋时华
  * @date 2019/9/2
  */
+@UtilityClass
 public class RetryTimeUtil {
 
     /**

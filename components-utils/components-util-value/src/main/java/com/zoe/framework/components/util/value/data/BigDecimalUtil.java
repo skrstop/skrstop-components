@@ -1,5 +1,7 @@
 package com.zoe.framework.components.util.value.data;
 
+import lombok.experimental.UtilityClass;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -10,6 +12,7 @@ import java.text.DecimalFormat;
  * @author 蒋时华
  * @date 2018/11/29
  */
+@UtilityClass
 public class BigDecimalUtil {
 
     /**

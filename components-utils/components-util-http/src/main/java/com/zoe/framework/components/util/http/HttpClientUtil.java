@@ -1,6 +1,7 @@
 package com.zoe.framework.components.util.http;
 
 import cn.hutool.http.HttpRequest;
+import lombok.experimental.UtilityClass;
 
 /**
  * HttpClient
@@ -8,6 +9,7 @@ import cn.hutool.http.HttpRequest;
  * @author 蒋时华
  * @date 2019/9/11
  */
+@UtilityClass
 public class HttpClientUtil {
 
     /**

@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.value.lambda;
 import cn.hutool.core.lang.func.Func0;
 import cn.hutool.core.lang.func.Func1;
 import com.zoe.framework.components.util.value.data.StrUtil;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
  * @date 2019/12/14
  */
 @Slf4j
+@UtilityClass
 public class LambdaUtil extends cn.hutool.core.lang.func.LambdaUtil {
 
     /**

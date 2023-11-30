@@ -5,6 +5,7 @@ import com.zoe.framework.components.core.exception.defined.illegal.ParameterExce
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import lombok.experimental.UtilityClass;
 import org.hibernate.validator.HibernateValidator;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Set;
 /**
  * @author 蒋时华
  */
+@UtilityClass
 public class ParameterValidateUtil {
 
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();

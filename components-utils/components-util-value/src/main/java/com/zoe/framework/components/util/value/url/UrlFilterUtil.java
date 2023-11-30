@@ -2,6 +2,7 @@ package com.zoe.framework.components.util.value.url;
 
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
+import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
 
@@ -9,12 +10,10 @@ import java.util.Collection;
  * @author 蒋时华
  * @date 2020-10-21 15:35:57
  */
+@UtilityClass
 public class UrlFilterUtil {
 
     private final static String PATTERN = "**";
-
-    private UrlFilterUtil() {
-    }
 
     /**
      * @param url        配置url

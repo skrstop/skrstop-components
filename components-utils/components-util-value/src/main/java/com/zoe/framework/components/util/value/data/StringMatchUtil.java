@@ -1,11 +1,15 @@
 package com.zoe.framework.components.util.value.data;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * 字符串匹配工具类
  *
  * @Author: 蒋时华
  * @Date: 2019/3/25
  */
+@Deprecated
+@UtilityClass
 public class StringMatchUtil {
 
     /**
@@ -31,7 +35,7 @@ public class StringMatchUtil {
         int sourceLength = source.length();
         int patternLength = pattern.length();
         for (int i = 0; i <= (sourceLength - patternLength); ) {
-            //要比较的字符串
+            // 要比较的字符串
             String str = source.substring(i, i + patternLength);
             int count = getNext(pattern, str, N);
             if (count == 0) {
@@ -58,9 +62,11 @@ public class StringMatchUtil {
         while (n-- != 0) {
             if (v1[x] != v2[x]) {
                 if (x == 0) {
-                    return 1;//如果第一个不相同，移动1步
+                    // 如果第一个不相同，移动1步
+                    return 1;
                 }
-                return x - N[x - 1];//x:第一次出现不同的索引的位置，即j
+                // x:第一次出现不同的索引的位置，即j
+                return x - N[x - 1];
             }
             x++;
         }
@@ -99,16 +105,4 @@ public class StringMatchUtil {
         return false;
     }
 
-    public static void main(String[] args) {
-        long current = System.nanoTime();
-        String source = "苏州海管家物流有限公司;2346;HGJ";
-        String target = "j";
-        /*boolean res = kmp(source, target);
-        System.out.println("结果:" + res + "耗时:" + (System.nanoTime() - current));*/
-        boolean res1 = plain(source, target);
-        System.out.println("结果:" + res1 + "耗时:" + (System.nanoTime() - current));
-        /*for (int i = 0; i < 100; i++) {
-            kmp(source, target);
-        }*/
-    }
 }

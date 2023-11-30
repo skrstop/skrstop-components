@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.value.data;
 import cn.hutool.core.date.DateBetween;
 import cn.hutool.core.date.DateUnit;
 import com.zoe.framework.components.util.constant.DateFormatConst;
+import lombok.experimental.UtilityClass;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -19,6 +20,7 @@ import java.util.Date;
  * @description: 时间处理工具类
  * @date: 2018/10/16
  */
+@UtilityClass
 public class DateUtil extends cn.hutool.core.date.DateUtil {
 
     /**

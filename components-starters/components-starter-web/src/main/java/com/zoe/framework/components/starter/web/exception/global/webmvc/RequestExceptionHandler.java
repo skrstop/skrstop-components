@@ -16,9 +16,9 @@ import com.zoe.framework.components.starter.web.exception.core.interceptor.Error
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
 import com.zoe.framework.components.starter.web.exception.global.interceptor.exception.BindExceptionInterceptor;
 import com.zoe.framework.components.util.constant.FeignConst;
-import com.zoe.framework.components.util.constant.HttpContentTypeEnum;
 import com.zoe.framework.components.util.constant.HttpStatusConst;
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import com.zoe.framework.components.util.enums.HttpContentTypeEnum;
 import com.zoe.framework.components.util.serialization.json.FastJsonUtil;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;

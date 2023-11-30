@@ -10,8 +10,8 @@ import com.zoe.framework.components.starter.web.exception.core.NotShowHttpStatus
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern;
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
 import com.zoe.framework.components.util.constant.FeignConst;
-import com.zoe.framework.components.util.constant.HttpContentTypeEnum;
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import com.zoe.framework.components.util.enums.HttpContentTypeEnum;
 import com.zoe.framework.components.util.serialization.json.FastJsonUtil;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;

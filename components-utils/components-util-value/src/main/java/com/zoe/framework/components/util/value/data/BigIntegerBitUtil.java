@@ -1,6 +1,7 @@
 package com.zoe.framework.components.util.value.data;
 
 import com.zoe.framework.components.util.constant.StringPoolConst;
+import lombok.experimental.UtilityClass;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @author 蒋时华
  * 权限计算帮助类
  */
+@UtilityClass
 public class BigIntegerBitUtil {
 
     /**

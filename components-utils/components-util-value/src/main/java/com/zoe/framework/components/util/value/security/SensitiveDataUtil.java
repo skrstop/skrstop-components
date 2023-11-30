@@ -16,6 +16,8 @@
  */
 package com.zoe.framework.components.util.value.security;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,6 +77,7 @@ import java.util.regex.Pattern;
  * @author 蒋时华
  * @since 2017/08/11
  */
+@UtilityClass
 public class SensitiveDataUtil {
 
     /**
@@ -124,22 +127,6 @@ public class SensitiveDataUtil {
      * 是否进行敏感数据屏蔽的开关
      */
     private static boolean hideFlag = true;
-
-    /**
-     * 构造函数
-     *
-     * @param hideFlag 是否需要进行屏蔽的开关；<code>ture</code>表示打开。
-     */
-    public SensitiveDataUtil(final boolean hideFlag) {
-        SensitiveDataUtil.setHideFlag(hideFlag);
-    }
-
-    /**
-     * 构造函数，默认开启屏蔽开关
-     */
-    public SensitiveDataUtil() {
-        SensitiveDataUtil.setHideFlag(true);
-    }
 
     /**
      * 通过是否含有@符号，简单判断是否是Email地址。

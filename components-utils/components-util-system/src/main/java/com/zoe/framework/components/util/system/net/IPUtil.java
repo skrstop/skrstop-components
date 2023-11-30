@@ -3,6 +3,7 @@ package com.zoe.framework.components.util.system.net;
 
 import com.zoe.framework.components.util.value.data.StrUtil;
 import com.zoe.framework.components.util.value.validate.Assert;
+import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
@@ -15,6 +16,7 @@ import java.util.Enumeration;
 /**
  * @author 蒋时华
  */
+@UtilityClass
 public class IPUtil {
 
     /*** 当前机器内网IP */

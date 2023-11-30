@@ -2,6 +2,7 @@ package com.zoe.framework.components.util.setting.properties;
 
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.setting.Setting;
+import lombok.experimental.UtilityClass;
 
 /**
  * PropertiesUtil class
@@ -9,6 +10,7 @@ import cn.hutool.setting.Setting;
  * @author 蒋时华
  * @date 2019/6/17
  */
+@UtilityClass
 public class PropertiesUtil {
 
     /**

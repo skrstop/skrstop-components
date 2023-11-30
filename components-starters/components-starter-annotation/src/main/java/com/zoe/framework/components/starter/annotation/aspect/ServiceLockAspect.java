@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.annotation.aspect;
 
 import com.zoe.framework.components.starter.annotation.ServiceLock;
 import com.zoe.framework.components.starter.annotation.utils.MethodUtil;
-import com.zoe.framework.components.util.constant.CharSetEnum;
+import com.zoe.framework.components.util.enums.CharSetEnum;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
