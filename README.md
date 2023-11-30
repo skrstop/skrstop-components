@@ -1,3 +1,7 @@
+# 最低jdk版本
+
+* JDK 11
+
 # springboot基础工具包
 
 ```
@@ -51,7 +55,6 @@
 
 # 常用可用类库版本
 
-* JDK 11
 * springBoot 2.6.6
 * springCloud 2021.0.1
 * springCloudAlibaba 2021.0.1.0
