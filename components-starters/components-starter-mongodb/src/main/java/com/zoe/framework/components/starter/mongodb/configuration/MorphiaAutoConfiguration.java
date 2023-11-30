@@ -1,7 +1,6 @@
 package com.zoe.framework.components.starter.mongodb.configuration;
 
 import com.mongodb.client.MongoClient;
-import com.zoe.framework.components.starter.mongodb.config.GlobalMongodbProperties;
 import com.zoe.framework.components.starter.mongodb.constant.MongodbConst;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import dev.morphia.Datastore;

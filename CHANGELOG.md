@@ -1,5 +1,11 @@
 # 组件
 
+##### 1.2.4.20231128-RELEASE
+
+* feat: 升级springboot到2.7.18
+* feat: 升级相关类库版本
+* feat: 删除多余代码、工具类
+
 ##### 1.2.3.20220414-RELEASE
 
 * feat: 升级springboot到2.6.6

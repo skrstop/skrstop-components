@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbProperties",
+      "sourceType": "com.zoe.framework.components.starter.mongodb.configuration.GlobalMongodbProperties",
       "name": "Mongodb配置",
-      "type": "com.zoe.framework.components.starter.mongodb.config.GlobalMongodbProperties"
+      "type": "com.zoe.framework.components.starter.mongodb.configuration.GlobalMongodbProperties"
     }
   ],
   "properties": [
@@ -11,7 +11,7 @@
       "name": "zoe.mongodb.config.map-package",
       "type": "java.lang.String",
       "description": "实体映射包地址.",
-      "defaultValue": "cn.zoe.business"
+      "defaultValue": "com.zoe.business"
     },
     {
       "name": "zoe.mongodb.config.apply-caps",

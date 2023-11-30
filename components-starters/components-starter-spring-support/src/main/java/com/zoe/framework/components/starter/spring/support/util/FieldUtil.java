@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -12,7 +13,8 @@ import java.lang.reflect.Field;
  * @see ReflectionUtils
  * @since 2017.01.22
  */
-public abstract class FieldUtil {
+@UtilityClass
+public class FieldUtil {
 
     /**
      * Get {@link Field} Value

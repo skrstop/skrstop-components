@@ -16,6 +16,8 @@
  */
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -25,7 +27,8 @@ import java.lang.reflect.Type;
  * @author 蒋时华
  * @since 0.1.1
  */
-public abstract class ClassUtil {
+@UtilityClass
+public class ClassUtil {
 
     public static <T> Class<T> resolveGenericType(Class<?> declaredClass) {
         ParameterizedType parameterizedType = (ParameterizedType) declaredClass.getGenericSuperclass();

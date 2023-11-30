@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -13,7 +14,8 @@ import java.util.Map;
  * @see PropertyValues
  * @since 2017.01.19
  */
-public abstract class PropertyValuesUtil {
+@UtilityClass
+public class PropertyValuesUtil {
 
     /**
      * Get Sub {@link PropertyValues} from {@link ConfigurableEnvironment}
@@ -24,11 +26,8 @@ public abstract class PropertyValuesUtil {
      */
     public static PropertyValues getSubPropertyValues(
             ConfigurableEnvironment environment, String prefix) {
-
         Map<String, Object> subProperties = PropertySourcesUtil.getSubProperties(environment.getPropertySources(), environment, prefix);
-
         PropertyValues subPropertyValues = new MutablePropertyValues(subProperties);
-
         return subPropertyValues;
     }
 }

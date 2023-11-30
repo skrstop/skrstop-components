@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.zoe.framework.components.starter.redis.config.GlobalRedisConfig",
+      "sourceType": "com.zoe.framework.components.starter.redis.configuration.GlobalRedisProperties",
       "name": "redis参数配置",
-      "type": "cn.zoe.framework.components.starter.redis.config.GlobalRedisConfig"
+      "type": "com.zoe.framework.components.starter.redis.configuration.GlobalRedisProperties"
     }
   ],
   "properties": [

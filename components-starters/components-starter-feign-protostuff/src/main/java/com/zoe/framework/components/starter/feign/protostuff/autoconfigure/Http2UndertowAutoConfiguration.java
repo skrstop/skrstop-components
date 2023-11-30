@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass({Undertow.class, UndertowOptions.class})
-@EnableConfigurationProperties(GlobalHttp2Config.class)
+@EnableConfigurationProperties(GlobalHttp2Properties.class)
 public class Http2UndertowAutoConfiguration {
 
 
@@ -31,9 +31,9 @@ public class Http2UndertowAutoConfiguration {
      * @return
      */
     @Bean
-    public UndertowServletWebServerFactory undertowServletWebServerFactory(GlobalHttp2Config globalHttp2Config) {
+    public UndertowServletWebServerFactory undertowServletWebServerFactory(GlobalHttp2Properties globalHttp2Properties) {
         UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
-        if (globalHttp2Config.getEnable()) {
+        if (globalHttp2Properties.getEnable()) {
             factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
         }
         return factory;

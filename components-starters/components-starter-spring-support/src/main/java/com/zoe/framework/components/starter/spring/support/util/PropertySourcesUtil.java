@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.core.env.*;
 
 import java.util.Iterator;
@@ -16,7 +17,8 @@ import static java.util.Collections.unmodifiableMap;
  * @see PropertySources
  * @since 2017.01.19
  */
-public abstract class PropertySourcesUtil {
+@UtilityClass
+public class PropertySourcesUtil {
 
     /**
      * Get Sub {@link Properties}

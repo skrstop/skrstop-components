@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.ftp.service.impl;
 
 import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpMode;
-import com.zoe.framework.components.starter.ftp.config.GlobalFtpConfig;
+import com.zoe.framework.components.starter.ftp.configuration.GlobalFtpProperties;
 import com.zoe.framework.components.starter.ftp.service.FtpService;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
@@ -18,28 +18,28 @@ import java.nio.charset.Charset;
 public class FtpServiceImpl implements FtpService {
 
     @Getter
-    private GlobalFtpConfig globalFtpConfig;
+    private GlobalFtpProperties globalFtpProperties;
     private Ftp ftp;
     @Getter
     private String path = "";
 
-    public FtpServiceImpl(GlobalFtpConfig globalFtpConfig) {
-        this.globalFtpConfig = globalFtpConfig;
+    public FtpServiceImpl(GlobalFtpProperties globalFtpProperties) {
+        this.globalFtpProperties = globalFtpProperties;
         try {
-            ftp = new Ftp(globalFtpConfig.getHost()
-                    , globalFtpConfig.getPort()
-                    , globalFtpConfig.getUsername()
-                    , globalFtpConfig.getPassword()
-                    , Charset.forName(globalFtpConfig.getCharset()));
+            ftp = new Ftp(globalFtpProperties.getHost()
+                    , globalFtpProperties.getPort()
+                    , globalFtpProperties.getUsername()
+                    , globalFtpProperties.getPassword()
+                    , Charset.forName(globalFtpProperties.getCharset()));
         } catch (Exception e) {
             throw new IllegalArgumentException("FTP连接失败");
         }
-        ftp.setMode(globalFtpConfig.getMode());
-        if (StrUtil.isNoneBlank(globalFtpConfig.getBasePath())) {
-            path += globalFtpConfig.getBasePath();
+        ftp.setMode(globalFtpProperties.getMode());
+        if (StrUtil.isNoneBlank(globalFtpProperties.getBasePath())) {
+            path += globalFtpProperties.getBasePath();
         }
-        if (StrUtil.isNoneBlank(globalFtpConfig.getUploadPath())) {
-            path += globalFtpConfig.getUploadPath();
+        if (StrUtil.isNoneBlank(globalFtpProperties.getUploadPath())) {
+            path += globalFtpProperties.getUploadPath();
         }
         if (StrUtil.isBlank(path)) {
             path = "/";
@@ -58,8 +58,8 @@ public class FtpServiceImpl implements FtpService {
     }
 
     @Override
-    public GlobalFtpConfig getFtpConfig() {
-        return this.globalFtpConfig;
+    public GlobalFtpProperties getFtpConfig() {
+        return this.globalFtpProperties;
     }
 
     @Override

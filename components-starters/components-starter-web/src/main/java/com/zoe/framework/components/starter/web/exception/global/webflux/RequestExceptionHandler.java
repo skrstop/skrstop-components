@@ -4,7 +4,7 @@ import com.zoe.framework.components.core.common.response.DefaultResult;
 import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.core.exception.core.BusinessServiceThrowable;
 import com.zoe.framework.components.core.exception.util.ThrowableStackTraceUtil;
-import com.zoe.framework.components.starter.web.config.GlobalExceptionConfig;
+import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.zoe.framework.components.starter.web.constant.RequestConst;
 import com.zoe.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern;
@@ -54,16 +54,16 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
 
     private final ExceptionHandleChainPattern exceptionHandleChainPattern;
     private final ErrorHandleChainPattern errorHandleChainPattern;
-    private final GlobalExceptionConfig globalExceptionConfig;
+    private final GlobalExceptionProperties globalExceptionProperties;
 
     private final String errorPath;
 
     public RequestExceptionHandler(ExceptionHandleChainPattern exceptionHandleChainPattern
             , ErrorHandleChainPattern errorHandleChainPattern
-            , GlobalExceptionConfig globalExceptionConfig, String errorPath) {
+            , GlobalExceptionProperties globalExceptionProperties, String errorPath) {
         this.exceptionHandleChainPattern = exceptionHandleChainPattern;
         this.errorHandleChainPattern = errorHandleChainPattern;
-        this.globalExceptionConfig = globalExceptionConfig;
+        this.globalExceptionProperties = globalExceptionProperties;
         this.errorPath = errorPath;
     }
 
@@ -129,9 +129,9 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
 
-        if (globalExceptionConfig != null
+        if (globalExceptionProperties != null
                 && e instanceof BusinessServiceThrowable
-                && !globalExceptionConfig.getShowBusinessServiceException()) {
+                && !globalExceptionProperties.getShowBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(exchange) && !this.skipErrorPath(exchange)) {
             ServerHttpRequest request = exchange.getRequest();

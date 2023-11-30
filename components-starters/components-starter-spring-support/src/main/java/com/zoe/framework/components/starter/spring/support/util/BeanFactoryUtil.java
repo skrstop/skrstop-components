@@ -17,6 +17,7 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
 import com.zoe.framework.components.util.value.data.ObjectUtil;
+import lombok.experimental.UtilityClass;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.util.CollectionUtils;
@@ -36,7 +37,8 @@ import static org.springframework.util.StringUtils.hasText;
  * @author 蒋时华
  * @since 1.0.2
  */
-public abstract class BeanFactoryUtil {
+@UtilityClass
+public class BeanFactoryUtil {
 
     /**
      * Get optional Bean

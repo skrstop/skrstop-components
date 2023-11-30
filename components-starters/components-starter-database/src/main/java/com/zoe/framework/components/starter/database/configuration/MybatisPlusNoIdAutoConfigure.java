@@ -17,7 +17,7 @@ import javax.sql.DataSource;
  * @date 2020-05-12 10:20:23
  */
 @Configuration
-@ConditionalOnMissingClass("com.zoe.framework.components.starter.id.service.IdGenerationService")
+@ConditionalOnMissingClass("com.zoe.framework.components.starter.id.service.IdService")
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
 public class MybatisPlusNoIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
 

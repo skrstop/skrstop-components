@@ -1,6 +1,7 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
 import com.zoe.framework.components.util.value.data.CollectionUtil;
+import lombok.experimental.UtilityClass;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
@@ -30,7 +31,8 @@ import static org.springframework.util.StringUtils.trimWhitespace;
  * @see Annotation
  * @since 2017.01.13
  */
-public abstract class AnnotationUtil {
+@UtilityClass
+public class AnnotationUtil {
 
     /**
      * The class name of AnnotatedElementUtils that is introduced since Spring Framework 4

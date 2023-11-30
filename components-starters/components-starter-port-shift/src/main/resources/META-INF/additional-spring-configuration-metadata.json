@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "cn.zoe.framework.components.starter.port.shift.config.GlobalPortConfig",
+      "sourceType": "com.zoe.framework.components.starter.port.shift.config.GlobalPortConfig",
       "name": "http参数配置",
-      "type": "cn.zoe.framework.components.starter.port.shift.config.GlobalPortConfig"
+      "type": "com.zoe.framework.components.starter.port.shift.config.GlobalPortConfig"
     }
   ],
   "properties": [

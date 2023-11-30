@@ -1,6 +1,6 @@
 package com.zoe.framework.components.starter.web.exception.global.webflux;
 
-import com.zoe.framework.components.starter.web.config.GlobalExceptionConfig;
+import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern;
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
 import org.springframework.beans.factory.ObjectProvider;
@@ -35,7 +35,7 @@ import java.util.List;
 @ConditionalOnClass({ErrorWebExceptionHandler.class, ViewResolver.class, ErrorWebExceptionHandler.class})
 @ConditionalOnProperty(value = "zoe.exception.config.enable", havingValue = "true", matchIfMissing = true)
 @AutoConfigureBefore(WebFluxAutoConfiguration.class)
-@EnableConfigurationProperties({WebFluxProperties.class, GlobalExceptionConfig.class})
+@EnableConfigurationProperties({WebFluxProperties.class, GlobalExceptionProperties.class})
 public class ExceptionAutoConfiguration {
 
     @Value("${server.error.path:${error.path:/error}}")
@@ -48,10 +48,10 @@ public class ExceptionAutoConfiguration {
             , ServerCodecConfigurer serverCodecConfigurer
             , ExceptionHandleChainPattern exceptionHandleChainPattern
             , ErrorHandleChainPattern errorHandleChainPattern
-            , GlobalExceptionConfig globalExceptionConfig) {
+            , GlobalExceptionProperties globalExceptionProperties) {
         RequestExceptionHandler requestExceptionHandler = new RequestExceptionHandler(exceptionHandleChainPattern
                 , errorHandleChainPattern
-                , globalExceptionConfig
+                , globalExceptionProperties
                 , errorPath);
         requestExceptionHandler.setViewResolvers(viewResolversProvider.getIfAvailable(Collections::emptyList));
         requestExceptionHandler.setMessageWriters(serverCodecConfigurer.getWriters());

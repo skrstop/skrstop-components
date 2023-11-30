@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerIntercept
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.zoe.framework.components.starter.database.config.GlobalDataConfig;
 import com.zoe.framework.components.starter.database.constant.DatabaseConst;
 import com.zoe.framework.components.starter.database.constant.GlobalConfigConst;
 import org.springframework.beans.factory.ObjectProvider;
@@ -33,7 +32,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
-@EnableConfigurationProperties(GlobalDataConfig.class)
+@EnableConfigurationProperties(GlobalDataProperties.class)
 public class MybatisPlusCommonAutoConfigure {
 
     /**
@@ -70,9 +69,9 @@ public class MybatisPlusCommonAutoConfigure {
      */
     @Bean
     @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
-    public MybatisPlusInterceptor mybatisPlusInterceptor(GlobalDataConfig globalDataConfig) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor(GlobalDataProperties globalDataProperties) {
         MybatisPlusInterceptor mybatisPlusInterceptor = this.commonInnerInterceptor();
-        if (globalDataConfig.getSqlHealthyCheck()) {
+        if (globalDataProperties.getSqlHealthyCheck()) {
             // sql性能插件
             IllegalSQLInnerInterceptor illegalSQLInnerInterceptor = new IllegalSQLInnerInterceptor();
             mybatisPlusInterceptor.addInnerInterceptor(illegalSQLInnerInterceptor);

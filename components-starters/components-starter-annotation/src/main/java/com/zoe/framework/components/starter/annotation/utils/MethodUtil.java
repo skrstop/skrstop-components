@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.annotation.utils;
 
+import lombok.experimental.UtilityClass;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -10,6 +11,7 @@ import java.lang.reflect.Method;
  * @author 蒋时华
  * @date 2020-05-19 14:01:33
  */
+@UtilityClass
 public class MethodUtil {
 
     public static Method getMethod(ProceedingJoinPoint joinPoint) throws NoSuchMethodException {

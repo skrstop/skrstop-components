@@ -8,9 +8,8 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-// @ConditionalOnBean({TomcatServletWebServerFactory.class})
 @ConditionalOnClass({TomcatServletWebServerFactory.class, Http2Protocol.class})
-@EnableConfigurationProperties(GlobalHttp2Config.class)
+@EnableConfigurationProperties(GlobalHttp2Properties.class)
 public class Http2TomcatAutoConfiguration implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
     @Override

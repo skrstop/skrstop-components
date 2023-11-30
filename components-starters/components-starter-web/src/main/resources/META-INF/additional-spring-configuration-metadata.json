@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "cn.zoe.framework.components.starter.web.config.GlobalResponseConfig",
+      "sourceType": "com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties",
       "name": "全局返回值处理",
-      "type": "cn.zoe.framework.components.starter.web.config.GlobalResponseConfig"
+      "type": "com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties"
     },
     {
-      "sourceType": "cn.zoe.framework.components.starter.web.config.GlobalExceptionConfig",
+      "sourceType": "com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties",
       "name": "全局异常处理",
-      "type": "cn.zoe.framework.components.starter.web.config.GlobalExceptionConfig"
+      "type": "com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties"
     }
   ],
   "properties": [

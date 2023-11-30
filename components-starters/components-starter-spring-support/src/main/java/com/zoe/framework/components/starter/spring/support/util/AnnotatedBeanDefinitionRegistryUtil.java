@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -26,8 +27,9 @@ import static org.springframework.util.ObjectUtils.nullSafeEquals;
  * @see BeanDefinition
  * @since 2017.01.09
  */
+@UtilityClass
 @Slf4j
-public abstract class AnnotatedBeanDefinitionRegistryUtil {
+public class AnnotatedBeanDefinitionRegistryUtil {
 
     /**
      * Is present bean that was registered by the specified {@link Annotation annotated} {@link Class

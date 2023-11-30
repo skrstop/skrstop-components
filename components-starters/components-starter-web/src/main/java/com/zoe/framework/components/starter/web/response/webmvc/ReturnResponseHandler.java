@@ -1,6 +1,6 @@
 package com.zoe.framework.components.starter.web.response.webmvc;
 
-import com.zoe.framework.components.starter.web.config.GlobalResponseConfig;
+import com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties;
 import com.zoe.framework.components.starter.web.response.DisableTransResultResponse;
 import com.zoe.framework.components.starter.web.response.NoGlobalResponse;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandleChainPattern;
@@ -26,12 +26,12 @@ import java.util.ArrayList;
 public class ReturnResponseHandler implements HandlerMethodReturnValueHandler {
 
     private final HandlerMethodReturnValueHandler delegate;
-    private final GlobalResponseConfig globalResponseConfig;
+    private final GlobalResponseProperties globalResponseProperties;
     private final ResponseHandleChainPattern responseHandleChainPattern;
 
-    public ReturnResponseHandler(HandlerMethodReturnValueHandler delegate, GlobalResponseConfig globalResponseConfig, ResponseHandleChainPattern responseHandleChainPattern) {
+    public ReturnResponseHandler(HandlerMethodReturnValueHandler delegate, GlobalResponseProperties globalResponseProperties, ResponseHandleChainPattern responseHandleChainPattern) {
         this.delegate = delegate;
-        this.globalResponseConfig = globalResponseConfig;
+        this.globalResponseProperties = globalResponseProperties;
         this.responseHandleChainPattern = responseHandleChainPattern;
     }
 
@@ -45,13 +45,13 @@ public class ReturnResponseHandler implements HandlerMethodReturnValueHandler {
                                   MethodParameter returnType,
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest) throws Exception {
-        if (globalResponseConfig == null || globalResponseConfig.getEnable()) {
+        if (globalResponseProperties == null || globalResponseProperties.getEnable()) {
             boolean validPath = false;
             try {
                 // 原request
                 HttpServletRequest nativeRequest = webRequest.getNativeRequest(HttpServletRequest.class);
                 // 当前路径包含在NotTransResultList的集合中，不进行全局替换。
-                validPath = UrlFilterUtil.valid(ObjectUtil.isNull(globalResponseConfig) ? new ArrayList<>() : globalResponseConfig.getNotTransResultList()
+                validPath = UrlFilterUtil.valid(ObjectUtil.isNull(globalResponseProperties) ? new ArrayList<>() : globalResponseProperties.getNotTransResultList()
                         , nativeRequest.getServletPath());
             } catch (Exception e) {
                 log.error("返回值处理异常：", e);
@@ -63,8 +63,8 @@ public class ReturnResponseHandler implements HandlerMethodReturnValueHandler {
                 // 判断是否支持feign
                 String useFeign = webRequest.getHeader(FeignConst.USE_FEIGN_NAME);
                 if (FeignConst.USE_FEIGN_VALUE.equals(useFeign)
-                        && ObjectUtil.isNotNull(globalResponseConfig)
-                        && !globalResponseConfig.getSupportFeign()) {
+                        && ObjectUtil.isNotNull(globalResponseProperties)
+                        && !globalResponseProperties.getSupportFeign()) {
                     // 不支持feign调用返回值的封装
                 } else {
                     DisableTransResultResponse disableTransResultResponseMethod = returnType.getMethod().getAnnotation(DisableTransResultResponse.class);

@@ -7,8 +7,8 @@ import com.mongodb.client.result.UpdateResult;
 import com.zoe.framework.components.core.common.response.page.CommonPageData;
 import com.zoe.framework.components.core.common.response.page.SimplePageInfo;
 import com.zoe.framework.components.core.exception.defined.illegal.NotSupportedException;
-import com.zoe.framework.components.starter.id.service.IdGenerationService;
-import com.zoe.framework.components.starter.mongodb.config.GlobalMongodbProperties;
+import com.zoe.framework.components.starter.id.service.IdService;
+import com.zoe.framework.components.starter.mongodb.configuration.GlobalMongodbProperties;
 import com.zoe.framework.components.starter.mongodb.constant.MongodbConst;
 import com.zoe.framework.components.starter.mongodb.entity.*;
 import com.zoe.framework.components.starter.mongodb.entity.expand.CreatorExpand;
@@ -62,7 +62,7 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
     @Autowired
     protected Datastore datastore;
     @Autowired(required = false)
-    protected IdGenerationService idGenerationService;
+    protected IdService idService;
     @Autowired
     private GlobalMongodbProperties globalMongodbProperties;
 
@@ -210,10 +210,10 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
         if (!this.isAutoSetId()) {
             return;
         }
-        if (ObjectUtil.isNotNull(idGenerationService)
+        if (ObjectUtil.isNotNull(idService)
                 && Long.class.isAssignableFrom(entityIdClass)
                 && ObjectUtil.isNull(entity.getId())) {
-            entity.setId(idGenerationService.getId());
+            entity.setId(idService.getId());
         } else if (String.class.isAssignableFrom(entityIdClass)
                 && StrUtil.isBlank((String) entity.getId())) {
             entity.setId(IdUtil.objectId());

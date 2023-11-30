@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -28,7 +29,8 @@ import static org.springframework.beans.factory.BeanFactoryUtils.beanOfTypeInclu
  * @since 2017.01.13
  */
 @Slf4j
-public abstract class BeanUtil {
+@UtilityClass
+public class BeanUtil {
 
     private static final String[] EMPTY_BEAN_NAMES = new String[0];
 

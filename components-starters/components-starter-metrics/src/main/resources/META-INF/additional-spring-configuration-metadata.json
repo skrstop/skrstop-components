@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.metrics.properties.MetricsProperties",
+      "sourceType": "com.zoe.framework.components.starter.metrics.configuration.MetricsProperties",
       "name": "metrics配置",
-      "type": "com.zoe.framework.components.starter.metrics.properties.MetricsProperties"
+      "type": "com.zoe.framework.components.starter.metrics.configuration.MetricsProperties"
     }
   ],
   "properties": [

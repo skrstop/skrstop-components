@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnClass(Feign.class)
 @AutoConfigureAfter(FeignAutoConfiguration.class)
 @ConditionalOnProperty(value = "feign.okhttp.enabled", havingValue = "true", matchIfMissing = false)
-@EnableConfigurationProperties({GlobalHttp2Config.class, FeignOkHttpProperties.class})
+@EnableConfigurationProperties({GlobalHttp2Properties.class, FeignOkHttpProperties.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class OkHttpAutoConfiguration {
 
@@ -71,14 +71,14 @@ public class OkHttpAutoConfiguration {
     public OkHttpClient client(OkHttpClientFactory httpClientFactory
             , ConnectionPool connectionPool
             , FeignOkHttpProperties okHttpProperties
-            , GlobalHttp2Config globalHttp2Config) {
+            , GlobalHttp2Properties globalHttp2Properties) {
         Boolean followRedirects = okHttpProperties.isFollowRedirects();
         Integer connectTimeout = okHttpProperties.getConnectionTimeout();
         Integer readTimeout = okHttpProperties.getReadTimeout();
         Integer writeTimeout = okHttpProperties.getWriteTimeout();
         Boolean disableSslValidation = okHttpProperties.isDisableSslValidation();
         List<Protocol> protocols = new ArrayList<>();
-        if (globalHttp2Config.getEnable()) {
+        if (globalHttp2Properties.getEnable()) {
             protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
         } else {
             protocols.add(Protocol.HTTP_1_1);

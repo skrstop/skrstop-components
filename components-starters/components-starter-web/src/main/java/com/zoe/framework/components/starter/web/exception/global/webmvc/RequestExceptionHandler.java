@@ -8,7 +8,7 @@ import com.zoe.framework.components.core.common.util.EnumCodeUtil;
 import com.zoe.framework.components.core.exception.common.CommonExceptionCode;
 import com.zoe.framework.components.core.exception.core.BusinessServiceThrowable;
 import com.zoe.framework.components.core.exception.util.ThrowableStackTraceUtil;
-import com.zoe.framework.components.starter.web.config.GlobalExceptionConfig;
+import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.zoe.framework.components.starter.web.constant.RequestConst;
 import com.zoe.framework.components.starter.web.exception.code.WebStarterExceptionCode;
 import com.zoe.framework.components.starter.web.exception.core.NotShowHttpStatusException;
@@ -71,21 +71,21 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 @ConditionalOnProperty(value = "zoe.exception.config.enable", havingValue = "true", matchIfMissing = true)
 @ConditionalOnClass({Servlet.class, DispatcherServlet.class, WebMvcAutoConfiguration.class, ResponseEntityExceptionHandler.class})
-@EnableConfigurationProperties({GlobalExceptionConfig.class})
+@EnableConfigurationProperties({GlobalExceptionProperties.class})
 @Slf4j
 public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final ExceptionHandleChainPattern exceptionHandleChainPattern;
     private final ErrorHandleChainPattern errorHandleChainPattern;
-    private final GlobalExceptionConfig globalExceptionConfig;
+    private final GlobalExceptionProperties globalExceptionProperties;
 
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath;
 
-    public RequestExceptionHandler(ExceptionHandleChainPattern exceptionHandleChainPattern, ErrorHandleChainPattern errorHandleChainPattern, GlobalExceptionConfig globalExceptionConfig) {
+    public RequestExceptionHandler(ExceptionHandleChainPattern exceptionHandleChainPattern, ErrorHandleChainPattern errorHandleChainPattern, GlobalExceptionProperties globalExceptionProperties) {
         this.exceptionHandleChainPattern = exceptionHandleChainPattern;
         this.errorHandleChainPattern = errorHandleChainPattern;
-        this.globalExceptionConfig = globalExceptionConfig;
+        this.globalExceptionProperties = globalExceptionProperties;
     }
 
     @Override
@@ -290,9 +290,9 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             , HttpServletResponse response
             , Exception e) {
 
-        if (globalExceptionConfig != null
+        if (globalExceptionProperties != null
                 && e instanceof BusinessServiceThrowable
-                && !globalExceptionConfig.getShowBusinessServiceException()) {
+                && !globalExceptionProperties.getShowBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(request) && !this.skipErrorPath(request)) {
             String requestPath, requestQueryPath, requestBodyName, requestBody;

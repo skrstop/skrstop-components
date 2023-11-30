@@ -16,6 +16,7 @@
  */
 package com.zoe.framework.components.starter.spring.support.util;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -31,7 +32,8 @@ import static org.springframework.util.StringUtils.hasText;
  * @since 1.0.3
  */
 @Slf4j
-public abstract class BeanRegistrarUtil {
+@UtilityClass
+public class BeanRegistrarUtil {
 
     /**
      * Register Infrastructure Bean

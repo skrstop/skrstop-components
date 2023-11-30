@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.zoe.framework.components.starter.id.service.IdGenerationService;
+import com.zoe.framework.components.starter.id.service.IdService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * @date 2020-05-12 10:20:23
  */
 @Configuration
-@ConditionalOnClass(name = "com.zoe.framework.components.starter.id.service.IdGenerationService")
+@ConditionalOnClass(name = "com.zoe.framework.components.starter.id.service.IdService")
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
 public class MybatisPlusIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
 
@@ -32,7 +32,7 @@ public class MybatisPlusIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
      */
     @Bean
     public SqlSessionFactory sqlSessionFactory1(DataSource dataSource
-            , IdGenerationService idGenerationService
+            , IdService idService
             , MybatisPlusInterceptor mybatisPlusInterceptor
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
@@ -40,12 +40,12 @@ public class MybatisPlusIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
         IdentifierGenerator identifierGenerator = new IdentifierGenerator() {
             @Override
             public Number nextId(Object entity) {
-                return idGenerationService.getId();
+                return idService.getId();
             }
 
             @Override
             public String nextUUID(Object entity) {
-                return idGenerationService.getUuidWithoutDash();
+                return idService.getUuidWithoutDash();
             }
         };
         this.initSqlSessionFactory(sqlSessionFactoryBean, identifierGenerator, mybatisPlusInterceptor);

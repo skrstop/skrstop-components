@@ -1,7 +1,7 @@
 package com.zoe.framework.components.starter.web.exception.global.webmvc;
 
 import com.zoe.framework.components.core.annotation.source.Snapshot;
-import com.zoe.framework.components.starter.web.config.GlobalExceptionConfig;
+import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -38,22 +38,22 @@ import java.util.stream.Collectors;
 @ConditionalOnClass({Servlet.class, DispatcherServlet.class})
 @ConditionalOnProperty(value = "zoe.exception.config.enable", havingValue = "true", matchIfMissing = true)
 @AutoConfigureBefore(WebMvcAutoConfiguration.class)
-@EnableConfigurationProperties({ServerProperties.class, WebMvcProperties.class, GlobalExceptionConfig.class})
+@EnableConfigurationProperties({ServerProperties.class, WebMvcProperties.class, GlobalExceptionProperties.class})
 public class ErrorMvcAutoConfiguration {
 
     private final ServerProperties serverProperties;
     private final DispatcherServletPath dispatcherServletPath;
     private final List<ErrorViewResolver> errorViewResolvers;
-    private final GlobalExceptionConfig globalExceptionConfig;
+    private final GlobalExceptionProperties globalExceptionProperties;
 
     public ErrorMvcAutoConfiguration(ServerProperties serverProperties,
                                      DispatcherServletPath dispatcherServletPath,
-                                     ObjectProvider<ErrorViewResolver> errorViewResolvers, GlobalExceptionConfig globalExceptionConfig) {
+                                     ObjectProvider<ErrorViewResolver> errorViewResolvers, GlobalExceptionProperties globalExceptionProperties) {
         this.serverProperties = serverProperties;
         this.dispatcherServletPath = dispatcherServletPath;
         this.errorViewResolvers = errorViewResolvers.orderedStream()
                 .collect(Collectors.toList());
-        this.globalExceptionConfig = globalExceptionConfig;
+        this.globalExceptionProperties = globalExceptionProperties;
     }
 
     @Bean

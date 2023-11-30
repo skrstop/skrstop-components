@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.annotation.config.AccessControlConfig",
+      "sourceType": "com.zoe.framework.components.starter.annotation.configutation.AccessControlProperties",
       "name": "访问控制参数配置",
-      "type": "com.zoe.framework.components.starter.annotation.config.AccessControlConfig"
+      "type": "com.zoe.framework.components.starter.annotation.configutation.AccessControlProperties"
     }
   ],
   "properties": [

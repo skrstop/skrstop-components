@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.zoe.framework.components.starter.id.autoconfig.IdServiceAutoConfig
+    com.zoe.framework.components.starter.id.configuration.IdServiceAutoConfiguration

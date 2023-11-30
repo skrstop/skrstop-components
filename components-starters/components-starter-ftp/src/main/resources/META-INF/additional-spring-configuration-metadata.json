@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.ftp.config.GlobalFtpConfig",
+      "sourceType": "com.zoe.framework.components.starter.ftp.configuration.GlobalFtpProperties",
       "name": "ftp服务配置",
-      "type": "com.zoe.framework.components.starter.ftp.config.GlobalFtpConfig"
+      "type": "com.zoe.framework.components.starter.ftp.configuration.GlobalFtpProperties"
     }
   ],
   "properties": [

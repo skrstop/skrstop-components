@@ -28,7 +28,6 @@ import java.util.List;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class ProtostuffReturnResponseHandlerAutoConfiguration implements InitializingBean {
 
-
     private final RequestMappingHandlerAdapter adapter;
     private List<Object> responseBodyAdvice = new ArrayList<>();
     private final ContentNegotiationManager contentNegotiationManager;
