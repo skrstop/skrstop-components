@@ -76,7 +76,7 @@
 
         <!-- dependencies  -->
         <lombok.version>1.18.30</lombok.version>
-        <slf4j-api.version>2.0.9</slf4j-api.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
         <log4j.version>2.22.0</log4j.version>
         <checker.version>3.40.0</checker.version>
 
@@ -92,13 +92,13 @@
         <!-- cache -->
         <cache-caffeine.version>3.1.8</cache-caffeine.version>
         <!-- mybatis -->
-        <mybatis.version>3.5.14</mybatis.version>
-        <mybatis-spring.version>3.0.3</mybatis-spring.version>
+        <mybatis.version>3.5.13</mybatis.version>
+        <mybatis-spring.version>2.1.1</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
-        <mybatis-plus-starter.version>3.5.4.1</mybatis-plus-starter.version>
-        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
-        <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
+        <mybatis-plus-starter.version>3.5.3.2</mybatis-plus-starter.version>
+        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
         <mybatis-fluent.version>1.9.9</mybatis-fluent.version>
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
@@ -145,8 +145,8 @@
         <swagger-annotations.version>2.2.19</swagger-annotations.version>
         <swagger-stater.version>2.0.2.RELEASE</swagger-stater.version>
         <!-- validation -->
-        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
-        <jakarta-validator.version>3.0.2</jakarta-validator.version>
+        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+        <jakarta-validator.version>2.0.2</jakarta-validator.version>
         <!-- dubbo -->
         <dubbo.version>3.2.9</dubbo.version>
         <!-- zk client -->
@@ -163,8 +163,8 @@
         <!-- msgpack -->
         <msgpack.version>0.9.6</msgpack.version>
         <!-- db driver -->
-        <db-driver-mysql.version>8.2.0</db-driver-mysql.version>
-        <db-driver-h2.version>2.2.2242</db-driver-h2.version>
+        <db-driver-mysql.version>8.0.33</db-driver-mysql.version>
+        <db-driver-h2.version>2.2.224</db-driver-h2.version>
         <!-- redis -->
         <lettuce.version>6.3.0.RELEASE</lettuce.version>
         <jedis.version>5.1.0</jedis.version>

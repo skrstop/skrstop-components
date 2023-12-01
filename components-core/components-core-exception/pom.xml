@@ -11,7 +11,7 @@
 
     <artifactId>components-core-exception</artifactId>
 
-    <name>Zoe Mix Micro-service Project Core Exception Module :: ${project.version}</name>
+    <name>Zoe Mix Micro-service Project Core Exception Module</name>
     <description>🏗 Zoe Mix Micro-service Core Exception Module</description>
 
     <dependencies>

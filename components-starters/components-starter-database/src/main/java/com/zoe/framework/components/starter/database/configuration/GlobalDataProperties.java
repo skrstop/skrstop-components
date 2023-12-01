@@ -24,4 +24,16 @@ public class GlobalDataProperties {
     /*** 是否开启sql健康检查 */
     private Boolean sqlHealthyCheck = false;
 
+    /*** mapper class 路径, 为空则不扫描，多个用逗号分割，可以使用{@link org.mybatis.spring.annotation.MapperScan} */
+    private String mapperClassLocation = "";
+
+    /*** mapper xml 路径 */
+    private String mapperXmlLocation = "classpath*:mapper/*.xml";
+
+    /*** 下划线转驼峰 */
+    private Boolean mapUnderscoreToCamelCase = true;
+
+    /*** 懒加载 */
+    private Boolean lazyLoadingEnabled = true;
+
 }

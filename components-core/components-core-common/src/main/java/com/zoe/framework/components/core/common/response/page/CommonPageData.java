@@ -27,7 +27,7 @@ public class CommonPageData<T> extends SerializableBean {
 
     public <R> CommonPageData<R> convert(Function<? super T, ? extends R> mapper) {
         CommonPageData<R> convertPage = new CommonPageData<>();
-        List<R> collect = (List) this.getData().stream().map(mapper).collect(Collectors.toList());
+        List<R> collect = this.getData().stream().map(mapper).collect(Collectors.toList());
         convertPage.setData(collect);
         convertPage.setPageInfo(this.pageInfo);
         return convertPage;

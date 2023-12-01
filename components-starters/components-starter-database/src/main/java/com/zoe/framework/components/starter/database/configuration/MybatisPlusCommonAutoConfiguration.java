@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zoe.framework.components.starter.database.constant.DatabaseConst;
-import com.zoe.framework.components.starter.database.constant.GlobalConfigConst;
+import com.zoe.framework.components.util.value.data.ObjectUtil;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -33,7 +33,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
 @EnableConfigurationProperties(GlobalDataProperties.class)
-public class MybatisPlusCommonAutoConfigure {
+public class MybatisPlusCommonAutoConfiguration {
 
     /**
      * 初始化 {@link MybatisSqlSessionFactoryBean}
@@ -45,6 +45,7 @@ public class MybatisPlusCommonAutoConfigure {
     protected void initSqlSessionFactory(MybatisSqlSessionFactoryBean sqlSessionFactoryBean
             , IdentifierGenerator identifierGenerator
             , MybatisPlusInterceptor mybatisPlusInterceptor
+            , GlobalDataProperties globalDataProperties
     ) throws Exception {
         // 不显示mp banner
         GlobalConfig globalConfig = new GlobalConfig();
@@ -54,12 +55,17 @@ public class MybatisPlusCommonAutoConfigure {
         sqlSessionFactoryBean.setGlobalConfig(globalConfig);
         // 扫描mapper.xml文件
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources(GlobalConfigConst.MAPPER_LOCATIONS);
+        Resource[] resources = resolver.getResources(globalDataProperties.getMapperXmlLocation());
         sqlSessionFactoryBean.setMapperLocations(resources);
         sqlSessionFactoryBean.setPlugins(mybatisPlusInterceptor);
+        if (ObjectUtil.isNull(sqlSessionFactoryBean.getObject())
+                || ObjectUtil.isNull(sqlSessionFactoryBean.getObject().getConfiguration())) {
+            return;
+        }
         // 下划线转驼峰
-        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
-        sqlSessionFactoryBean.getObject().getConfiguration().setLazyLoadingEnabled(true);
+        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(globalDataProperties.getMapUnderscoreToCamelCase());
+        // 懒加载
+        sqlSessionFactoryBean.getObject().getConfiguration().setLazyLoadingEnabled(globalDataProperties.getLazyLoadingEnabled());
     }
 
     /**
@@ -73,8 +79,8 @@ public class MybatisPlusCommonAutoConfigure {
         MybatisPlusInterceptor mybatisPlusInterceptor = this.commonInnerInterceptor();
         if (globalDataProperties.getSqlHealthyCheck()) {
             // sql性能插件
-            IllegalSQLInnerInterceptor illegalSQLInnerInterceptor = new IllegalSQLInnerInterceptor();
-            mybatisPlusInterceptor.addInnerInterceptor(illegalSQLInnerInterceptor);
+            IllegalSQLInnerInterceptor interceptor = new IllegalSQLInnerInterceptor();
+            mybatisPlusInterceptor.addInnerInterceptor(interceptor);
         }
         return mybatisPlusInterceptor;
     }
@@ -99,13 +105,7 @@ public class MybatisPlusCommonAutoConfigure {
         return interceptor;
     }
 
-//    @Bean
-//    public ConfigurationCustomizer configurationCustomizer() {
-//        return configuration -> configuration.setUseDeprecatedExecutor(false);
-//    }
-
     @Bean(DatabaseConst.TRANSACTION_NAME)
-//    @ConditionalOnSingleCandidate(DataSource.class)
     @ConditionalOnMissingBean(DataSourceTransactionManager.class)
     DataSourceTransactionManager transactionManager(DataSource dataSource,
                                                     ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {

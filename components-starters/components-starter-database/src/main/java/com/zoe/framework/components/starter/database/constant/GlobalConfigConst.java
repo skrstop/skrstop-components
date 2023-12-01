@@ -10,6 +10,7 @@ public interface GlobalConfigConst {
 
     String DATABASE_PREFIX = "zoe.database.config";
 
-    String MAPPER_LOCATIONS = "classpath*:mapper/*.xml";
+    String DATABASE_CONFIG_CHECK_DRUID_USE_SELECT1 = DATABASE_PREFIX + ".checkDruidUseSelect1";
+    String DATABASE_CONFIG_CLASS_CLASS_LOCATION = DATABASE_PREFIX + ".mapper-class-location";
 
 }

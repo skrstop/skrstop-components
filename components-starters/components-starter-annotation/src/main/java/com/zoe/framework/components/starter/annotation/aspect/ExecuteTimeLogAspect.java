@@ -1,6 +1,7 @@
 package com.zoe.framework.components.starter.annotation.aspect;
 
 import com.zoe.framework.components.starter.annotation.ExecuteTimeLog;
+import com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties;
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Scope;
@@ -24,12 +26,15 @@ import java.lang.reflect.Method;
  * @date 2019/4/3
  */
 @ConditionalOnClass(Aspect.class)
-@EnableConfigurationProperties
+@EnableConfigurationProperties(AnnotationProperties.class)
 @Scope
 @Aspect
 @Order
 @Slf4j
 public class ExecuteTimeLogAspect {
+
+    @Autowired
+    private AnnotationProperties annotationProperties;
 
     /*** 执行耗时 */
     @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.ExecuteTimeLog)")
@@ -54,6 +59,10 @@ public class ExecuteTimeLogAspect {
         long execTimeMillis = System.currentTimeMillis() - startTimeMillis;
         if (StrUtil.isNotBlank(value)) {
             value = value + StringPoolConst.SPACE + StringPoolConst.DASH + StringPoolConst.SPACE;
+        }
+        if (annotationProperties.getExecuteTimeLog().getLogLevelInfo()) {
+            log.info("{} 执行方法：{}.{} , 执行耗时：{} ms", value, className, methodName, execTimeMillis);
+            return result;
         }
         log.debug("{} 执行方法：{}.{} , 执行耗时：{} ms", value, className, methodName, execTimeMillis);
         return result;

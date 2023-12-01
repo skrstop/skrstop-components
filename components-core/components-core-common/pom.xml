@@ -11,7 +11,7 @@
 
     <artifactId>components-core-common</artifactId>
 
-    <name>Zoe Mix Micro-service Project Core common Module :: ${project.version}</name>
+    <name>Zoe Mix Micro-service Project Core common Module</name>
     <description>🏗 Zoe Mix Micro-service Core common Module</description>
 
     <dependencies>

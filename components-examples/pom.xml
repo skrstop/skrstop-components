@@ -13,10 +13,11 @@
     <artifactId>components-examples</artifactId>
     <packaging>pom</packaging>
 
-    <name>Zoe Mix Micro-service Project Examples Module :: ${project.version}</name>
+    <name>Zoe Mix Micro-service Project Examples Module</name>
     <description>🏗 Zoe Mix Micro-service Examples Module</description>
 
     <modules>
+        <module>components-example-starters-simple</module>
     </modules>
 
     <properties>
@@ -24,16 +25,22 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>com.zoe.framework</groupId>
+                <artifactId>components-example-starters</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zoe.framework</groupId>
+                <artifactId>components-project</artifactId>
+                <version>${framework.components.revision}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

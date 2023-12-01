@@ -8,6 +8,6 @@ package com.zoe.framework.components.starter.annotation.constant;
  */
 public interface GlobalConfigConst {
 
-    String ACCESS_CONTROL_PREFIX = "zoe.annotation.access.controller";
+    String ANNOTATION_PREFIX = "zoe.annotation.config";
 
 }

@@ -43,33 +43,34 @@ public class PortShiftAutoConfiguration {
             ServerProperties serverProperties,
             GlobalPortConfig globalPortConfig) {
         return factory -> {
-            if (globalPortConfig.getEnable()) {
-                int basePort = serverProperties.getPort();
-                String portArea = globalPortConfig.getPortArea();
-                if (StrUtil.isNotBlank(portArea)) {
-
-                    List<String> split = StrUtil.split(portArea, StringPoolConst.DASH);
-                    if (split.size() == 2) {
-                        String minPortStr = split.get(0);
-                        String maxPortStr = split.get(1);
-                        if (NumberUtil.isNumber(minPortStr)
-                                && NumberUtil.isNumber(maxPortStr)) {
-                            int minPort = NumberUtil.toInt(minPortStr);
-                            int maxPort = NumberUtil.toInt(maxPortStr);
-                            if (maxPort >= minPort && minPort >= 0) {
-                                if (basePort < minPort || basePort > maxPort) {
-                                    basePort = minPort;
-                                }
-                                factory.setPort(PortUtil.getServerSocketFromBasePort(basePort, minPort, maxPort));
-                                return;
+            if (!globalPortConfig.getEnable()) {
+                return;
+            }
+            int basePort = serverProperties.getPort();
+            String portArea = globalPortConfig.getPortArea();
+            if (StrUtil.isNotBlank(portArea)) {
+                List<String> split = StrUtil.split(portArea, StringPoolConst.DASH);
+                if (split.size() == 2) {
+                    String minPortStr = split.get(0);
+                    String maxPortStr = split.get(1);
+                    if (NumberUtil.isNumber(minPortStr) && NumberUtil.isNumber(maxPortStr)) {
+                        int minPort = NumberUtil.toInt(minPortStr);
+                        int maxPort = NumberUtil.toInt(maxPortStr);
+                        if (maxPort >= minPort && minPort >= 0) {
+                            if (basePort < minPort || basePort > maxPort) {
+                                basePort = minPort;
                             }
+                            factory.setPort(PortUtil.getServerSocketFromBasePort(basePort, minPort, maxPort));
+                            return;
                         }
                     }
-
                 }
-                factory.setPort(PortUtil.getServerSocketFromBasePort(basePort));
             }
-
+            int serverSocketFromBasePort = PortUtil.getServerSocketFromBasePort(basePort);
+            if (serverSocketFromBasePort != basePort) {
+                log.info("[zoe] Port shift from {} to {}", basePort, serverSocketFromBasePort);
+            }
+            factory.setPort(serverSocketFromBasePort);
         };
     }
 

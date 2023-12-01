@@ -1,7 +1,7 @@
 package com.zoe.framework.components.starter.annotation.aspect;
 
 import com.zoe.framework.components.starter.annotation.AccessControl;
-import com.zoe.framework.components.starter.annotation.configutation.AccessControlProperties;
+import com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties;
 import com.zoe.framework.components.starter.annotation.exception.ControllerDeprecatedException;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * @date 2019/4/3
  */
 @ConditionalOnClass(Aspect.class)
-@EnableConfigurationProperties(AccessControlProperties.class)
+@EnableConfigurationProperties(AnnotationProperties.class)
 @Scope
 @Aspect
 @Order(1)
@@ -39,7 +39,7 @@ public class AccessControlAspect {
     }
 
     @Autowired
-    private AccessControlProperties accessControlProperties;
+    private AnnotationProperties annotationProperties;
 
     /**
      * @param joinPoint
@@ -58,7 +58,7 @@ public class AccessControlAspect {
         //获取注解信息
         AccessControl annotation = currentMethod.getAnnotation(AccessControl.class);
         String alias = annotation.alias();
-        if (StrUtil.isBlank(alias) || !CollectionUtil.contains(accessControlProperties.getReleaseAlias(), alias)) {
+        if (StrUtil.isBlank(alias) || !CollectionUtil.contains(annotationProperties.getAccessControl().getReleaseAlias(), alias)) {
             String message = annotation.message();
             throw new ControllerDeprecatedException(message);
         }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.zoe.framework</groupId>
+        <artifactId>components-examples</artifactId>
+        <version>1.2.4.20231128-RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>components-example-starters-simple</artifactId>
+
+    <name>Zoe Mix Micro-service Project Examples Starters Module</name>
+    <description>🏗 Zoe Mix Micro-service Examples Starters Module</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-port-shift</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-banner</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-database</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-id</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

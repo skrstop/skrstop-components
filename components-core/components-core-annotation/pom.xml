@@ -11,7 +11,7 @@
 
     <artifactId>components-core-annotation</artifactId>
 
-    <name>Zoe Mix Micro-service Project Core annotation Module :: ${project.version}</name>
+    <name>Zoe Mix Micro-service Project Core annotation Module</name>
     <description>🏗 Zoe Mix Micro-service Core annotation Module</description>
 
     <dependencies>

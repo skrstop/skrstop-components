@@ -8,6 +8,7 @@ import com.zoe.framework.components.starter.id.service.IdService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +21,8 @@ import javax.sql.DataSource;
 @Configuration
 @ConditionalOnClass(name = "com.zoe.framework.components.starter.id.service.IdService")
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
-public class MybatisPlusIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
+@EnableConfigurationProperties(GlobalDataProperties.class)
+public class MybatisPlusIdAutoConfiguration extends MybatisPlusCommonAutoConfiguration {
 
     /**
      * 自定义 sqlSessionFactory
@@ -34,6 +36,7 @@ public class MybatisPlusIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
     public SqlSessionFactory sqlSessionFactory1(DataSource dataSource
             , IdService idService
             , MybatisPlusInterceptor mybatisPlusInterceptor
+            , GlobalDataProperties globalDataProperties
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
@@ -48,7 +51,7 @@ public class MybatisPlusIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
                 return idService.getUuidWithoutDash();
             }
         };
-        this.initSqlSessionFactory(sqlSessionFactoryBean, identifierGenerator, mybatisPlusInterceptor);
+        this.initSqlSessionFactory(sqlSessionFactoryBean, identifierGenerator, mybatisPlusInterceptor, globalDataProperties);
         return sqlSessionFactoryBean.getObject();
     }
 

@@ -29,7 +29,7 @@
         <module>components-util-db</module>
     </modules>
 
-    <name>Zoe Mix Micro-service Project Utils Module :: ${project.version}</name>
+    <name>Zoe Mix Micro-service Project Utils Module</name>
     <description>🏗 Zoe Mix Micro-service Utils Module</description>
 
     <properties>

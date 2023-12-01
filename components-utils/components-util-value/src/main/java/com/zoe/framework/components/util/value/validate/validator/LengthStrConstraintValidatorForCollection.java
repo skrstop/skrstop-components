@@ -5,9 +5,9 @@ import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StringLengthUtil;
 import com.zoe.framework.components.util.value.validate.annotation.LengthSize;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.util.Collection;
 
 /**

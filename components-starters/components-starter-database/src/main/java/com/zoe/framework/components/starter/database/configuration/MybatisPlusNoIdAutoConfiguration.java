@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +20,8 @@ import javax.sql.DataSource;
 @Configuration
 @ConditionalOnMissingClass("com.zoe.framework.components.starter.id.service.IdService")
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
-public class MybatisPlusNoIdAutoConfigure extends MybatisPlusCommonAutoConfigure {
+@EnableConfigurationProperties(GlobalDataProperties.class)
+public class MybatisPlusNoIdAutoConfiguration extends MybatisPlusCommonAutoConfiguration {
 
     /**
      * 自定义 sqlSessionFactory
@@ -33,11 +35,12 @@ public class MybatisPlusNoIdAutoConfigure extends MybatisPlusCommonAutoConfigure
     public SqlSessionFactory sqlSessionFactory2(
             DataSource dataSource
             , MybatisPlusInterceptor mybatisPlusInterceptor
+            , GlobalDataProperties globalDataProperties
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         DefaultIdentifierGenerator defaultIdentifierGenerator = new DefaultIdentifierGenerator(1, 1);
-        this.initSqlSessionFactory(sqlSessionFactoryBean, defaultIdentifierGenerator, mybatisPlusInterceptor);
+        this.initSqlSessionFactory(sqlSessionFactoryBean, defaultIdentifierGenerator, mybatisPlusInterceptor, globalDataProperties);
         return sqlSessionFactoryBean.getObject();
     }
 

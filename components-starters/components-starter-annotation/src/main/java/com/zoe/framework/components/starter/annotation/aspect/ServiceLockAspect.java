@@ -1,5 +1,7 @@
 package com.zoe.framework.components.starter.annotation.aspect;
 
+import com.zoe.framework.components.core.common.response.common.CommonResultCode;
+import com.zoe.framework.components.core.exception.ZoeRuntimeException;
 import com.zoe.framework.components.starter.annotation.ServiceLock;
 import com.zoe.framework.components.starter.annotation.utils.MethodUtil;
 import com.zoe.framework.components.util.enums.CharSetEnum;
@@ -17,6 +19,7 @@ import org.springframework.util.DigestUtils;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -52,23 +55,38 @@ public class ServiceLockAspect {
         //获取注解信息
         ServiceLock annotation = method.getAnnotation(ServiceLock.class);
         // 获取注解每秒加入桶中的token
-        String lockId = annotation.lockId();
-        if (StrUtil.isNotBlank(lockId)) {
-            functionName = lockId;
+        String lockKey = annotation.lockId();
+        boolean fastFail = annotation.fastFail();
+        if (StrUtil.isBlank(lockKey)) {
+            lockKey = functionName;
         }
-        log.debug("function:{}, lockId:{}, 开启同步锁", methodStr, lockId);
+        log.debug("function:{}, lockId:{}, 开启同步锁", methodStr, annotation.lockId());
         Object obj;
         Lock lock;
-        if (!lockMap.containsKey(functionName)) {
-            lockMap.put(functionName, new ReentrantLock(true));
+        if (!lockMap.containsKey(lockKey)) {
+            lockMap.put(lockKey, new ReentrantLock(true));
         }
-        lock = lockMap.get(functionName);
-        lock.lock();
+        lock = lockMap.get(lockKey);
+        if (lock.tryLock(annotation.timeoutMs(), TimeUnit.MILLISECONDS)) {
+            try {
+                obj = joinPoint.proceed();
+            } finally {
+                lock.unlock();
+            }
+            return obj;
+        }
+        if (fastFail) {
+            // 获取锁失败
+            throw new ZoeRuntimeException(CommonResultCode.BUSY);
+        }
         try {
+            // wait
+            lock.lock();
             obj = joinPoint.proceed();
         } finally {
             lock.unlock();
         }
         return obj;
+
     }
 }

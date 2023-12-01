@@ -1,12 +1,12 @@
 package com.zoe.framework.components.starter.feign.protostuff.interceptor;
 
 import feign.RequestTemplate;
-import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 /**

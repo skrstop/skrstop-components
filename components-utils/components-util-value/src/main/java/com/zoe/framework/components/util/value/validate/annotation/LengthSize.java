@@ -3,9 +3,9 @@ package com.zoe.framework.components.util.value.validate.annotation;
 import com.zoe.framework.components.util.value.validate.validator.LengthStrConstraintValidatorForCollection;
 import com.zoe.framework.components.util.value.validate.validator.LengthStrConstraintValidatorForObj;
 import com.zoe.framework.components.util.value.validate.validator.LengthStrConstraintValidatorForString;
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

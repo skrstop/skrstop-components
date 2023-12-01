@@ -10,36 +10,36 @@ import com.zoe.framework.components.core.exception.core.ServiceDataZoeThrowable;
  * @author 蒋时华
  * @date 2020-06-03 18:29:40
  */
-public class ZoeBusinessServiceException extends ZoeRuntimeException implements BusinessServiceThrowable, ServiceDataZoeThrowable {
+public class ZoeRuntimeDataException extends ZoeRuntimeException implements BusinessServiceThrowable, ServiceDataZoeThrowable {
 
-    public ZoeBusinessServiceException() {
+    public ZoeRuntimeDataException() {
     }
 
-    public ZoeBusinessServiceException(String message) {
+    public ZoeRuntimeDataException(String message) {
         super(message);
     }
 
-    public ZoeBusinessServiceException(Throwable throwable) {
+    public ZoeRuntimeDataException(Throwable throwable) {
         super(throwable);
     }
 
-    public ZoeBusinessServiceException(String message, Throwable throwable) {
+    public ZoeRuntimeDataException(String message, Throwable throwable) {
         super(message, throwable);
     }
 
-    public ZoeBusinessServiceException(IResult IResult) {
+    public ZoeRuntimeDataException(IResult IResult) {
         super(IResult);
     }
 
-    public ZoeBusinessServiceException(IResult IResult, Throwable throwable) {
+    public ZoeRuntimeDataException(IResult IResult, Throwable throwable) {
         super(IResult, throwable);
     }
 
-    public ZoeBusinessServiceException(IResult IResult, String message) {
+    public ZoeRuntimeDataException(IResult IResult, String message) {
         super(IResult, message);
     }
 
-    public ZoeBusinessServiceException(IResult IResult, String message, Throwable throwable) {
+    public ZoeRuntimeDataException(IResult IResult, String message, Throwable throwable) {
         super(IResult, message, throwable);
     }
 

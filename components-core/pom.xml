@@ -13,7 +13,7 @@
     <artifactId>components-core</artifactId>
     <packaging>pom</packaging>
 
-    <name>Zoe Mix Micro-service Project Core Module :: ${project.version}</name>
+    <name>Zoe Mix Micro-service Project Core Module</name>
     <description>🏗 Zoe Mix Micro-service Core Module</description>
 
     <modules>

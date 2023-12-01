@@ -58,7 +58,7 @@ public class AccessLimitAspect {
 
         Object obj = null;
         RateLimiter rateLimiter;
-        //获取rateLimiter
+        // 获取rateLimiter
         if (limitMap.containsKey(functionName)) {
             rateLimiter = limitMap.get(functionName);
             double rate = rateLimiter.getRate();

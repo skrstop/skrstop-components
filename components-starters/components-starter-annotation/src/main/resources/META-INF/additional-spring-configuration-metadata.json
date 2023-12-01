@@ -1,16 +1,22 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.annotation.configutation.AccessControlProperties",
+      "sourceType": "com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties",
       "name": "访问控制参数配置",
-      "type": "com.zoe.framework.components.starter.annotation.configutation.AccessControlProperties"
+      "type": "com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.annotation.access.controller.release-alias",
+      "name": "zoe.annotation.config.access-controller.release-alias",
       "type": "java.util.List",
       "description": "放行的别名列表."
+    },
+    {
+      "name": "zoe.annotation.config.execute-time-log.log-level-info",
+      "type": "java.lang.Boolean",
+      "description": "log日志级别为:info, 否则为:debug.",
+      "defaultValue": "true"
     }
   ]
 }

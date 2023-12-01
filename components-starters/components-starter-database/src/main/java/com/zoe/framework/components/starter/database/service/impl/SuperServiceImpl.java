@@ -23,12 +23,12 @@ import com.zoe.framework.components.starter.database.utils.SuperParamsUtil;
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
