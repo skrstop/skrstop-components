@@ -19,7 +19,6 @@
         <module>components-utils</module>
         <module>components-starters</module>
         <module>components-extra</module>
-        <module>components-examples</module>
     </modules>
 
     <name>Zoe Mix Micro-service Components :: parent</name>
