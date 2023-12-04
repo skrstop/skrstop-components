@@ -19,7 +19,6 @@
         <module>components-utils</module>
         <module>components-starters</module>
         <module>components-extra</module>
-        <module>components-examples</module>
     </modules>
 
     <name>Zoe Mix Micro-service Components :: parent</name>
@@ -47,9 +46,9 @@
 
     <properties>
         <!-- 项目版本 -->
-        <framework.components.revision>1.2.4.20231128-RELEASE</framework.components.revision>
+        <framework.components.revision>1.3.1.20231204-RELEASE</framework.components.revision>
 
-        <java.version>11</java.version>
+        <java.version>17</java.version>
 
         <!-- Deploy Properties -->
         <maven.deploy.skip>false</maven.deploy.skip>
@@ -85,20 +84,20 @@
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <!-- cache -->
         <cache-caffeine.version>3.1.8</cache-caffeine.version>
         <!-- mybatis -->
-        <mybatis.version>3.5.13</mybatis.version>
-        <mybatis-spring.version>2.1.1</mybatis-spring.version>
+        <mybatis.version>3.5.14</mybatis.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
-        <mybatis-plus-starter.version>3.5.3.2</mybatis-plus-starter.version>
-        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
-        <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
+        <mybatis-plus-starter.version>3.5.4.1</mybatis-plus-starter.version>
+        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
         <mybatis-fluent.version>1.9.9</mybatis-fluent.version>
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
@@ -145,8 +144,8 @@
         <swagger-annotations.version>2.2.19</swagger-annotations.version>
         <swagger-stater.version>2.0.2.RELEASE</swagger-stater.version>
         <!-- validation -->
-        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
-        <jakarta-validator.version>2.0.2</jakarta-validator.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <jakarta-validator.version>3.0.2</jakarta-validator.version>
         <!-- dubbo -->
         <dubbo.version>3.2.9</dubbo.version>
         <!-- zk client -->
@@ -283,14 +282,14 @@
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <!-- http -->
         <async-http-client.version>2.12.3</async-http-client.version>
-        <mica-http.version>2.7.17.1</mica-http.version>
+        <mica-http.version>3.1.5.1</mica-http.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <okhttp-feign.version>11.10</okhttp-feign.version>
+        <okhttp-feign.version>13.1</okhttp-feign.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <httpclient-feign.version>11.10</httpclient-feign.version>
+        <httpclient-feign.version>13.1</httpclient-feign.version>
         <httpclient5.version>5.2.2</httpclient5.version>
-        <httpclient5-feign.version>11.10</httpclient5-feign.version>
-        <hystrix-feign.version>11.10</hystrix-feign.version>
+        <httpclient5-feign.version>13.1</httpclient5-feign.version>
+        <hystrix-feign.version>13.1</hystrix-feign.version>
         <retrofit.version>2.9.0</retrofit.version>
         <!-- platform-bom -->
         <platform-bom.version>Cairo-SR8</platform-bom.version>
