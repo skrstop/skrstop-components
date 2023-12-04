@@ -1,7 +1,10 @@
 package com.zoe.framework.components.example.starters.controller;
 
+import com.zoe.framework.components.example.starters.constant.ProcessorContainerNameConst;
 import com.zoe.framework.components.example.starters.entity.response.ExamplePrivacyInfo;
+import com.zoe.framework.components.example.starters.service.ExampleProcessorService;
 import com.zoe.framework.components.starter.annotation.anno.aspect.*;
+import com.zoe.framework.components.starter.annotation.handle.server.processor.ProcessorContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Validated
 public class ExampleAnnotationController {
+
 
     /**
      * 动态接口访问开关注解
@@ -96,6 +100,23 @@ public class ExampleAnnotationController {
                 .other3(false)
                 .other4(LocalDateTime.now())
                 .build();
+    }
+
+    /**
+     * {@link @SProcessor} 注解使用， 用来尽量简化简单的策略模式
+     *
+     * @return
+     */
+    @GetMapping("/exampleAnnotationProcessor")
+    public void exampleAnnotationProcessor() {
+        ExampleProcessorService processor1 = ProcessorContext.getProcessorOne(ProcessorContainerNameConst.PROCESSOR_POOL, "processor2Class", ExampleProcessorService.class);
+        System.out.println(processor1.print());
+
+        ExampleProcessorService processor = ProcessorContext.getProcessorOneWithoutDefault(ProcessorContainerNameConst.PROCESSOR_POOL, "processor1", ExampleProcessorService.class);
+        System.out.println(processor.print());
+
+        ExampleProcessorService defaultProcessor = ProcessorContext.getProcessorOneDefault(ProcessorContainerNameConst.PROCESSOR_POOL, "use default", ExampleProcessorService.class);
+        System.out.println(defaultProcessor.print());
     }
 
 }

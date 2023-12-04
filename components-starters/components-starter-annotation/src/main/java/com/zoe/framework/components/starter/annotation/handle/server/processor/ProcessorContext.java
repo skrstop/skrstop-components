@@ -141,8 +141,8 @@ public class ProcessorContext {
                 break;
             }
         }
-        if (ObjectUtil.isNull(result) && !containDefault) {
-            throw new ProcessorException();
+        if (ObjectUtil.isNotNull(result) && !containDefault) {
+            return result.getProcessor();
         }
         // 寻找默认处理器
         for (ProcessorEntity processorEntity : processorContainer.getProcessorEntitiesDefault()) {

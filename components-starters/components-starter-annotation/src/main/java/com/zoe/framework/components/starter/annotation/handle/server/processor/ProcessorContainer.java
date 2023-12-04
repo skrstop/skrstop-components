@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * @author 蒋时华
@@ -21,9 +20,9 @@ import java.util.stream.Collectors;
 public class ProcessorContainer extends SerializableBean {
     private static final long serialVersionUID = -3013768037305729417L;
 
-    private List<ProcessorEntity> processorEntities;
-    private List<ProcessorEntity> processorEntitiesDefault;
-    private ConcurrentHashMap<String, ProcessorEntity> processorEntitiesKey;
+    private final List<ProcessorEntity> processorEntities;
+    private final List<ProcessorEntity> processorEntitiesDefault;
+    private final ConcurrentHashMap<String, ProcessorEntity> processorEntitiesKey;
 
     public ProcessorContainer() {
         this.processorEntities = new ArrayList<>();
@@ -33,12 +32,8 @@ public class ProcessorContainer extends SerializableBean {
 
     public void init() {
         // init sort
-        processorEntities = processorEntities.stream()
-                .sorted(Comparator.comparingInt(ProcessorEntity::getOrdered))
-                .collect(Collectors.toList());
-        processorEntitiesDefault = processorEntitiesDefault.stream()
-                .sorted(Comparator.comparingInt(ProcessorEntity::getOrdered))
-                .collect(Collectors.toList());
+        processorEntities.sort(Comparator.comparingInt(ProcessorEntity::getOrdered));
+        processorEntitiesDefault.sort(Comparator.comparingInt(ProcessorEntity::getOrdered));
     }
 
 }

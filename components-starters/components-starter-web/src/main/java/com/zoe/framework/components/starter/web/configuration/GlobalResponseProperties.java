@@ -51,7 +51,7 @@ public class GlobalResponseProperties {
 
     public GlobalResponseProperties() {
         this.enable = true;
-        this.showNullValue = false;
+        this.showNullValue = true;
         this.supportFeign = true;
         this.longToString = true;
         this.dateTimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;

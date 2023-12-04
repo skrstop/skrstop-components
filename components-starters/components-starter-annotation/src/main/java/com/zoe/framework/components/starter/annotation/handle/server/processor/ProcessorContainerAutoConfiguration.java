@@ -40,20 +40,30 @@ public class ProcessorContainerAutoConfiguration implements ApplicationContextAw
         }
         ConcurrentHashMap<String, ProcessorContainer> constainers = ProcessorContext.getConstainers();
         for (SProcessor sProcessor : sProcessors) {
+            // 容器名
             String containerName = sProcessor.containerName().trim();
             if (StrUtil.isBlank(containerName)) {
                 containerName = DEFAULT_CONTAINERS_NAME;
             }
+            // 处理器名
             ProcessorContainer container = constainers.get(containerName);
             if (ObjectUtil.isNull(container)) {
                 container = new ProcessorContainer();
                 constainers.put(containerName, container);
             }
-            String key = StrUtil.isBlank(sProcessor.key()) ? beanName : sProcessor.key();
+            // 未设置处理器名字，默认使用beanName
+            String key = StrUtil.isBlank(sProcessor.processorName()) ? beanName : sProcessor.processorName();
             ProcessorAssert processorAssert = null;
             if (StrUtil.isNotBlank(sProcessor.assertBeanName()) && ObjectUtil.isNotNull(applicationContext)) {
                 // 获取容器中的bean
-                Object assertBean = applicationContext.getBean(sProcessor.assertBeanName());
+                Object assertBean = null;
+                if (beanName.equals(sProcessor.assertBeanName())) {
+                    // 处理类中实现了断言类
+                    assertBean = bean;
+                } else {
+                    // 获取容器中的bean
+                    assertBean = applicationContext.getBean(sProcessor.assertBeanName());
+                }
                 if (ObjectUtil.isNull(assertBean)) {
                     throw new ZoeRuntimeException("容器："
                             + containerName
@@ -72,8 +82,14 @@ public class ProcessorContainerAutoConfiguration implements ApplicationContextAw
             } else if (ObjectUtil.isNotNull(sProcessor.assertBeanClass())
                     && ObjectUtil.isNotNull(applicationContext)
                     && !void.class.equals(sProcessor.assertBeanClass())) {
-                // 获取容器中的bean
-                Object assertBean = applicationContext.getBean(sProcessor.assertBeanClass());
+                Object assertBean = null;
+                if (bean.getClass().equals(sProcessor.assertBeanClass())) {
+                    // 处理类中实现了断言类
+                    assertBean = bean;
+                } else {
+                    // 获取容器中的bean
+                    assertBean = applicationContext.getBean(sProcessor.assertBeanClass());
+                }
                 if (ObjectUtil.isNull(assertBean)) {
                     throw new ZoeRuntimeException("容器："
                             + containerName
@@ -93,7 +109,6 @@ public class ProcessorContainerAutoConfiguration implements ApplicationContextAw
                 Class<? extends ProcessorAssert> processAssertClass = sProcessor.assertClass();
                 if (ObjectUtil.isNull(processAssertClass)) {
                     processAssertClass = DefaultAssert.class;
-//                throw new ZoeRuntimeException("容器：" + containerName + " 处理器：" + key + " 未指定断言，请检查！！！");
                     log.error("容器：{} 处理器：{} 未指定断言，请检查！！！当前使用默认断言处理类", containerName, key);
                 }
                 processorAssert = processorAssertMap.get(processAssertClass);

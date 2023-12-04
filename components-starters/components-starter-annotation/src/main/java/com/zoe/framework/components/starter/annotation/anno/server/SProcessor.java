@@ -32,7 +32,7 @@ public @interface SProcessor {
     /**
      * 处理器名字, 默认：beanName
      */
-    String key() default StringPoolConst.EMPTY;
+    String processorName() default StringPoolConst.EMPTY;
 
     /**
      * 处理器描述
