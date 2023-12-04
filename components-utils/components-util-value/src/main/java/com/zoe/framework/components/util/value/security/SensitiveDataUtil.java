@@ -207,7 +207,7 @@ public class SensitiveDataUtil {
     }
 
     /**
-     * 对大陆身份证号进行部分隐藏处理，只显示前1位和后1位，其他用*代替。<br>
+     * 对大陆身份证号进行部分隐藏处理，只显示前6位和后2位，其他用*代替。<br>
      * 如果doValidate为true且传入的数据不是合法的大陆身份证号，将按敏感信息缺省隐藏方式处理，显示前1/3和后1/3，其他用*代替。 <br>
      *
      * @param idCardNo   待部分隐藏处理的身份证号。
@@ -225,7 +225,8 @@ public class SensitiveDataUtil {
 
         if (doValidate) {
             if (!isIdCardNo(idCardNo)) {
-                return defaultHide(idCardNo); // 不是大陆身份证号，按缺省的隐藏显示方法。
+                // 不是大陆身份证号，按缺省的隐藏显示方法。
+                return defaultHide(idCardNo);
             }
         }
         return customizeHide(idCardNo, 1, 1, idCardNo.length() - 2);

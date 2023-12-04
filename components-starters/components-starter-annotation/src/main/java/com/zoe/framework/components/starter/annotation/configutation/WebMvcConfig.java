@@ -1,6 +1,6 @@
 package com.zoe.framework.components.starter.annotation.configutation;
 
-import com.zoe.framework.components.starter.annotation.paramAlias.AliasModelAttributeMethodServletProcessor;
+import com.zoe.framework.components.starter.annotation.handle.paramAlias.AliasModelAttributeMethodServletProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

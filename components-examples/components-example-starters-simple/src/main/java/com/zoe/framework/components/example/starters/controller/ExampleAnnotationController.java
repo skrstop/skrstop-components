@@ -1,11 +1,13 @@
 package com.zoe.framework.components.example.starters.controller;
 
-import com.zoe.framework.components.starter.annotation.*;
+import com.zoe.framework.components.example.starters.entity.response.ExamplePrivacyInfo;
+import com.zoe.framework.components.starter.annotation.anno.aspect.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -76,5 +78,24 @@ public class ExampleAnnotationController {
         System.out.println("aaa");
     }
 
+    /**
+     * 数据脱敏注解
+     */
+    @PrivacyInfo
+    @GetMapping("/exampleAnnotationPrivacyInfo")
+    public ExamplePrivacyInfo exampleAnnotationPrivacyInfo() {
+        return ExamplePrivacyInfo.builder()
+                .valueDefault("默认处理方式")
+                .valueSetNull("设置为null")
+                .valueBankCard("6225145784512365")
+                .valueEmail("123456789@gmail.com")
+                .valueIdCard("321123199911112222")
+                .valuePhone("18844446666")
+                .other1(100)
+                .other2(100L)
+                .other3(false)
+                .other4(LocalDateTime.now())
+                .build();
+    }
 
 }

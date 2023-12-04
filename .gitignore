@@ -6,6 +6,8 @@ logs/
 .idea/**
 .flattened-pom.xml
 **/.flattened-pom.xml
+rebel.xml
+**/rebel.xml
 
 ### Windows template
 # Windows thumbnail cache files
