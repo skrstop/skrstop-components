@@ -89,7 +89,7 @@
       "name": "zoe.mongodb.config.query-factory",
       "type": "java.lang.String",
       "description": "查询工厂.",
-      "defaultValue": "dev.morphia.query.DefaultQueryFactor"
+      "defaultValue": "dev.morphia.query.DefaultQueryFactory"
     },
     {
       "name": "zoe.mongodb.config.store-empties",
@@ -173,7 +173,7 @@
       "name": "zoe.mongodb.config.date-storage",
       "values": [
         {
-          "value": "tuc",
+          "value": "utc",
           "description": "UTC."
         },
         {

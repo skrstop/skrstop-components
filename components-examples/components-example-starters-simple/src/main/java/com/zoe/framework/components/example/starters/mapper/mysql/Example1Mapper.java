@@ -1,6 +1,6 @@
-package com.zoe.framework.components.example.starters.mapper;
+package com.zoe.framework.components.example.starters.mapper.mysql;
 
-import com.zoe.framework.components.example.starters.entity.DO.Example1;
+import com.zoe.framework.components.example.starters.entity.msyql.Example1;
 import com.zoe.framework.components.starter.database.mapper.SuperMapper;
 
 /**

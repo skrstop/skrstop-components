@@ -1,4 +1,4 @@
-package com.zoe.framework.components.example.starters.service;
+package com.zoe.framework.components.example.starters.service.processor;
 
 import com.zoe.framework.components.example.starters.constant.ProcessorContainerNameConst;
 import com.zoe.framework.components.starter.annotation.anno.server.SProcessor;
@@ -9,19 +9,18 @@ import com.zoe.framework.components.starter.annotation.handle.server.processor.a
  * @date 2023-12-04 11:13:50
  */
 @SProcessor(containerName = ProcessorContainerNameConst.PROCESSOR_POOL
-        , processorName = "processorDefaultClass"
-        , assertBeanClass = ExampleProcessorDefaultService.class
-        , defaultProcessor = true)
-public class ExampleProcessorDefaultService implements ExampleProcessorService, ProcessorAssert<String> {
+        , processorName = "processor2Class"
+        , assertBeanClass = ExampleProcessor2Service.class)
+public class ExampleProcessor2Service implements ExampleProcessorService, ProcessorAssert<String> {
 
 
     @Override
     public boolean isSupported(String currentValue) {
-        return true;
+        return "processor2".equals(currentValue);
     }
 
     @Override
     public String print() {
-        return "processor default print";
+        return "processor2 print";
     }
 }

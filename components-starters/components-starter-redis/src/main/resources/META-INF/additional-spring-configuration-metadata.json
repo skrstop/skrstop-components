@@ -1,9 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.GlobalRedisProperties",
+      "sourceType": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties",
       "name": "redis参数配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.GlobalRedisProperties"
+      "type": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties"
+    },
+    {
+      "sourceType": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties",
+      "name": "redisson参数配置",
+      "type": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties"
     }
   ],
   "properties": [
@@ -36,6 +41,33 @@
       "type": "java.lang.Boolean",
       "description": "此开关用于filter过滤，当autoType序列化和非autoType穿插使用是则开启遍历过滤，建议不要autoType穿插使用.",
       "defaultValue": "false"
+    },
+    {
+      "name": "spring.redis.redisson.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启redisson.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "spring.redis.redisson.config-file",
+      "type": "java.lang.String",
+      "description": "从文件读取redisson配置.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "spring.redis.redisson.config-yaml-str",
+      "type": "java.lang.String",
+      "description": "从yaml配置读取redisson配置.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "spring.redis.redisson.config-json-str",
+      "type": "java.lang.String",
+      "description": "从json配置读取redisson配置.",
+      "defaultValue": "false",
+      "deprecation": {
+        "reason": "不建议使用，建议使用spring.redis.redisson.config-yaml-str"
+      }
     }
   ]
 }

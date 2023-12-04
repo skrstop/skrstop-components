@@ -16,7 +16,7 @@ public abstract class AbstractVersionBaseEntity<T> extends AbstractBaseEntity<T>
 
     private static final long serialVersionUID = -3062937558431776826L;
 
-    private Long version = System.currentTimeMillis();
+    private Long version = 0L;
 
 
 }

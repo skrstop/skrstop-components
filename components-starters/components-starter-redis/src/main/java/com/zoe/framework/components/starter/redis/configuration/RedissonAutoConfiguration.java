@@ -24,23 +24,23 @@ import java.io.InputStream;
  * @date 2021-05-25 20:22:53
  */
 @ConditionalOnClass({RedissonClient.class, Config.class})
-@EnableConfigurationProperties({RedissonProperties.class})
+@EnableConfigurationProperties({GlobalRedissonProperties.class})
 @Configuration
 @ConditionalOnProperty(value = GlobalConfigConst.REDISSON_PREFIX + ".enabled", havingValue = "true", matchIfMissing = false)
 public class RedissonAutoConfiguration {
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(RedissonClient.class)
-    public RedissonClient redissonClient(RedissonProperties redissonProperties, ApplicationContext ctx) throws ZoeException, IOException {
+    public RedissonClient redissonClient(GlobalRedissonProperties globalRedissonProperties, ApplicationContext ctx) throws ZoeException, IOException {
         Config config = null;
-        if (StrUtil.isNotBlank(redissonProperties.getFile())) {
-            Resource resource = ctx.getResource(redissonProperties.getFile());
+        if (StrUtil.isNotBlank(globalRedissonProperties.getConfigFile())) {
+            Resource resource = ctx.getResource(globalRedissonProperties.getConfigFile());
             InputStream is = resource.getInputStream();
             config = Config.fromYAML(is);
-        } else if (StrUtil.isNotBlank(redissonProperties.getConfigYamlStr())) {
-            config = Config.fromYAML(redissonProperties.getConfigYamlStr());
-        } else if (StrUtil.isNotBlank(redissonProperties.getConfigJsonStr())) {
-            config = Config.fromJSON(redissonProperties.getConfigJsonStr());
+        } else if (StrUtil.isNotBlank(globalRedissonProperties.getConfigYamlStr())) {
+            config = Config.fromYAML(globalRedissonProperties.getConfigYamlStr());
+        } else if (StrUtil.isNotBlank(globalRedissonProperties.getConfigJsonStr())) {
+            config = Config.fromJSON(globalRedissonProperties.getConfigJsonStr());
         }
         if (ObjectUtil.isNull(config)) {
             throw new ZoeException("redisson未配置相关参数");

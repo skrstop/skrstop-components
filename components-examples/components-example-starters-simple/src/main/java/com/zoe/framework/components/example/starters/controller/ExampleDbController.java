@@ -1,8 +1,10 @@
 package com.zoe.framework.components.example.starters.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zoe.framework.components.example.starters.entity.DO.Example1;
-import com.zoe.framework.components.example.starters.service.Example1Service;
+import com.zoe.framework.components.example.starters.entity.msyql.Example1;
+import com.zoe.framework.components.example.starters.service.Example1MysqlService;
+import com.zoe.framework.components.starter.database.wrapper.PageQuery;
 import com.zoe.framework.components.starter.id.service.IdService;
 import com.zoe.framework.components.util.value.data.RandomValueUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,7 @@ import java.util.List;
 public class ExampleDbController {
 
     @Autowired
-    private Example1Service example1Service;
+    private Example1MysqlService example1MysqlService;
     @Autowired
     private IdService idService;
 
@@ -33,7 +35,7 @@ public class ExampleDbController {
      */
     @GetMapping("/exampleMysqlInsert")
     public void exampleMysqlInsert() {
-        example1Service.save(Example1.builder()
+        example1MysqlService.save(Example1.builder()
                 .id(idService.getId())
                 .name(RandomValueUtil.getChineseName())
                 .age(RandomValueUtil.getNum(1, 100))
@@ -49,7 +51,7 @@ public class ExampleDbController {
     @GetMapping("/exampleMysqlUpdate")
     public void exampleMysqlUpdate() {
         // 1730515515425820672
-        example1Service.update(Wrappers.lambdaUpdate(Example1.class)
+        example1MysqlService.update(Wrappers.lambdaUpdate(Example1.class)
                 .set(Example1::getName, RandomValueUtil.getChineseName())
                 .set(Example1::getAge, RandomValueUtil.getNum(1, 100))
                 .set(Example1::getBirth, LocalDateTime.now())
@@ -66,7 +68,17 @@ public class ExampleDbController {
      */
     @GetMapping("/exampleMysqlQuery")
     public List<Example1> exampleMysqlQuery() {
-        return example1Service.list();
+        return example1MysqlService.list();
+    }
+
+    /**
+     * mysql 分页查询样例
+     *
+     * @return
+     */
+    @GetMapping("/exampleMysqlQueryPage")
+    public IPage<Example1> exampleMysqlQuery(PageQuery pageQuery) {
+        return example1MysqlService.page(pageQuery.toPage());
     }
 
 }

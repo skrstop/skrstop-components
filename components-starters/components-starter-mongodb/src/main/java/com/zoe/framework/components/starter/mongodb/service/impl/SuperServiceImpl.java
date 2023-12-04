@@ -1,6 +1,5 @@
 package com.zoe.framework.components.starter.mongodb.service.impl;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -46,7 +45,7 @@ import java.util.stream.Collectors;
  * @author 蒋时华
  */
 @SuppressWarnings("all")
-public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements SuperService<T> {
+public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends Serializable> implements SuperService<T, KEY> {
 
     public static String UPDATE_BY = "updateBy";
     public static String UPDATE_TIME = "updateTime";
@@ -67,7 +66,8 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
     private GlobalMongodbProperties globalMongodbProperties;
 
     protected Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    protected Class<T> entityIdClass = (Class<T>) ((ParameterizedType) entityClass.getGenericSuperclass()).getActualTypeArguments()[0];
+    //    protected Class<T> entityIdClass = (Class<T>) ((ParameterizedType) entityClass.getGenericSuperclass()).getActualTypeArguments()[0];
+    protected Class<T> entityIdClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     protected String idColumnName = ReflectUtil.newInstance(entityClass).getIdName();
 
     @PostConstruct
@@ -216,7 +216,7 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
             entity.setId(idService.getId());
         } else if (String.class.isAssignableFrom(entityIdClass)
                 && StrUtil.isBlank((String) entity.getId())) {
-            entity.setId(IdUtil.objectId());
+            entity.setId(idService.getObjectId());
         }
     }
 
@@ -298,13 +298,13 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
     }
 
     @Override
-    public T findById(Serializable id) {
+    public T findById(KEY id) {
         return this.find(Arrays.asList(Filters.eq(idColumnName, id)))
                 .iterator().tryNext();
     }
 
     @Override
-    public List<T> findByIds(List<Serializable> ids) {
+    public List<T> findByIds(List<KEY> ids) {
         return this.find(Arrays.asList(Filters.in(idColumnName, ids)))
                 .iterator().toList();
     }
@@ -349,9 +349,19 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
         UpdateOperator first = updates.get(0);
         updates.remove(0);
         updates.addAll(this.setUpdateTimeUpdateInfo(updates));
-        UpdateOperator[] updatesArray = new UpdateOperator[updates.size()];
-        for (int i = 0; i < updates.size(); i++) {
-            updatesArray[i] = updates.get(i);
+        UpdateOperator[] updatesArray;
+        if (AbstractVersionBaseEntity.class.isAssignableFrom(this.entityClass)) {
+            // 有版本校验
+            updatesArray = new UpdateOperator[updates.size() + 1];
+            updatesArray[0] = UpdateOperators.inc(VERSION);
+            for (int i = 0; i < updates.size(); i++) {
+                updatesArray[i + 1] = updates.get(i);
+            }
+        } else {
+            updatesArray = new UpdateOperator[updates.size()];
+            for (int i = 0; i < updates.size(); i++) {
+                updatesArray[i] = updates.get(i);
+            }
         }
         UpdateOptions updateOptions = new UpdateOptions();
         updateOptions.multi(true);
@@ -359,13 +369,33 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
     }
 
     @Override
-    public DeleteResult removeById(Serializable id) {
+    public UpdateResult updateWithVersion(Long currentVersion, List<Filter> filters, List<UpdateOperator> updates) {
+        Filter[] filterArray;
+        if (AbstractVersionBaseEntity.class.isAssignableFrom(this.entityClass)) {
+            // 有版本校验
+            filterArray = new Filter[filters.size() + 1];
+            filterArray[0] = Filters.eq(VERSION, currentVersion);
+            for (int i = 0; i < filters.size(); i++) {
+                filterArray[i + 1] = filters.get(i);
+            }
+        } else {
+            filterArray = new Filter[filters.size()];
+            for (int i = 0; i < filters.size(); i++) {
+                filterArray[i] = filters.get(i);
+            }
+        }
+        Query<T> query = this.datastore.find(entityClass).filter(filterArray);
+        return this.update(query, updates);
+    }
+
+    @Override
+    public DeleteResult removeById(KEY id) {
         return this.find(Arrays.asList(Filters.eq(idColumnName, id)))
                 .delete();
     }
 
     @Override
-    public DeleteResult removeByIds(Collection<Serializable> ids) {
+    public DeleteResult removeByIds(Collection<KEY> ids) {
         DeleteOptions deleteOptions = new DeleteOptions();
         deleteOptions.multi(true);
         return this.find(Arrays.asList(Filters.in(idColumnName, ids)))
@@ -381,13 +411,13 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
     }
 
     @Override
-    public UpdateResult removeLogicByIds(Collection<Serializable> ids) {
+    public UpdateResult removeLogicByIds(Collection<KEY> ids) {
         Query<T> query = this.find(Arrays.asList(Filters.in(idColumnName, ids)));
         return this.update(query, this.setRemoveUpdateInfo(false));
     }
 
     @Override
-    public UpdateResult removeLogicById(Serializable id) {
+    public UpdateResult removeLogicById(KEY id) {
         Query<T> query = this.find(Arrays.asList(Filters.eq(idColumnName, id)));
         return this.update(query, this.setRemoveUpdateInfo(false));
     }
@@ -399,13 +429,13 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements 
     }
 
     @Override
-    public UpdateResult undoRemoveLogicByIds(Collection<Serializable> ids) {
+    public UpdateResult undoRemoveLogicByIds(Collection<KEY> ids) {
         Query<T> query = this.find(Arrays.asList(Filters.in(idColumnName, ids)));
         return this.update(query, this.setRemoveUpdateInfo(true));
     }
 
     @Override
-    public UpdateResult undoRemoveLogicById(Serializable id) {
+    public UpdateResult undoRemoveLogicById(KEY id) {
         Query<T> query = this.find(Arrays.asList(Filters.eq(idColumnName, id)));
         return this.update(query, this.setRemoveUpdateInfo(true));
     }

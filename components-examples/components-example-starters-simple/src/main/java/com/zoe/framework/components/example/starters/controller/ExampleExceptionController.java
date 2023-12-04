@@ -3,7 +3,7 @@ package com.zoe.framework.components.example.starters.controller;
 import com.zoe.framework.components.core.common.response.DefaultResult;
 import com.zoe.framework.components.core.common.response.ListResult;
 import com.zoe.framework.components.core.exception.ZoeRuntimeException;
-import com.zoe.framework.components.example.starters.entity.DO.Example1;
+import com.zoe.framework.components.example.starters.entity.msyql.Example1;
 import com.zoe.framework.components.example.starters.exception.CustomDataException;
 import com.zoe.framework.components.example.starters.exception.CustomErrorCode;
 import com.zoe.framework.components.example.starters.exception.CustomException;

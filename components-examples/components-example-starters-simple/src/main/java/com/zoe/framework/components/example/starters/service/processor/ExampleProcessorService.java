@@ -1,4 +1,4 @@
-package com.zoe.framework.components.example.starters.service;
+package com.zoe.framework.components.example.starters.service.processor;
 
 /**
  * @author 蒋时华

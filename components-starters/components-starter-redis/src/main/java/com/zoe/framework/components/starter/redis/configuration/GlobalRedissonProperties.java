@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass({Config.class, RedissonClient.class})
 @ConfigurationProperties(GlobalConfigConst.REDISSON_PREFIX)
-public class RedissonProperties {
+public class GlobalRedissonProperties {
 
     /**
      * 是否开启redisson.
@@ -27,7 +27,7 @@ public class RedissonProperties {
     /**
      * 指定redisson配置文件.
      */
-    private String file;
+    private String configFile;
     /**
      * yaml配置文本.
      */

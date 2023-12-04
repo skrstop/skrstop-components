@@ -24,7 +24,7 @@ import java.util.List;
  * @param <T>
  * @author 蒋时华
  */
-public interface SuperService<T> {
+public interface SuperService<T, KEY extends Serializable> {
 
     /**
      * 获取操作人id
@@ -141,7 +141,7 @@ public interface SuperService<T> {
      * @param id
      * @return
      */
-    T findById(Serializable id);
+    T findById(KEY id);
 
     /**
      * ids查询
@@ -149,7 +149,7 @@ public interface SuperService<T> {
      * @param ids
      * @return
      */
-    List<T> findByIds(List<Serializable> ids);
+    List<T> findByIds(List<KEY> ids);
 
     /**
      * 保存
@@ -195,12 +195,21 @@ public interface SuperService<T> {
     UpdateResult update(Query<T> query, List<UpdateOperator> updates);
 
     /**
+     * 版本比较更新
+     *
+     * @param filters
+     * @param updates
+     * @return
+     */
+    UpdateResult updateWithVersion(Long currentVersion, List<Filter> filters, List<UpdateOperator> updates);
+
+    /**
      * 删除
      *
      * @param id
      * @return
      */
-    DeleteResult removeById(Serializable id);
+    DeleteResult removeById(KEY id);
 
     /**
      * 删除
@@ -208,7 +217,7 @@ public interface SuperService<T> {
      * @param ids
      * @return
      */
-    DeleteResult removeByIds(Collection<Serializable> ids);
+    DeleteResult removeByIds(Collection<KEY> ids);
 
     /**
      * 删除
@@ -224,7 +233,7 @@ public interface SuperService<T> {
      * @param ids
      * @return
      */
-    UpdateResult removeLogicByIds(Collection<Serializable> ids);
+    UpdateResult removeLogicByIds(Collection<KEY> ids);
 
     /**
      * 逻辑删除
@@ -232,7 +241,7 @@ public interface SuperService<T> {
      * @param id
      * @return
      */
-    UpdateResult removeLogicById(Serializable id);
+    UpdateResult removeLogicById(KEY id);
 
     /**
      * 逻辑删除
@@ -248,7 +257,7 @@ public interface SuperService<T> {
      * @param ids
      * @return
      */
-    UpdateResult undoRemoveLogicByIds(Collection<Serializable> ids);
+    UpdateResult undoRemoveLogicByIds(Collection<KEY> ids);
 
     /**
      * 删除回滚
@@ -256,7 +265,7 @@ public interface SuperService<T> {
      * @param id
      * @return
      */
-    UpdateResult undoRemoveLogicById(Serializable id);
+    UpdateResult undoRemoveLogicById(KEY id);
 
     /**
      * 删除回滚

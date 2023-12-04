@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * @author 蒋时华
  * @date 2020-10-06 18:20:19
  */
+@SuppressWarnings("all")
 public class FastjsonValueFilter implements ValueFilter {
 
     private final Boolean fastjsonFilterEach;

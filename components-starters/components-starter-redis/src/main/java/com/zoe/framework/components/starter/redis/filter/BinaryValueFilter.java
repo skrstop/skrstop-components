@@ -9,6 +9,7 @@ import java.util.Set;
  * @author 蒋时华
  * @date 2020-10-06 18:20:19
  */
+@SuppressWarnings("all")
 public class BinaryValueFilter implements ValueFilter {
 
     @Override

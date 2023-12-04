@@ -61,11 +61,22 @@
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-database</artifactId>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.zoe.framework</groupId>-->
+        <!--            <artifactId>components-starter-redis</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.redisson</groupId>-->
+        <!--            <artifactId>redisson</artifactId>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-mongodb</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-id</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>

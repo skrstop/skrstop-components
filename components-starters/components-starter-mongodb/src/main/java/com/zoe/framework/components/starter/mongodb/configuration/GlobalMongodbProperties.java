@@ -122,7 +122,7 @@ public class GlobalMongodbProperties {
      * 查询工厂
      * dev.morphia.query.DefaultQueryFactor
      */
-    private String queryFactory = "dev.morphia.query.DefaultQueryFactor";
+    private String queryFactory = "dev.morphia.query.DefaultQueryFactory";
 
     /**
      * 是否存储空集合

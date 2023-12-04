@@ -2,7 +2,7 @@ package com.zoe.framework.components.example.starters.controller;
 
 import com.zoe.framework.components.core.common.response.MapResult;
 import com.zoe.framework.components.core.common.response.core.IResult;
-import com.zoe.framework.components.example.starters.service.Example1Service;
+import com.zoe.framework.components.example.starters.service.Example1MysqlService;
 import com.zoe.framework.components.starter.id.service.IdService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class ExampleReturnController {
 
     @Autowired
-    private Example1Service example1Service;
+    private Example1MysqlService example1MysqlService;
     @Autowired
     private IdService idService;
 

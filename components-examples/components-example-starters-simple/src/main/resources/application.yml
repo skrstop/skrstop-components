@@ -1,6 +1,5 @@
 spring:
   # 在SpringBoot 2.1之前，这个配置默认就是true，而在2.1做了更改。
-  # 设置为true后，因为FeignClientSpecification的原因，FeignClient注解的configuration参数会被覆盖。
   main:
     allow-bean-definition-overriding: true
   application:
@@ -59,6 +58,33 @@ spring:
         login-username: admin
         # 登录密码
         login-password: 123456
+  redis:
+    redisson:
+      enabled: true
+      config-yaml-str: |
+        singleServerConfig:
+          address: redis://127.0.0.1:6379
+          database: 1
+        threads: 10
+        nettyThreads: 10
+        codec:
+          class: "org.redisson.codec.JsonJacksonCodec"
+        transportMode: "NIO"
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout:
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  data:
+    mongodb:
+      uri: mongodb://root:123456@127.0.0.1:27017/example_starts_mongo?authSource=admin&minpoolsize=10&maxpoolsize=50
+
 
 server:
   port: 8080
@@ -132,9 +158,25 @@ zoe:
   database:
     config:
       sql-healthy-check: false
-      mapper-class-location: com.zoe.framework.components.example.starters.mapper
+      mapper-class-location: com.zoe.framework.components.example.starters.mapper.mysql
+      mapper-xml-location: classpath*:mapper/*.xml
   annotation:
     config:
       access-control:
         release-alias:
           - exampleAnnotationAccessControl1
+  mongodb:
+    config:
+      map-package: com.zoe.framework.components.example.starters.entity.mongo
+      ## 默认
+      #      collection-naming: identity
+      #      property-naming: identity
+      ## 驼峰
+      #      collection-naming: camelCase
+      #      property-naming: camelCase
+      ## 下划线
+      collection-naming: snakeCase
+      property-naming: snakeCase
+      ## 中划线
+      #      collection-naming: kebabCase
+      #      property-naming: kebabCase

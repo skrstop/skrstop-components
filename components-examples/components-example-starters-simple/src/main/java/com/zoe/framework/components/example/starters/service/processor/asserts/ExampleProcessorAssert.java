@@ -1,4 +1,4 @@
-package com.zoe.framework.components.example.starters.service.asserts;
+package com.zoe.framework.components.example.starters.service.processor.asserts;
 
 import com.zoe.framework.components.starter.annotation.handle.server.processor.asserts.ProcessorAssert;
 

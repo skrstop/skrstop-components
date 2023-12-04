@@ -1,4 +1,4 @@
-package com.zoe.framework.components.example.starters.entity.DO;
+package com.zoe.framework.components.example.starters.entity.msyql;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

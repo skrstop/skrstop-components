@@ -27,39 +27,26 @@ import java.util.List;
 public class GlobalResponseProperties {
 
     /*** 是否开启统一返回值 */
-    private Boolean enable;
+    private Boolean enable = true;
 
     /*** 是否显示null字段节点 */
-    private Boolean showNullValue;
+    private Boolean showNullValue = false;
 
     /*** 使用feign, 是否统一处理 */
-    private Boolean supportFeign;
+    private Boolean supportFeign = true;
 
     /*** long 类型转换成string */
-    private Boolean longToString;
+    private Boolean longToString = true;
 
     /*** 时间格式化 */
-    private String dateTimeFormat;
-    private String dateFormat;
-    private String timeFormat;
+    private String dateTimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;
+    private String dateFormat = DateFormatConst.NORM_DATE_PATTERN;
+    private String timeFormat = DateFormatConst.NORM_TIME_PATTERN;
 
     /*** 根据返回值类型自动转换Result */
-    private Boolean transResultResponse;
+    private Boolean transResultResponse = true;
 
     /*** 不自动包装Result的接口列表 */
-    private List<String> notTransResultList;
-
-    public GlobalResponseProperties() {
-        this.enable = true;
-        this.showNullValue = true;
-        this.supportFeign = true;
-        this.longToString = true;
-        this.dateTimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;
-        this.dateFormat = DateFormatConst.NORM_DATE_PATTERN;
-        this.timeFormat = DateFormatConst.NORM_TIME_PATTERN;
-        this.transResultResponse = true;
-        /*** 默认添加：不转换请求结果类型的路径 */
-        this.notTransResultList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_TRANS_RESULT_LIST);
-    }
+    private List<String> notTransResultList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_TRANS_RESULT_LIST);
 
 }

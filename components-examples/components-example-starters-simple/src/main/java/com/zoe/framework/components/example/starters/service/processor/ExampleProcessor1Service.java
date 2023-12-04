@@ -1,4 +1,4 @@
-package com.zoe.framework.components.example.starters.service;
+package com.zoe.framework.components.example.starters.service.processor;
 
 import com.zoe.framework.components.example.starters.constant.ProcessorContainerNameConst;
 import com.zoe.framework.components.starter.annotation.anno.server.SProcessor;
