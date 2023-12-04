@@ -73,3 +73,7 @@
 * morphia 2.2.6
 * javacv 1.5.7
 * ...
+
+# 计划待添加功能
+
+* components-starter-object-storage 模块中增加：阿里云oss、华为云obs、腾讯云cos

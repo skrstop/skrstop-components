@@ -18,7 +18,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 /**
  * @author 蒋时华
@@ -43,7 +44,7 @@ public class MybatisScanAutoConfiguration implements ImportBeanDefinitionRegistr
         }
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
         builder.addPropertyValue("processPropertyPlaceHolders", true);
-        List<String> basePackages = StrUtil.splitTrim(mapperClassLocation, StringPoolConst.COMMA);
+        Collection<String> basePackages = new LinkedHashSet<>(StrUtil.splitTrim(this.mapperClassLocation, StringPoolConst.COMMA));
         if (basePackages.isEmpty()) {
             return;
         }

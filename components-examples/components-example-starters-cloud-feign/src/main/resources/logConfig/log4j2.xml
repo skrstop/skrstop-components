@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <properties>
+        <property name="charset">UTF-8</property>
+        <property name="APPLICATION_NAME">components-example-starters-simple</property>
+        <property name="LOG_HOME">logs/${APPLICATION_NAME}</property>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property> <!--原本行名输出 %l -40.40c{1.} -->
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${LOG_DATEFORMAT_PATTERN}} - [%traceId] -}{blue}
+            %clr{${LOG_LEVEL_PATTERN}} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%l}{cyan}
+            %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}
+        </Property>
+
+    </properties>
+
+    <appenders>
+
+        <!-- 控制台输出 -->
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}"/>
+        </Console>
+
+        <!-- INFO -->
+        <RollingRandomAccessFile name="INFO"
+                                 fileName="${LOG_HOME}/info.log"
+                                 filePattern="${LOG_HOME}/info-%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - [%traceId] - [%tid] - [%thread] %-5level %logger{50} - %msg%n"
+                    charset="${charset}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="50M"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${LOG_HOME}/" maxDepth="2">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingRandomAccessFile>
+
+        <!-- ERROR -->
+        <RollingRandomAccessFile name="ERROR"
+                                 fileName="${LOG_HOME}/error.log"
+                                 filePattern="${LOG_HOME}/error-%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - [%traceId] - [%tid] - [%thread] %-5level %logger{50} - %msg%n"
+                    charset="${charset}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="50M"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${LOG_HOME}/" maxDepth="2">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <LevelRangeFilter minLevel="FATAL" maxLevel="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingRandomAccessFile>
+
+    </appenders>
+
+    <Loggers>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="INFO"/>
+            <appender-ref ref="ERROR"/>
+            <appender-ref ref="LogReport"/>
+        </root>
+
+        <Logger name="net.sf.ehcache" level="INFO"/>
+        <Logger name="druid.sql" level="INFO"/>
+        <!-- MyBatis log configure -->
+        <Logger name="com.apache.ibatis" level="DEBUG"/>
+        <Logger name="cn.auntec" level="DEBUG"/>
+        <Logger name="org.mybatis.spring" level="DEBUG"/>
+        <Logger name="java.sql.Connection" level="DEBUG"/>
+        <Logger name="java.sql.Statement" level="DEBUG"/>
+        <Logger name="java.sql.PreparedStatement" level="DEBUG"/>
+        <!-- 减少部分debug日志 -->
+        <Logger name="druid.sql" level="INFO"/>
+        <Logger name="org.apache.shiro" level="INFO"/>
+        <Logger name="org.mybatis.spring" level="INFO"/>
+        <Logger name="org.springframework" level="INFO"/>
+        <Logger name="org.springframework.context" level="WARN"/>
+        <Logger name="org.springframework.beans" level="WARN"/>
+        <Logger name="com.baomidou.mybatisplus" level="INFO"/>
+        <Logger name="org.apache.ibatis.io" level="INFO"/>
+        <Logger name="org.apache.velocity" level="INFO"/>
+        <Logger name="org.eclipse.jetty" level="INFO"/>
+        <Logger name="io.undertow" level="INFO"/>
+        <Logger name="org.xnio.nio" level="INFO"/>
+        <Logger name="org.thymeleaf" level="INFO"/>
+        <Logger name="springfox.documentation" level="INFO"/>
+        <Logger name="org.hibernate.validator" level="INFO"/>
+        <Logger name="com.netflix.loadbalancer" level="INFO"/>
+        <Logger name="com.netflix.hystrix" level="INFO"/>
+        <Logger name="com.netflix.zuul" level="INFO"/>
+        <Logger name="de.codecentric" level="INFO"/>
+        <!-- cache INFO -->
+        <Logger name="net.sf.ehcache" level="INFO"/>
+        <Logger name="org.springframework.cache" level="INFO"/>
+        <!-- cloud -->
+        <Logger name="org.apache.http" level="INFO"/>
+        <Logger name="com.netflix.discovery" level="INFO"/>
+        <Logger name="com.netflix.eureka" level="INFO"/>
+        <!-- nacos -->
+        <Logger name="com.alibaba.nacos.client.naming" level="off"/>
+        <Logger name="org.springblade" level="DEBUG"/>
+        <Logger name="io.seata" level="DEBUG"/>
+        <Logger name="org.springblade.core.version" level="INFO"/>
+        <!-- zoe -->
+        <Logger name="com.zoe" level="DEBUG"/>
+
+    </Loggers>
+
+
+</configuration>

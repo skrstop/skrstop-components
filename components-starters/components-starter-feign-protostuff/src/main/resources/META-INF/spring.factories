@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.zoe.framework.components.starter.feign.protostuff.autoconfigure.FeignAutoScanConfiguration,\
     com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.FeignMessageConverterAutoConfiguration,\
     com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtostuffReturnResponseHandlerAutoConfiguration,\
     com.zoe.framework.components.starter.feign.protostuff.autoconfigure.Http2UndertowAutoConfiguration,\

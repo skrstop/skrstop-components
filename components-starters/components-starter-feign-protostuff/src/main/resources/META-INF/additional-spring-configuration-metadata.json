@@ -2,8 +2,13 @@
   "groups": [
     {
       "sourceType": "com.zoe.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties",
-      "name": "okhttp配置",
+      "name": "feign okhttp配置",
       "type": "com.zoe.framework.components.starter.feign.protostuff.autoconfigure.FeignOkHttpProperties"
+    },
+    {
+      "sourceType": "com.zoe.framework.components.starter.feign.protostuff.autoconfigure.GlobalFeignProperties",
+      "name": "feign配置",
+      "type": "com.zoe.framework.components.starter.feign.protostuff.autoconfigure.GlobalFeignProperties"
     }
   ],
   "properties": [
@@ -12,6 +17,12 @@
       "type": "java.lang.Boolean",
       "description": "是否开启http2.",
       "defaultValue": "true"
+    },
+    {
+      "name": "zoe.feign.config.scan-package",
+      "type": "java.lang.String",
+      "description": "feign扫描包路径，多个路径逗号分隔，也可以使用@EnableFeignClients.",
+      "defaultValue": ""
     },
     {
       "name": "feign.okhttp.connection-timeout",

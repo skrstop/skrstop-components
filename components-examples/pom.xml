@@ -18,6 +18,7 @@
 
     <modules>
         <module>components-example-starters-simple</module>
+        <module>components-example-starters-cloud-feign</module>
     </modules>
 
     <properties>

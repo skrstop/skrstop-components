@@ -88,71 +88,42 @@ spring:
 
 server:
   port: 8080
-  undertow:
-    max-http-post-size: 4
-    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程,数量和CPU 内核数目一样即可
-    io-threads: 4
-    # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载  io-threads*8
-    worker-threads: 32
-    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
-    # 每块buffer的空间大小,越小的空间被利用越充分
-    buffer-size: 1024
-    # 每个区分配的buffer数量 , 所以pool的大小是buffer-size * buffers-per-region
-    #   buffers-per-region: 1024 # 这个参数不需要写了
-    # 是否分配的直接内存
-    direct-buffers: true
+  tomcat:
+    threads:
+      min-spare: 10
+      max: 200
+    connection-timeout: 15000
+    accept-count: 4096
+    max-connections: 65000
+    mbeanregistry:
+      enabled: true
+    relaxed-path-chars:
+      - '{'
+      - '}'
+      - '['
+      - ']'
+      - '|'
+      - '<'
+      - '>'
+      - '\'
+      - '^'
+      - '`'
+      - '"'
+    relaxed-query-chars:
+      - '{'
+      - '}'
+      - '['
+      - ']'
+      - '|'
+      - '<'
+      - '>'
+      - '\'
+      - '^'
+      - '`'
+      - '"'
 
 logging:
   config: classpath:logConfig/log4j2.xml
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 1000
-        readTimeout: 12000
-  hystrix:
-    enabled: false
-  sentinel:
-    enabled: true
-  httpclient:
-    enabled: false
-    max-connections: 200
-    max-connections-per-route: 50
-  okhttp:
-    enabled: true
-
-
-ribbon:
-  # 随机
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
-  # 轮询
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
-  # 先按照RoundRobinRule（轮询）策略获取服务，如果获取服务失败则在指定时间内进行重试，获取可用的服务
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RetryRule
-  # 响应时间权重
-  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
-  # 先过滤掉由于多次访问故障而处于断路器跳闸状态的服务，然后选择一个并发量最小的服务
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.BestAvailableRule
-  # 先过滤掉由于多次访问故障而处于断路器状态的服务，还有并发的连接数量超过阈值的服务，然后对剩余的服务列表按照轮询策略进行访问
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.AvailabilityFilteringRule
-  # 根据平均响应时间计算所有服务的权重，响应时间越快的服务权重越大被选中的概率越大。刚启动时如果统计信息不足，则使用RoundRobinRule（轮询）策略，等统计信息足够，会切换到WeightedResponseTimeRule
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
-  # 复合判断Server所在区域的性能和Server的可用性选择服务器
-  #  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.ZoneAvoidanceRule
-  ConnectTimeout: 1000 #请求连接超时时间
-  ReadTimeout: 3000 #请求处理的超时时间
-  OkToRetryOnAllOperations: true #对所有请求都进行重试
-  MaxAutoRetriesNextServer: 2 #切换实例的重试次数
-# 服务名
-xxxxxService:
-  ribbon:
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
-    ConnectTimeout: 1000 #请求连接超时时间
-    ReadTimeout: 3000 #请求处理的超时时间
-    OkToRetryOnAllOperations: true #对所有请求都进行重试
-    MaxAutoRetriesNextServer: 2 #切换实例的重试次数
-
 
 zoe:
   database:
