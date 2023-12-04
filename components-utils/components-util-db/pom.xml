@@ -11,7 +11,7 @@
 
     <artifactId>components-util-db</artifactId>
 
-    <name>Zoe Mix Micro-service components-util-db ${project.version}</name>
+    <name>Zoe Mix Micro-service components-util-db</name>
     <description>Mixmicro+ Thread Database Util</description>
 
     <dependencies>

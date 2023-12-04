@@ -11,7 +11,7 @@
 
     <artifactId>components-util-extra</artifactId>
 
-    <name>Zoe Mix Micro-service util extra（emoji、ftp、qrcode、email、captcha） ${project.version}</name>
+    <name>Zoe Mix Micro-service util extra（emoji、ftp、qrcode、email、captcha）</name>
     <description>Mixmicro+ emoji、ftp、qrcode、email、captcha Util</description>
 
     <dependencies>

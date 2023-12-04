@@ -8,6 +8,6 @@ package com.zoe.framework.components.starter.ftp.constant;
  */
 public interface GlobalConfigConst {
 
-    String FTP_PREFIX = "zoe.ftp.config";
+    String OBJECT_STORAGE_PREFIX = "zoe.objectStorage.config";
 
 }

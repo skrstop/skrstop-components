@@ -11,7 +11,7 @@
 
     <artifactId>components-util-crypto</artifactId>
 
-    <name>Zoe Mix Micro-service util crypto ${project.version}</name>
+    <name>Zoe Mix Micro-service util crypto</name>
     <description>Zoe+ Crypto Util</description>
 
     <dependencies>

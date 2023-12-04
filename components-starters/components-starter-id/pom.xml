@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-id</artifactId>
 
-    <name>Zoe Mix Micro-service starter id ${project.version}</name>
+    <name>Zoe Mix Micro-service starter id</name>
     <description>Mixmicro+ ID Starter</description>
 
     <dependencies>

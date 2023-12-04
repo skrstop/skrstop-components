@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-banner</artifactId>
 
-    <name>Zoe Mix Micro-service starter banner ${project.version}</name>
+    <name>Zoe Mix Micro-service starter banner</name>
     <description>Zoe+ Banner Starter</description>
 
 </project>

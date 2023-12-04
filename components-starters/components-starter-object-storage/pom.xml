@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>components-starter-ftp</artifactId>
+    <artifactId>components-starter-object-storage</artifactId>
 
-    <name>Zoe Mix Micro-service starter ftp ${project.version}</name>
-    <description>Mixmicro+ FTP Starter</description>
+    <name>Zoe Mix Micro-service starter object storage</name>
+    <description>Mixmicro+ Object Storage Starter</description>
 
     <dependencies>
         <dependency>

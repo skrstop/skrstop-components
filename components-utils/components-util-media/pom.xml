@@ -11,7 +11,7 @@
 
     <artifactId>components-util-media</artifactId>
 
-    <name>Zoe Mix Micro-service util media ${project.version}</name>
+    <name>Zoe Mix Micro-service util media</name>
     <description>Mixmicro+ Media Util</description>
 
     <dependencies>

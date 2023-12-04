@@ -11,7 +11,7 @@
 
     <artifactId>components-util-value</artifactId>
 
-    <name>Zoe Mix Micro-service util value ${project.version}</name>
+    <name>Zoe Mix Micro-service util value</name>
     <description>Mixmicro+ Value Util</description>
 
     <dependencies>

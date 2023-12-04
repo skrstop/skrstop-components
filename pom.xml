@@ -22,7 +22,7 @@
         <module>components-examples</module>
     </modules>
 
-    <name>Zoe Mix Micro-service Components :: parent ${project.version}</name>
+    <name>Zoe Mix Micro-service Components :: parent</name>
     <description>🏗 Zoe Mix Micro-service Components Parent</description>
     <inceptionYear>2020</inceptionYear>
 

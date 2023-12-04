@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-spring-support</artifactId>
 
-    <name>Zoe Mix Micro-service starter spring support ${project.version}</name>
+    <name>Zoe Mix Micro-service starter spring support</name>
     <description>Zoe+ Spring Support Starter</description>
 
     <dependencies>

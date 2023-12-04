@@ -39,7 +39,7 @@
 ├── starters-dependencies                                   #├── starter自动配置模块
 │   ├── starter-annotation                                   │   ├── 通用自定义注解
 │   ├── starter-feign-protostuff                             │   ├── feign的http2和protobuf支持
-│   ├── starter-ftp                                          │   ├── ftp服务自动配置
+│   ├── starter-object-storage                               │   ├── 对象存储服务自动配置
 │   ├── starter-id                                           │   ├── id服务自动配置
 │   ├── starter-port-shift                                   │   ├── 端口自动偏移
 │   ├── starter-redis                                        │   ├── redis封装方法服务自动配置

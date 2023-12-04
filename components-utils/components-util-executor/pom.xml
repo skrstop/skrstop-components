@@ -11,7 +11,7 @@
 
     <artifactId>components-util-executor</artifactId>
 
-    <name>Zoe Mix Micro-service components-util-executor ${project.version}</name>
+    <name>Zoe Mix Micro-service components-util-executor</name>
     <description>Mixmicro+ Thread Executor Util</description>
 
     <dependencies>

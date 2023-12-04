@@ -18,7 +18,7 @@
         <module>components-starter-feign-protostuff</module>
         <module>components-starter-id</module>
         <module>components-starter-redis</module>
-        <module>components-starter-ftp</module>
+        <module>components-starter-object-storage</module>
         <module>components-starter-database</module>
         <module>components-starter-mongodb</module>
         <module>components-starter-banner</module>

@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-redis</artifactId>
 
-    <name>Zoe Mix Micro-service starter redis ${project.version}</name>
+    <name>Zoe Mix Micro-service starter redis</name>
     <description>Mixmicro+ Redis Starter</description>
 
     <dependencies>

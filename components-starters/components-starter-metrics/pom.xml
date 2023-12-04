@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-metrics</artifactId>
 
-    <name>Zoe Mix Micro-service starter metrics ${project.version}</name>
+    <name>Zoe Mix Micro-service starter metrics</name>
     <description>Mixmicro+ FTP Starter</description>
 
     <dependencies>

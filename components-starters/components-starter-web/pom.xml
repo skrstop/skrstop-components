@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-web</artifactId>
 
-    <name>Zoe Mix Micro-service starter web ${project.version}</name>
+    <name>Zoe Mix Micro-service starter web</name>
     <description>Mixmicro+ Web Starter</description>
 
     <dependencies>

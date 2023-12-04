@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-compatible-ribbon-to-loadbalancer</artifactId>
 
-    <name>Zoe Mix Micro-service starter compatible ribbon to load balancer ${project.version}</name>
+    <name>Zoe Mix Micro-service starter compatible ribbon to load balancer</name>
     <description>Zoe+ compatible ribbon to load balancer Starter</description>
 
     <properties>

@@ -11,7 +11,7 @@
 
     <artifactId>components-util-stress</artifactId>
 
-    <name>Zoe Mix Micro-service util stress ${project.version}</name>
+    <name>Zoe Mix Micro-service util stress</name>
     <description>Mixmicro+ Stress Util</description>
 
     <dependencies>

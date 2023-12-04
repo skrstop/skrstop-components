@@ -15,15 +15,15 @@ import org.springframework.stereotype.Service;
  * @date 2020-05-11 20:00:01
  */
 @Service
-@EnableConfigurationProperties(GlobalFtpProperties.class)
+@EnableConfigurationProperties(GlobalObjectStorageProperties.class)
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ConditionalOnProperty(value = "zoe.ftp.config.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "zoe.objectStorage.config.ftp.enable", havingValue = "true", matchIfMissing = true)
 public class FTPServiceAutoConfiguration {
 
     @Bean
-    public FtpService ftpService(GlobalFtpProperties globalFtpProperties) {
-        return new FtpServiceImpl(globalFtpProperties);
+    public FtpService ftpService(GlobalObjectStorageProperties globalObjectStorageProperties) {
+        return new FtpServiceImpl(globalObjectStorageProperties);
     }
 
 }

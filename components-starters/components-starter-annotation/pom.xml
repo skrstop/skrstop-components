@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-annotation</artifactId>
 
-    <name>Zoe Mix Micro-service starter annotation ${project.version}</name>
+    <name>Zoe Mix Micro-service starter annotation</name>
     <description>Zoe+ Annotation Starter</description>
 
     <dependencies>

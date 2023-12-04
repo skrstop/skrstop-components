@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-port-shift</artifactId>
 
-    <name>Zoe Mix Micro-service starter Port Shift ${project.version}</name>
+    <name>Zoe Mix Micro-service starter Port Shift</name>
     <description>Mixmicro+ Port Shift Starter</description>
 
     <dependencies>

@@ -11,7 +11,7 @@
 
     <artifactId>components-util-constant</artifactId>
 
-    <name>Zoe Mix Micro-service components-util-constant ${project.version}</name>
+    <name>Zoe Mix Micro-service components-util-constant</name>
     <description>Mixmicro+ Constant Util</description>
 
 

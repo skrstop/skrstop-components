@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-database</artifactId>
 
-    <name>Zoe Mix Micro-service starter database ${project.version}</name>
+    <name>Zoe Mix Micro-service starter database</name>
     <description>Zoe+ Database Starter</description>
 
     <dependencies>

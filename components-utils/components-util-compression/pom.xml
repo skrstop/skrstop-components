@@ -12,7 +12,7 @@
     <artifactId>components-util-compression</artifactId>
     <packaging>jar</packaging>
 
-    <name>Zoe Mix Micro-service components-util-compression ${project.version}</name>
+    <name>Zoe Mix Micro-service components-util-compression</name>
     <description>Zoe+ File Compression Utils</description>
 
     <properties>

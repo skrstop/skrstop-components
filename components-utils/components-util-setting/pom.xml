@@ -11,7 +11,7 @@
 
     <artifactId>components-util-setting</artifactId>
 
-    <name>Zoe Mix Micro-service util setting ${project.version}</name>
+    <name>Zoe Mix Micro-service util setting</name>
     <description>Mixmicro+ Setting Util</description>
 
     <dependencies>

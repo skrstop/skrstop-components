@@ -11,7 +11,7 @@
 
     <artifactId>components-util-serialization</artifactId>
 
-    <name>Zoe Mix Micro-service components-util-serialization ${project.version}</name>
+    <name>Zoe Mix Micro-service components-util-serialization</name>
     <description>Mixmicro+ Serialization Util</description>
 
     <dependencies>

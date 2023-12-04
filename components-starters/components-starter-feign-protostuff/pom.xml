@@ -11,7 +11,7 @@
 
     <artifactId>components-starter-feign-protostuff</artifactId>
 
-    <name>Zoe Mix Micro-service starter feign protostuff ${project.version}</name>
+    <name>Zoe Mix Micro-service starter feign protostuff</name>
     <description>Zoe+ Feign Protostuff Starter</description>
 
     <dependencies>
