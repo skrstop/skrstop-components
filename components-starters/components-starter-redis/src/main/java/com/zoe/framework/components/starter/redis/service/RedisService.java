@@ -5,6 +5,7 @@ import org.springframework.data.redis.connection.Limit;
 import org.springframework.data.redis.connection.zset.Aggregate;
 import org.springframework.data.redis.connection.zset.Weights;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.ZSetOperations;
 
 import java.time.Duration;
@@ -617,6 +618,14 @@ public interface RedisService {
      * @return
      */
     long getExpire(String key, TimeUnit timeUnit);
+
+    /**
+     * pipline执行
+     *
+     * @param callback
+     * @return
+     */
+    List<Object> executePipelined(SessionCallback<?> callback);
 
     Set getPattern(String pattern);
 

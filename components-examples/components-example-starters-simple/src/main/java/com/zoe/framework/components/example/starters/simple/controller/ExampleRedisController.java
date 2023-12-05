@@ -7,11 +7,15 @@
 //import org.redisson.api.RLock;
 //import org.redisson.api.RedissonClient;
 //import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.dao.DataAccessException;
+//import org.springframework.data.redis.core.RedisOperations;
+//import org.springframework.data.redis.core.SessionCallback;
 //import org.springframework.validation.annotation.Validated;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RestController;
 //
 //import java.time.LocalDateTime;
+//import java.util.List;
 //import java.util.concurrent.TimeUnit;
 //
 ///**
@@ -50,6 +54,34 @@
 //        if (ObjectUtil.isNull(cache2)) {
 //            System.out.println("cache already removed");
 //        }
+//    }
+//
+//    /**
+//     * redis pipline 样例
+//     */
+//    @GetMapping("/exampleRedisPipline")
+//    public void exampleRedisPipline() {
+//        ExampleRequestRedis origin = ExampleRequestRedis.builder()
+//                .valStr("aaaaaa")
+//                .valBol(false)
+//                .valData(LocalDateTime.now())
+//                .valLong(11111111L)
+//                .valInt(11111)
+//                .build();
+//        redisService.set("test1", origin);
+//        redisService.set("test2", origin);
+//
+//        List<?> list = redisService.executePipelined(new SessionCallback<Object>() {
+//            @Override
+//            public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+//                V test1 = operations.opsForValue().get("test1");
+//                operations.delete((K) "test1");
+//                operations.delete((K) "test2");
+//                return null;
+//            }
+//        });
+//        ExampleRequestRedis test = redisService.get("test1", ExampleRequestRedis.class);
+//        System.out.println("aaa");
 //    }
 //
 //

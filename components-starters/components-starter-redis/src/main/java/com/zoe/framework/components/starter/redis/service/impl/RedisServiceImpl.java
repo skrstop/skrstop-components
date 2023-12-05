@@ -1121,6 +1121,14 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public List<Object> executePipelined(SessionCallback<?> callback) {
+        if (this.isConnection()) {
+            return null;
+        }
+        return this.redisTemplate.executePipelined(callback);
+    }
+
+    @Override
     public Set getPattern(String pattern) {
         Set values = this.redisTemplate.keys(pattern);
         if (values == null) {
