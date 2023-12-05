@@ -66,14 +66,14 @@
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-database</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zoe.framework</groupId>
-            <artifactId>components-starter-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.zoe.framework</groupId>-->
+        <!--            <artifactId>components-starter-redis</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.redisson</groupId>-->
+        <!--            <artifactId>redisson</artifactId>-->
+        <!--        </dependency>-->
         <!--        <dependency>-->
         <!--            <groupId>com.zoe.framework</groupId>-->
         <!--            <artifactId>components-starter-mongodb</artifactId>-->
