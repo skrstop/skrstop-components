@@ -1,4 +1,4 @@
-//package com.zoe.framework.components.example.starters.entity.mongo;
+//package com.zoe.framework.components.example.starters.simple.entity.mongo;
 //
 //import com.zoe.framework.components.starter.mongodb.entity.version.AbstractTimeDeletedVersionBaseEntity;
 //import dev.morphia.annotations.Entity;

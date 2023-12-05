@@ -53,41 +53,34 @@
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-annotation</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-port-shift</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-banner</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-database</artifactId>
-            <version>${zoe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
         </dependency>
         <!--        <dependency>-->
         <!--            <groupId>com.zoe.framework</groupId>-->
-        <!--            <artifactId>components-starter-redis</artifactId>-->
-        <!--            <version>${zoe.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.redisson</groupId>-->
-        <!--            <artifactId>redisson</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.zoe.framework</groupId>-->
         <!--            <artifactId>components-starter-mongodb</artifactId>-->
-        <!--            <version>${zoe.version}</version>-->
         <!--        </dependency>-->
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-id</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -15,7 +15,6 @@
     <description>🏗 Zoe Mix Micro-service Examples Starters Module</description>
 
     <properties>
-        <zoe.version>1.2.4.20231128-RELEASE</zoe.version>
     </properties>
 
     <dependencies>
@@ -33,7 +32,6 @@
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-web</artifactId>
-            <version>${zoe.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -48,17 +46,14 @@
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-banner</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-feign-protostuff</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-util-stress</artifactId>
-            <version>${zoe.version}</version>
         </dependency>
     </dependencies>
 

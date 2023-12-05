@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  * Created by 蒋时华 on 2017/9/21.
  */
 @Slf4j
+@SuppressWarnings("all")
 public class RedisServiceImpl implements RedisService {
 
     @Getter
@@ -1108,6 +1109,15 @@ public class RedisServiceImpl implements RedisService {
         }
         return redisTemplate.getExpire(key);
     }
+
+    @Override
+    public List<Object> executePipelined(SessionCallback<?> callback) {
+        if (this.isConnection()) {
+            return null;
+        }
+        return this.redisTemplate.executePipelined(callback);
+    }
+
 
     @Override
     public long getExpire(String key, TimeUnit timeUnit) {

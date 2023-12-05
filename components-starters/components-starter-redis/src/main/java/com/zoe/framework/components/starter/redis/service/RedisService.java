@@ -2,6 +2,7 @@ package com.zoe.framework.components.starter.redis.service;
 
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.ZSetOperations;
 
 import java.time.Duration;
@@ -605,6 +606,14 @@ public interface RedisService {
      * @return
      */
     long getExpire(String key);
+
+    /**
+     * pipline执行
+     *
+     * @param callback
+     * @return
+     */
+    List<Object> executePipelined(SessionCallback<?> callback);
 
     /**
      * 获取过期时间

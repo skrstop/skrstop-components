@@ -1,6 +1,6 @@
-//package com.zoe.framework.components.example.starters.service;
+//package com.zoe.framework.components.example.starters.simple.service;
 //
-//import com.zoe.framework.components.example.starters.entity.mongo.Example2Mongo;
+//import com.zoe.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
 //import com.zoe.framework.components.starter.mongodb.service.impl.SuperServiceImpl;
 //import org.springframework.stereotype.Service;
 //

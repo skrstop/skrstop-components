@@ -77,4 +77,3 @@
 # 计划待添加功能
 
 * components-starter-object-storage 模块中增加：阿里云oss、华为云obs、腾讯云cos
-* components-starter-redis 增加pipline方法
