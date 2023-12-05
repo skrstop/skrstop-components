@@ -70,7 +70,6 @@
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="INFO"/>
             <appender-ref ref="ERROR"/>
-            <appender-ref ref="LogReport"/>
         </root>
 
         <Logger name="net.sf.ehcache" level="INFO"/>

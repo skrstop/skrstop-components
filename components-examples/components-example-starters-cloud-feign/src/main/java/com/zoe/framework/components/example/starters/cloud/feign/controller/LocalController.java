@@ -75,7 +75,9 @@ public class LocalController {
             return null;
         }, 10);
         // 控制台输出
+        System.out.println("原始");
         System.out.println(StressStoreUtil.format(originTest));
+        System.out.println("pb");
         System.out.println(StressStoreUtil.format(pbTest));
     }
 

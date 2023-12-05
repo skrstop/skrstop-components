@@ -2148,7 +2148,7 @@
                         <dependency>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-maven-plugin</artifactId>
-                            <version>${maven-spring-boot.version}</version>
+                            <version>${spring-boot.version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>
