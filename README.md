@@ -55,23 +55,23 @@
 
 # 常用可用类库版本
 
-* springBoot 2.6.6
-* springCloud 2021.0.1
-* springCloudAlibaba 2021.0.1.0
-* log4j 2.17.2
-* lombok 1.8.22
-* mybatis 3.5.9
-* mybatis-plus 3.5.1
-* mybatis-fluent 1.9.5
-* druid 1.2.9
-* hutool 5.8.0.M2
-* fastjson 1.2.80
-* dubbo 3.0.7
+* springBoot 2.7.18
+* springCloud 2021.0.8
+* springCloudAlibaba 2021.0.5.0
+* log4j 2.22.0
+* lombok 1.8.30
+* mybatis 3.5.13
+* mybatis-plus 3.5.3.2
+* mybatis-fluent 1.9.9
+* druid 1.2.20
+* hutool 5.8.23
+* fastjson 2.0.42
+* dubbo 3.2.9
 * protostuff 1.8.0
-* lettuce 6.1.8.RELEASE
-* jedis 4.2.2
-* morphia 2.2.6
-* javacv 1.5.7
+* lettuce 6.3.0.RELEASE
+* jedis 5.1.0
+* morphia 2.4.8
+* javacv 1.5.9
 * ...
 
 # 计划待添加功能
