@@ -2,9 +2,10 @@
 
 ##### 1.3.1.20231204-RELEASE
 
-* feat: 升级springboot到2.7.18
+* feat: 升级springboot到3.1.6
 * feat: 升级相关类库版本
 * feat: 删除多余代码、工具类
+* feat: 移除`components-starter-compatible-ribbon-to-loadbalancer`模块
 
 ##### 1.2.3.20220414-RELEASE
 
