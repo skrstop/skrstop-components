@@ -349,8 +349,6 @@
         <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.5.0</maven-flatten-plugin.version>
-        <maven-spring-boot.version>3.2.0</maven-spring-boot.version>
-
     </properties>
 
     <prerequisites>
@@ -2149,7 +2147,7 @@
                         <dependency>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-maven-plugin</artifactId>
-                            <version>${maven-spring-boot.version}</version>
+                            <version>${spring-boot.version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>
