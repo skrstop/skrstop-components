@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.codec.HttpMessageWriter;
@@ -153,7 +154,7 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));
         }
 
-        HttpStatus httpStatus = exchange.getResponse().getStatusCode();
+        HttpStatusCode httpStatus = exchange.getResponse().getStatusCode();
         IResult result;
         if (e instanceof Exception) {
             result = exceptionHandleChainPattern.execute((Exception) e);
@@ -170,7 +171,7 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
             return Mono.error(e);
         }
         ServerRequest newRequest = ServerRequest.create(exchange, this.messageReaders);
-        HttpStatus finalHttpStatus = httpStatus;
+        HttpStatusCode finalHttpStatus = httpStatus;
         final IResult finalResult = result;
         return RouterFunctions.route(RequestPredicates.all(), req -> this.renderErrorResponse(req, finalHttpStatus, finalResult))
                 .route(newRequest)
@@ -182,7 +183,7 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
     /**
      * 参考DefaultErrorWebExceptionHandler
      */
-    protected Mono<ServerResponse> renderErrorResponse(ServerRequest request, HttpStatus httpStatus, IResult result) {
+    protected Mono<ServerResponse> renderErrorResponse(ServerRequest request, HttpStatusCode httpStatus, IResult result) {
         ServerRequest.Headers headers = request.headers();
         MediaType contentType = MediaType.APPLICATION_JSON;
         List<String> feignValues = headers.header(FeignConst.USE_FEIGN_NAME);

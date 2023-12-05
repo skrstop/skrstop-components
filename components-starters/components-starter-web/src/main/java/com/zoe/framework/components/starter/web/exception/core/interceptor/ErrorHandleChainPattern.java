@@ -4,12 +4,12 @@ import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.starter.web.exception.global.interceptor.error.DefaultErrorInterceptor;
 import com.zoe.framework.components.starter.web.exception.global.interceptor.error.ZoeErrorInterceptor;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 

@@ -31,7 +31,7 @@ import java.util.List;
  * @author 蒋时华
  * @date 2020-10-17 10:57:45
  */
-@Configuration
+@Configuration(enforceUniqueMethods = false)
 @EnableConfigurationProperties(GlobalMongodbProperties.class)
 public class MorphiaAutoConfiguration {
 

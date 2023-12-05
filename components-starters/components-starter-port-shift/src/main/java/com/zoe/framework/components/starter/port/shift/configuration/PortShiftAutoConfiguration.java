@@ -5,6 +5,7 @@ import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.system.net.PortUtil;
 import com.zoe.framework.components.util.value.data.NumberUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
+import jakarta.servlet.ServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -20,7 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
-import javax.servlet.ServletRequest;
 import java.util.List;
 
 /**

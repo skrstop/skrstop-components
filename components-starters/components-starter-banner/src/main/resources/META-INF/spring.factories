@@ -1,3 +1,2 @@
-# EnvironmentPostProcessor
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.zoe.framework.components.starter.banner.DefaultPropertySourceEnvironmentPostProcessor

@@ -129,7 +129,7 @@ zoe:
   database:
     config:
       sql-healthy-check: false
-      mapper-class-location: com.zoe.framework.components.example.starters.mapper.mysql
+      mapper-class-location: com.zoe.framework.components.example.starters.simple.mapper.mysql
       mapper-xml-location: classpath*:mapper/*.xml
   annotation:
     config:
@@ -138,7 +138,7 @@ zoe:
           - exampleAnnotationAccessControl1
   mongodb:
     config:
-      map-package: com.zoe.framework.components.example.starters.entity.mongo
+      map-package: com.zoe.framework.components.example.starters.simple.entity.mongo
       ## 默认
       #      collection-naming: identity
       #      property-naming: identity

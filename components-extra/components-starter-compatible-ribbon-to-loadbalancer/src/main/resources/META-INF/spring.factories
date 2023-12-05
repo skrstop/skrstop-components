@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration,\
-    com.alibaba.cloud.nacos.ribbon.RibbonNacosAutoConfiguration,\
-    org.springframework.cloud.openfeign.ribbon.FeignRibbonClientAutoConfiguration,\
-    org.springframework.cloud.netflix.archaius.ArchaiusAutoConfiguration

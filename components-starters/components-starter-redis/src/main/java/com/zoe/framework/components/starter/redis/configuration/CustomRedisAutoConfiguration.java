@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +32,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties({GlobalRedisProperties.class})
 @ConditionalOnProperty(name = GlobalConfigConst.REDIS_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
-public class CustomRedisAutoConfiguration extends CachingConfigurerSupport {
+public class CustomRedisAutoConfiguration {
 
     @Bean("fastJsonRedisService")
     @ConditionalOnBean(RedisTemplate.class)

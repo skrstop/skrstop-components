@@ -2,6 +2,7 @@ package com.zoe.framework.components.starter.web.exception.global.webmvc;
 
 import com.zoe.framework.components.core.annotation.source.Snapshot;
 import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
+import jakarta.servlet.Servlet;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.Servlet;
 import java.util.List;
 import java.util.stream.Collectors;
 

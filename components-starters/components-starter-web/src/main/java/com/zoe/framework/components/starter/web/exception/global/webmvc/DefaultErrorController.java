@@ -9,6 +9,8 @@ import com.zoe.framework.components.starter.web.exception.core.ShowHtmlMessageEx
 import com.zoe.framework.components.starter.web.exception.core.ShowJsonMessageException;
 import com.zoe.framework.components.util.constant.HttpStatusConst;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
@@ -24,8 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class DefaultErrorController extends AbstractErrorController {
     protected ErrorProperties errorProperties;
     protected ErrorAttributes errorAttributes;
 
-    private final String FORWARD_REQUEST_URL = "javax.servlet.forward.request_uri";
+    private final String FORWARD_REQUEST_URL = "jakarta.servlet.forward.request_uri";
 
     /**
      * Create a new {@link DefaultErrorController} instance.

@@ -10,6 +10,7 @@ import com.zoe.framework.components.util.system.net.IPUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import com.zoe.framework.components.util.value.security.SensitiveDataUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -25,7 +26,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

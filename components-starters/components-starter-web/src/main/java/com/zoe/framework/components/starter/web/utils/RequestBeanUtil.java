@@ -5,8 +5,7 @@ import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.enums.HttpContentTypeEnum;
 import com.zoe.framework.components.util.serialization.json.FastJsonUtil;
 import com.zoe.framework.components.util.value.validate.ParameterValidateUtil;
-
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author: wangzh

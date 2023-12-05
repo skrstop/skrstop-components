@@ -33,19 +33,19 @@ public @interface ProtostuffFeignClient {
     String contextId() default "";
 
     @AliasFor(annotation = FeignClient.class)
-    String qualifier() default "";
-
-    @AliasFor(annotation = FeignClient.class)
-    boolean decode404() default false;
-
-    @AliasFor(annotation = FeignClient.class)
-    boolean primary() default true;
-
-    @AliasFor(annotation = FeignClient.class)
     String name() default "";
 
     @AliasFor(annotation = FeignClient.class)
+    String[] qualifiers() default {};
+
+    @AliasFor(annotation = FeignClient.class)
     String url() default "";
+
+    @AliasFor(annotation = FeignClient.class)
+    boolean dismiss404() default false;
+
+    @AliasFor(annotation = FeignClient.class)
+    Class<?>[] configuration() default {};
 
     @AliasFor(annotation = FeignClient.class)
     Class<?> fallback() default void.class;
@@ -54,10 +54,10 @@ public @interface ProtostuffFeignClient {
     Class<?> fallbackFactory() default void.class;
 
     @AliasFor(annotation = FeignClient.class)
-    Class<?>[] configuration() default {};
+    String path() default "";
 
     @AliasFor(annotation = FeignClient.class)
-    String path() default "";
+    boolean primary() default true;
 
     /**
      * 不使用http，直接使用本地调用，在服务合并的时候使用

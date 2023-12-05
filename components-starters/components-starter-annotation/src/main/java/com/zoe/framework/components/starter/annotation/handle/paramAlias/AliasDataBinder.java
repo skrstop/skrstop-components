@@ -1,10 +1,10 @@
 package com.zoe.framework.components.starter.annotation.handle.paramAlias;
 
 import com.zoe.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
+import jakarta.servlet.ServletRequest;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import javax.servlet.ServletRequest;
 import java.lang.reflect.Field;
 
 /**

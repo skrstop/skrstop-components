@@ -1,0 +1,13 @@
+com.zoe.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern
+com.zoe.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern
+com.zoe.framework.components.starter.web.response.core.ResponseHandleChainPattern
+com.zoe.framework.components.starter.web.configuration.JacksonAutoConfiguration
+com.zoe.framework.components.starter.web.response.webflux.WebFluxResponseJacksonAutoConfiguration
+com.zoe.framework.components.starter.web.response.webmvc.ReturnResponseAutoConfiguration
+com.zoe.framework.components.starter.web.response.webflux.ReturnResponseAutoConfiguration
+com.zoe.framework.components.starter.web.exception.global.webmvc.ErrorMvcAutoConfiguration
+com.zoe.framework.components.starter.web.exception.global.webmvc.RequestExceptionHandler
+com.zoe.framework.components.starter.web.exception.global.webflux.ExceptionAutoConfiguration
+com.zoe.framework.components.starter.web.configuration.sentinel.SentinelDefaultResponseAutoConfiguration
+com.zoe.framework.components.starter.web.event.ShutdownEventController
+com.zoe.framework.components.starter.web.event.StatusEventController

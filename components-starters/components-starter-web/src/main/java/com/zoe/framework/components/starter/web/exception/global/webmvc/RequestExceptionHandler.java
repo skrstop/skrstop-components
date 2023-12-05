@@ -24,6 +24,9 @@ import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import com.zoe.framework.components.util.value.validate.ErrorMessageUtil;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -32,10 +35,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -55,9 +55,6 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -90,7 +87,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         if (ex instanceof BindException) {
             BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
@@ -113,7 +110,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.MISS_PARAMETER), status);
     }
@@ -123,7 +120,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.MISS_PARAMETER), status);
     }
@@ -136,7 +133,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         IResult iResult = EnumCodeUtil.transferEnumCode(WebStarterExceptionCode.MATCH_PARAMETER);
         String message = iResult.getMessage();
@@ -159,7 +156,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.NOT_SUPPORT_MEDIA_TYPE), status);
     }
@@ -175,7 +172,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.NOT_ACCEPTED_MEDIA_TYPE), status);
     }
@@ -187,7 +184,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+    protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.REQUEST_TIMEOUT), status);
     }
@@ -203,7 +200,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.REQUEST_METHOD_NOT_ALLOWED), status);
     }
@@ -218,7 +215,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.debug(ThrowableStackTraceUtil.getStackTraceStr(ex));
         List<ObjectError> errors = ex.getBindingResult().getAllErrors();
 //        StringBuffer errorMsg=new StringBuffer();
@@ -245,7 +242,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.FILE_UPLOAD), status);
     }

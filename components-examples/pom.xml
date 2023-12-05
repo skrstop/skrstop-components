@@ -7,11 +7,12 @@
     <parent>
         <groupId>com.zoe.framework</groupId>
         <artifactId>zoe-components</artifactId>
-        <version>${framework.components.revision}</version>
+        <version>1.3.1.20231204-RELEASE</version>
     </parent>
 
     <artifactId>components-examples</artifactId>
     <packaging>pom</packaging>
+    <version>1.3.1.20231204-RELEASE</version>
 
     <name>Zoe Mix Micro-service Project Examples Module</name>
     <description>🏗 Zoe Mix Micro-service Examples Module</description>
@@ -22,7 +23,6 @@
     </modules>
 
     <properties>
-        <!-- Module Version -->
     </properties>
 
     <dependencies>
@@ -33,16 +33,85 @@
             <dependency>
                 <groupId>com.zoe.framework</groupId>
                 <artifactId>components-example-starters</artifactId>
-                <version>${framework.components.revision}</version>
+                <version>${parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.zoe.framework</groupId>
                 <artifactId>components-project</artifactId>
-                <version>${framework.components.revision}</version>
+                <version>${parent.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>

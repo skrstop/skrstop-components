@@ -1,7 +1,9 @@
 package com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc;
 
 import com.zoe.framework.components.starter.feign.protostuff.annotation.ProtostuffFeignClient;
+import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
+import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -40,18 +42,33 @@ public class ProtobufFeignClientBeanPostProcessor implements BeanDefinitionRegis
         while (iterator.hasNext()) {
             BeanDefinition beanDefinition = registry.getBeanDefinition(iterator.next());
             FeignClientFactoryBean feignClientFactoryBean = (FeignClientFactoryBean) beanDefinition.getAttribute("feignClientsRegistrarFactoryBean");
-            String name = feignClientFactoryBean.getName();
-            String contextId = feignClientFactoryBean.getContextId();
-            iterator.set(StrUtil.blankToDefault(contextId, name) + ".FeignClientSpecification");
-//            Object name = beanDefinition.getPropertyValues().get("name");
-//            Object contextId = beanDefinition.getPropertyValues().get("contextId");
-//            iterator.set(StrUtil.blankToDefault(contextId.toString(), name.toString()) + ".FeignClientSpecification");
+            if (ObjectUtil.isNull(feignClientFactoryBean)) {
+                // 立马加载
+                Object name = beanDefinition.getPropertyValues().get("name");
+                Object contextId = beanDefinition.getPropertyValues().get("contextId");
+                if (name == null && contextId == null) {
+                    throw new RuntimeException("FeignClient attr name or contextId is all null or blank");
+                }
+                if (StrUtil.isAllBlank(StrUtil.toString(name, StringPoolConst.EMPTY), StrUtil.toString(contextId, StringPoolConst.EMPTY))) {
+                    throw new RuntimeException("FeignClient attr name or contextId is all null or blank");
+                }
+                iterator.set(StrUtil.blankToDefault(contextId.toString(), name.toString()) + ".FeignClientSpecification");
+            } else {
+                // 懒加载
+                String name = feignClientFactoryBean.getName();
+                String contextId = feignClientFactoryBean.getContextId();
+                if (StrUtil.isAllBlank(name, contextId)) {
+                    throw new RuntimeException("FeignClient attr name or contextId is all null or blank");
+                }
+                iterator.set(StrUtil.blankToDefault(contextId, name) + ".FeignClientSpecification");
+            }
         }
         // 自动配置protostuff 配置类
         serviceName.forEach(beanDefinitionName -> {
             BeanDefinition beanDefinition = registry.getBeanDefinition(beanDefinitionName);
             ConstructorArgumentValues constructorArgumentValues = beanDefinition.getConstructorArgumentValues();
-            ConstructorArgumentValues.ValueHolder indexedArgumentValues = constructorArgumentValues.getIndexedArgumentValues().get(1);
+            // FeignClientSpecification 构造函数增加了一个参数
+            ConstructorArgumentValues.ValueHolder indexedArgumentValues = constructorArgumentValues.getIndexedArgumentValues().get(2);
             Object[] configuration = (Object[]) indexedArgumentValues.getValue();
             ArrayList<Object> configurationList = CollectionUtil.toList(configuration);
             configurationList.add(FeignMessageConverterAutoConfiguration.class);

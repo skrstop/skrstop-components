@@ -7,6 +7,7 @@ import com.zoe.framework.components.starter.web.exception.core.interceptor.Excep
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -23,7 +24,7 @@ public class NotFoundExceptionInterceptor implements ExceptionHandlerInterceptor
     public IResult execute(Exception e) {
         if (e instanceof ResponseStatusException) {
             // 404
-            HttpStatus status = ((ResponseStatusException) e).getStatus();
+            HttpStatusCode status = ((ResponseStatusException) e).getStatusCode();
             if (HttpStatus.NOT_FOUND.value() == status.value()) {
                 return DefaultResult.Builder.result(CommonResultCode.NOT_FOUND);
             }

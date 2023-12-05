@@ -3,6 +3,7 @@ package com.zoe.framework.components.starter.annotation.handle.aspect;
 import cn.hutool.core.net.NetUtil;
 import com.zoe.framework.components.starter.annotation.exception.aspect.IntranetLimitException;
 import com.zoe.framework.components.util.system.net.IPUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -14,8 +15,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 内网访问限制

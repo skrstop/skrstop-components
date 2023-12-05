@@ -17,7 +17,6 @@
     <description>🏗 Zoe Mix Micro-service Extra Module</description>
 
     <modules>
-        <module>components-starter-compatible-ribbon-to-loadbalancer</module>
     </modules>
 
     <properties>

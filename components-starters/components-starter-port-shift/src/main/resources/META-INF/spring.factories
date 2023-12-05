@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zoe.framework.components.starter.port.shift.configuration.PortShiftAutoConfiguration
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.zoe.framework.components.starter.port.shift.configuration.PortShiftAutoConfiguration

@@ -1,0 +1,4 @@
+com.zoe.framework.components.starter.database.configuration.MybatisScanAutoConfiguration
+com.zoe.framework.components.starter.database.configuration.MybatisPlusCommonAutoConfiguration
+com.zoe.framework.components.starter.database.configuration.MybatisPlusIdAutoConfiguration
+com.zoe.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration

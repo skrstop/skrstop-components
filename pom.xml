@@ -56,8 +56,8 @@
         <!-- base properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <resource.delimiter>@</resource.delimiter>
 
         <!-- metrics -->
@@ -75,7 +75,7 @@
 
         <!-- dependencies  -->
         <lombok.version>1.18.30</lombok.version>
-        <slf4j-api.version>1.7.36</slf4j-api.version>
+        <slf4j-api.version>2.0.9</slf4j-api.version>
         <log4j.version>2.22.0</log4j.version>
         <checker.version>3.40.0</checker.version>
 
@@ -85,7 +85,7 @@
         <!-- dependencies management libs -->
         <!-- spring's version -->
         <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-boot.version>3.2.0</spring-boot.version>
+        <spring-boot.version>3.1.6</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <!-- cache -->
@@ -180,7 +180,7 @@
         <google-guava.version>32.1.3-jre</google-guava.version>
         <error_prone_annotations.version>2.23.0</error_prone_annotations.version>
         <!-- servlet api-->
-        <servlet-api.version>4.0.1</servlet-api.version>
+        <servlet-api.version>6.0.0</servlet-api.version>
         <!-- ali TTL -->
         <ttl.version>2.14.3</ttl.version>
         <!-- 图片处理 -->
@@ -349,6 +349,7 @@
         <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.5.0</maven-flatten-plugin.version>
+        <maven-spring-boot.version>3.2.0</maven-spring-boot.version>
 
     </properties>
 
@@ -1121,8 +1122,8 @@
             </dependency>
             <!-- servlet-api -->
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
             </dependency>
             <!-- ali ttl -->
@@ -1870,8 +1871,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

@@ -1,11 +1,11 @@
-//package com.zoe.framework.components.example.starters.controller;
+//package com.zoe.framework.components.example.starters.simple.controller;
 //
 //import com.zoe.framework.components.core.common.response.page.CommonPageData;
-//import com.zoe.framework.components.example.starters.entity.mongo.Example1Mongo;
-//import com.zoe.framework.components.example.starters.entity.mongo.Example2Mongo;
-//import com.zoe.framework.components.example.starters.entity.mongo.ExampleMongoChild;
-//import com.zoe.framework.components.example.starters.service.Example1MongoService;
-//import com.zoe.framework.components.example.starters.service.Example2MongoService;
+//import com.zoe.framework.components.example.starters.simple.entity.mongo.Example1Mongo;
+//import com.zoe.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
+//import com.zoe.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
+//import com.zoe.framework.components.example.starters.simple.service.Example1MongoService;
+//import com.zoe.framework.components.example.starters.simple.service.Example2MongoService;
 //import com.zoe.framework.components.starter.mongodb.wrapper.PageQuery;
 //import com.zoe.framework.components.util.value.data.CollectionUtil;
 //import com.zoe.framework.components.util.value.lambda.LambdaUtil;
@@ -119,7 +119,7 @@
 //    @GetMapping("/exampleMongodb5")
 //    public Example2Mongo exampleMongodb5() {
 //        Example2Mongo byId = example2MongoService.findById(1731581202680385536L);
-//        byId.setVersion(1000L);
+//        byId.setVersion(5L);
 //        example2MongoService.updateWithVersion(byId.getVersion()
 //                , CollectionUtil.newArrayList(Filters.eq(LambdaUtil.convertToFieldName(Example2Mongo::getId), 1731581202680385536L))
 //                , CollectionUtil.newArrayList(

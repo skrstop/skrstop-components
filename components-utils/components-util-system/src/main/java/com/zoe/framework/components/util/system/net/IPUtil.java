@@ -3,11 +3,11 @@ package com.zoe.framework.components.util.system.net;
 
 import com.zoe.framework.components.util.value.data.StrUtil;
 import com.zoe.framework.components.util.value.validate.Assert;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;

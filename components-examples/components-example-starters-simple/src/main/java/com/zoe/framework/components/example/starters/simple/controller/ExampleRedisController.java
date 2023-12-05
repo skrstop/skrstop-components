@@ -1,6 +1,6 @@
-//package com.zoe.framework.components.example.starters.controller;
+//package com.zoe.framework.components.example.starters.simple.controller;
 //
-//import com.zoe.framework.components.example.starters.entity.request.ExampleRequestRedis;
+//import com.zoe.framework.components.example.starters.simple.entity.request.ExampleRequestRedis;
 //import com.zoe.framework.components.starter.redis.service.RedisService;
 //import com.zoe.framework.components.util.value.data.ObjectUtil;
 //import lombok.extern.slf4j.Slf4j;

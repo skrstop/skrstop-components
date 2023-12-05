@@ -3,9 +3,9 @@ package com.zoe.framework.components.starter.feign.protostuff.interceptor;
 import com.zoe.framework.components.util.constant.FeignConst;
 import com.zoe.framework.components.util.enums.CharSetEnum;
 import com.zoe.framework.components.util.enums.HttpContentTypeEnum;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
