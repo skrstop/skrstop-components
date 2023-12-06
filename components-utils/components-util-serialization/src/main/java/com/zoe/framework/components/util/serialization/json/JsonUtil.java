@@ -5,8 +5,8 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.experimental.UtilityClass;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author 蒋时华
@@ -15,62 +15,62 @@ import java.util.List;
 public class JsonUtil extends JSONUtil {
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param jsonString
      * @return
      */
-    public static List<String> listAllProperties(String jsonString) {
-        List<String> flattened = new ArrayList<>();
+    public static Set<String> listAllProperties(String jsonString) {
+        Set<String> flattened = new LinkedHashSet<>();
         listAllProperties(JSONUtil.parseObj(jsonString), "", flattened, true);
         return flattened;
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param obj
      * @return
      */
-    public static List<String> listAllProperties(JSONObject obj) {
-        List<String> flattened = new ArrayList<>();
+    public static Set<String> listAllProperties(JSONObject obj) {
+        Set<String> flattened = new LinkedHashSet<>();
         listAllProperties(obj, "", flattened, true);
         return flattened;
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param jsonString
      * @return
      */
-    public static List<String> listAllProperties(String jsonString, boolean showArraySuffix) {
-        List<String> flattened = new ArrayList<>();
+    public static Set<String> listAllProperties(String jsonString, boolean showArraySuffix) {
+        Set<String> flattened = new LinkedHashSet<>();
         listAllProperties(JSONUtil.parseObj(jsonString), "", flattened, showArraySuffix);
         return flattened;
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param obj
      * @return
      */
-    public static List<String> listAllProperties(JSONObject obj, boolean showArraySuffix) {
-        List<String> flattened = new ArrayList<>();
+    public static Set<String> listAllProperties(JSONObject obj, boolean showArraySuffix) {
+        Set<String> flattened = new LinkedHashSet<>();
         listAllProperties(obj, "", flattened, showArraySuffix);
         return flattened;
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param obj
      * @param prefix
      * @param flattened
      * @param showArraySuffix
      */
-    private static void listAllProperties(JSONObject obj, String prefix, List<String> flattened, boolean showArraySuffix) {
+    private static void listAllProperties(JSONObject obj, String prefix, Set<String> flattened, boolean showArraySuffix) {
         for (String key : obj.keySet()) {
             Object value = obj.get(key);
             String newPrefix = prefix + key;

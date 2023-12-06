@@ -3,7 +3,7 @@ package com.zoe.framework.components.util.serialization;
 import com.zoe.framework.components.util.serialization.json.JsonUtil;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author 蒋时华
@@ -19,7 +19,7 @@ public class JsonUtilTest {
         String s3 = JsonUtil.formatJsonStr(json);
         System.out.println(s3);
 
-        List<String> strings = JsonUtil.listAllProperties(json);
+        Set<String> strings = JsonUtil.listAllProperties(json);
         System.out.println("aaa");
     }
 
