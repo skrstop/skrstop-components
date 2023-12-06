@@ -15,7 +15,7 @@ import java.util.Set;
 public class JsonUtil extends JSONUtil {
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param jsonString
      * @return
@@ -27,7 +27,7 @@ public class JsonUtil extends JSONUtil {
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param obj
      * @return
@@ -39,7 +39,7 @@ public class JsonUtil extends JSONUtil {
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param jsonString
      * @return
@@ -51,7 +51,7 @@ public class JsonUtil extends JSONUtil {
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param obj
      * @return
@@ -63,7 +63,7 @@ public class JsonUtil extends JSONUtil {
     }
 
     /**
-     * json数据转list
+     * json数据转set
      *
      * @param obj
      * @param prefix
