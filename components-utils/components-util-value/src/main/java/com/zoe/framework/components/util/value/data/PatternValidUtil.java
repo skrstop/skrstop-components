@@ -6,8 +6,12 @@ import cn.hutool.core.util.StrUtil;
 import com.zoe.framework.components.util.constant.RegularExpressionConst;
 import lombok.experimental.UtilityClass;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @description: 正则工具类
@@ -17,6 +21,33 @@ import java.util.regex.Pattern;
 @UtilityClass
 public class PatternValidUtil extends ReUtil {
 
+
+    /**
+     * 正则寻找子串
+     *
+     * @param regex
+     * @param content
+     * @param distinct 是否去重
+     * @return
+     */
+    public List<String> listAllSubStr(String regex, CharSequence content, boolean distinct) {
+        if (content == null) {
+            return Collections.emptyList();
+        }
+        if (StrUtil.isEmpty(regex)) {
+            return Collections.emptyList();
+        }
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(content);
+        List<String> result = new ArrayList<>();
+        while (matcher.find()) {
+            result.add(matcher.group());
+        }
+        if (distinct) {
+            result = result.stream().distinct().collect(Collectors.toList());
+        }
+        return result;
+    }
 
     /**
      * 正则匹配方法,不区分大小写

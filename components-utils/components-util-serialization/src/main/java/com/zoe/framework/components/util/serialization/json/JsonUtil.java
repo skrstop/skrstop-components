@@ -5,7 +5,9 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.experimental.UtilityClass;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -91,6 +93,60 @@ public class JsonUtil extends JSONUtil {
                 }
             } else {
                 flattened.add(newPrefix);
+            }
+        }
+    }
+
+    /**
+     * json 转 map, 拉平所有对象
+     *
+     * @param jsonString
+     * @return
+     */
+    public static LinkedHashMap<String, Object> listAllPropertiesValue(String jsonString) {
+        LinkedHashMap<String, Object> flattened = new LinkedHashMap<>();
+        listAllPropertiesValue(JSONUtil.parseObj(jsonString), "", flattened);
+        return flattened;
+    }
+
+    /**
+     * json 转 map, 拉平所有对象
+     *
+     * @param obj
+     * @return
+     */
+    public static LinkedHashMap<String, Object> listAllPropertiesValue(JSONObject obj) {
+        LinkedHashMap<String, Object> flattened = new LinkedHashMap<>();
+        listAllPropertiesValue(obj, "", flattened);
+        return flattened;
+    }
+
+    /**
+     * json 转 map, 拉平所有对象
+     *
+     * @param obj
+     * @param prefix
+     * @param flattened
+     */
+    private static void listAllPropertiesValue(JSONObject obj, String prefix, LinkedHashMap<String, Object> flattened) {
+        for (Map.Entry<String, Object> entry : obj.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            String newPrefix = prefix + key;
+            if (value instanceof JSONObject) {
+                listAllPropertiesValue((JSONObject) value, newPrefix + ".", flattened);
+            } else if (value instanceof JSONArray) {
+                JSONArray arr = (JSONArray) value;
+                for (int i = 0; i < arr.size(); i++) {
+                    Object arrValue = arr.get(i);
+                    if (arrValue instanceof JSONObject) {
+                        listAllPropertiesValue((JSONObject) arrValue, newPrefix + "[" + i + "].", flattened);
+                    } else {
+                        flattened.put(newPrefix, value);
+                    }
+                }
+            } else {
+                flattened.put(newPrefix, value);
             }
         }
     }
