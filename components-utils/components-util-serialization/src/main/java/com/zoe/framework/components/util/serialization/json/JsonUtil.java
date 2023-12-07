@@ -5,7 +5,9 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.experimental.UtilityClass;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ public class JsonUtil extends JSONUtil {
      * @return
      */
     public static Set<String> listAllProperties(String jsonString) {
-        Set<String> flattened = new LinkedHashSet<>();
+        LinkedHashSet<String> flattened = new LinkedHashSet<>();
         listAllProperties(JSONUtil.parseObj(jsonString), "", flattened, true);
         return flattened;
     }
@@ -33,7 +35,7 @@ public class JsonUtil extends JSONUtil {
      * @return
      */
     public static Set<String> listAllProperties(JSONObject obj) {
-        Set<String> flattened = new LinkedHashSet<>();
+        LinkedHashSet<String> flattened = new LinkedHashSet<>();
         listAllProperties(obj, "", flattened, true);
         return flattened;
     }
@@ -45,7 +47,7 @@ public class JsonUtil extends JSONUtil {
      * @return
      */
     public static Set<String> listAllProperties(String jsonString, boolean showArraySuffix) {
-        Set<String> flattened = new LinkedHashSet<>();
+        LinkedHashSet<String> flattened = new LinkedHashSet<>();
         listAllProperties(JSONUtil.parseObj(jsonString), "", flattened, showArraySuffix);
         return flattened;
     }
@@ -57,7 +59,7 @@ public class JsonUtil extends JSONUtil {
      * @return
      */
     public static Set<String> listAllProperties(JSONObject obj, boolean showArraySuffix) {
-        Set<String> flattened = new LinkedHashSet<>();
+        LinkedHashSet<String> flattened = new LinkedHashSet<>();
         listAllProperties(obj, "", flattened, showArraySuffix);
         return flattened;
     }
@@ -70,7 +72,7 @@ public class JsonUtil extends JSONUtil {
      * @param flattened
      * @param showArraySuffix
      */
-    private static void listAllProperties(JSONObject obj, String prefix, Set<String> flattened, boolean showArraySuffix) {
+    private static void listAllProperties(JSONObject obj, String prefix, LinkedHashSet<String> flattened, boolean showArraySuffix) {
         for (String key : obj.keySet()) {
             Object value = obj.get(key);
             String newPrefix = prefix + key;
@@ -91,6 +93,59 @@ public class JsonUtil extends JSONUtil {
                 }
             } else {
                 flattened.add(newPrefix);
+            }
+        }
+    }
+
+    /**
+     * json 转 map, 拉平所有对象
+     * @param jsonString
+     * @return
+     */
+    public static LinkedHashMap<String, Object> listAllPropertiesValue(String jsonString) {
+        LinkedHashMap<String, Object> flattened = new LinkedHashMap<>();
+        listAllPropertiesValue(JSONUtil.parseObj(jsonString), "", flattened);
+        return flattened;
+    }
+
+    /**
+     * json 转 map, 拉平所有对象
+     *
+     * @param obj
+     * @return
+     */
+    public static LinkedHashMap<String, Object> listAllPropertiesValue(JSONObject obj) {
+        LinkedHashMap<String, Object> flattened = new LinkedHashMap<>();
+        listAllPropertiesValue(obj, "", flattened);
+        return flattened;
+    }
+
+    /**
+     * json 转 map, 拉平所有对象
+     *
+     * @param obj
+     * @param prefix
+     * @param flattened
+     */
+    private static void listAllPropertiesValue(JSONObject obj, String prefix, LinkedHashMap<String, Object> flattened) {
+        for (Map.Entry<String, Object> entry : obj.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            String newPrefix = prefix + key;
+            if (value instanceof JSONObject) {
+                listAllPropertiesValue((JSONObject) value, newPrefix + ".", flattened);
+            } else if (value instanceof JSONArray) {
+                JSONArray arr = (JSONArray) value;
+                for (int i = 0; i < arr.size(); i++) {
+                    Object arrValue = arr.get(i);
+                    if (arrValue instanceof JSONObject) {
+                        listAllPropertiesValue((JSONObject) arrValue, newPrefix + "[" + i + "].", flattened);
+                    } else {
+                        flattened.put(newPrefix, value);
+                    }
+                }
+            } else {
+                flattened.put(newPrefix, value);
             }
         }
     }
