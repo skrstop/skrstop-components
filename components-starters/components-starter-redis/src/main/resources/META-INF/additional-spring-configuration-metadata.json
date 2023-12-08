@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties",
+      "sourceType": "com.zoe.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties",
       "name": "redis参数配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties"
+      "type": "com.zoe.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties"
     },
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties",
+      "sourceType": "com.zoe.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties",
       "name": "redisson参数配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.GlobalRedissonProperties"
+      "type": "com.zoe.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties"
     }
   ],
   "properties": [

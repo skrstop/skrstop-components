@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.redis.configuration;
+package com.zoe.framework.components.starter.redis.configuration.redisson;
 
 import com.zoe.framework.components.core.exception.ZoeException;
 import com.zoe.framework.components.starter.redis.constant.GlobalConfigConst;
