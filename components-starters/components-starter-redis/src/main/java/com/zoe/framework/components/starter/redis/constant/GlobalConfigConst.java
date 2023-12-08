@@ -11,4 +11,6 @@ public interface GlobalConfigConst {
     String REDIS_PREFIX = "zoe.redis.config";
     String REDISSON_PREFIX = "spring.redis.redisson";
 
+    String REDIS_DYNAMIC = "spring.redis.dynamic";
+
 }
