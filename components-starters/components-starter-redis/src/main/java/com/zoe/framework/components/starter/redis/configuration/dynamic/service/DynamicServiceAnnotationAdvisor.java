@@ -1,6 +1,5 @@
 package com.zoe.framework.components.starter.redis.configuration.dynamic.service;
 
-import com.zoe.framework.components.starter.redis.service.DynamicRedisService;
 import lombok.NonNull;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -27,7 +26,7 @@ public class DynamicServiceAnnotationAdvisor extends AbstractPointcutAdvisor imp
     /**
      * the service
      */
-    private final Class<? extends DynamicRedisService> service;
+    private final Class<?> service;
 
     /**
      * 构造方法
@@ -36,7 +35,7 @@ public class DynamicServiceAnnotationAdvisor extends AbstractPointcutAdvisor imp
      * @param service service
      */
     public DynamicServiceAnnotationAdvisor(@NonNull MethodInterceptor advice,
-                                           @NonNull Class<? extends DynamicRedisService> service) {
+                                           @NonNull Class<?> service) {
         this.advice = advice;
         this.service = service;
         this.pointcut = buildPointcut();
@@ -66,9 +65,9 @@ public class DynamicServiceAnnotationAdvisor extends AbstractPointcutAdvisor imp
 
     private static class ServiceMethodPoint implements Pointcut {
 
-        private final Class<? extends DynamicRedisService> serviceType;
+        private final Class<?> serviceType;
 
-        public ServiceMethodPoint(Class<? extends DynamicRedisService> serviceType) {
+        public ServiceMethodPoint(Class<?> serviceType) {
             this.serviceType = serviceType;
         }
 

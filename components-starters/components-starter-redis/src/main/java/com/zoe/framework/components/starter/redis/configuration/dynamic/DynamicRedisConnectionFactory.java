@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.data.redis.ClientResourcesBuilderC
 import org.springframework.boot.autoconfigure.data.redis.JedisClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -25,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 蒋时华
  * @date 2023-12-07 16:41:52
  */
-@Configuration(proxyBeanMethods = false)
 @Slf4j
 public class DynamicRedisConnectionFactory implements InitializingBean, DisposableBean, RedisConnectionFactory, ReactiveRedisConnectionFactory {
 
