@@ -34,6 +34,10 @@ public class DynamicRedisProperties {
     @NestedConfigurationProperty
     private Aop aop = new Aop();
 
+    /*** service相关配置 */
+    @NestedConfigurationProperty
+    private Service service = new Service();
+
     /*** 当为true时，未找到指定的redis时会抛出异常，为false时，则使用默认redis */
     private Boolean exceptionWhileNotFoundRedis = false;
 
@@ -53,11 +57,24 @@ public class DynamicRedisProperties {
         /**
          * aop order
          */
-        private Integer order = Ordered.HIGHEST_PRECEDENCE;
+        private Integer order = Ordered.HIGHEST_PRECEDENCE + 1;
         /**
          * aop allowedPublicOnly
          */
         private Boolean allowedPublicOnly = true;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @Accessors(chain = true)
+    public static class Service {
+        /**
+         * service order
+         */
+        private Integer order = Ordered.HIGHEST_PRECEDENCE;
     }
 
 }

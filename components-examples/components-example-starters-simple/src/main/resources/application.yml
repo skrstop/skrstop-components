@@ -1,7 +1,7 @@
 spring:
-  # 在SpringBoot 2.1之前，这个配置默认就是true，而在2.1做了更改。
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true
   application:
     name: components-example-starters-simple
   profiles:

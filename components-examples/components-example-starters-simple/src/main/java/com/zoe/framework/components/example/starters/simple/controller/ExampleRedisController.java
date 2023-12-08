@@ -1,7 +1,7 @@
 package com.zoe.framework.components.example.starters.simple.controller;
 
 import com.zoe.framework.components.example.starters.simple.entity.request.ExampleRequestRedis;
-import com.zoe.framework.components.example.starters.simple.service.DynamicRedisService;
+import com.zoe.framework.components.example.starters.simple.service.ExampleDynamicRedisService;
 import com.zoe.framework.components.starter.redis.service.RedisService;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class ExampleRedisController {
     @Autowired
     private RedisService redisService;
     @Autowired
-    private DynamicRedisService dynamicRedisService;
+    private ExampleDynamicRedisService exampleDynamicRedisService;
     @Autowired
     private RedissonClient redissonClient;
 
@@ -115,10 +115,12 @@ public class ExampleRedisController {
      */
     @GetMapping("/exampleRedisDynamic")
     public void exampleRedisDynamic() {
-        dynamicRedisService.primary();
-        dynamicRedisService.db0();
-        dynamicRedisService.db1();
-        dynamicRedisService.db2();
+//        dynamicRedisService.primary();
+//        dynamicRedisService.db0();
+//        dynamicRedisService.db1();
+//        dynamicRedisService.db2();
+//        dynamicRedisService.mutl();
+        exampleDynamicRedisService.service();
     }
 
 }

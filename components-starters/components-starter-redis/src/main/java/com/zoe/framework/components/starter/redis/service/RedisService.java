@@ -390,7 +390,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listRightPushIfPresend(String key, Object value);
+    long listRightPushIfPresent(String key, Object value);
 
     /**
      * 列表左添加
@@ -422,7 +422,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listLeftPushIfPresend(String key, Object value);
+    long listLeftPushIfPresent(String key, Object value);
 
     /**
      * 列表获取
@@ -624,7 +624,7 @@ public interface RedisService {
      */
     long getExpire(String key, TimeUnit timeUnit);
 
-    Set getPattern(String pattern);
+    Set<String> getPattern(String pattern);
 
     RedisTemplate getRedisTemplate();
 

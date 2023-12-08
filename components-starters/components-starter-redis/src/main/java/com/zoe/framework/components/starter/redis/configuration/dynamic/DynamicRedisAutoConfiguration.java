@@ -1,11 +1,14 @@
 package com.zoe.framework.components.starter.redis.configuration.dynamic;
 
 import com.zoe.framework.components.starter.redis.configuration.dynamic.annotation.DSRedis;
-import com.zoe.framework.components.starter.redis.configuration.dynamic.aop.DynamicDataSourceAnnotationAdvisor;
-import com.zoe.framework.components.starter.redis.configuration.dynamic.aop.DynamicDataSourceAnnotationInterceptor;
+import com.zoe.framework.components.starter.redis.configuration.dynamic.aop.DynamicAopAnnotationAdvisor;
+import com.zoe.framework.components.starter.redis.configuration.dynamic.aop.DynamicAopSourceAnnotationInterceptor;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.selector.DsSelector;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.selector.DsSpelExpressionProcessor;
+import com.zoe.framework.components.starter.redis.configuration.dynamic.service.DynamicServiceAnnotationAdvisor;
+import com.zoe.framework.components.starter.redis.configuration.dynamic.service.DynamicServiceAnnotationInterceptor;
 import com.zoe.framework.components.starter.redis.constant.GlobalConfigConst;
+import com.zoe.framework.components.starter.redis.service.DynamicRedisService;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -63,14 +66,36 @@ public class DynamicRedisAutoConfiguration {
         return spelExpressionProcessor;
     }
 
+    /**
+     * aop
+     *
+     * @param dsSelector
+     * @param dynamicRedisProperties
+     * @return
+     */
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @Bean
     @ConditionalOnProperty(prefix = GlobalConfigConst.REDIS_DYNAMIC + ".aop", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public Advisor dynamicDatasourceAnnotationAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
+    public Advisor dynamicConnectionFactoryAnnotationAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
         DynamicRedisProperties.Aop aop = dynamicRedisProperties.getAop();
-        DynamicDataSourceAnnotationInterceptor interceptor = new DynamicDataSourceAnnotationInterceptor(aop.getAllowedPublicOnly(), dsSelector);
-        DynamicDataSourceAnnotationAdvisor advisor = new DynamicDataSourceAnnotationAdvisor(interceptor, DSRedis.class);
+        DynamicAopSourceAnnotationInterceptor interceptor = new DynamicAopSourceAnnotationInterceptor(aop.getAllowedPublicOnly(), dsSelector);
+        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, DSRedis.class);
         advisor.setOrder(aop.getOrder());
+        return advisor;
+    }
+
+    /**
+     * service
+     *
+     * @param dsSelector
+     * @param dynamicRedisProperties
+     * @return
+     */
+    @Bean
+    public Advisor dynamicConnectionFactoryServiceAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
+        DynamicServiceAnnotationInterceptor interceptor = new DynamicServiceAnnotationInterceptor(dsSelector);
+        DynamicServiceAnnotationAdvisor advisor = new DynamicServiceAnnotationAdvisor(interceptor, DynamicRedisService.class);
+        advisor.setOrder(dynamicRedisProperties.getService().getOrder());
         return advisor;
     }
 

@@ -21,7 +21,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class DynamicDataSourceAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
+public class DynamicAopAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
     /**
      * the advice
@@ -43,8 +43,8 @@ public class DynamicDataSourceAnnotationAdvisor extends AbstractPointcutAdvisor 
      * @param advice     切面
      * @param annotation 注解
      */
-    public DynamicDataSourceAnnotationAdvisor(@NonNull MethodInterceptor advice,
-                                              @NonNull Class<? extends Annotation> annotation) {
+    public DynamicAopAnnotationAdvisor(@NonNull MethodInterceptor advice,
+                                       @NonNull Class<? extends Annotation> annotation) {
         this.advice = advice;
         this.annotation = annotation;
         this.pointcut = buildPointcut();

@@ -6,7 +6,7 @@ import com.zoe.framework.components.starter.redis.configuration.dynamic.selector
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-public class DynamicDataSourceAnnotationInterceptor implements MethodInterceptor {
+public class DynamicAopSourceAnnotationInterceptor implements MethodInterceptor {
 
     private static final String DYNAMIC_PREFIX = "#";
 
@@ -14,7 +14,7 @@ public class DynamicDataSourceAnnotationInterceptor implements MethodInterceptor
 
     private final MethodAopResolver methodAopResolver;
 
-    public DynamicDataSourceAnnotationInterceptor(Boolean allowedPublicOnly, DsSelector dsSelector) {
+    public DynamicAopSourceAnnotationInterceptor(Boolean allowedPublicOnly, DsSelector dsSelector) {
         this.methodAopResolver = new MethodAopResolver(allowedPublicOnly);
         this.dsSelector = dsSelector;
     }

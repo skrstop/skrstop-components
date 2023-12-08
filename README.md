@@ -76,7 +76,7 @@
 
 # 计划待添加功能
 
-* components-starter-redis 增加多数据源支持【开发中】
+* components-starter-redis 增加多数据源支持，兼容redisson【完成80%】
 * components-starter-object-storage 模块中增加：阿里云oss、华为云obs、腾讯云cos
 * components-starter-database 增加多数据源支持
 * components-starter-mongodb 增加多数据源支持

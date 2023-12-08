@@ -2,6 +2,7 @@ package com.zoe.framework.components.example.starters.simple.service;
 
 import com.zoe.framework.components.example.starters.simple.entity.request.ExampleRequestRedis;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.annotation.DSRedis;
+import com.zoe.framework.components.starter.redis.service.DynamicRedisService;
 import com.zoe.framework.components.starter.redis.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,14 @@ import java.time.LocalDateTime;
  * @date 2023-12-08 10:39:13
  */
 @Service
-public class DynamicRedisService {
+public class ExampleDynamicRedisService {
 
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private DynamicRedisService dynamicRedisService;
+    @Autowired
+    private ExampleDynamicRedisService selfService;
 
 
     public void primary() {
@@ -69,15 +74,20 @@ public class DynamicRedisService {
 
     @DSRedis("db0")
     public void mutl() {
+        selfService.db1();
         ExampleRequestRedis origin = ExampleRequestRedis.builder()
-                .valStr("222222")
+                .valStr("000000")
                 .valBol(false)
                 .valData(LocalDateTime.now())
                 .valLong(11111111L)
                 .valInt(11111)
                 .build();
-        redisService.set("db2", origin);
+        redisService.set("db0", origin);
     }
 
-
+    public void service() {
+        dynamicRedisService.set("db0", "aaaaa", "bbbbbb");
+        dynamicRedisService.set("db1", "aaaaa", "bbbbbb");
+        dynamicRedisService.set("db2", "aaaaa", "bbbbbb");
+    }
 }
