@@ -579,7 +579,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listRightPushIfPresend(String key, Object value) {
+    public long listRightPushIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -615,7 +615,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listLeftPushIfPresend(String key, Object value) {
+    public long listLeftPushIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }

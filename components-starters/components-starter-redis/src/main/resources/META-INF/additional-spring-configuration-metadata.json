@@ -43,25 +43,25 @@
       "defaultValue": "false"
     },
     {
-      "name": "spring.redis.redisson.enabled",
+      "name": "spring.data.redis.redisson.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启redisson.",
       "defaultValue": "false"
     },
     {
-      "name": "spring.redis.redisson.config-file",
+      "name": "spring.data.redis.redisson.config-file",
       "type": "java.lang.String",
       "description": "从文件读取redisson配置.",
       "defaultValue": "false"
     },
     {
-      "name": "spring.redis.redisson.config-yaml-str",
+      "name": "spring.data.redis.redisson.config-yaml-str",
       "type": "java.lang.String",
       "description": "从yaml配置读取redisson配置.",
       "defaultValue": "false"
     },
     {
-      "name": "spring.redis.redisson.config-json-str",
+      "name": "spring.data.redis.redisson.config-json-str",
       "type": "java.lang.String",
       "description": "从json配置读取redisson配置.",
       "defaultValue": "false",

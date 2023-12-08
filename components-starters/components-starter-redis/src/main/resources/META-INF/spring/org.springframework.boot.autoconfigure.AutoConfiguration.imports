@@ -1,2 +1,3 @@
 com.zoe.framework.components.starter.redis.configuration.CustomRedisAutoConfiguration
 com.zoe.framework.components.starter.redis.configuration.RedissonAutoConfiguration
+com.zoe.framework.components.starter.redis.configuration.dynamic.DynamicRedisAutoConfiguration
