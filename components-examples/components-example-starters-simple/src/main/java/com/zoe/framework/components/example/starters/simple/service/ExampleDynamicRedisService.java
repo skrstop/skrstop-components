@@ -32,7 +32,7 @@ public class ExampleDynamicRedisService {
                 .valLong(11111111L)
                 .valInt(11111)
                 .build();
-        redisService.set("primary", origin);
+        redisService.set("primary", origin, 10);
         this.db1();
     }
 
@@ -45,7 +45,7 @@ public class ExampleDynamicRedisService {
                 .valLong(11111111L)
                 .valInt(11111)
                 .build();
-        redisService.set("db0", origin);
+        redisService.set("db0", origin, 10);
     }
 
     @DSRedis("db1")
@@ -57,7 +57,7 @@ public class ExampleDynamicRedisService {
                 .valLong(11111111L)
                 .valInt(11111)
                 .build();
-        redisService.set("db1", origin);
+        redisService.set("db1", origin, 10);
     }
 
     @DSRedis("db2")
@@ -69,25 +69,25 @@ public class ExampleDynamicRedisService {
                 .valLong(11111111L)
                 .valInt(11111)
                 .build();
-        redisService.set("db2", origin);
+        redisService.set("db2", origin, 10);
     }
 
     @DSRedis("db0")
     public void mutl() {
         selfService.db1();
         ExampleRequestRedis origin = ExampleRequestRedis.builder()
-                .valStr("000000")
+                .valStr("mutl")
                 .valBol(false)
                 .valData(LocalDateTime.now())
                 .valLong(11111111L)
                 .valInt(11111)
                 .build();
-        redisService.set("db0", origin);
+        redisService.set("mutl", origin, 10);
     }
 
     public void service() {
-        dynamicRedisService.set("db0", "aaaaa", "bbbbbb");
-        dynamicRedisService.set("db1", "aaaaa", "bbbbbb");
-        dynamicRedisService.set("db2", "aaaaa", "bbbbbb");
+        dynamicRedisService.set("db0", "aaaaa", "bbbbbb", 10);
+        dynamicRedisService.set("db1", "aaaaa", "bbbbbb", 10);
+        dynamicRedisService.set("db2", "aaaaa", "bbbbbb", 10);
     }
 }

@@ -115,12 +115,12 @@ public class ExampleRedisController {
      */
     @GetMapping("/exampleRedisDynamic")
     public void exampleRedisDynamic() {
-//        dynamicRedisService.primary();
-//        dynamicRedisService.db0();
-//        dynamicRedisService.db1();
-//        dynamicRedisService.db2();
-//        dynamicRedisService.mutl();
-        exampleDynamicRedisService.service();
+//        exampleDynamicRedisService.primary();
+        exampleDynamicRedisService.db0();
+        exampleDynamicRedisService.db1();
+        exampleDynamicRedisService.db2();
+//        exampleDynamicRedisService.mutl();
+//        exampleDynamicRedisService.service();
     }
 
 }
