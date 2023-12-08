@@ -1,10 +1,5 @@
 org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
     org.springframework.boot.autoconfigure.condition.OnBeanCondition,\
     org.springframework.boot.autoconfigure.condition.OnClassCondition
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#    com.zoe.framework.components.starter.database.configuration.MybatisScanAutoConfiguration,\
-#    com.zoe.framework.components.starter.database.configuration.MybatisPlusCommonAutoConfiguration,\
-#    com.zoe.framework.components.starter.database.configuration.MybatisPlusIdAutoConfiguration,\
-#    com.zoe.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration
 org.springframework.context.ApplicationContextInitializer=\
     com.zoe.framework.components.starter.database.configuration.ApplicationContextInitializerAutoConfiguration

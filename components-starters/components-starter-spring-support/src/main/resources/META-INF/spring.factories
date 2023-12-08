@@ -1,2 +1,0 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#  com.zoe.framework.components.starter.spring.support.bean.SpringUtil
