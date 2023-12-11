@@ -1,8 +1,7 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure;
+package com.zoe.framework.components.starter.feign.protostuff.configuration;
 
 import com.zoe.framework.components.starter.feign.protostuff.interceptor.OkHttpResponseLogInterceptor;
 import feign.Client;
-import feign.Contract;
 import feign.Feign;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
@@ -16,7 +15,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
-import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -44,13 +42,6 @@ import java.util.concurrent.TimeUnit;
 @Order(Ordered.LOWEST_PRECEDENCE)
 @Slf4j
 public class OkHttpAutoConfiguration {
-
-    @Bean
-    @ConditionalOnMissingBean({Contract.class})
-    public Contract feignContract() {
-//        return new feign.Contract.Default();
-        return new SpringMvcContract();
-    }
 
     @Bean
     @ConditionalOnMissingBean({Client.class})

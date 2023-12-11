@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.ftp.configuration;
+package com.zoe.framework.components.starter.objectStorage.configuration;
 
 import cn.hutool.extra.ftp.FtpMode;
 import com.zoe.framework.components.util.enums.CharSetEnum;

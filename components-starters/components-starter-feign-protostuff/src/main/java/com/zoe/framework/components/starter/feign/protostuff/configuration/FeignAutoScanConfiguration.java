@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure;
+package com.zoe.framework.components.starter.feign.protostuff.configuration;
 
 import com.zoe.framework.components.starter.feign.protostuff.constant.GlobalConfigConst;
 import com.zoe.framework.components.util.constant.StringPoolConst;

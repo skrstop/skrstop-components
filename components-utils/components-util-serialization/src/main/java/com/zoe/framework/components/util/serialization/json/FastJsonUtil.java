@@ -8,7 +8,6 @@ import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.zoe.framework.components.core.common.response.*;
 import lombok.experimental.UtilityClass;
 
@@ -104,7 +103,7 @@ public class FastJsonUtil {
             return null;
         }
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 //        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper.readValue(json, clazz);
     }

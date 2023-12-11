@@ -1,6 +1,5 @@
 package com.zoe.framework.components.starter.feign.protostuff.condition;
 
-import com.zoe.framework.components.core.annotation.source.Snapshot;
 import com.zoe.framework.components.starter.feign.protostuff.annotation.ProtostuffFeignClient;
 import com.zoe.framework.components.util.value.reflect.ReflectionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ import java.util.Set;
  * @date 2019-03-22
  */
 @Slf4j
-@Snapshot(message = "新版本未测试")
 public class UseLocalFeignClientCondition implements Condition {
 
     private static final Map<String, Set<?>> SUB_TYPES_CACHE = new HashMap<>();

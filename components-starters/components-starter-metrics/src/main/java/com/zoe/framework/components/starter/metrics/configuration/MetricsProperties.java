@@ -5,7 +5,6 @@ import com.zoe.framework.components.starter.metrics.constant.GlobalConfigConst;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -22,16 +21,10 @@ import org.springframework.core.annotation.Order;
 public class MetricsProperties extends SerializableBean {
     private static final long serialVersionUID = 8497996001371661542L;
 
-    private Boolean enabled = true;
+    private Boolean enabled;
 
-    @NestedConfigurationProperty
-    private Process process = new Process();
-
-    @Getter
-    @Setter
-    static class Process {
-        private Boolean enabled = true;
-
+    public MetricsProperties() {
+        this.enabled = true;
     }
 
 }

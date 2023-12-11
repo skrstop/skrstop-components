@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.id.config.GlobalIdProperties",
+      "sourceType": "com.zoe.framework.components.starter.id.configuration.GlobalIdProperties",
       "name": "id生成器配置",
-      "type": "com.zoe.framework.components.starter.id.config.GlobalIdProperties"
+      "type": "com.zoe.framework.components.starter.id.configuration.GlobalIdProperties"
     }
   ],
   "properties": [

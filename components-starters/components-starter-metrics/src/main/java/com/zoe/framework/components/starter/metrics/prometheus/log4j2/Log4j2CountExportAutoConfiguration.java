@@ -32,7 +32,7 @@ import java.util.Arrays;
 @ConditionalOnClass({LogManager.class, LoggerContext.class, RingBufferAdminMBean.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 @ConditionalOnProperty(
-        name = {"management.metrics.log4j2Count"},
+        name = {"management.metrics.enable.log4j2.count", "zoe.metrics.enabled"},
         havingValue = "true",
         matchIfMissing = true
 )

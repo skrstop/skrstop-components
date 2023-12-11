@@ -1,8 +1,8 @@
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.FeignAutoScanConfiguration
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.FeignMessageConverterAutoConfiguration
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtostuffReturnResponseHandlerAutoConfiguration
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.Http2UndertowAutoConfiguration
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.Http2TomcatAutoConfiguration
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.OkHttpAutoConfiguration
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc.ProtobufFeignClientBeanPostProcessor
-com.zoe.framework.components.starter.feign.protostuff.autoconfigure.FeignCustomAutoConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.FeignAutoScanConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc.FeignMessageConverterAutoConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc.ProtostuffReturnResponseHandlerAutoConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.Http2UndertowAutoConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.Http2TomcatAutoConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.OkHttpAutoConfiguration
+com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc.ProtobufFeignClientBeanPostProcessor
+com.zoe.framework.components.starter.feign.protostuff.configuration.FeignCustomAutoConfiguration

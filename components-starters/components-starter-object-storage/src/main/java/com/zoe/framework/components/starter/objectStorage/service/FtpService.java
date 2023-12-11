@@ -1,8 +1,8 @@
-package com.zoe.framework.components.starter.ftp.service;
+package com.zoe.framework.components.starter.objectStorage.service;
 
 import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpMode;
-import com.zoe.framework.components.starter.ftp.configuration.FtpProperties;
+import com.zoe.framework.components.starter.objectStorage.configuration.FtpProperties;
 
 /**
  * FtpService class
@@ -16,7 +16,7 @@ public interface FtpService {
 
     String getPath();
 
-    FtpProperties getConfigProperties();
+    FtpProperties getFtpConfig();
 
     String getHost();
 

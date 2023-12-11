@@ -1,1 +1,1 @@
-com.zoe.framework.components.starter.ftp.configuration.FTPServiceAutoConfiguration
+com.zoe.framework.components.starter.objectStorage.configuration.FTPServiceAutoConfiguration

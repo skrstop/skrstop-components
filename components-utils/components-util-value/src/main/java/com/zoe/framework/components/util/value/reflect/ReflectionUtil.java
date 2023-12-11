@@ -1,6 +1,5 @@
 package com.zoe.framework.components.util.value.reflect;
 
-import com.zoe.framework.components.core.annotation.source.Snapshot;
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import lombok.experimental.UtilityClass;
 import org.reflections.ReflectionUtils;
@@ -23,7 +22,6 @@ public class ReflectionUtil extends ReflectionUtils {
      * @param type
      * @return
      */
-    @Snapshot(message = "新版本未测试")
     public static <T> Set<Class<? extends T>> getSubTypesOf(final String basePackage, final Class<T> type) {
         return Reflections.collect(basePackage
                         , new FilterBuilder().includePattern("*.*")
@@ -37,7 +35,6 @@ public class ReflectionUtil extends ReflectionUtils {
      * @param type
      * @return
      */
-    @Snapshot(message = "新版本未测试")
     public static <T> Set<Class<? extends T>> getSubTypesOf(final Class<T> type) {
         return Reflections.collect(StringPoolConst.EMPTY
                         , new FilterBuilder().includePattern("*.*")

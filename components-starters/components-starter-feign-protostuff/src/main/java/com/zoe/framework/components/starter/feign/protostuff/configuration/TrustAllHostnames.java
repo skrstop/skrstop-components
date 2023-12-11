@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure;
+package com.zoe.framework.components.starter.feign.protostuff.configuration;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;

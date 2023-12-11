@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.port.shift.config;
+package com.zoe.framework.components.starter.port.shift.configuration;
 
 import com.zoe.framework.components.starter.port.shift.constant.GlobalConfigConst;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.HTTP_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class GlobalPortConfig {
+public class GlobalPortProperties {
 
     /*** 是否开启端口偏移 */
     private Boolean enable;
@@ -27,7 +27,7 @@ public class GlobalPortConfig {
     /*** 指定具体端口捉着端口范围， eg. 8080 / 8080-9090 */
     private String portArea;
 
-    public GlobalPortConfig() {
+    public GlobalPortProperties() {
         this.enable = true;
         this.portArea = "";
     }

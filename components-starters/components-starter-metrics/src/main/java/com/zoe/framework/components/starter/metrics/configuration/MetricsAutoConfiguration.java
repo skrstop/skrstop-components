@@ -19,17 +19,16 @@ import org.springframework.stereotype.Service;
 @EnableConfigurationProperties(MetricsProperties.class)
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ConditionalOnProperty(value = "zoe.metrics.enabled", havingValue = "true", matchIfMissing = true)
 public class MetricsAutoConfiguration {
 
     @Bean
-    @ConditionalOnProperty(value = "zoe.metrics.process.enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(value = {"management.metrics.enable.process", "zoe.metrics.enabled"}, havingValue = "true", matchIfMissing = true)
     public MeterBinder processMemoryMetrics() {
         return new ProcessMemoryMetrics();
     }
 
     @Bean
-    @ConditionalOnProperty(value = "zoe.metrics.process.enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(value = {"management.metrics.enable.process", "zoe.metrics.enabled"}, havingValue = "true", matchIfMissing = true)
     public MeterBinder processThreadMetrics() {
         return new ProcessThreadMetrics();
     }

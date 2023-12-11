@@ -76,7 +76,6 @@
         <Logger name="druid.sql" level="INFO"/>
         <!-- MyBatis log configure -->
         <Logger name="com.apache.ibatis" level="DEBUG"/>
-        <Logger name="cn.auntec" level="DEBUG"/>
         <Logger name="org.mybatis.spring" level="DEBUG"/>
         <Logger name="java.sql.Connection" level="DEBUG"/>
         <Logger name="java.sql.Statement" level="DEBUG"/>
