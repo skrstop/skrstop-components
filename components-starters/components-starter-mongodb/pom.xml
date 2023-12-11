@@ -14,6 +14,10 @@
     <name>Zoe Mix Micro-service starter mongodb</name>
     <description>Zoe+ Mongodb Starter</description>
 
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
     <dependencies>
 
         <!-- mongodb -->
