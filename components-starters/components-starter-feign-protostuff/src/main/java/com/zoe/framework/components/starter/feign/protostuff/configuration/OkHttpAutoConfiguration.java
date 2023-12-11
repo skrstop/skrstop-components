@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure;
+package com.zoe.framework.components.starter.feign.protostuff.configuration;
 
 import com.zoe.framework.components.starter.feign.protostuff.interceptor.OkHttpResponseLogInterceptor;
 import feign.Client;
@@ -36,12 +36,6 @@ import java.util.concurrent.TimeUnit;
 @EnableConfigurationProperties({GlobalHttp2Properties.class, FeignOkHttpProperties.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class OkHttpAutoConfiguration {
-
-//    @Bean
-//    public Contract feignContract() {
-//        return new feign.Contract.Default();
-//        return new SpringMvcContract();
-//    }
 
     @Bean
     @ConditionalOnMissingBean({Client.class})

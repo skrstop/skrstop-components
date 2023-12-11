@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.id.config;
+package com.zoe.framework.components.starter.id.configuration;
 
 import com.zoe.framework.components.starter.id.constant.GenerateTypeConst;
 import com.zoe.framework.components.starter.id.constant.GlobalConfigConst;

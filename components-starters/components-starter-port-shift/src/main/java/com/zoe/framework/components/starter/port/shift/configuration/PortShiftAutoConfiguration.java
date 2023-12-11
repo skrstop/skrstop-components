@@ -1,6 +1,5 @@
 package com.zoe.framework.components.starter.port.shift.configuration;
 
-import com.zoe.framework.components.starter.port.shift.config.GlobalPortConfig;
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.system.net.PortUtil;
 import com.zoe.framework.components.util.value.data.NumberUtil;
@@ -33,7 +32,7 @@ import java.util.List;
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @ConditionalOnClass(ServletRequest.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.ANY)
-@EnableConfigurationProperties({ServerProperties.class, GlobalPortConfig.class})
+@EnableConfigurationProperties({ServerProperties.class, GlobalPortProperties.class})
 @AutoConfigureBefore({ServletWebServerFactoryAutoConfiguration.class, ReactiveWebServerFactoryAutoConfiguration.class})
 @Slf4j
 public class PortShiftAutoConfiguration {
@@ -41,15 +40,15 @@ public class PortShiftAutoConfiguration {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer(
             ServerProperties serverProperties,
-            GlobalPortConfig globalPortConfig) {
+            GlobalPortProperties globalPortProperties) {
         return factory -> {
-            if (!globalPortConfig.getEnable()) {
+            if (!globalPortProperties.getEnable()) {
                 return;
             }
             int basePort = serverProperties.getPort();
-            String portArea = globalPortConfig.getPortArea();
+            String portArea = globalPortProperties.getPortArea();
             if (StrUtil.isNotBlank(portArea)) {
-                List<String> split = StrUtil.split(portArea, StringPoolConst.DASH);
+                List<String> split = StrUtil.splitTrim(portArea, StringPoolConst.DASH);
                 if (split.size() == 2) {
                     String minPortStr = split.get(0);
                     String maxPortStr = split.get(1);

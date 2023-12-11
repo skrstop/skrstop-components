@@ -1,7 +1,7 @@
-package com.zoe.framework.components.starter.ftp.configuration;
+package com.zoe.framework.components.starter.objectStorage.configuration;
 
-import com.zoe.framework.components.starter.ftp.service.FtpService;
-import com.zoe.framework.components.starter.ftp.service.impl.FtpServiceImpl;
+import com.zoe.framework.components.starter.objectStorage.service.FtpService;
+import com.zoe.framework.components.starter.objectStorage.service.impl.FtpServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 @EnableConfigurationProperties(GlobalObjectStorageProperties.class)
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@ConditionalOnProperty(value = "zoe.objectStorage.config.ftp.enable", havingValue = "true", matchIfMissing = true)
-public class FTPServiceAutoConfiguration {
+public class ObjectStorageServiceAutoConfiguration {
 
     @Bean
+    @ConditionalOnProperty(value = "zoe.object-storage.ftp.enable", havingValue = "true", matchIfMissing = false)
     public FtpService ftpService(GlobalObjectStorageProperties globalObjectStorageProperties) {
-        return new FtpServiceImpl(globalObjectStorageProperties);
+        return new FtpServiceImpl(globalObjectStorageProperties.getFtp());
     }
 
 }

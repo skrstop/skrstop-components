@@ -14,9 +14,21 @@
       "defaultValue": "true"
     },
     {
-      "name": "zoe.metrics.process.enabled",
+      "name": "management.metrics.enable.process",
       "type": "java.lang.Boolean",
-      "description": "是否开启process metrics.",
+      "description": "进程信息metrics.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "management.metrics.enable.log4j2Count",
+      "type": "java.lang.Boolean",
+      "description": "log4j数量metrics.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "management.metrics.enable.log4j2RingBuffer",
+      "type": "java.lang.Boolean",
+      "description": "log4j缓冲metrics.",
       "defaultValue": "true"
     }
   ]

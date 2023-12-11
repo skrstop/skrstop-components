@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure.webmvc;
+package com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc;
 
 import com.zoe.framework.components.starter.feign.protostuff.converter.ProtostuffHttpMessageConverter;
 import com.zoe.framework.components.starter.feign.protostuff.interceptor.FeignHttpFilter;

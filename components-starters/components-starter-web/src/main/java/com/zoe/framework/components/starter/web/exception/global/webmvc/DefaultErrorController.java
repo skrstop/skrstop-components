@@ -1,6 +1,5 @@
 package com.zoe.framework.components.starter.web.exception.global.webmvc;
 
-import com.zoe.framework.components.core.annotation.source.Snapshot;
 import com.zoe.framework.components.core.common.response.common.CommonResultCode;
 import com.zoe.framework.components.core.exception.ZoeRuntimeException;
 import com.zoe.framework.components.core.exception.core.ZoeThrowable;
@@ -32,7 +31,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
-@Snapshot(message = "新版本未测试")
 public class DefaultErrorController extends AbstractErrorController {
 
     protected ErrorProperties errorProperties;

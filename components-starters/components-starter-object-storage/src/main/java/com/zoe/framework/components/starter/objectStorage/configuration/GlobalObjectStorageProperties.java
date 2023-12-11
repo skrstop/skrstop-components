@@ -1,6 +1,6 @@
-package com.zoe.framework.components.starter.ftp.configuration;
+package com.zoe.framework.components.starter.objectStorage.configuration;
 
-import com.zoe.framework.components.starter.ftp.constant.GlobalConfigConst;
+import com.zoe.framework.components.starter.objectStorage.constant.GlobalConfigConst;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

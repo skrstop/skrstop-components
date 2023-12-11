@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure;
+package com.zoe.framework.components.starter.feign.protostuff.configuration;
 
 import com.zoe.framework.components.starter.feign.protostuff.constant.GlobalConfigConst;
 import lombok.Getter;
@@ -15,14 +15,12 @@ import org.springframework.core.annotation.Order;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(GlobalConfigConst.HTTP2_PREFIX)
+@ConfigurationProperties(GlobalConfigConst.FEIGN_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class GlobalHttp2Properties {
+public class GlobalFeignProperties {
 
-    /*** 是否开启http2 */
-    private Boolean enable;
+    /*** feign扫描包路径，多个路径逗号分隔，也可以使用@EnableFeignClients */
+    private String scanPackage;
 
-    public GlobalHttp2Properties() {
-        this.enable = true;
-    }
+
 }

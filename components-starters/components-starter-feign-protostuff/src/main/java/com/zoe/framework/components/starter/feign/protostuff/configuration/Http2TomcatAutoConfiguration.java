@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.feign.protostuff.autoconfigure;
+package com.zoe.framework.components.starter.feign.protostuff.configuration;
 
 import org.apache.coyote.http2.Http2Protocol;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

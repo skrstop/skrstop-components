@@ -1,56 +1,56 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.ftp.configuration.GlobalObjectStorageProperties",
+      "sourceType": "com.zoe.framework.components.starter.objectStorage.configuration.GlobalObjectStorageProperties",
       "name": "ftp服务配置",
-      "type": "com.zoe.framework.components.starter.ftp.configuration.GlobalObjectStorageProperties"
+      "type": "com.zoe.framework.components.starter.objectStorage.configuration.GlobalObjectStorageProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.ftp.config.enable",
+      "name": "zoe.object-storage.ftp.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启ftp.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.ftp.config.host",
+      "name": "zoe.object-storage.ftp.host",
       "type": "java.lang.String",
       "description": "ftp ip."
     },
     {
-      "name": "zoe.ftp.config.port",
+      "name": "zoe.object-storage.ftp.port",
       "type": "java.lang.Integer",
       "description": "ftp 端口.",
       "defaultValue": "21"
     },
     {
-      "name": "zoe.ftp.config.username",
+      "name": "zoe.object-storage.ftp.username",
       "type": "java.lang.String",
       "description": "用户."
     },
     {
-      "name": "zoe.ftp.config.password",
+      "name": "zoe.object-storage.ftp.password",
       "type": "java.lang.String",
       "description": "密码."
     },
     {
-      "name": "zoe.ftp.config.base-path",
+      "name": "zoe.object-storage.ftp.base-path",
       "type": "java.lang.String",
       "description": "基本路径."
     },
     {
-      "name": "zoe.ftp.config.upload-path",
+      "name": "zoe.object-storage.ftp.upload-path",
       "type": "java.lang.String",
       "description": "上传路径."
     },
     {
-      "name": "zoe.ftp.config.mode",
+      "name": "zoe.object-storage.ftp.mode",
       "type": "cn.hutool.extra.ftp.FtpMode",
       "description": "ftp模式."
     },
     {
-      "name": "zoe.ftp.config.charset",
+      "name": "zoe.object-storage.ftp.charset",
       "type": "java.lang.String",
       "description": "编码.",
       "defaultValue": "UTF-8"
@@ -58,7 +58,7 @@
   ],
   "hints": [
     {
-      "name": "zoe.ftp.config.charset",
+      "name": "zoe.object-storage.ftp.charset",
       "values": [
         {
           "value": "UTF-8",

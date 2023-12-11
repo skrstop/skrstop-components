@@ -1,6 +1,5 @@
 package com.zoe.framework.components.starter.feign.protostuff.annotation;
 
-import com.zoe.framework.components.core.annotation.source.Snapshot;
 import com.zoe.framework.components.starter.feign.protostuff.condition.UseLocalFeignClientCondition;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
@@ -65,7 +64,6 @@ public @interface ProtostuffFeignClient {
      *
      * @return
      */
-    @Snapshot(message = "新版本未测试")
     boolean local() default false;
 
     /**
@@ -74,7 +72,6 @@ public @interface ProtostuffFeignClient {
      *
      * @return
      */
-    @Snapshot(message = "新版本未测试")
     boolean autoLocal() default false;
 
     /**
@@ -82,7 +79,6 @@ public @interface ProtostuffFeignClient {
      *
      * @return
      */
-    @Snapshot(message = "新版本未测试")
     String autoLocalBasePackage() default "";
 
 }
