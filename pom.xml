@@ -171,7 +171,7 @@
         <!-- mongodb -->
         <mongo-driver.version>3.12.14</mongo-driver.version>
         <mongo-driver-sync.version>4.11.1</mongo-driver-sync.version>
-        <morphia-core.version>2.4.8</morphia-core.version>
+        <morphia-core.version>2.4.9</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
