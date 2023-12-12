@@ -1,15 +1,18 @@
 package com.zoe.framework.components.starter.web.response.core;
 
+import com.zoe.framework.components.core.common.response.Result;
+import com.zoe.framework.components.core.common.response.common.CommonResultCode;
 import com.zoe.framework.components.core.common.response.core.IResult;
-import com.zoe.framework.components.starter.web.response.interceptor.*;
+import com.zoe.framework.components.core.common.util.DynamicResult;
+import com.zoe.framework.components.starter.web.response.interceptor.DefaultCommonPageResponseInterceptor;
+import com.zoe.framework.components.starter.web.response.interceptor.DefaultPageResultResponseInterceptor;
+import com.zoe.framework.components.starter.web.response.interceptor.DefaultResponseInterceptor;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -18,7 +21,6 @@ import java.util.List;
  */
 @Configuration
 @Getter
-@Setter
 public class ResponseHandleChainPattern {
 
     private final List<ResponseHandlerInterceptor> responseHandlerInterceptors;
@@ -29,21 +31,30 @@ public class ResponseHandleChainPattern {
 
     @PostConstruct
     private void initChainPattern() {
-        Collections.sort(responseHandlerInterceptors, AnnotationAwareOrderComparator.INSTANCE);
-        responseHandlerInterceptors.add(new PageHelperPageResponseInterceptor());
-        responseHandlerInterceptors.add(new MybatisPlusPageResponseInterceptor());
-        responseHandlerInterceptors.add(new ICollectionResultResponseInterceptor());
-        responseHandlerInterceptors.add(new IPageResultResponseInterceptor());
-        responseHandlerInterceptors.add(new IResultResponseInterceptor());
+        responseHandlerInterceptors.add(new DefaultCommonPageResponseInterceptor());
+        responseHandlerInterceptors.add(new DefaultPageResultResponseInterceptor());
         responseHandlerInterceptors.add(new DefaultResponseInterceptor());
+        // 排序
+        responseHandlerInterceptors.sort(Comparator.comparingInt(ResponseHandlerInterceptor::order));
     }
 
-    public IResult execute(Object returnValue, boolean transResultResponse) {
+    public Object execute(Object returnValue, boolean transResultResponse) {
+        if (!transResultResponse && returnValue instanceof IResult) {
+            // 禁用了IResult类型自动转换
+            return new Result<>(CommonResultCode.SUCCESS, returnValue);
+        }
         for (ResponseHandlerInterceptor responseHandlerInterceptor : responseHandlerInterceptors) {
-            IResult IResult = responseHandlerInterceptor.execute(returnValue, transResultResponse);
-            if (ObjectUtil.isNotNull(IResult)) {
-                return IResult;
+            if (!responseHandlerInterceptor.support(returnValue)) {
+                continue;
             }
+            InterceptorResult execute = responseHandlerInterceptor.execute(returnValue);
+            if (ObjectUtil.isNull(execute)) {
+                return DynamicResult.build(returnValue);
+            }
+            if (ObjectUtil.isNull(execute.getResult()) && !execute.isNext()) {
+                return DynamicResult.build(returnValue);
+            }
+            return execute.getResult();
         }
         return null;
     }

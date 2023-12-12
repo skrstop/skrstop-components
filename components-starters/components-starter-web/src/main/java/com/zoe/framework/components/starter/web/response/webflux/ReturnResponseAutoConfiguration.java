@@ -3,8 +3,8 @@ package com.zoe.framework.components.starter.web.response.webflux;
 import com.zoe.framework.components.core.common.response.DefaultResult;
 import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties;
-import com.zoe.framework.components.starter.web.response.DisableTransResultResponse;
-import com.zoe.framework.components.starter.web.response.NoGlobalResponse;
+import com.zoe.framework.components.starter.web.response.DisableGlobalResponse;
+import com.zoe.framework.components.starter.web.response.DisableTransResultTypeResponse;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandleChainPattern;
 import com.zoe.framework.components.util.constant.FeignConst;
 import com.zoe.framework.components.util.constant.StringPoolConst;
@@ -82,9 +82,9 @@ public class ReturnResponseAutoConfiguration {
                     } catch (Exception e) {
                         log.error("返回值处理异常：", e);
                     }
-                    NoGlobalResponse noGlobalResponseMethod = method.getAnnotation(NoGlobalResponse.class);
-                    NoGlobalResponse noGlobalResponseClass = method.getClass().getAnnotation(NoGlobalResponse.class);
-                    if (!validPath && noGlobalResponseMethod == null && noGlobalResponseClass == null) {
+                    DisableGlobalResponse disableGlobalResponseMethod = method.getAnnotation(DisableGlobalResponse.class);
+                    DisableGlobalResponse disableGlobalResponseClass = method.getClass().getAnnotation(DisableGlobalResponse.class);
+                    if (!validPath && disableGlobalResponseMethod == null && disableGlobalResponseClass == null) {
                         // 判断是否支持feign
                         List<String> str = headers.get(FeignConst.USE_FEIGN_NAME);
                         String useFeign = StringPoolConst.EMPTY;
@@ -101,9 +101,9 @@ public class ReturnResponseAutoConfiguration {
                             // mono
                             // // FIXME: 2021/1/11 目前先这样写，后面在完善，目前暂未使用，临时写法
                             // 是否关闭result类型的自动转换
-                            DisableTransResultResponse disableTransResultResponseMethod = method.getAnnotation(DisableTransResultResponse.class);
-                            DisableTransResultResponse disableTransResultResponseClass = method.getClass().getAnnotation(DisableTransResultResponse.class);
-                            boolean transResultResponse = disableTransResultResponseMethod == null && disableTransResultResponseClass == null;
+                            DisableTransResultTypeResponse disableTransResultTypeResponseMethod = method.getAnnotation(DisableTransResultTypeResponse.class);
+                            DisableTransResultTypeResponse disableTransResultTypeResponseClass = method.getClass().getAnnotation(DisableTransResultTypeResponse.class);
+                            boolean transResultResponse = disableTransResultTypeResponseMethod == null && disableTransResultTypeResponseClass == null;
                             if (returnValue instanceof Mono) {
                                 Mono returnValueMono = (Mono) returnValue;
                                 returnValue = returnValueMono

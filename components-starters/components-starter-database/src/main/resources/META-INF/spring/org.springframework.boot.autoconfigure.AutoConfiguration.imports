@@ -2,3 +2,4 @@ com.zoe.framework.components.starter.database.configuration.MybatisScanAutoConfi
 com.zoe.framework.components.starter.database.configuration.MybatisPlusCommonAutoConfiguration
 com.zoe.framework.components.starter.database.configuration.MybatisPlusIdAutoConfiguration
 com.zoe.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration
+com.zoe.framework.components.starter.database.configuration.ResponseHandlerInterceptorAutoConfiguration

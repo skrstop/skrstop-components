@@ -6,7 +6,7 @@ import org.springframework.core.annotation.Order;
 import java.lang.annotation.*;
 
 /**
- * 禁用Result的类型自动转换
+ * 不需要全局返回值包装处理注解
  *
  * @author 蒋时华
  * @date 2019/4/3
@@ -15,6 +15,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public @interface DisableTransResultResponse {
+public @interface DisableGlobalResponse {
 
 }

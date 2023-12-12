@@ -1,8 +1,8 @@
 package com.zoe.framework.components.starter.web.response.webmvc;
 
 import com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties;
-import com.zoe.framework.components.starter.web.response.DisableTransResultResponse;
-import com.zoe.framework.components.starter.web.response.NoGlobalResponse;
+import com.zoe.framework.components.starter.web.response.DisableGlobalResponse;
+import com.zoe.framework.components.starter.web.response.DisableTransResultTypeResponse;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandleChainPattern;
 import com.zoe.framework.components.util.constant.FeignConst;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
@@ -57,9 +57,9 @@ public class ReturnResponseHandler implements HandlerMethodReturnValueHandler {
                 log.error("返回值处理异常：", e);
             }
             // 使用 全局返回值
-            NoGlobalResponse noGlobalResponseMethod = returnType.getMethod().getAnnotation(NoGlobalResponse.class);
-            NoGlobalResponse noGlobalResponseClass = returnType.getMethod().getClass().getAnnotation(NoGlobalResponse.class);
-            if (!validPath && noGlobalResponseMethod == null && noGlobalResponseClass == null) {
+            DisableGlobalResponse disableGlobalResponseMethod = returnType.getMethod().getAnnotation(DisableGlobalResponse.class);
+            DisableGlobalResponse disableGlobalResponseClass = returnType.getMethod().getClass().getAnnotation(DisableGlobalResponse.class);
+            if (!validPath && disableGlobalResponseMethod == null && disableGlobalResponseClass == null) {
                 // 判断是否支持feign
                 String useFeign = webRequest.getHeader(FeignConst.USE_FEIGN_NAME);
                 if (FeignConst.USE_FEIGN_VALUE.equals(useFeign)
@@ -67,9 +67,9 @@ public class ReturnResponseHandler implements HandlerMethodReturnValueHandler {
                         && !globalResponseProperties.getSupportFeign()) {
                     // 不支持feign调用返回值的封装
                 } else {
-                    DisableTransResultResponse disableTransResultResponseMethod = returnType.getMethod().getAnnotation(DisableTransResultResponse.class);
-                    DisableTransResultResponse disableTransResultResponseClass = returnType.getMethod().getClass().getAnnotation(DisableTransResultResponse.class);
-                    boolean transResultResponse = disableTransResultResponseMethod == null && disableTransResultResponseClass == null;
+                    DisableTransResultTypeResponse disableTransResultTypeResponseMethod = returnType.getMethod().getAnnotation(DisableTransResultTypeResponse.class);
+                    DisableTransResultTypeResponse disableTransResultTypeResponseClass = returnType.getMethod().getClass().getAnnotation(DisableTransResultTypeResponse.class);
+                    boolean transResultResponse = disableTransResultTypeResponseMethod == null && disableTransResultTypeResponseClass == null;
                     returnValue = responseHandleChainPattern.execute(returnValue, transResultResponse);
                 }
             }

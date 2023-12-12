@@ -1,5 +1,6 @@
 package com.zoe.framework.components.starter.web.response.interceptor;
 
+import com.zoe.framework.components.core.common.response.page.CommonPageData;
 import com.zoe.framework.components.core.common.util.DynamicResult;
 import com.zoe.framework.components.starter.web.response.core.InterceptorResult;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandlerInterceptor;
@@ -11,22 +12,22 @@ import org.springframework.core.Ordered;
  * @date 2020-05-08 13:50:54
  */
 @Slf4j
-public class DefaultResponseInterceptor implements ResponseHandlerInterceptor {
+public class DefaultCommonPageResponseInterceptor implements ResponseHandlerInterceptor {
     @Override
     public boolean support(Object returnValue) {
-        return true;
+        return returnValue instanceof CommonPageData;
     }
 
     @Override
     public int order() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE - 2;
     }
 
     @Override
     public InterceptorResult execute(Object returnValue) {
         return InterceptorResult.builder()
                 .next(false)
-                .result(DynamicResult.build(returnValue))
+                .result(DynamicResult.buildPage((CommonPageData<?>) returnValue))
                 .build();
     }
 }
