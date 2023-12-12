@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.web.exception.global.webflux;
 
 import com.zoe.framework.components.core.common.response.DefaultResult;
 import com.zoe.framework.components.core.common.response.core.IResult;
-import com.zoe.framework.components.core.exception.core.BusinessServiceThrowable;
+import com.zoe.framework.components.core.exception.core.BusinessThrowable;
 import com.zoe.framework.components.core.exception.util.ThrowableStackTraceUtil;
 import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.zoe.framework.components.starter.web.constant.RequestConst;
@@ -130,8 +130,8 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
 
         if (globalExceptionProperties != null
-                && e instanceof BusinessServiceThrowable
-                && !globalExceptionProperties.getShowBusinessServiceException()) {
+                && e instanceof BusinessThrowable
+                && !globalExceptionProperties.getLogBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(exchange) && !this.skipErrorPath(exchange)) {
             ServerHttpRequest request = exchange.getRequest();
@@ -162,7 +162,7 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
         } else {
             result = DefaultResult.Builder.error();
         }
-        if (e instanceof NotShowHttpStatusException || e instanceof BusinessServiceThrowable) {
+        if (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable) {
             httpStatus = HttpStatus.OK;
         }
         // 参考AbstractErrorWebExceptionHandler

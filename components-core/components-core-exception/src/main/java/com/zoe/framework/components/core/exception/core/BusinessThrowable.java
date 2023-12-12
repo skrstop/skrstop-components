@@ -6,6 +6,6 @@ package com.zoe.framework.components.core.exception.core;
  * @author 蒋时华
  * @date 2020-05-19 15:32:19
  */
-public interface BusinessServiceThrowable {
+public interface BusinessThrowable {
 
 }

@@ -1,12 +1,12 @@
 package com.zoe.framework.components.example.starters.simple.controller;
 
 import com.zoe.framework.components.core.common.response.DefaultResult;
-import com.zoe.framework.components.core.common.response.ListResult;
+import com.zoe.framework.components.core.exception.ZoeBusinessException;
+import com.zoe.framework.components.core.exception.ZoeDataRuntimeException;
 import com.zoe.framework.components.core.exception.ZoeRuntimeException;
+import com.zoe.framework.components.core.exception.core.data.ThrowableData;
 import com.zoe.framework.components.example.starters.simple.entity.msyql.Example1;
-import com.zoe.framework.components.example.starters.simple.exception.CustomDataException;
 import com.zoe.framework.components.example.starters.simple.exception.CustomErrorCode;
-import com.zoe.framework.components.example.starters.simple.exception.CustomException;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +40,17 @@ public class ExampleExceptionController {
             case 1:
                 throw new ZoeRuntimeException(DefaultResult.Builder.error());
             case 2:
-                throw new CustomException(CustomErrorCode.CUSTOM_ERROR);
+                throw new ZoeRuntimeException(CustomErrorCode.CUSTOM_ERROR);
             case 3:
-                ListResult<Integer> result = ListResult.Builder.error(CollectionUtil.newArrayList(1, 2, 3));
-                throw new CustomDataException(result);
+                throw new ZoeDataRuntimeException(CustomErrorCode.CUSTOM_ERROR, new ThrowableData<List<Integer>>() {
+
+                    @Override
+                    public List<Integer> getData() {
+                        return CollectionUtil.newArrayList(1, 2, 3, 4, 5);
+                    }
+                });
+            case 4:
+                throw new ZoeBusinessException(CustomErrorCode.CUSTOM_ERROR);
         }
         throw new RuntimeException("未知异常");
     }

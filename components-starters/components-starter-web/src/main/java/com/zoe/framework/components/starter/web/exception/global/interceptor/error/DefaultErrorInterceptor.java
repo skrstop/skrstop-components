@@ -2,11 +2,11 @@ package com.zoe.framework.components.starter.web.exception.global.interceptor.er
 
 import com.zoe.framework.components.core.common.response.Result;
 import com.zoe.framework.components.core.common.response.common.CommonResultCode;
-import com.zoe.framework.components.core.common.response.core.IResult;
-import com.zoe.framework.components.core.exception.util.ThrowableStackTraceUtil;
+import com.zoe.framework.components.starter.web.entity.InterceptorResult;
 import com.zoe.framework.components.starter.web.exception.core.interceptor.ErrorHandlerInterceptor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
 
 /**
  * @author 蒋时华
@@ -17,8 +17,20 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultErrorInterceptor implements ErrorHandlerInterceptor {
 
     @Override
-    public IResult execute(Error e) {
-        log.error(ThrowableStackTraceUtil.getStackTraceStr(e));
-        return Result.Builder.result(CommonResultCode.FAIL);
+    public boolean support(Error e) {
+        return true;
+    }
+
+    @Override
+    public int order() {
+        return Ordered.LOWEST_PRECEDENCE;
+    }
+
+    @Override
+    public InterceptorResult execute(Error e) {
+        return InterceptorResult.builder()
+                .next(false)
+                .result(Result.Builder.result(CommonResultCode.FAIL))
+                .build();
     }
 }

@@ -4,6 +4,7 @@ import com.zoe.framework.components.core.common.response.Result;
 import com.zoe.framework.components.core.common.response.common.CommonResultCode;
 import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.core.common.util.DynamicResult;
+import com.zoe.framework.components.starter.web.entity.InterceptorResult;
 import com.zoe.framework.components.starter.web.response.interceptor.DefaultCommonPageResponseInterceptor;
 import com.zoe.framework.components.starter.web.response.interceptor.DefaultPageResultResponseInterceptor;
 import com.zoe.framework.components.starter.web.response.interceptor.DefaultResponseInterceptor;

@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.database.configuration.response;
 
 import com.github.pagehelper.PageInfo;
 import com.zoe.framework.components.core.common.response.PageListResult;
-import com.zoe.framework.components.starter.web.response.core.InterceptorResult;
+import com.zoe.framework.components.starter.web.entity.InterceptorResult;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 

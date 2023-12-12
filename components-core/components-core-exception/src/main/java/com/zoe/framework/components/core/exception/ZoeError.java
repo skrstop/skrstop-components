@@ -5,8 +5,6 @@ import com.zoe.framework.components.core.common.response.DefaultResult;
 import com.zoe.framework.components.core.common.response.common.CommonResultCode;
 import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.core.common.util.EnumCodeUtil;
-import com.zoe.framework.components.core.exception.core.DataZoeThrowable;
-import com.zoe.framework.components.core.exception.core.ThrowableData;
 import com.zoe.framework.components.core.exception.core.ZoeThrowable;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,15 +17,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ZoeError extends Error implements ZoeThrowable, DataZoeThrowable {
+public class ZoeError extends Error implements ZoeThrowable {
 
     private static final long serialVersionUID = -1248879421143950687L;
     private Throwable throwable;
 
-    private IResult IResult = new DefaultResult(CommonResultCode.FAIL);
+    private IResult iResult = new DefaultResult(CommonResultCode.FAIL);
 
     private String errorMessage;
-    private ThrowableData throwableData;
 
     public ZoeError() {
         /* 默认异常信息 */
@@ -36,7 +33,7 @@ public class ZoeError extends Error implements ZoeThrowable, DataZoeThrowable {
 
     public ZoeError(String message) {
         super(message);
-        this.IResult.setMessage(message);
+        this.iResult.setMessage(message);
     }
 
     public ZoeError(Throwable throwable) {
@@ -47,50 +44,45 @@ public class ZoeError extends Error implements ZoeThrowable, DataZoeThrowable {
 
     public ZoeError(String message, Throwable throwable) {
         super(throwable.getMessage());
-        this.IResult.setMessage(message);
+        this.iResult.setMessage(message);
         this.throwable = throwable;
         this.errorMessage = throwable.getMessage();
     }
 
-    public ZoeError(IResult IResult) {
-        super(IResult.getMessage());
-        this.IResult = EnumCodeUtil.transferEnumCode(IResult);
+    public ZoeError(IResult iResult) {
+        super(iResult.getMessage());
+        this.iResult = EnumCodeUtil.transferEnumCode(iResult);
     }
 
-    public ZoeError(IResult IResult, Throwable throwable) {
+    public ZoeError(IResult iResult, Throwable throwable) {
         super(throwable.getMessage());
-        this.IResult = EnumCodeUtil.transferEnumCode(IResult);
+        this.iResult = EnumCodeUtil.transferEnumCode(iResult);
         this.throwable = throwable;
         this.errorMessage = throwable.getMessage();
     }
 
-    public ZoeError(IResult IResult, String message) {
+    public ZoeError(IResult iResult, String message) {
         super(message);
-        this.IResult = EnumCodeUtil.transferEnumCode(IResult);
-        this.IResult.setMessage(message);
+        this.iResult = EnumCodeUtil.transferEnumCode(iResult);
+        this.iResult.setMessage(message);
     }
 
-    public ZoeError(IResult IResult, String message, Throwable throwable) {
+    public ZoeError(IResult iResult, String message, Throwable throwable) {
         super(throwable.getMessage());
-        this.IResult = EnumCodeUtil.transferEnumCode(IResult);
-        this.IResult.setMessage(message);
+        this.iResult = EnumCodeUtil.transferEnumCode(iResult);
+        this.iResult.setMessage(message);
         this.throwable = throwable;
         this.errorMessage = throwable.getMessage();
     }
 
     @Override
     public String toString() {
-
         StringBuilder printMessage = new StringBuilder("");
         printMessage.append("错误信息：").append(this.getMessage());
         printMessage.append("\n");
         printMessage.append("自定义错误信息：").append(this.getErrorMessage());
         printMessage.append("\n");
         printMessage.append("result结果：").append(JSON.toJSON(this.getIResult()));
-        if (this.getThrowableData() != null) {
-            printMessage.append("\n");
-            printMessage.append("自定义异常详细信息：").append(this.getThrowableData().getDetailMessage());
-        }
         return printMessage.toString();
     }
 

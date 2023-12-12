@@ -1,6 +1,6 @@
 package com.zoe.framework.components.starter.web.exception.core.interceptor;
 
-import com.zoe.framework.components.core.common.response.core.IResult;
+import com.zoe.framework.components.starter.web.entity.InterceptorResult;
 
 /**
  * web 异常处理拦截器
@@ -11,11 +11,26 @@ import com.zoe.framework.components.core.common.response.core.IResult;
 public interface ExceptionHandlerInterceptor {
 
     /**
-     * exception 异常处理
+     * 是否可执行该拦截器
      *
      * @param e
      * @return
      */
-    IResult execute(Exception e);
+    boolean support(Exception e);
+
+    /**
+     * 指定顺序
+     *
+     * @return
+     */
+    int order();
+
+    /**
+     * 执行
+     *
+     * @param e
+     * @return
+     */
+    InterceptorResult execute(Exception e);
 
 }
