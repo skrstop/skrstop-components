@@ -1,5 +1,6 @@
 package com.zoe.framework.components.core.exception.util;
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.io.StringWriter;
  * @author 蒋时华
  */
 @Slf4j
+@UtilityClass
 public class ThrowableStackTraceUtil {
 
     public static String getStackTraceStr(Throwable e) {
