@@ -1,9 +1,6 @@
 package com.zoe.framework.components.starter.redis.service;
 
-import org.springframework.data.domain.Range;
-import org.springframework.data.redis.connection.Limit;
-import org.springframework.data.redis.connection.zset.Aggregate;
-import org.springframework.data.redis.connection.zset.Weights;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -393,7 +390,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listRightPushIfPresend(String key, Object value);
+    long listRightPushIfPresent(String key, Object value);
 
     /**
      * 列表左添加
@@ -425,7 +422,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listLeftPushIfPresend(String key, Object value);
+    long listLeftPushIfPresent(String key, Object value);
 
     /**
      * 列表获取
@@ -542,25 +539,25 @@ public interface RedisService {
 
     Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey);
 
-    default Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate) {
-        return zsetUnionAndStore(key, otherKeys, destKey, aggregate, Weights.fromSetCount(1 + otherKeys.size()));
+    default Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate) {
+        return zsetUnionAndStore(key, otherKeys, destKey, aggregate, RedisZSetCommands.Weights.fromSetCount(1 + otherKeys.size()));
     }
 
-    Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights);
+    Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights);
 
     Long zsetIntersectAndStore(String key, String otherKey, String destKey);
 
     Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey);
 
-    default Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate) {
-        return zsetIntersectAndStore(key, otherKeys, destKey, aggregate, Weights.fromSetCount(1 + otherKeys.size()));
+    default Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate) {
+        return zsetIntersectAndStore(key, otherKeys, destKey, aggregate, RedisZSetCommands.Weights.fromSetCount(1 + otherKeys.size()));
     }
 
-    Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights);
+    Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights);
 
-    <T> Set<T> zsetRangeByLex(String key, Range<String> range, Class<T> cls);
+    <T> Set<T> zsetRangeByLex(String key, RedisZSetCommands.Range range, Class<T> cls);
 
-    <T> Set<T> zsetRangeByLex(String key, Range<String> range, Limit limit, Class<T> cls);
+    <T> Set<T> zsetRangeByLex(String key, RedisZSetCommands.Range range, RedisZSetCommands.Limit limit, Class<T> cls);
 
     long zsetCount(String key, double min, double max);
 
@@ -611,6 +608,14 @@ public interface RedisService {
     long getExpire(String key);
 
     /**
+     * pipline执行
+     *
+     * @param callback
+     * @return
+     */
+    List<Object> executePipelined(SessionCallback<?> callback);
+
+    /**
      * 获取过期时间
      *
      * @param key
@@ -619,15 +624,7 @@ public interface RedisService {
      */
     long getExpire(String key, TimeUnit timeUnit);
 
-    /**
-     * pipline执行
-     *
-     * @param callback
-     * @return
-     */
-    List<Object> executePipelined(SessionCallback<?> callback);
-
-    Set getPattern(String pattern);
+    Set<String> getPattern(String pattern);
 
     RedisTemplate getRedisTemplate();
 

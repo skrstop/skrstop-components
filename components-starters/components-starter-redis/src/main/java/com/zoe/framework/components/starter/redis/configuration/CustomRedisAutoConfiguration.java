@@ -6,7 +6,9 @@ import com.zoe.framework.components.starter.redis.filter.BinaryValueFilter;
 import com.zoe.framework.components.starter.redis.filter.FastjsonValueFilter;
 import com.zoe.framework.components.starter.redis.filter.StringValueFilter;
 import com.zoe.framework.components.starter.redis.filter.ValueFilter;
+import com.zoe.framework.components.starter.redis.service.DynamicRedisService;
 import com.zoe.framework.components.starter.redis.service.RedisService;
+import com.zoe.framework.components.starter.redis.service.impl.DynamicRedisServiceImpl;
 import com.zoe.framework.components.starter.redis.service.impl.RedisServiceImpl;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -65,6 +67,12 @@ public class CustomRedisAutoConfiguration {
                 break;
         }
         return new RedisServiceImpl(redisServiceTemplate, valueFilter);
+    }
+
+    @Bean("fastJsonDynamicRedisService")
+    @ConditionalOnBean(RedisTemplate.class)
+    public DynamicRedisService dynamicRedisService(RedisService redisService) {
+        return new DynamicRedisServiceImpl(redisService);
     }
 
 }

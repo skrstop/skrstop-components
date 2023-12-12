@@ -19,6 +19,7 @@
         <module>components-utils</module>
         <module>components-starters</module>
         <module>components-extra</module>
+        <module>components-examples</module>
     </modules>
 
     <name>Zoe Mix Micro-service Components :: parent</name>
@@ -46,9 +47,8 @@
 
     <properties>
         <!-- 项目版本 -->
-        <framework.components.revision>1.3.1.20231204-RELEASE</framework.components.revision>
-
-        <java.version>17</java.version>
+        <framework.components.revision>1.2.4.20231128-RELEASE</framework.components.revision>
+        <java.version>1.8</java.version>
 
         <!-- Deploy Properties -->
         <maven.deploy.skip>false</maven.deploy.skip>
@@ -56,8 +56,8 @@
         <!-- base properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <resource.delimiter>@</resource.delimiter>
 
         <!-- metrics -->
@@ -75,7 +75,7 @@
 
         <!-- dependencies  -->
         <lombok.version>1.18.30</lombok.version>
-        <slf4j-api.version>2.0.9</slf4j-api.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
         <log4j.version>2.22.0</log4j.version>
         <checker.version>3.40.0</checker.version>
 
@@ -84,20 +84,20 @@
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-boot.version>3.1.6</spring-boot.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
-        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <!-- cache -->
         <cache-caffeine.version>3.1.8</cache-caffeine.version>
         <!-- mybatis -->
-        <mybatis.version>3.5.14</mybatis.version>
-        <mybatis-spring.version>3.0.3</mybatis-spring.version>
+        <mybatis.version>3.5.13</mybatis.version>
+        <mybatis-spring.version>2.1.1</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
-        <mybatis-plus-starter.version>3.5.4.1</mybatis-plus-starter.version>
-        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
-        <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
+        <mybatis-plus-starter.version>3.5.3.2</mybatis-plus-starter.version>
+        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
         <mybatis-fluent.version>1.9.9</mybatis-fluent.version>
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
@@ -144,8 +144,8 @@
         <swagger-annotations.version>2.2.19</swagger-annotations.version>
         <swagger-stater.version>2.0.2.RELEASE</swagger-stater.version>
         <!-- validation -->
-        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
-        <jakarta-validator.version>3.0.2</jakarta-validator.version>
+        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
+        <jakarta-validator.version>2.0.2</jakarta-validator.version>
         <!-- dubbo -->
         <dubbo.version>3.2.9</dubbo.version>
         <!-- zk client -->
@@ -171,7 +171,6 @@
         <!-- mongodb -->
         <mongo-driver.version>3.12.14</mongo-driver.version>
         <mongo-driver-sync.version>4.11.1</mongo-driver-sync.version>
-        <morphia-core.version>2.4.8</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -180,7 +179,7 @@
         <google-guava.version>32.1.3-jre</google-guava.version>
         <error_prone_annotations.version>2.23.0</error_prone_annotations.version>
         <!-- servlet api-->
-        <servlet-api.version>6.0.0</servlet-api.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
         <!-- ali TTL -->
         <ttl.version>2.14.3</ttl.version>
         <!-- 图片处理 -->
@@ -282,14 +281,14 @@
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <!-- http -->
         <async-http-client.version>2.12.3</async-http-client.version>
-        <mica-http.version>3.1.5.1</mica-http.version>
+        <mica-http.version>2.7.17.1</mica-http.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <okhttp-feign.version>13.1</okhttp-feign.version>
+        <okhttp-feign.version>11.10</okhttp-feign.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <httpclient-feign.version>13.1</httpclient-feign.version>
+        <httpclient-feign.version>11.10</httpclient-feign.version>
         <httpclient5.version>5.2.2</httpclient5.version>
-        <httpclient5-feign.version>13.1</httpclient5-feign.version>
-        <hystrix-feign.version>13.1</hystrix-feign.version>
+        <httpclient5-feign.version>11.10</httpclient5-feign.version>
+        <hystrix-feign.version>11.10</hystrix-feign.version>
         <retrofit.version>2.9.0</retrofit.version>
         <!-- platform-bom -->
         <platform-bom.version>Cairo-SR8</platform-bom.version>
@@ -349,6 +348,7 @@
         <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.5.0</maven-flatten-plugin.version>
+
     </properties>
 
     <prerequisites>
@@ -1095,11 +1095,6 @@
                 <artifactId>mongodb-driver-async</artifactId>
                 <version>${mongo-driver.version}</version>
             </dependency>
-            <dependency>
-                <groupId>dev.morphia.morphia</groupId>
-                <artifactId>morphia-core</artifactId>
-                <version>${morphia-core.version}</version>
-            </dependency>
             <!-- lz4 -->
             <dependency>
                 <groupId>org.lz4</groupId>
@@ -1120,8 +1115,8 @@
             </dependency>
             <!-- servlet-api -->
             <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
             </dependency>
             <!-- ali ttl -->
@@ -1859,7 +1854,6 @@
                 <artifactId>liteflow-spring-boot-starter</artifactId>
                 <version>${liteflow.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -1869,8 +1863,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
@@ -1946,6 +1940,8 @@
                     </executions>
                     <configuration>
                         <mainClass>${start-class}</mainClass>
+                        <!--maven编译时将本地引用的jar包一起打包-->
+                        <includeSystemScope>true</includeSystemScope>
                     </configuration>
                 </plugin>
 

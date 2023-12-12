@@ -1,3 +1,4 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#    com.zoe.framework.components.starter.redis.configuration.CustomRedisAutoConfiguration,\
-#    com.zoe.framework.components.starter.redis.configuration.RedissonAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.zoe.framework.components.starter.redis.configuration.CustomRedisAutoConfiguration,\
+    com.zoe.framework.components.starter.redis.configuration.redisson.RedissonAutoConfiguration,\
+    com.zoe.framework.components.starter.redis.configuration.dynamic.DynamicRedisAutoConfiguration

@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.id.service.strategy;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import com.zoe.framework.components.starter.id.config.GlobalIdProperties;
+import com.zoe.framework.components.starter.id.configuration.GlobalIdProperties;
 import com.zoe.framework.components.starter.id.service.IdService;
 
 /**

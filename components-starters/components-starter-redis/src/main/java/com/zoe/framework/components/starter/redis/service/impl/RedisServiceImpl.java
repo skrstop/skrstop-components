@@ -5,11 +5,8 @@ import com.zoe.framework.components.starter.redis.service.RedisService;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Range;
-import org.springframework.data.redis.connection.Limit;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.connection.zset.Aggregate;
-import org.springframework.data.redis.connection.zset.Weights;
 import org.springframework.data.redis.core.*;
 
 import java.io.Serializable;
@@ -21,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  * Created by 蒋时华 on 2017/9/21.
  */
 @Slf4j
+@SuppressWarnings("all")
 public class RedisServiceImpl implements RedisService {
 
     @Getter
@@ -579,7 +577,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listRightPushIfPresend(String key, Object value) {
+    public long listRightPushIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -615,7 +613,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listLeftPushIfPresend(String key, Object value) {
+    public long listLeftPushIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -969,7 +967,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights) {
+    public Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights) {
         if (this.isConnection()) {
             return null;
         }
@@ -996,7 +994,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights) {
+    public Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights) {
         if (this.isConnection()) {
             return null;
         }
@@ -1005,7 +1003,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public <T> Set<T> zsetRangeByLex(String key, Range<String> range, Class<T> cls) {
+    public <T> Set<T> zsetRangeByLex(String key, RedisZSetCommands.Range range, Class<T> cls) {
         if (this.isConnection()) {
             return null;
         }
@@ -1018,7 +1016,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public <T> Set<T> zsetRangeByLex(String key, Range<String> range, Limit limit, Class<T> cls) {
+    public <T> Set<T> zsetRangeByLex(String key, RedisZSetCommands.Range range, RedisZSetCommands.Limit limit, Class<T> cls) {
         if (this.isConnection()) {
             return null;
         }
@@ -1113,6 +1111,15 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public List<Object> executePipelined(SessionCallback<?> callback) {
+        if (this.isConnection()) {
+            return null;
+        }
+        return this.redisTemplate.executePipelined(callback);
+    }
+
+
+    @Override
     public long getExpire(String key, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return 0;
@@ -1121,16 +1128,8 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public List<Object> executePipelined(SessionCallback<?> callback) {
-        if (this.isConnection()) {
-            return null;
-        }
-        return this.redisTemplate.executePipelined(callback);
-    }
-
-    @Override
-    public Set getPattern(String pattern) {
-        Set values = this.redisTemplate.keys(pattern);
+    public Set<String> getPattern(String pattern) {
+        Set<String> values = this.redisTemplate.keys(pattern);
         if (values == null) {
             values = new HashSet();
         }
