@@ -72,10 +72,10 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.zoe.framework</groupId>-->
-        <!--            <artifactId>components-starter-mongodb</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-mongodb</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-starter-id</artifactId>

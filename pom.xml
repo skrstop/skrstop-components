@@ -19,6 +19,7 @@
         <module>components-utils</module>
         <module>components-starters</module>
         <module>components-extra</module>
+        <module>components-examples</module>
     </modules>
 
     <name>Zoe Mix Micro-service Components :: parent</name>
@@ -170,7 +171,6 @@
         <!-- mongodb -->
         <mongo-driver.version>3.12.14</mongo-driver.version>
         <mongo-driver-sync.version>4.11.1</mongo-driver-sync.version>
-        <morphia-core.version>2.4.8</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -1095,11 +1095,6 @@
                 <artifactId>mongodb-driver-async</artifactId>
                 <version>${mongo-driver.version}</version>
             </dependency>
-            <dependency>
-                <groupId>dev.morphia.morphia</groupId>
-                <artifactId>morphia-core</artifactId>
-                <version>${morphia-core.version}</version>
-            </dependency>
             <!-- lz4 -->
             <dependency>
                 <groupId>org.lz4</groupId>
@@ -1859,7 +1854,6 @@
                 <artifactId>liteflow-spring-boot-starter</artifactId>
                 <version>${liteflow.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -1946,6 +1940,8 @@
                     </executions>
                     <configuration>
                         <mainClass>${start-class}</mainClass>
+                        <!--maven编译时将本地引用的jar包一起打包-->
+                        <includeSystemScope>true</includeSystemScope>
                     </configuration>
                 </plugin>
 
