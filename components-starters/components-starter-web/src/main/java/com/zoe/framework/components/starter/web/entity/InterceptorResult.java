@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.web.response.core;
+package com.zoe.framework.components.starter.web.entity;
 
 import com.zoe.framework.components.core.common.response.core.IResult;
 import lombok.*;

@@ -2,7 +2,7 @@ package com.zoe.framework.components.starter.web.response.interceptor;
 
 import com.zoe.framework.components.core.common.response.page.CommonPageData;
 import com.zoe.framework.components.core.common.util.DynamicResult;
-import com.zoe.framework.components.starter.web.response.core.InterceptorResult;
+import com.zoe.framework.components.starter.web.entity.InterceptorResult;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;

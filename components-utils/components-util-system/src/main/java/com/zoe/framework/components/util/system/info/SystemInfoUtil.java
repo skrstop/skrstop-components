@@ -3,7 +3,6 @@ package com.zoe.framework.components.util.system.info;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
-import com.zoe.framework.components.core.exception.ZoeException;
 import com.zoe.framework.components.core.exception.ZoeRuntimeException;
 import com.zoe.framework.components.util.value.data.BigDecimalUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
@@ -24,7 +23,7 @@ import java.util.List;
 @UtilityClass
 public class SystemInfoUtil extends SystemUtil {
 
-    public static List<NvidiaGPUInfo> getNvidiaGPUInfo() throws IOException, ZoeException {
+    public static List<NvidiaGPUInfo> getNvidiaGPUInfo() throws IOException, ZoeRuntimeException {
         String gpus = getNvidiaGPUInfoStr();
         // 命令行调用后获取的信息
 //        String gpus = "Mon Jun  1 10:47:16 2020       \n" +
@@ -151,7 +150,7 @@ public class SystemInfoUtil extends SystemUtil {
      * @return
      * @throws IOException
      */
-    public static String getNvidiaGPUInfoStr() throws ZoeException, IOException {
+    public static String getNvidiaGPUInfoStr() throws ZoeRuntimeException, IOException {
         OsInfo osInfo = SystemUtil.getOsInfo();
         if (ObjectUtil.isNull(osInfo)) {
             throw new ZoeRuntimeException("无法获取系统平台信息");
@@ -166,11 +165,11 @@ public class SystemInfoUtil extends SystemUtil {
                 String[] shell = {"/bin/bash", "-c", "nvidia-smi"};
                 process = Runtime.getRuntime().exec(shell);
             } else {
-                throw new ZoeException("不支持该系统：" + osInfo.toString());
+                throw new ZoeRuntimeException("不支持该系统：" + osInfo.toString());
             }
             process.getOutputStream().close();
         } catch (IOException e) {
-            throw new ZoeException("显卡不存在或获取显卡信息失败", e);
+            throw new ZoeRuntimeException("显卡不存在或获取显卡信息失败", e);
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         StringBuilder tempStr = new StringBuilder();
@@ -181,7 +180,7 @@ public class SystemInfoUtil extends SystemUtil {
         }
         String info = tempStr.toString();
         if (StrUtil.isBlank(info)) {
-            throw new ZoeException("显卡不存在或获取显卡信息失败");
+            throw new ZoeRuntimeException("显卡不存在或获取显卡信息失败");
         }
         return info;
     }

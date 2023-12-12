@@ -51,14 +51,31 @@
     {
       "name": "zoe.response.config.date-time-format",
       "type": "java.lang.String",
-      "description": "时间格式化.",
-      "defaultValue": "true"
+      "description": "日期时间格式化.",
+      "defaultValue": "yyyy-MM-dd HH:mm:ss"
     },
     {
-      "name": "zoe.response.config.trans-result-response",
+      "name": "zoe.response.config.date-format",
+      "type": "java.lang.String",
+      "description": "日期格式化.",
+      "defaultValue": "yyyy-MM-dd"
+    },
+    {
+      "name": "zoe.response.config.time-format",
+      "type": "java.lang.String",
+      "description": "时间格式化.",
+      "defaultValue": "HH:mm:ss"
+    },
+    {
+      "name": "zoe.response.config.trans-result-type-response",
       "type": "java.lang.Boolean",
       "description": "根据返回值类型自动转换Result.",
       "defaultValue": "true"
+    },
+    {
+      "name": "zoe.response.config.disable-global-response-list",
+      "type": "java.util.List",
+      "description": "不自动包装Result的接口列表."
     },
     {
       "name": "zoe.exception.config.enable",
@@ -73,9 +90,9 @@
       "defaultValue": "false"
     },
     {
-      "name": "zoe.exception.config.show-business-service-exception",
+      "name": "zoe.exception.config.log-business-service-exception",
       "type": "java.lang.Boolean",
-      "description": "是否打印业务异常.",
+      "description": "是否打印业务异常日志.",
       "defaultValue": "false"
     }
   ]

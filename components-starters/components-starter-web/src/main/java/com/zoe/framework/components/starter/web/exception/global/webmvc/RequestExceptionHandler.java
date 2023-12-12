@@ -6,7 +6,7 @@ import com.zoe.framework.components.core.common.response.common.CommonResultCode
 import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.core.common.util.EnumCodeUtil;
 import com.zoe.framework.components.core.exception.common.CommonExceptionCode;
-import com.zoe.framework.components.core.exception.core.BusinessServiceThrowable;
+import com.zoe.framework.components.core.exception.core.BusinessThrowable;
 import com.zoe.framework.components.core.exception.util.ThrowableStackTraceUtil;
 import com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.zoe.framework.components.starter.web.constant.RequestConst;
@@ -288,8 +288,8 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             , Exception e) {
 
         if (globalExceptionProperties != null
-                && e instanceof BusinessServiceThrowable
-                && !globalExceptionProperties.getShowBusinessServiceException()) {
+                && e instanceof BusinessThrowable
+                && !globalExceptionProperties.getLogBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(request) && !this.skipErrorPath(request)) {
             String requestPath, requestQueryPath, requestBodyName, requestBody;
@@ -311,7 +311,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         if (ObjectUtil.isNotNull(response)
-                && (e instanceof NotShowHttpStatusException || e instanceof BusinessServiceThrowable)) {
+                && (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
             response.setStatus(HttpStatusConst.HTTP_OK);
         }
         this.setResponseContentType(request, response);

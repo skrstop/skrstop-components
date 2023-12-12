@@ -1,6 +1,6 @@
 package com.zoe.framework.components.starter.redis.configuration.redisson;
 
-import com.zoe.framework.components.core.exception.ZoeException;
+import com.zoe.framework.components.core.exception.ZoeRuntimeException;
 import com.zoe.framework.components.starter.redis.constant.GlobalConfigConst;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;
@@ -31,7 +31,7 @@ public class RedissonAutoConfiguration {
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(RedissonClient.class)
-    public RedissonClient redissonClient(GlobalRedissonProperties globalRedissonProperties, ApplicationContext ctx) throws ZoeException, IOException {
+    public RedissonClient redissonClient(GlobalRedissonProperties globalRedissonProperties, ApplicationContext ctx) throws ZoeRuntimeException, IOException {
         Config config = null;
         if (StrUtil.isNotBlank(globalRedissonProperties.getConfigFile())) {
             Resource resource = ctx.getResource(globalRedissonProperties.getConfigFile());
@@ -43,7 +43,7 @@ public class RedissonAutoConfiguration {
             config = Config.fromJSON(globalRedissonProperties.getConfigJsonStr());
         }
         if (ObjectUtil.isNull(config)) {
-            throw new ZoeException("redisson未配置相关参数");
+            throw new ZoeRuntimeException("redisson未配置相关参数");
         }
         return Redisson.create(config);
     }

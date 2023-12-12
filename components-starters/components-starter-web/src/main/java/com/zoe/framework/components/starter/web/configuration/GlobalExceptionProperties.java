@@ -22,16 +22,10 @@ import org.springframework.core.annotation.Order;
 public class GlobalExceptionProperties {
 
     /*** 是否开启统一异常处理 */
-    private Boolean enable;
+    private Boolean enable = true;
     /*** 是否有错误页面展示 */
-    private Boolean hasHtmlError;
-    /*** 是否打印业务业务异常 */
-    private Boolean showBusinessServiceException;
-
-    public GlobalExceptionProperties() {
-        this.enable = true;
-        this.hasHtmlError = false;
-        this.showBusinessServiceException = false;
-    }
+    private Boolean hasHtmlError = false;
+    /*** 日志是否打印业务业务异常 */
+    private Boolean logBusinessServiceException = false;
 
 }

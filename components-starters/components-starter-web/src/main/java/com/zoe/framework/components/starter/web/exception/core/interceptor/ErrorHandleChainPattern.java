@@ -1,16 +1,19 @@
 package com.zoe.framework.components.starter.web.exception.core.interceptor;
 
+import com.zoe.framework.components.core.common.response.Result;
+import com.zoe.framework.components.core.common.response.common.CommonResultCode;
 import com.zoe.framework.components.core.common.response.core.IResult;
+import com.zoe.framework.components.starter.web.entity.InterceptorResult;
 import com.zoe.framework.components.starter.web.exception.global.interceptor.error.DefaultErrorInterceptor;
+import com.zoe.framework.components.starter.web.exception.global.interceptor.error.ZoeDataErrorInterceptor;
 import com.zoe.framework.components.starter.web.exception.global.interceptor.error.ZoeErrorInterceptor;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -30,17 +33,25 @@ public class ErrorHandleChainPattern {
 
     @PostConstruct
     private void initChainPattern() {
-        Collections.sort(errorHandleChainPatterns, AnnotationAwareOrderComparator.INSTANCE);
+        errorHandleChainPatterns.add(new ZoeDataErrorInterceptor());
         errorHandleChainPatterns.add(new ZoeErrorInterceptor());
         errorHandleChainPatterns.add(new DefaultErrorInterceptor());
+        errorHandleChainPatterns.sort(Comparator.comparingInt(ErrorHandlerInterceptor::order));
     }
 
     public IResult execute(Error e) {
         for (ErrorHandlerInterceptor errorHandlerInterceptor : errorHandleChainPatterns) {
-            IResult IResult = errorHandlerInterceptor.execute(e);
-            if (ObjectUtil.isNotNull(IResult)) {
-                return IResult;
+            if (!errorHandlerInterceptor.support(e)) {
+                continue;
             }
+            InterceptorResult execute = errorHandlerInterceptor.execute(e);
+            if (ObjectUtil.isNull(execute)) {
+                return Result.Builder.result(CommonResultCode.FAIL);
+            }
+            if (ObjectUtil.isNull(execute.getResult()) && !execute.isNext()) {
+                return Result.Builder.result(CommonResultCode.FAIL);
+            }
+            return execute.getResult();
         }
         return null;
     }
