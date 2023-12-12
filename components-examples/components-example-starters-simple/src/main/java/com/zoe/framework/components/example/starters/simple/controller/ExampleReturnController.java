@@ -1,9 +1,13 @@
 package com.zoe.framework.components.example.starters.simple.controller;
 
 import com.zoe.framework.components.core.common.response.MapResult;
+import com.zoe.framework.components.core.common.response.PageLinkedSetResult;
+import com.zoe.framework.components.core.common.response.core.IPageResult;
 import com.zoe.framework.components.core.common.response.core.IResult;
 import com.zoe.framework.components.example.starters.simple.service.Example1MysqlService;
 import com.zoe.framework.components.starter.id.service.IdService;
+import com.zoe.framework.components.starter.web.response.DisableGlobalResponse;
+import com.zoe.framework.components.starter.web.response.DisableTransResultTypeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +35,18 @@ public class ExampleReturnController {
      *
      * @return
      */
-    @GetMapping("/exampleReturn")
-    public Object exampleReturn() {
+    @GetMapping("/exampleReturn1")
+    public Object exampleReturn1() {
+        HashMap<String, String> result = new HashMap<>();
+        result.put("1", "1");
+        result.put("2", "2");
+        result.put("3", "3");
+        return result;
+    }
+
+    @DisableGlobalResponse
+    @GetMapping("/exampleReturn2")
+    public Object exampleReturn2() {
         HashMap<String, String> result = new HashMap<>();
         result.put("1", "1");
         result.put("2", "2");
@@ -45,13 +59,33 @@ public class ExampleReturnController {
      *
      * @return
      */
-    @GetMapping("/exampleReturnMap")
-    public IResult exampleReturnMap() {
+    @GetMapping("/exampleReturnMap1")
+    public IResult exampleReturnMap1() {
         HashMap<String, String> result = new HashMap<>();
         result.put("1", "1");
         result.put("2", "2");
         result.put("3", "3");
         return MapResult.Builder.success(result);
+    }
+
+    @DisableTransResultTypeResponse
+    @GetMapping("/exampleReturnMap2")
+    public IResult exampleReturnMap2() {
+        HashMap<String, String> result = new HashMap<>();
+        result.put("1", "1");
+        result.put("2", "2");
+        result.put("3", "3");
+        return MapResult.Builder.success(result);
+    }
+
+    /**
+     * page样例
+     *
+     * @return
+     */
+    @GetMapping("/exampleReturnPage")
+    public IPageResult exampleReturnPage() {
+        return PageLinkedSetResult.Builder.success(10, 100);
     }
 
 }

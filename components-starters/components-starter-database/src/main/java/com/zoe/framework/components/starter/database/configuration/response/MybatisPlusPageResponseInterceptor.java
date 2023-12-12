@@ -1,32 +1,34 @@
-package com.zoe.framework.components.starter.web.response.interceptor;
+package com.zoe.framework.components.starter.database.configuration.response;
 
-import com.zoe.framework.components.core.common.util.DynamicResult;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zoe.framework.components.core.common.response.PageListResult;
 import com.zoe.framework.components.starter.web.response.core.InterceptorResult;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 
 /**
  * @author 蒋时华
  * @date 2020-05-08 13:50:54
  */
 @Slf4j
-public class DefaultResponseInterceptor implements ResponseHandlerInterceptor {
+public class MybatisPlusPageResponseInterceptor implements ResponseHandlerInterceptor {
+
     @Override
     public boolean support(Object returnValue) {
-        return true;
+        return returnValue instanceof IPage;
     }
 
     @Override
     public int order() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return 0;
     }
 
     @Override
     public InterceptorResult execute(Object returnValue) {
+        IPage<?> iPage = (IPage<?>) returnValue;
         return InterceptorResult.builder()
                 .next(false)
-                .result(DynamicResult.build(returnValue))
+                .result(PageListResult.Builder.success(iPage.getCurrent(), iPage.getSize(), iPage.getTotal(), iPage.getRecords()))
                 .build();
     }
 }

@@ -20,6 +20,11 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
         </dependency>
@@ -47,6 +52,11 @@
         <dependency>
             <groupId>com.zoe.framework</groupId>
             <artifactId>components-util-constant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-web</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

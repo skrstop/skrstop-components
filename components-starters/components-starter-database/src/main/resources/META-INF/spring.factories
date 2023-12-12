@@ -5,6 +5,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.zoe.framework.components.starter.database.configuration.MybatisScanAutoConfiguration,\
     com.zoe.framework.components.starter.database.configuration.MybatisPlusCommonAutoConfiguration,\
     com.zoe.framework.components.starter.database.configuration.MybatisPlusIdAutoConfiguration,\
-    com.zoe.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration
+    com.zoe.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration,\
+    com.zoe.framework.components.starter.database.configuration.ResponseHandlerInterceptorAutoConfiguration
 org.springframework.context.ApplicationContextInitializer=\
     com.zoe.framework.components.starter.database.configuration.ApplicationContextInitializerAutoConfiguration

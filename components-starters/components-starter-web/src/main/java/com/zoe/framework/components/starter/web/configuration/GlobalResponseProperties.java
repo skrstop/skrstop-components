@@ -44,9 +44,9 @@ public class GlobalResponseProperties {
     private String timeFormat = DateFormatConst.NORM_TIME_PATTERN;
 
     /*** 根据返回值类型自动转换Result */
-    private Boolean transResultResponse = true;
+    private Boolean transResultTypeResponse = true;
 
     /*** 不自动包装Result的接口列表 */
-    private List<String> notTransResultList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_TRANS_RESULT_LIST);
+    private List<String> disableGlobalResponseList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_GLOBAL_RESPONSE_RESULT_LIST);
 
 }

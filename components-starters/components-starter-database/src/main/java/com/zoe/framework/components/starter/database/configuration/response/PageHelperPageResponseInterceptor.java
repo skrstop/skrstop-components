@@ -1,32 +1,33 @@
-package com.zoe.framework.components.starter.web.response.interceptor;
+package com.zoe.framework.components.starter.database.configuration.response;
 
-import com.zoe.framework.components.core.common.util.DynamicResult;
+import com.github.pagehelper.PageInfo;
+import com.zoe.framework.components.core.common.response.PageListResult;
 import com.zoe.framework.components.starter.web.response.core.InterceptorResult;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 
 /**
  * @author 蒋时华
  * @date 2020-05-08 13:50:54
  */
 @Slf4j
-public class DefaultResponseInterceptor implements ResponseHandlerInterceptor {
+public class PageHelperPageResponseInterceptor implements ResponseHandlerInterceptor {
     @Override
     public boolean support(Object returnValue) {
-        return true;
+        return returnValue instanceof PageInfo;
     }
 
     @Override
     public int order() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return 1;
     }
 
     @Override
     public InterceptorResult execute(Object returnValue) {
+        PageInfo<?> pageInfo = (PageInfo<?>) returnValue;
         return InterceptorResult.builder()
                 .next(false)
-                .result(DynamicResult.build(returnValue))
+                .result(PageListResult.Builder.success(pageInfo.getPageNum(), pageInfo.getPageSize(), pageInfo.getTotal(), pageInfo.getList()))
                 .build();
     }
 }

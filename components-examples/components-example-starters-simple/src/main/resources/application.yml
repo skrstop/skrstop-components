@@ -12,7 +12,7 @@ spring:
       path: /h2Console
       enabled: true
   datasource:
-    url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/zoe-components-11/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters
+    url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/zoe-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters
     driver-class-name: org.h2.Driver
     username: sa
     password: 123456
