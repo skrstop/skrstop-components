@@ -10,7 +10,11 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zoe.framework.components.starter.database.constant.DatabaseConst;
+import com.zoe.framework.components.starter.database.constant.GlobalConfigConst;
+import com.zoe.framework.components.util.constant.StringPoolConst;
+import com.zoe.framework.components.util.value.data.ArrayUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
+import com.zoe.framework.components.util.value.data.StrUtil;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,6 +28,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.*;
 
 /**
  * @author 蒋时华
@@ -54,9 +59,16 @@ public class MybatisPlusCommonAutoConfiguration {
         globalConfig.setIdentifierGenerator(identifierGenerator);
         sqlSessionFactoryBean.setGlobalConfig(globalConfig);
         // 扫描mapper.xml文件
+        Set<String> xmlLocations = new LinkedHashSet<>(StrUtil.splitTrim(globalDataProperties.getMapperXmlLocation(), StringPoolConst.COMMA));
+        // 需要包含默认的mapper/*.xml
+        xmlLocations.add(GlobalConfigConst.DEFAULT_MAPPER_XML_LOCATION);
+        List<Resource> allResources = new ArrayList<>();
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources(globalDataProperties.getMapperXmlLocation());
-        sqlSessionFactoryBean.setMapperLocations(resources);
+        for (String xmlLocation : xmlLocations) {
+            Resource[] resources = resolver.getResources(xmlLocation);
+            allResources.addAll(Arrays.asList(resources));
+        }
+        sqlSessionFactoryBean.setMapperLocations(ArrayUtil.toArray(allResources, Resource.class));
         sqlSessionFactoryBean.setPlugins(mybatisPlusInterceptor);
         if (ObjectUtil.isNull(sqlSessionFactoryBean.getObject())
                 || ObjectUtil.isNull(sqlSessionFactoryBean.getObject().getConfiguration())) {

@@ -27,7 +27,7 @@ public class GlobalDataProperties {
     /*** mapper class 路径, 为空则不扫描，多个用逗号分割，可以使用{@link org.mybatis.spring.annotation.MapperScan} */
     private String mapperClassLocation = "";
 
-    /*** mapper xml 路径 */
+    /*** mapper xml 路径,多个路径用逗号分割 */
     private String mapperXmlLocation = "classpath*:mapper/*.xml";
 
     /*** 下划线转驼峰 */

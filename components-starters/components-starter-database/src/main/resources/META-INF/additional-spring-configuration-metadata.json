@@ -16,7 +16,7 @@
     {
       "name": "zoe.database.config.mapper-xml-location",
       "type": "java.lang.String",
-      "description": "mapper xml 路径.",
+      "description": "mapper xml 路径,多个路径用逗号分割.",
       "defaultValue": "classpath*:mapper/*.xml"
     },
     {
