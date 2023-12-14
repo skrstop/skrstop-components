@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.anno.aspect;
+package com.zoe.framework.components.starter.annotation.anno.function;
 
 import com.zoe.framework.components.starter.annotation.constant.PrivacyInfoType;
 import org.springframework.core.Ordered;

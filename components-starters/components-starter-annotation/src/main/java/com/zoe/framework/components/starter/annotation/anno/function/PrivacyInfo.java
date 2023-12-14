@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.anno.aspect;
+package com.zoe.framework.components.starter.annotation.anno.function;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

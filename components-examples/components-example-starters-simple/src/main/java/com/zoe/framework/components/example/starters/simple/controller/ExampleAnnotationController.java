@@ -3,7 +3,7 @@ package com.zoe.framework.components.example.starters.simple.controller;
 import com.zoe.framework.components.example.starters.simple.constant.ProcessorContainerNameConst;
 import com.zoe.framework.components.example.starters.simple.entity.response.ExamplePrivacyInfo;
 import com.zoe.framework.components.example.starters.simple.service.processor.ExampleProcessorService;
-import com.zoe.framework.components.starter.annotation.anno.aspect.*;
+import com.zoe.framework.components.starter.annotation.anno.function.*;
 import com.zoe.framework.components.starter.annotation.handle.server.processor.ProcessorContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;

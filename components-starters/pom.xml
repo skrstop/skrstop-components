@@ -11,6 +11,7 @@
 
     <artifactId>components-starters</artifactId>
     <modules>
+        <module>components-starter-common</module>
         <module>components-starter-spring-support</module>
         <module>components-starter-annotation</module>
         <module>components-starter-port-shift</module>
@@ -44,6 +45,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-starter-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -70,6 +75,11 @@
             </dependency>
 
             <!-- self modules -->
+            <dependency>
+                <groupId>com.zoe.framework</groupId>
+                <artifactId>components-starter-common</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
             <dependency>
                 <groupId>com.zoe.framework</groupId>
                 <artifactId>components-starter-web</artifactId>

@@ -61,7 +61,7 @@ public class DynamicRedisProperties {
         /**
          * aop allowedPublicOnly
          */
-        private Boolean allowedPublicOnly = true;
+        private Boolean allowedPublicOnly = false;
     }
 
     @Getter

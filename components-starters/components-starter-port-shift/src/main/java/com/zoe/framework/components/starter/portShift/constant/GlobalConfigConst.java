@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.port.shift.constant;
+package com.zoe.framework.components.starter.portShift.constant;
 
 /**
  * GlobalConfigConst class

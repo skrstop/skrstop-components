@@ -1,6 +1,6 @@
 package com.zoe.framework.components.example.starters.simple.entity.response;
 
-import com.zoe.framework.components.starter.annotation.anno.aspect.PrivacyInfoValue;
+import com.zoe.framework.components.starter.annotation.anno.function.PrivacyInfoValue;
 import com.zoe.framework.components.starter.annotation.constant.PrivacyInfoType;
 import lombok.*;
 import lombok.experimental.Accessors;

@@ -1,6 +1,6 @@
-package com.zoe.framework.components.starter.annotation.handle.aspect;
+package com.zoe.framework.components.starter.annotation.handle.function;
 
-import com.zoe.framework.components.starter.annotation.anno.aspect.ExecuteTimeLog;
+import com.zoe.framework.components.starter.annotation.anno.function.ExecuteTimeLog;
 import com.zoe.framework.components.starter.annotation.configuration.AnnotationProperties;
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.value.data.StrUtil;
@@ -37,7 +37,7 @@ public class ExecuteTimeLogAspect {
     private AnnotationProperties annotationProperties;
 
     /*** 执行耗时 */
-    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.aspect.ExecuteTimeLog)")
+    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.function.ExecuteTimeLog)")
     public void executeTimeLogAspect() {
 
     }

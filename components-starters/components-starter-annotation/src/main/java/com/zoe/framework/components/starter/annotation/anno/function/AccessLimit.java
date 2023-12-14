@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.anno.aspect;
+package com.zoe.framework.components.starter.annotation.anno.function;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -6,19 +6,15 @@ import org.springframework.core.annotation.Order;
 import java.lang.annotation.*;
 
 /**
- * controller接口失效
+ * 限流注解
  *
  * @author 蒋时华
  * @date 2019/4/3
  */
+@Target({ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public @interface AccessControl {
-
-    String message() default "服务器忙，请稍后重试";
-
-    String alias() default "";
-
+public @interface AccessLimit {
+    double limit() default 1000D;
 }
