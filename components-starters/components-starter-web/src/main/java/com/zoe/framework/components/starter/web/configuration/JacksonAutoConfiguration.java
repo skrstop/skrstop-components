@@ -68,7 +68,7 @@ public class JacksonAutoConfiguration {
     private ObjectMapper setObjectMapper(ObjectMapper objectMapper, GlobalResponseProperties globalResponseProperties) {
         SimpleModule simpleModule = new SimpleModule();
         // 序列换成json时,将所有的long变成string
-        if (globalResponseProperties == null || globalResponseProperties.getLongToString()) {
+        if (globalResponseProperties == null || globalResponseProperties.isLongToString()) {
             simpleModule.addSerializer(PageInfo.class, new JsonSerializer<PageInfo>() {
                 @Override
                 public void serialize(PageInfo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
@@ -79,20 +79,20 @@ public class JacksonAutoConfiguration {
             simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         }
         // LocalDateTime, 格式化
-        if (globalResponseProperties == null || !StrUtil.isBlank(globalResponseProperties.getDateTimeFormat())) {
+        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(globalResponseProperties.getDateTimeFormat()));
         }
-        if (globalResponseProperties == null || !StrUtil.isBlank(globalResponseProperties.getDateFormat())) {
+        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
             simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(globalResponseProperties.getDateFormat()));
             simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(globalResponseProperties.getDateFormat()));
         }
-        if (globalResponseProperties == null || !StrUtil.isBlank(globalResponseProperties.getTimeFormat())) {
+        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getTimeFormat())) {
             simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(globalResponseProperties.getTimeFormat()));
             simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(globalResponseProperties.getTimeFormat()));
         }
         // 设置过滤掉null值得属性
-        if (globalResponseProperties == null || !globalResponseProperties.getShowNullValue()) {
+        if (globalResponseProperties == null || !globalResponseProperties.isShowNullValue()) {
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         }
         globalObjectMapper = objectMapper.registerModule(simpleModule);

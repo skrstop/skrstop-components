@@ -67,9 +67,9 @@
       "defaultValue": "HH:mm:ss"
     },
     {
-      "name": "zoe.response.config.trans-result-type-response",
+      "name": "zoe.response.config.disable-global-trans-result-type-response",
       "type": "java.lang.Boolean",
-      "description": "根据返回值类型自动转换Result.",
+      "description": "全局关闭IResult返回值自适应处理.",
       "defaultValue": "true"
     },
     {
