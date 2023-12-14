@@ -28,7 +28,7 @@ public class GlobalDataProperties {
     private String mapperClassLocation = "";
 
     /*** mapper xml 路径,多个路径用逗号分割 */
-    private String mapperXmlLocation = "classpath*:mapper/*.xml";
+    private String mapperXmlLocation = GlobalConfigConst.DEFAULT_MAPPER_XML_LOCATION;
 
     /*** 下划线转驼峰 */
     private Boolean mapUnderscoreToCamelCase = true;
