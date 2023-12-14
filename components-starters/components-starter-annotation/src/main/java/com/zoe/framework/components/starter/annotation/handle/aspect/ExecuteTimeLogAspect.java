@@ -1,7 +1,7 @@
 package com.zoe.framework.components.starter.annotation.handle.aspect;
 
 import com.zoe.framework.components.starter.annotation.anno.aspect.ExecuteTimeLog;
-import com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties;
+import com.zoe.framework.components.starter.annotation.configuration.AnnotationProperties;
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;

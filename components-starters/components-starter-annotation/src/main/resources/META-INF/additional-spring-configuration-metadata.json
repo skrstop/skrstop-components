@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties",
+      "sourceType": "com.zoe.framework.components.starter.annotation.configuration.AnnotationProperties",
       "name": "访问控制参数配置",
-      "type": "com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties"
+      "type": "com.zoe.framework.components.starter.annotation.configuration.AnnotationProperties"
     }
   ],
   "properties": [
