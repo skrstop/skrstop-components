@@ -10,7 +10,7 @@
 * refactor: 移除`components-extra-compatible-ribbon-to-loadbalancer`模块
 * refactor: 删除多余代码、工具类
 * refactor: 命名修改
-* refactor: IResult优化
-* refactor: Exception优化
+* refactor: core-common的IResult优化
+* refactor: core-exception的Exception优化
 * refactor: starter-annotation优化
 * refactor: starter-web优化
