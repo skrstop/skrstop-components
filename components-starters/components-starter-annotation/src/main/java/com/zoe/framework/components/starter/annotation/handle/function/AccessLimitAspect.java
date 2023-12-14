@@ -1,9 +1,9 @@
-package com.zoe.framework.components.starter.annotation.handle.aspect;
+package com.zoe.framework.components.starter.annotation.handle.function;
 
 import com.google.common.util.concurrent.RateLimiter;
-import com.zoe.framework.components.starter.annotation.anno.aspect.AccessLimit;
+import com.zoe.framework.components.starter.annotation.anno.function.AccessLimit;
 import com.zoe.framework.components.starter.annotation.exception.aspect.AccessLimitException;
-import com.zoe.framework.components.starter.annotation.handle.aspect.utils.MethodUtil;
+import com.zoe.framework.components.starter.annotation.handle.function.utils.MethodUtil;
 import com.zoe.framework.components.util.enums.CharSetEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -39,7 +39,7 @@ public class AccessLimitAspect {
     private ConcurrentHashMap<String, RateLimiter> limitMap = new ConcurrentHashMap<>();
 
     /*** 限流 */
-    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.aspect.AccessLimit)")
+    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.function.AccessLimit)")
     public void accessLimitAspect() {
     }
 

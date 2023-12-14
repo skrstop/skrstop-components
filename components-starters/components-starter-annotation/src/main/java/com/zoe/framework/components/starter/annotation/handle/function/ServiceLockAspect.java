@@ -1,9 +1,9 @@
-package com.zoe.framework.components.starter.annotation.handle.aspect;
+package com.zoe.framework.components.starter.annotation.handle.function;
 
 import com.zoe.framework.components.core.common.response.common.CommonResultCode;
 import com.zoe.framework.components.core.exception.ZoeRuntimeException;
-import com.zoe.framework.components.starter.annotation.anno.aspect.ServiceLock;
-import com.zoe.framework.components.starter.annotation.handle.aspect.utils.MethodUtil;
+import com.zoe.framework.components.starter.annotation.anno.function.ServiceLock;
+import com.zoe.framework.components.starter.annotation.handle.function.utils.MethodUtil;
 import com.zoe.framework.components.util.enums.CharSetEnum;
 import com.zoe.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class ServiceLockAspect {
     private ConcurrentHashMap<String, Lock> lockMap = new ConcurrentHashMap<>();
 
     /*** Service层切点 */
-    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.aspect.ServiceLock)")
+    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.function.ServiceLock)")
     public void serviceLockAspect() {
     }
 

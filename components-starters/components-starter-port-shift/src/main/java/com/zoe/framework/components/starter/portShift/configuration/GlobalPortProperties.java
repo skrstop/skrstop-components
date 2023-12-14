@@ -1,6 +1,6 @@
-package com.zoe.framework.components.starter.port.shift.configuration;
+package com.zoe.framework.components.starter.portShift.configuration;
 
-import com.zoe.framework.components.starter.port.shift.constant.GlobalConfigConst;
+import com.zoe.framework.components.starter.portShift.constant.GlobalConfigConst;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

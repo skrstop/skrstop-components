@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.handle.aspect;
+package com.zoe.framework.components.starter.annotation.handle.function;
 
 import cn.hutool.core.net.NetUtil;
 import com.zoe.framework.components.starter.annotation.exception.aspect.IntranetLimitException;
@@ -29,7 +29,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Order(2)
 public class IntranetLimitAspect {
 
-    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.aspect.IntranetLimit)")
+    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.function.IntranetLimit)")
     public void intranetLimitAspect() {
     }
 

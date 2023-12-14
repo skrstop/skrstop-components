@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.anno.aspect;
+package com.zoe.framework.components.starter.annotation.anno.function;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -6,15 +6,17 @@ import org.springframework.core.annotation.Order;
 import java.lang.annotation.*;
 
 /**
- * 限流注解
+ * 执行时间耗时打印切面
  *
  * @author 蒋时华
- * @date 2019/4/3
+ * @date 2020-09-04 14:29:39
  */
-@Target({ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public @interface AccessLimit {
-    double limit() default 1000D;
+public @interface ExecuteTimeLog {
+
+    String value() default "";
+
 }

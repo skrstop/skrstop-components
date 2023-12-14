@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.port.shift.configuration;
+package com.zoe.framework.components.starter.portShift.configuration;
 
 import com.zoe.framework.components.util.constant.StringPoolConst;
 import com.zoe.framework.components.util.system.net.PortUtil;

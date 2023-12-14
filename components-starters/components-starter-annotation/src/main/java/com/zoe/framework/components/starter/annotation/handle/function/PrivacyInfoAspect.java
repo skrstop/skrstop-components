@@ -1,10 +1,10 @@
-package com.zoe.framework.components.starter.annotation.handle.aspect;
+package com.zoe.framework.components.starter.annotation.handle.function;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.zoe.framework.components.starter.annotation.anno.aspect.PrivacyInfo;
-import com.zoe.framework.components.starter.annotation.anno.aspect.PrivacyInfoValue;
+import com.zoe.framework.components.starter.annotation.anno.function.PrivacyInfo;
+import com.zoe.framework.components.starter.annotation.anno.function.PrivacyInfoValue;
 import com.zoe.framework.components.starter.annotation.constant.PrivacyInfoType;
 import com.zoe.framework.components.util.system.net.IPUtil;
 import com.zoe.framework.components.util.value.data.ObjectUtil;
@@ -50,7 +50,7 @@ import java.util.Map;
 @Slf4j
 public class PrivacyInfoAspect {
 
-    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.aspect.PrivacyInfo)")
+    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.function.PrivacyInfo)")
     public void privacyInfo() {
     }
 

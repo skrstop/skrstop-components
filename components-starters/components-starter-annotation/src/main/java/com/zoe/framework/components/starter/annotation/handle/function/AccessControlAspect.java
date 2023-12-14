@@ -1,6 +1,6 @@
-package com.zoe.framework.components.starter.annotation.handle.aspect;
+package com.zoe.framework.components.starter.annotation.handle.function;
 
-import com.zoe.framework.components.starter.annotation.anno.aspect.AccessControl;
+import com.zoe.framework.components.starter.annotation.anno.function.AccessControl;
 import com.zoe.framework.components.starter.annotation.configuration.AnnotationProperties;
 import com.zoe.framework.components.starter.annotation.exception.aspect.ControllerDeprecatedException;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 @ControllerAdvice
 public class AccessControlAspect {
 
-    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.aspect.AccessControl)")
+    @Pointcut("@annotation(com.zoe.framework.components.starter.annotation.anno.function.AccessControl)")
     public void accessControlAspect() {
     }
 
