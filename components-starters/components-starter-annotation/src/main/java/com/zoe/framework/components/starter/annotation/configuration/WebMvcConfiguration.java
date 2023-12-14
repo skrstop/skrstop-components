@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.configutation;
+package com.zoe.framework.components.starter.annotation.configuration;
 
 import com.zoe.framework.components.starter.annotation.handle.paramAlias.AliasModelAttributeMethodServletProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Configuration
 @ConditionalOnClass(WebMvcConfigurer.class)
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {

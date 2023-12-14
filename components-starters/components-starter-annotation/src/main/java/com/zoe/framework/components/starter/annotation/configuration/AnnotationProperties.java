@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.configutation;
+package com.zoe.framework.components.starter.annotation.configuration;
 
 import com.zoe.framework.components.starter.annotation.constant.GlobalConfigConst;
 import lombok.Getter;

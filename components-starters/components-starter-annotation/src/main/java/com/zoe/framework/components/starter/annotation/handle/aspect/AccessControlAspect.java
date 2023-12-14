@@ -1,7 +1,7 @@
 package com.zoe.framework.components.starter.annotation.handle.aspect;
 
 import com.zoe.framework.components.starter.annotation.anno.aspect.AccessControl;
-import com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties;
+import com.zoe.framework.components.starter.annotation.configuration.AnnotationProperties;
 import com.zoe.framework.components.starter.annotation.exception.aspect.ControllerDeprecatedException;
 import com.zoe.framework.components.util.value.data.CollectionUtil;
 import com.zoe.framework.components.util.value.data.StrUtil;

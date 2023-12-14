@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.zoe.framework.components.starter.annotation.configutation.WebMvcConfig,\
+    com.zoe.framework.components.starter.annotation.configuration.WebMvcConfiguration,\
     com.zoe.framework.components.starter.annotation.handle.aspect.AccessLimitAspect,\
     com.zoe.framework.components.starter.annotation.handle.aspect.AccessControlAspect,\
     com.zoe.framework.components.starter.annotation.handle.aspect.IntranetLimitAspect,\
