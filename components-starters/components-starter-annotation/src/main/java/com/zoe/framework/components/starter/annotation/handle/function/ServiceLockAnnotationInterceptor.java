@@ -30,7 +30,7 @@ public class ServiceLockAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        ServiceLock serviceLock = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), ServiceLock.class, this.annotationProperties.getAllowedPublicOnly());
+        ServiceLock serviceLock = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), ServiceLock.class, this.annotationProperties.isAllowedPublicOnly());
         if (ObjectUtil.isNull(serviceLock)) {
             return invocation.proceed();
         }

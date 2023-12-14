@@ -26,20 +26,20 @@ public class GlobalRedisProperties {
     /**
      * 是否开启redisService
      */
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     /*** 值处理器 */
     private Byte valueProcessor = ValueProcessorConst.FAST_JSON;
 
     // fastjson
     /*** 是否格式化json */
-    private Boolean fastjsonPrettyFormatJson = false;
+    private boolean fastjsonPrettyFormatJson = false;
     /*** 是否开启safeMode */
-    private Boolean fastjsonSafeMode = true;
+    private boolean fastjsonSafeMode = true;
     /*** 是否开启autoType */
-    private Boolean fastjsonAutoType = false;
+    private boolean fastjsonAutoType = false;
     /*** 此开关用于filter过滤，当autoType序列化和非autoType穿插使用, 并且autoType是开启状态时则开启遍历过滤，建议不要autoType穿插使用 */
-    private Boolean fastjsonFilterEach = false;
+    private boolean fastjsonFilterEach = false;
 
     public GlobalRedisProperties setValueProcessor(Byte valueProcessor) {
         if (!ValueProcessorConst.VALUES.contains(valueProcessor)) {

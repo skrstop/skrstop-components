@@ -30,7 +30,7 @@ public class AccessLimitAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        AccessLimit accessLimit = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), AccessLimit.class, this.annotationProperties.getAllowedPublicOnly());
+        AccessLimit accessLimit = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), AccessLimit.class, this.annotationProperties.isAllowedPublicOnly());
         if (ObjectUtil.isNull(accessLimit)) {
             return invocation.proceed();
         }

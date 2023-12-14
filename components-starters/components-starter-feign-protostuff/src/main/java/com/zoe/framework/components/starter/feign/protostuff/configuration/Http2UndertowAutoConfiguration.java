@@ -33,7 +33,7 @@ public class Http2UndertowAutoConfiguration {
     @Bean
     public UndertowServletWebServerFactory undertowServletWebServerFactory(GlobalHttp2Properties globalHttp2Properties) {
         UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
-        if (globalHttp2Properties.getEnable()) {
+        if (globalHttp2Properties.isEnable()) {
             factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
         }
         return factory;

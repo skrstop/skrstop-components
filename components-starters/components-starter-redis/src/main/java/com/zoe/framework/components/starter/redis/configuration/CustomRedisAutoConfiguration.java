@@ -56,13 +56,13 @@ public class CustomRedisAutoConfiguration {
             case ValueProcessorConst.FAST_JSON:
             default:
                 redisServiceTemplate = new FastJsonRedisTemplate(connectionFactory
-                        , globalRedisProperties.getFastjsonPrettyFormatJson()
-                        , globalRedisProperties.getFastjsonSafeMode()
-                        , globalRedisProperties.getFastjsonAutoType());
+                        , globalRedisProperties.isFastjsonPrettyFormatJson()
+                        , globalRedisProperties.isFastjsonSafeMode()
+                        , globalRedisProperties.isFastjsonAutoType());
                 // autoType： !globalRedisConfig.getFastjsonSafeMode() && globalRedisConfig.getFastjsonAutoType()
                 valueFilter = new FastjsonValueFilter(
-                        globalRedisProperties.getFastjsonFilterEach()
-                        , !globalRedisProperties.getFastjsonSafeMode() && globalRedisProperties.getFastjsonAutoType()
+                        globalRedisProperties.isFastjsonFilterEach()
+                        , !globalRedisProperties.isFastjsonSafeMode() && globalRedisProperties.isFastjsonAutoType()
                 );
                 break;
         }

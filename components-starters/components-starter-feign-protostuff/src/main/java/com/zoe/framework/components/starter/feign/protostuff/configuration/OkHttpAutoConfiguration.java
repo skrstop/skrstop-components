@@ -72,7 +72,7 @@ public class OkHttpAutoConfiguration {
         Integer writeTimeout = okHttpProperties.getWriteTimeout();
         Boolean disableSslValidation = okHttpProperties.isDisableSslValidation();
         List<Protocol> protocols = new ArrayList<>();
-        if (globalHttp2Properties.getEnable()) {
+        if (globalHttp2Properties.isEnable()) {
             protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
         } else {
             protocols.add(Protocol.HTTP_1_1);

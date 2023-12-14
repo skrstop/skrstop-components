@@ -27,7 +27,7 @@ public class IntranetLimitAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        IntranetLimit intranetLimit = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), IntranetLimit.class, this.annotationProperties.getAllowedPublicOnly());
+        IntranetLimit intranetLimit = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), IntranetLimit.class, this.annotationProperties.isAllowedPublicOnly());
         if (ObjectUtil.isNull(intranetLimit)) {
             return invocation.proceed();
         }

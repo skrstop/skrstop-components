@@ -139,7 +139,7 @@ public class DynamicRedisConnectionFactory implements InitializingBean, Disposab
         if (ObjectUtil.isNotNull(redisConnectionFactory)) {
             return redisConnectionFactory;
         }
-        if (dynamicRedisProperties.getExceptionWhileNotFoundRedis()) {
+        if (dynamicRedisProperties.isExceptionWhileNotFound()) {
             throw new RuntimeException("未找到redis数据源，请检查是否配置了redis数据源");
         }
         // 使用默认数据源

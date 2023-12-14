@@ -42,7 +42,7 @@ public class PortShiftAutoConfiguration {
             ServerProperties serverProperties,
             GlobalPortProperties globalPortProperties) {
         return factory -> {
-            if (!globalPortProperties.getEnable()) {
+            if (!globalPortProperties.isEnable()) {
                 return;
             }
             int basePort = serverProperties.getPort();

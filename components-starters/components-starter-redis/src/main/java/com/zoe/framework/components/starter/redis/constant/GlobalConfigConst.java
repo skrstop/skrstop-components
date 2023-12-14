@@ -9,8 +9,7 @@ package com.zoe.framework.components.starter.redis.constant;
 public interface GlobalConfigConst {
 
     String REDIS_PREFIX = "zoe.redis.config";
-    String REDISSON_PREFIX = "spring.redis.redisson";
-
-    String REDIS_DYNAMIC = "spring.redis.dynamic";
+    String REDISSON_PREFIX = "zoe.redis.redisson";
+    String REDIS_DYNAMIC = "zoe.redis.dynamic";
 
 }

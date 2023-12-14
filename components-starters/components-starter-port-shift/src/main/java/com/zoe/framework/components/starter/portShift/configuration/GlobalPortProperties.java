@@ -22,14 +22,9 @@ import org.springframework.core.annotation.Order;
 public class GlobalPortProperties {
 
     /*** 是否开启端口偏移 */
-    private Boolean enable;
+    private boolean enable = true;
 
     /*** 指定具体端口捉着端口范围， eg. 8080 / 8080-9090 */
-    private String portArea;
-
-    public GlobalPortProperties() {
-        this.enable = true;
-        this.portArea = "";
-    }
+    private String portArea = "";
 
 }

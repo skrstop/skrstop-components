@@ -23,7 +23,7 @@ import org.springframework.core.annotation.Order;
 public class GlobalIdProperties {
 
     /*** 是否开启id service */
-    private Boolean enable = true;
+    private boolean enable = true;
 
     /**
      * id 生成策略

@@ -13,3 +13,4 @@
 * refactor: starter-annotation优化
 * refactor: starter-web优化
 * refactor: components-starter-compatible-ribbon-to-loadbalancer更名为components-extra-compatible-ribbon-to-loadbalancer
+* refactor: 统一Properties配置类bool类型为boolean

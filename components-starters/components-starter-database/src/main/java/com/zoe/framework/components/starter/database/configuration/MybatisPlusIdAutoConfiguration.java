@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @ConditionalOnClass(name = "com.zoe.framework.components.starter.id.service.IdService")
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
-@EnableConfigurationProperties(GlobalDataProperties.class)
+@EnableConfigurationProperties(GlobalDataBaseProperties.class)
 public class MybatisPlusIdAutoConfiguration extends MybatisPlusCommonAutoConfiguration {
 
     /**
@@ -36,7 +36,7 @@ public class MybatisPlusIdAutoConfiguration extends MybatisPlusCommonAutoConfigu
     public SqlSessionFactory sqlSessionFactory1(DataSource dataSource
             , IdService idService
             , MybatisPlusInterceptor mybatisPlusInterceptor
-            , GlobalDataProperties globalDataProperties
+            , GlobalDataBaseProperties globalDataBaseProperties
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
@@ -51,7 +51,7 @@ public class MybatisPlusIdAutoConfiguration extends MybatisPlusCommonAutoConfigu
                 return idService.getUuidWithoutDash();
             }
         };
-        this.initSqlSessionFactory(sqlSessionFactoryBean, identifierGenerator, mybatisPlusInterceptor, globalDataProperties);
+        this.initSqlSessionFactory(sqlSessionFactoryBean, identifierGenerator, mybatisPlusInterceptor, globalDataBaseProperties);
         return sqlSessionFactoryBean.getObject();
     }
 

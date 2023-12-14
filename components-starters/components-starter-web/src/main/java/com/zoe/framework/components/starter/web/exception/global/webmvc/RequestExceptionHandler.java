@@ -289,10 +289,9 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     public IResult handlerException(HttpServletRequest request
             , HttpServletResponse response
             , Exception e) {
-
         if (globalExceptionProperties != null
                 && e instanceof BusinessThrowable
-                && !globalExceptionProperties.getLogBusinessServiceException()) {
+                && !globalExceptionProperties.isLogBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(request) && !this.skipErrorPath(request)) {
             String requestPath, requestQueryPath, requestBodyName, requestBody;

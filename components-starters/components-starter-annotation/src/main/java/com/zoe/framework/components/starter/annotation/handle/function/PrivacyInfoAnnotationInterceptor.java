@@ -39,7 +39,7 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        PrivacyInfo privacyInfo = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), PrivacyInfo.class, this.annotationProperties.getAllowedPublicOnly());
+        PrivacyInfo privacyInfo = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), PrivacyInfo.class, this.annotationProperties.isAllowedPublicOnly());
         if (ObjectUtil.isNull(privacyInfo)) {
             return invocation.proceed();
         }
