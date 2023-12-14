@@ -27,24 +27,24 @@ import java.util.List;
 public class GlobalResponseProperties {
 
     /*** 是否开启统一返回值 */
-    private Boolean enable = true;
+    private boolean enable = true;
 
     /*** 是否显示null字段节点 */
-    private Boolean showNullValue = false;
+    private boolean showNullValue = false;
 
     /*** 使用feign, 是否统一处理 */
-    private Boolean supportFeign = true;
+    private boolean supportFeign = true;
 
     /*** long 类型转换成string */
-    private Boolean longToString = true;
+    private boolean longToString = true;
 
     /*** 时间格式化 */
     private String dateTimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;
     private String dateFormat = DateFormatConst.NORM_DATE_PATTERN;
     private String timeFormat = DateFormatConst.NORM_TIME_PATTERN;
 
-    /*** 根据返回值类型自动转换Result */
-    private Boolean transResultTypeResponse = true;
+    /*** 全局关闭IResult返回值自适应处理 */
+    private boolean disableGlobalTransResultTypeResponse = false;
 
     /*** 不自动包装Result的接口列表 */
     private List<String> disableGlobalResponseList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_GLOBAL_RESPONSE_RESULT_LIST);

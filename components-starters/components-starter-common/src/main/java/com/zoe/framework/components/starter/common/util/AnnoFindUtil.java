@@ -26,7 +26,7 @@ public class AnnoFindUtil {
     private static final Object EMPTY = new Object();
 
     /**
-     * 从缓存获取数据
+     * 寻找注解
      *
      * @param method       方法
      * @param targetObject 目标对象
@@ -37,7 +37,7 @@ public class AnnoFindUtil {
         if (method.getDeclaringClass() == Object.class) {
             return null;
         }
-        MethodClassKey cacheKey = new MethodClassKey(method, targetObject.getClass());
+        MethodClassKey cacheKey = new MethodClassKey(method, getClass(method, targetObject));
         Map<Class<? extends Annotation>, Object> classAnnotationMap = ANNO_CACHE.computeIfAbsent(cacheKey, k -> new ConcurrentHashMap<>());
         // 读取缓存数据
         Object annoCache = classAnnotationMap.get(annotation);
@@ -53,7 +53,17 @@ public class AnnoFindUtil {
     }
 
     /**
-     * 从缓存获取数据
+     * 寻找注解
+     *
+     * @param method 方法
+     * @return key
+     */
+    public static <T extends Annotation> T find(Method method, Class<T> annotation, boolean allowedPublicOnly) {
+        return find(method, null, annotation, allowedPublicOnly);
+    }
+
+    /**
+     * 寻找注解
      *
      * @param method       方法
      * @param targetObject 目标对象
@@ -61,6 +71,59 @@ public class AnnoFindUtil {
      */
     public static <T extends Annotation> T find(Method method, Object targetObject, Class<T> annotation) {
         return find(method, targetObject, annotation, false);
+    }
+
+    /**
+     * 寻找注解
+     *
+     * @param method 方法
+     * @return key
+     */
+    public static <T extends Annotation> T find(Method method, Class<T> annotation) {
+        return find(method, annotation, false);
+    }
+
+    /**
+     * 是否存在注解
+     *
+     * @param method       方法
+     * @param targetObject 目标对象
+     * @return key
+     */
+    public static <T extends Annotation> boolean has(Method method, Object targetObject, Class<T> annotation, boolean allowedPublicOnly) {
+        T anno = find(method, targetObject, annotation, allowedPublicOnly);
+        return anno != null;
+    }
+
+    /**
+     * 是否存在注解
+     *
+     * @param method       方法
+     * @param targetObject 目标对象
+     * @return key
+     */
+    public static <T extends Annotation> boolean has(Method method, Object targetObject, Class<T> annotation) {
+        return has(method, targetObject, annotation, false);
+    }
+
+    /**
+     * 是否存在注解
+     *
+     * @param method 方法
+     * @return key
+     */
+    public static <T extends Annotation> boolean has(Method method, Class<T> annotation, boolean allowedPublicOnly) {
+        return has(method, null, annotation, allowedPublicOnly);
+    }
+
+    /**
+     * 是否存在注解
+     *
+     * @param method 方法
+     * @return key
+     */
+    public static <T extends Annotation> boolean has(Method method, Class<T> annotation) {
+        return has(method, null, annotation, false);
     }
 
     /**
@@ -82,7 +145,7 @@ public class AnnoFindUtil {
         if (findAnno != null) {
             return findAnno;
         }
-        Class<?> targetClass = targetObject.getClass();
+        Class<?> targetClass = getClass(method, targetObject);
         Class<?> userClass = ClassUtils.getUserClass(targetClass);
         // JDK代理时,  获取实现类的方法声明.  method: 接口的方法, specificMethod: 实现类方法
         Method specificMethod = ClassUtils.getMostSpecificMethod(method, userClass);
@@ -117,7 +180,7 @@ public class AnnoFindUtil {
                 return findAnno;
             }
         }
-        return getDefaultAnno(targetObject, annotation);
+        return getDefaultAnno(method, targetObject, annotation);
     }
 
     /**
@@ -126,8 +189,9 @@ public class AnnoFindUtil {
      * @param targetObject 目标对象
      * @return ds
      */
-    private static Annotation getDefaultAnno(Object targetObject, Class<? extends Annotation> annotation) {
-        Class<?> targetClass = targetObject.getClass();
+    private static Annotation getDefaultAnno(Method method, Object targetObject, Class<? extends Annotation> annotation) {
+        Class<?> targetClass = getClass(method, targetObject);
+        ;
         // 如果不是代理类, 从当前类开始, 不断的找父类的声明
         if (!Proxy.isProxyClass(targetClass)) {
             Class<?> currentClass = targetClass;
@@ -140,6 +204,16 @@ public class AnnoFindUtil {
             }
         }
         return null;
+    }
+
+    private static Class<?> getClass(Method method, Object targetObject) {
+        Class<?> clazz;
+        if (targetObject != null) {
+            clazz = targetObject instanceof Class ? (Class<?>) targetObject : targetObject.getClass();
+        } else {
+            clazz = method.getDeclaringClass();
+        }
+        return clazz;
     }
 
 }

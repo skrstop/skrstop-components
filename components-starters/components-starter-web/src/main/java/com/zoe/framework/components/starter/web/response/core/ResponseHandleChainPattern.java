@@ -39,8 +39,8 @@ public class ResponseHandleChainPattern {
         responseHandlerInterceptors.sort(Comparator.comparingInt(ResponseHandlerInterceptor::order));
     }
 
-    public Object execute(Object returnValue, boolean transResultResponse) {
-        if (!transResultResponse && returnValue instanceof IResult) {
+    public Object execute(Object returnValue, boolean disableTransResultTypeResponse) {
+        if (disableTransResultTypeResponse && returnValue instanceof IResult) {
             // 禁用了IResult类型自动转换
             return new Result<>(CommonResultCode.SUCCESS, returnValue);
         }

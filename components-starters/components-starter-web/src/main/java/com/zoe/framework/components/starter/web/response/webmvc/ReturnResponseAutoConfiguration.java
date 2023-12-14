@@ -2,6 +2,7 @@ package com.zoe.framework.components.starter.web.response.webmvc;
 
 import com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties;
 import com.zoe.framework.components.starter.web.response.core.ResponseHandleChainPattern;
+import com.zoe.framework.components.util.value.data.ObjectUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -42,7 +43,10 @@ public class ReturnResponseAutoConfiguration implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         List<HandlerMethodReturnValueHandler> returnValueHandlers = adapter.getReturnValueHandlers();
-        List<HandlerMethodReturnValueHandler> handlers = new ArrayList(returnValueHandlers);
+        if (ObjectUtil.isNull(returnValueHandlers)) {
+            returnValueHandlers = new ArrayList<>();
+        }
+        List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>(returnValueHandlers);
         decorateHandlers(handlers);
         adapter.setReturnValueHandlers(handlers);
     }
