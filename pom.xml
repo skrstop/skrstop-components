@@ -1484,11 +1484,6 @@
                 <artifactId>modsecurity-platform</artifactId>
                 <version>${modsecurity-platform.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.bytedeco</groupId>
-                <artifactId>systems-platform</artifactId>
-                <version>${javacv.version}</version>
-            </dependency>
             <!-- Additional dependencies required to use CUDA, cuDNN, NCCL, and TensorRT -->
             <dependency>
                 <groupId>org.bytedeco</groupId>
