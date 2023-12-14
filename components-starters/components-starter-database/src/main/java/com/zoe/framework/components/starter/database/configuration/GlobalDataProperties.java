@@ -27,8 +27,8 @@ public class GlobalDataProperties {
     /*** mapper class 路径, 为空则不扫描，多个用逗号分割，可以使用{@link org.mybatis.spring.annotation.MapperScan} */
     private String mapperClassLocation = "";
 
-    /*** mapper xml 路径 */
-    private String mapperXmlLocation = "classpath*:mapper/*.xml";
+    /*** mapper xml 路径,多个路径用逗号分割 */
+    private String mapperXmlLocation = GlobalConfigConst.DEFAULT_MAPPER_XML_LOCATION;
 
     /*** 下划线转驼峰 */
     private Boolean mapUnderscoreToCamelCase = true;

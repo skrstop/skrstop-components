@@ -13,4 +13,6 @@ public interface GlobalConfigConst {
     String DATABASE_CONFIG_CHECK_DRUID_USE_SELECT1 = DATABASE_PREFIX + ".checkDruidUseSelect1";
     String DATABASE_CONFIG_CLASS_CLASS_LOCATION = DATABASE_PREFIX + ".mapper-class-location";
 
+    String DEFAULT_MAPPER_XML_LOCATION = "classpath*:mapper/*.xml";
+
 }

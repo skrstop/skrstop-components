@@ -170,7 +170,9 @@ zoe:
     config:
       sql-healthy-check: false
       mapper-class-location: com.zoe.framework.components.example.starters.simple.mapper.mysql
-      mapper-xml-location: classpath*:mapper/*.xml
+      #      mapper-xml-location: classpath*:customMapper/*.xml
+      mapper-xml-location: classpath*:customMapper/*.xml
+  #      mapper-xml-location: classpath*:mapper/*.xml,classpath*:customMapper/*.xml
   annotation:
     config:
       access-control:
