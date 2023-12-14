@@ -25,6 +25,7 @@
 │
 │
 ├── components-starters                                                     #├── starter自动配置模块
+│   ├── starter-common                                                       │   ├── 通用模块
 │   ├── starter-annotation                                                   │   ├── 通用自定义注解
 │   ├── starter-banner                                                       │   ├── banner
 │   ├── starter-database                                                     │   ├── database

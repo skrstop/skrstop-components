@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
@@ -22,10 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 蒋时华
  * @date 2022-03-01 16:32:14
  */
-@Configuration
 @Slf4j
 @SuppressWarnings("all")
-public class ProcessorContainerAutoConfiguration implements ApplicationContextAware, BeanPostProcessor, PriorityOrdered {
+public class ProcessorContainerConfiguration implements ApplicationContextAware, BeanPostProcessor, PriorityOrdered {
 
     public final static String DEFAULT_CONTAINERS_NAME = "defaultProcessorContainer";
     private final ConcurrentHashMap<Class<?>, ProcessorAssert> processorAssertMap = new ConcurrentHashMap<>();

@@ -26,6 +26,9 @@ import java.util.List;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RefreshScope
 public class AnnotationProperties {
+    /*** 只允许public方法 */
+
+    private Boolean allowedPublicOnly = false;
 
     @NestedConfigurationProperty
     private AccessControl accessControl = new AccessControl();

@@ -76,7 +76,7 @@ public class ExampleAnnotationController {
     /**
      * 同步锁注解2
      */
-    @ServiceLock(lockId = "serviceLock", fastFail = true, timeoutMs = 11000)
+    @ServiceLock(lockId = "serviceLock", fastFail = true, timeoutMs = 1000)
     @GetMapping("/exampleAnnotationServiceLock2")
     public void exampleAnnotationServiceLock2() {
         System.out.println("aaa");
