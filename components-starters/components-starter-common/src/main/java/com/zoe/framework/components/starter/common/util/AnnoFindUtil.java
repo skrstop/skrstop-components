@@ -21,7 +21,7 @@ public class AnnoFindUtil {
     /**
      * 缓存方法对应的数据源
      */
-    private static final Map<MethodClassKey, Map<Class<Annotation>, Object>> ANNO_CACHE = new ConcurrentHashMap<>();
+    private static final Map<MethodClassKey, Map<Class<? extends Annotation>, Object>> ANNO_CACHE = new ConcurrentHashMap<>();
 
     private static final Object EMPTY = new Object();
 
@@ -32,23 +32,24 @@ public class AnnoFindUtil {
      * @param targetObject 目标对象
      * @return key
      */
-    public static Annotation find(Method method, Object targetObject, Class<Annotation> annotation, boolean allowedPublicOnly) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Annotation> T find(Method method, Object targetObject, Class<T> annotation, boolean allowedPublicOnly) {
         if (method.getDeclaringClass() == Object.class) {
             return null;
         }
         MethodClassKey cacheKey = new MethodClassKey(method, targetObject.getClass());
-        Map<Class<Annotation>, Object> classAnnotationMap = ANNO_CACHE.computeIfAbsent(cacheKey, k -> new ConcurrentHashMap<>());
+        Map<Class<? extends Annotation>, Object> classAnnotationMap = ANNO_CACHE.computeIfAbsent(cacheKey, k -> new ConcurrentHashMap<>());
         // 读取缓存数据
         Object annoCache = classAnnotationMap.get(annotation);
         if (annoCache != null) {
             if (EMPTY.equals(annoCache)) {
                 return null;
             }
-            return (Annotation) annoCache;
+            return (T) annoCache;
         }
         Annotation anno = getAnno(method, targetObject, annotation, allowedPublicOnly);
         classAnnotationMap.put(annotation, anno == null ? EMPTY : anno);
-        return anno;
+        return (T) anno;
     }
 
     /**
@@ -58,7 +59,7 @@ public class AnnoFindUtil {
      * @param targetObject 目标对象
      * @return key
      */
-    public static Annotation find(Method method, Object targetObject, Class<Annotation> annotation) {
+    public static <T extends Annotation> T find(Method method, Object targetObject, Class<T> annotation) {
         return find(method, targetObject, annotation, false);
     }
 

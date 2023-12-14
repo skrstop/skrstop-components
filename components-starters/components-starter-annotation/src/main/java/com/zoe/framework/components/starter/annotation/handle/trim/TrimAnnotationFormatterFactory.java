@@ -2,7 +2,6 @@ package com.zoe.framework.components.starter.annotation.handle.trim;
 
 import com.zoe.framework.components.starter.annotation.anno.trim.Trim;
 import lombok.Setter;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.EmbeddedValueResolutionSupport;
 import org.springframework.format.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -17,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 蒋时华
  * @date 2021-02-24 14:44:32
  */
-@Configuration
 public class TrimAnnotationFormatterFactory extends EmbeddedValueResolutionSupport
         implements AnnotationFormatterFactory<Trim>, WebMvcConfigurer {
 

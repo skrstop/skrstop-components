@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.annotation.handle.function.utils;
+package com.zoe.framework.components.starter.annotation.utils;
 
 import lombok.experimental.UtilityClass;
 import org.aspectj.lang.ProceedingJoinPoint;
