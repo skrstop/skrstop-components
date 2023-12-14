@@ -33,7 +33,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @ConditionalOnBean(RedisConnectionFactory.class)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties({GlobalRedisProperties.class})
-@ConditionalOnProperty(name = GlobalConfigConst.CONFIG_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = GlobalConfigConst.REDIS_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
 public class CustomRedisAutoConfiguration {
 
     @Bean("fastJsonRedisService")

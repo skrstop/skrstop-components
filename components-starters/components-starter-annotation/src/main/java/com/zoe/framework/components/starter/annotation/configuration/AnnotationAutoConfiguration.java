@@ -4,7 +4,7 @@ import com.zoe.framework.components.starter.annotation.anno.function.*;
 import com.zoe.framework.components.starter.annotation.handle.function.*;
 import com.zoe.framework.components.starter.annotation.handle.server.processor.ProcessorContainerConfiguration;
 import com.zoe.framework.components.starter.annotation.handle.trim.TrimAnnotationFormatterFactory;
-import com.zoe.framework.components.starter.common.aop.DynamicAopAnnotationAdvisor;
+import com.zoe.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -37,7 +37,7 @@ public class AnnotationAutoConfiguration {
     @Bean
     public Advisor executeTimeLog(AnnotationProperties annotationProperties) {
         ExecuteTimeAnnotationInterceptor interceptor = new ExecuteTimeAnnotationInterceptor(annotationProperties);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, ExecuteTimeLog.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, ExecuteTimeLog.class);
         advisor.setOrder(Ordered.LOWEST_PRECEDENCE);
         return advisor;
     }
@@ -46,7 +46,7 @@ public class AnnotationAutoConfiguration {
     @Bean
     public Advisor accessControl(AnnotationProperties annotationProperties) {
         AccessControlAnnotationInterceptor interceptor = new AccessControlAnnotationInterceptor(annotationProperties);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, AccessControl.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, AccessControl.class);
         advisor.setOrder(1);
         return advisor;
     }
@@ -55,7 +55,7 @@ public class AnnotationAutoConfiguration {
     @Bean
     public Advisor intranetLimit(AnnotationProperties annotationProperties) {
         IntranetLimitAnnotationInterceptor interceptor = new IntranetLimitAnnotationInterceptor(annotationProperties);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, IntranetLimit.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, IntranetLimit.class);
         advisor.setOrder(2);
         return advisor;
     }
@@ -64,7 +64,7 @@ public class AnnotationAutoConfiguration {
     @Bean
     public Advisor accessLimit(AnnotationProperties annotationProperties) {
         AccessLimitAnnotationInterceptor interceptor = new AccessLimitAnnotationInterceptor(annotationProperties);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, AccessLimit.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, AccessLimit.class);
         advisor.setOrder(3);
         return advisor;
     }
@@ -73,7 +73,7 @@ public class AnnotationAutoConfiguration {
     @Bean
     public Advisor serviceLock(AnnotationProperties annotationProperties) {
         ServiceLockAnnotationInterceptor interceptor = new ServiceLockAnnotationInterceptor(annotationProperties);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, ServiceLock.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, ServiceLock.class);
         advisor.setOrder(4);
         return advisor;
     }
@@ -82,7 +82,7 @@ public class AnnotationAutoConfiguration {
     @Bean
     public Advisor privacyInfo(AnnotationProperties annotationProperties) {
         PrivacyInfoAnnotationInterceptor interceptor = new PrivacyInfoAnnotationInterceptor(annotationProperties);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, PrivacyInfo.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, PrivacyInfo.class);
         advisor.setOrder(5);
         return advisor;
     }

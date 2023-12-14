@@ -72,6 +72,7 @@
 * mybatis 3.5.14
 * mybatis-plus 3.5.4.1
 * mybatis-fluent 1.9.9
+* redisson 3.25.0
 * druid 1.2.20
 * hutool 5.8.23
 * fastjson 2.0.42

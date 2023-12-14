@@ -19,7 +19,7 @@ import org.springframework.core.annotation.Order;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(GlobalConfigConst.CONFIG_PREFIX)
+@ConfigurationProperties(GlobalConfigConst.REDIS_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalRedisProperties {
 

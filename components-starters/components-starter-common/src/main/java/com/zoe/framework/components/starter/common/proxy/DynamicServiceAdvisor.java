@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.redis.configuration.dynamic.service;
+package com.zoe.framework.components.starter.common.proxy;
 
 import lombok.NonNull;
 import org.aopalliance.aop.Advice;
@@ -12,7 +12,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
-public class DynamicServiceAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
+public class DynamicServiceAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
     /**
      * the advice
@@ -34,8 +34,8 @@ public class DynamicServiceAnnotationAdvisor extends AbstractPointcutAdvisor imp
      * @param advice  切面
      * @param service service
      */
-    public DynamicServiceAnnotationAdvisor(@NonNull MethodInterceptor advice,
-                                           @NonNull Class<?> service) {
+    public DynamicServiceAdvisor(@NonNull MethodInterceptor advice,
+                                 @NonNull Class<?> service) {
         this.advice = advice;
         this.service = service;
         this.pointcut = buildPointcut();
