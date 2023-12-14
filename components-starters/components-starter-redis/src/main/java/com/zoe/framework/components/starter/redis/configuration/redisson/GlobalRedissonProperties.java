@@ -38,4 +38,5 @@ public class GlobalRedissonProperties {
     @Deprecated
     private String configJsonStr;
 
+
 }

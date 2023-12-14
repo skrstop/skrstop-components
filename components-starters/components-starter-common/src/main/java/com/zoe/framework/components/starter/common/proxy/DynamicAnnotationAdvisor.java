@@ -1,4 +1,4 @@
-package com.zoe.framework.components.starter.redis.configuration.dynamic.aop;
+package com.zoe.framework.components.starter.common.proxy;
 
 import lombok.NonNull;
 import org.aopalliance.aop.Advice;
@@ -21,7 +21,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class DynamicAopAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
+public class DynamicAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
     /**
      * the advice
@@ -43,8 +43,8 @@ public class DynamicAopAnnotationAdvisor extends AbstractPointcutAdvisor impleme
      * @param advice     切面
      * @param annotation 注解
      */
-    public DynamicAopAnnotationAdvisor(@NonNull MethodInterceptor advice,
-                                       @NonNull Class<? extends Annotation> annotation) {
+    public DynamicAnnotationAdvisor(@NonNull MethodInterceptor advice,
+                                    @NonNull Class<? extends Annotation> annotation) {
         this.advice = advice;
         this.annotation = annotation;
         this.pointcut = buildPointcut();

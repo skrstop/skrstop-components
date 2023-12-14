@@ -1,11 +1,11 @@
 package com.zoe.framework.components.starter.redis.configuration.dynamic;
 
+import com.zoe.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
+import com.zoe.framework.components.starter.common.proxy.DynamicServiceAdvisor;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.annotation.DSRedis;
-import com.zoe.framework.components.starter.redis.configuration.dynamic.aop.DynamicAopAnnotationAdvisor;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.aop.DynamicAopSourceAnnotationInterceptor;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.selector.DsSelector;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.selector.DsSpelExpressionProcessor;
-import com.zoe.framework.components.starter.redis.configuration.dynamic.service.DynamicServiceAnnotationAdvisor;
 import com.zoe.framework.components.starter.redis.configuration.dynamic.service.DynamicServiceAnnotationInterceptor;
 import com.zoe.framework.components.starter.redis.constant.GlobalConfigConst;
 import com.zoe.framework.components.starter.redis.service.DynamicRedisService;
@@ -36,7 +36,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 @EnableConfigurationProperties(DynamicRedisProperties.class)
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-@ConditionalOnProperty(name = GlobalConfigConst.REDIS_DYNAMIC + ".enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = GlobalConfigConst.REDIS_DYNAMIC + ".enabled", havingValue = "true", matchIfMissing = false)
 public class DynamicRedisAutoConfiguration {
 
     @Bean
@@ -79,7 +79,7 @@ public class DynamicRedisAutoConfiguration {
     public Advisor dynamicConnectionFactoryAnnotationAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
         DynamicRedisProperties.Aop aop = dynamicRedisProperties.getAop();
         DynamicAopSourceAnnotationInterceptor interceptor = new DynamicAopSourceAnnotationInterceptor(aop.isAllowedPublicOnly(), dsSelector);
-        DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, DSRedis.class);
+        DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, DSRedis.class);
         advisor.setOrder(aop.getOrder());
         return advisor;
     }
@@ -95,7 +95,7 @@ public class DynamicRedisAutoConfiguration {
     @ConditionalOnProperty(prefix = GlobalConfigConst.REDIS_DYNAMIC + ".service", name = "enabled", havingValue = "true", matchIfMissing = true)
     public Advisor dynamicConnectionFactoryServiceAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
         DynamicServiceAnnotationInterceptor interceptor = new DynamicServiceAnnotationInterceptor(dsSelector);
-        DynamicServiceAnnotationAdvisor advisor = new DynamicServiceAnnotationAdvisor(interceptor, DynamicRedisService.class);
+        DynamicServiceAdvisor advisor = new DynamicServiceAdvisor(interceptor, DynamicRedisService.class);
         advisor.setOrder(dynamicRedisProperties.getService().getOrder());
         return advisor;
     }
