@@ -17,7 +17,7 @@
     <description>🏗 Zoe Mix Micro-service Extra Module</description>
 
     <modules>
-        <module>components-starter-compatible-ribbon-to-loadbalancer</module>
+        <module>components-extra-compatible-ribbon-to-loadbalancer</module>
     </modules>
 
     <properties>
@@ -37,7 +37,7 @@
             <!-- self modules -->
             <dependency>
                 <groupId>com.zoe.framework</groupId>
-                <artifactId>components-starter-compatible-ribbon-to-loadbalancer</artifactId>
+                <artifactId>components-extra-compatible-ribbon-to-loadbalancer</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
         </dependencies>

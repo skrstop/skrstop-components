@@ -45,10 +45,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
-            <artifactId>components-starter-common</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>components-starter-compatible-ribbon-to-loadbalancer</artifactId>
+    <artifactId>components-extra-compatible-ribbon-to-loadbalancer</artifactId>
 
     <name>Zoe Mix Micro-service starter compatible ribbon to load balancer</name>
     <description>Zoe+ compatible ribbon to load balancer Starter</description>

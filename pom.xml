@@ -47,7 +47,7 @@
 
     <properties>
         <!-- 项目版本 -->
-        <framework.components.revision>1.2.4.20231128-RELEASE</framework.components.revision>
+        <framework.components.revision>1.2.1.20231128-RELEASE</framework.components.revision>
         <java.version>1.8</java.version>
 
         <!-- Deploy Properties -->
@@ -1477,11 +1477,6 @@
                 <groupId>org.bytedeco</groupId>
                 <artifactId>modsecurity-platform</artifactId>
                 <version>${modsecurity-platform.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bytedeco</groupId>
-                <artifactId>systems-platform</artifactId>
-                <version>${javacv.version}</version>
             </dependency>
             <!-- Additional dependencies required to use CUDA, cuDNN, NCCL, and TensorRT -->
             <dependency>
