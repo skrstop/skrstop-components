@@ -21,10 +21,6 @@ import org.springframework.core.annotation.Order;
 public class MetricsProperties extends SerializableBean {
     private static final long serialVersionUID = 8497996001371661542L;
 
-    private Boolean enabled;
-
-    public MetricsProperties() {
-        this.enabled = true;
-    }
+    private boolean enabled = true;
 
 }

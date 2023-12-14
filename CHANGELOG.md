@@ -14,3 +14,4 @@
 * refactor: core-exception的Exception优化
 * refactor: starter-annotation优化
 * refactor: starter-web优化
+* refactor: 统一Properties配置类bool类型为boolean

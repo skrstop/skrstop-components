@@ -1,9 +1,9 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.database.configuration.GlobalDataProperties",
+      "sourceType": "com.zoe.framework.components.starter.database.configuration.GlobalDataBaseProperties",
       "name": "database配置",
-      "type": "com.zoe.framework.components.starter.database.configuration.GlobalDataProperties"
+      "type": "com.zoe.framework.components.starter.database.configuration.GlobalDataBaseProperties"
     }
   ],
   "properties": [

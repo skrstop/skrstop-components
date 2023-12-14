@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class FtpProperties {
 
-    private Boolean enable = false;
+    private boolean enable = false;
     private String host;
     private int port = 21;
     private String username;

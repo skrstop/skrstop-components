@@ -37,7 +37,7 @@ import java.util.*;
 @Configuration
 @EnableTransactionManagement
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
-@EnableConfigurationProperties(GlobalDataProperties.class)
+@EnableConfigurationProperties(GlobalDataBaseProperties.class)
 public class MybatisPlusCommonAutoConfiguration {
 
     /**
@@ -50,7 +50,7 @@ public class MybatisPlusCommonAutoConfiguration {
     protected void initSqlSessionFactory(MybatisSqlSessionFactoryBean sqlSessionFactoryBean
             , IdentifierGenerator identifierGenerator
             , MybatisPlusInterceptor mybatisPlusInterceptor
-            , GlobalDataProperties globalDataProperties
+            , GlobalDataBaseProperties globalDataBaseProperties
     ) throws Exception {
         // 不显示mp banner
         GlobalConfig globalConfig = new GlobalConfig();
@@ -59,7 +59,7 @@ public class MybatisPlusCommonAutoConfiguration {
         globalConfig.setIdentifierGenerator(identifierGenerator);
         sqlSessionFactoryBean.setGlobalConfig(globalConfig);
         // 扫描mapper.xml文件
-        Set<String> xmlLocations = new LinkedHashSet<>(StrUtil.splitTrim(globalDataProperties.getMapperXmlLocation(), StringPoolConst.COMMA));
+        Set<String> xmlLocations = new LinkedHashSet<>(StrUtil.splitTrim(globalDataBaseProperties.getMapperXmlLocation(), StringPoolConst.COMMA));
         // 需要包含默认的mapper/*.xml
         xmlLocations.add(GlobalConfigConst.DEFAULT_MAPPER_XML_LOCATION);
         List<Resource> allResources = new ArrayList<>();
@@ -75,9 +75,9 @@ public class MybatisPlusCommonAutoConfiguration {
             return;
         }
         // 下划线转驼峰
-        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(globalDataProperties.getMapUnderscoreToCamelCase());
+        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(globalDataBaseProperties.isMapUnderscoreToCamelCase());
         // 懒加载
-        sqlSessionFactoryBean.getObject().getConfiguration().setLazyLoadingEnabled(globalDataProperties.getLazyLoadingEnabled());
+        sqlSessionFactoryBean.getObject().getConfiguration().setLazyLoadingEnabled(globalDataBaseProperties.isLazyLoadingEnabled());
     }
 
     /**
@@ -87,9 +87,9 @@ public class MybatisPlusCommonAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
-    public MybatisPlusInterceptor mybatisPlusInterceptor(GlobalDataProperties globalDataProperties) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor(GlobalDataBaseProperties globalDataBaseProperties) {
         MybatisPlusInterceptor mybatisPlusInterceptor = this.commonInnerInterceptor();
-        if (globalDataProperties.getSqlHealthyCheck()) {
+        if (globalDataBaseProperties.isSqlHealthyCheck()) {
             // sql性能插件
             IllegalSQLInnerInterceptor interceptor = new IllegalSQLInnerInterceptor();
             mybatisPlusInterceptor.addInnerInterceptor(interceptor);

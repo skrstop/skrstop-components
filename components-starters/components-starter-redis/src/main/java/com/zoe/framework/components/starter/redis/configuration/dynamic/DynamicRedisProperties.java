@@ -25,10 +25,13 @@ import java.util.Map;
 public class DynamicRedisProperties {
 
     /*** 是否开启动态redis数据源 */
-    private Boolean enabled = false;
+    private boolean enabled = false;
 
     /*** 设置默认数据源 */
     private String primary = "default";
+
+    /*** 当为true时，未找到指定的redis时会抛出异常，为false时，则使用默认redis */
+    private boolean exceptionWhileNotFound = false;
 
     /*** aop相关配置 */
     @NestedConfigurationProperty
@@ -37,9 +40,6 @@ public class DynamicRedisProperties {
     /*** service相关配置 */
     @NestedConfigurationProperty
     private Service service = new Service();
-
-    /*** 当为true时，未找到指定的redis时会抛出异常，为false时，则使用默认redis */
-    private Boolean exceptionWhileNotFoundRedis = false;
 
     /*** 数据源 */
     @NestedConfigurationProperty
@@ -53,7 +53,7 @@ public class DynamicRedisProperties {
     @Accessors(chain = true)
     public static class Aop {
         /*** 开启aop注解 */
-        private Boolean aop = true;
+        private boolean enabled = true;
         /**
          * aop order
          */
@@ -61,7 +61,7 @@ public class DynamicRedisProperties {
         /**
          * aop allowedPublicOnly
          */
-        private Boolean allowedPublicOnly = false;
+        private boolean allowedPublicOnly = false;
     }
 
     @Getter
@@ -71,6 +71,8 @@ public class DynamicRedisProperties {
     @Builder
     @Accessors(chain = true)
     public static class Service {
+        /*** 开启 DynamicRedisService */
+        private boolean enabled = true;
         /**
          * service order
          */

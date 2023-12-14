@@ -20,7 +20,7 @@ public class AccessControlAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        AccessControl accessControl = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), AccessControl.class, this.annotationProperties.getAllowedPublicOnly());
+        AccessControl accessControl = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), AccessControl.class, this.annotationProperties.isAllowedPublicOnly());
         if (ObjectUtil.isNull(accessControl)) {
             return invocation.proceed();
         }

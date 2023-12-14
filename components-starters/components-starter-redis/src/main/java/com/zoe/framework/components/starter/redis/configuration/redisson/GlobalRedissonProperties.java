@@ -23,7 +23,7 @@ public class GlobalRedissonProperties {
     /**
      * 是否开启redisson.
      */
-    private Boolean enabled = false;
+    private boolean enabled = false;
     /**
      * 指定redisson配置文件.
      */

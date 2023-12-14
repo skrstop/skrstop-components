@@ -20,9 +20,6 @@ import org.springframework.core.annotation.Order;
 public class GlobalHttp2Properties {
 
     /*** 是否开启http2 */
-    private Boolean enable;
+    private boolean enable = true;
 
-    public GlobalHttp2Properties() {
-        this.enable = true;
-    }
 }

@@ -27,8 +27,7 @@ import java.util.List;
 @RefreshScope
 public class AnnotationProperties {
     /*** 只允许public方法 */
-
-    private Boolean allowedPublicOnly = false;
+    private boolean allowedPublicOnly = false;
 
     @NestedConfigurationProperty
     private AccessControl accessControl = new AccessControl();
@@ -50,7 +49,7 @@ public class AnnotationProperties {
     public static class ExecuteTimeLog {
 
         /*** log日志级别为:info, 否则为:debug */
-        private Boolean logLevelInfo = true;
+        private boolean logLevelInfo = true;
 
     }
 

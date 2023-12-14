@@ -129,10 +129,9 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
-
         if (globalExceptionProperties != null
                 && e instanceof BusinessThrowable
-                && !globalExceptionProperties.getLogBusinessServiceException()) {
+                && !globalExceptionProperties.isLogBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(exchange) && !this.skipErrorPath(exchange)) {
             ServerHttpRequest request = exchange.getRequest();

@@ -81,7 +81,7 @@ public class DynamicRedisAutoConfiguration {
     @ConditionalOnProperty(prefix = GlobalConfigConst.REDIS_DYNAMIC + ".aop", name = "enabled", havingValue = "true", matchIfMissing = true)
     public Advisor dynamicConnectionFactoryAnnotationAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
         DynamicRedisProperties.Aop aop = dynamicRedisProperties.getAop();
-        DynamicAopSourceAnnotationInterceptor interceptor = new DynamicAopSourceAnnotationInterceptor(aop.getAllowedPublicOnly(), dsSelector);
+        DynamicAopSourceAnnotationInterceptor interceptor = new DynamicAopSourceAnnotationInterceptor(aop.isAllowedPublicOnly(), dsSelector);
         DynamicAopAnnotationAdvisor advisor = new DynamicAopAnnotationAdvisor(interceptor, DSRedis.class);
         advisor.setOrder(aop.getOrder());
         return advisor;
@@ -95,6 +95,7 @@ public class DynamicRedisAutoConfiguration {
      * @return
      */
     @Bean
+    @ConditionalOnProperty(prefix = GlobalConfigConst.REDIS_DYNAMIC + ".service", name = "enabled", havingValue = "true", matchIfMissing = true)
     public Advisor dynamicConnectionFactoryServiceAdvisor(DsSelector dsSelector, DynamicRedisProperties dynamicRedisProperties) {
         DynamicServiceAnnotationInterceptor interceptor = new DynamicServiceAnnotationInterceptor(dsSelector);
         DynamicServiceAnnotationAdvisor advisor = new DynamicServiceAnnotationAdvisor(interceptor, DynamicRedisService.class);

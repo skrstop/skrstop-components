@@ -19,10 +19,10 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.DATABASE_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class GlobalDataProperties {
+public class GlobalDataBaseProperties {
 
     /*** 是否开启sql健康检查 */
-    private Boolean sqlHealthyCheck = false;
+    private boolean sqlHealthyCheck = false;
 
     /*** mapper class 路径, 为空则不扫描，多个用逗号分割，可以使用{@link org.mybatis.spring.annotation.MapperScan} */
     private String mapperClassLocation = "";
@@ -31,9 +31,9 @@ public class GlobalDataProperties {
     private String mapperXmlLocation = GlobalConfigConst.DEFAULT_MAPPER_XML_LOCATION;
 
     /*** 下划线转驼峰 */
-    private Boolean mapUnderscoreToCamelCase = true;
+    private boolean mapUnderscoreToCamelCase = true;
 
     /*** 懒加载 */
-    private Boolean lazyLoadingEnabled = true;
+    private boolean lazyLoadingEnabled = true;
 
 }

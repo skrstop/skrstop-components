@@ -10,7 +10,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /**
- * FtpConfig class
+ * mongo Config properties
  *
  * @author 蒋时华
  * @date 2019/7/2
@@ -30,22 +30,22 @@ public class GlobalMongodbProperties {
     /**
      * 自动创建caps
      */
-    private Boolean applyCaps = true;
+    private boolean applyCaps = true;
 
     /**
      * 自动创建校验
      */
-    private Boolean applyDocumentValidations = true;
+    private boolean applyDocumentValidations = true;
 
     /**
      * 自动创建索引
      */
-    private Boolean applyIndexes = true;
+    private boolean applyIndexes = true;
 
     /**
      * 自动引入实体
      */
-    private Boolean autoImportModels = true;
+    private boolean autoImportModels = true;
 
     /**
      * 自定义编码器
@@ -91,12 +91,12 @@ public class GlobalMongodbProperties {
     /**
      * 是否启用多态查询
      */
-    private Boolean enablePolymorphicQueries = false;
+    private boolean enablePolymorphicQueries = false;
 
     /**
      * 是否忽略final字段
      */
-    private Boolean ignoreFinals = false;
+    private boolean ignoreFinals = false;
 
     /**
      * 属性发现规则，字段、get/set方法
@@ -127,12 +127,12 @@ public class GlobalMongodbProperties {
     /**
      * 是否存储空集合
      */
-    private Boolean storeEmpties = true;
+    private boolean storeEmpties = true;
 
     /**
      * 是否存储null值
      */
-    private Boolean storeNulls = true;
+    private boolean storeNulls = true;
 
     /**
      * uuid实现规则

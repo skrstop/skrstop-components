@@ -60,17 +60,6 @@ spring:
         login-password: 123456
   data:
     redis:
-      redisson:
-        enabled: true
-        config-yaml-str: |
-          singleServerConfig:
-            address: redis://127.0.0.1:6379
-            database: 1
-          threads: 10
-          nettyThreads: 10
-          codec:
-            class: "org.redisson.codec.JsonJacksonCodec"
-          transportMode: "NIO"
       host: 127.0.0.1
       port: 6379
       password:
@@ -82,46 +71,6 @@ spring:
           max-wait: -1
           max-idle: 8
           min-idle: 0
-      dynamic:
-        enabled: true
-        primary: db0
-        data-sources:
-          db0:
-            host: 127.0.0.1
-            port: 6379
-            password:
-            database: 0
-            timeout:
-            lettuce:
-              pool:
-                max-active: 8
-                max-wait: -1
-                max-idle: 8
-                min-idle: 0
-          db1:
-            host: 127.0.0.1
-            port: 6379
-            password:
-            database: 1
-            timeout:
-            lettuce:
-              pool:
-                max-active: 8
-                max-wait: -1
-                max-idle: 8
-                min-idle: 0
-          db2:
-            host: 127.0.0.1
-            port: 6379
-            password:
-            database: 2
-            timeout:
-            lettuce:
-              pool:
-                max-active: 8
-                max-wait: -1
-                max-idle: 8
-                min-idle: 0
     mongodb:
       uri: mongodb://root:123456@127.0.0.1:27017/example_starts_mongo?authSource=admin&minpoolsize=10&maxpoolsize=50
 
@@ -166,6 +115,58 @@ logging:
   config: classpath:logConfig/log4j2.xml
 
 zoe:
+  redis:
+    redisson:
+      enabled: true
+      config-yaml-str: |
+        singleServerConfig:
+          address: redis://127.0.0.1:6379
+          database: 1
+        threads: 10
+        nettyThreads: 10
+        codec:
+          class: "org.redisson.codec.JsonJacksonCodec"
+        transportMode: "NIO"
+    dynamic:
+      enabled: true
+      primary: db0
+      data-sources:
+        db0:
+          host: 127.0.0.1
+          port: 6379
+          password:
+          database: 0
+          timeout:
+          lettuce:
+            pool:
+              max-active: 8
+              max-wait: -1
+              max-idle: 8
+              min-idle: 0
+        db1:
+          host: 127.0.0.1
+          port: 6379
+          password:
+          database: 1
+          timeout:
+          lettuce:
+            pool:
+              max-active: 8
+              max-wait: -1
+              max-idle: 8
+              min-idle: 0
+        db2:
+          host: 127.0.0.1
+          port: 6379
+          password:
+          database: 2
+          timeout:
+          lettuce:
+            pool:
+              max-active: 8
+              max-wait: -1
+              max-idle: 8
+              min-idle: 0
   database:
     config:
       sql-healthy-check: false

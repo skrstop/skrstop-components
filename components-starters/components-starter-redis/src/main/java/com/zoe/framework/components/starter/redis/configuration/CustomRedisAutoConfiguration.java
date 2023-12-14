@@ -33,7 +33,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @ConditionalOnBean(RedisConnectionFactory.class)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties({GlobalRedisProperties.class})
-@ConditionalOnProperty(name = GlobalConfigConst.REDIS_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = GlobalConfigConst.CONFIG_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
 public class CustomRedisAutoConfiguration {
 
     @Bean("fastJsonRedisService")
@@ -56,13 +56,13 @@ public class CustomRedisAutoConfiguration {
             case ValueProcessorConst.FAST_JSON:
             default:
                 redisServiceTemplate = new FastJsonRedisTemplate(connectionFactory
-                        , globalRedisProperties.getFastjsonPrettyFormatJson()
-                        , globalRedisProperties.getFastjsonSafeMode()
-                        , globalRedisProperties.getFastjsonAutoType());
+                        , globalRedisProperties.isFastjsonPrettyFormatJson()
+                        , globalRedisProperties.isFastjsonSafeMode()
+                        , globalRedisProperties.isFastjsonAutoType());
                 // autoType： !globalRedisConfig.getFastjsonSafeMode() && globalRedisConfig.getFastjsonAutoType()
                 valueFilter = new FastjsonValueFilter(
-                        globalRedisProperties.getFastjsonFilterEach()
-                        , !globalRedisProperties.getFastjsonSafeMode() && globalRedisProperties.getFastjsonAutoType()
+                        globalRedisProperties.isFastjsonFilterEach()
+                        , !globalRedisProperties.isFastjsonSafeMode() && globalRedisProperties.isFastjsonAutoType()
                 );
                 break;
         }

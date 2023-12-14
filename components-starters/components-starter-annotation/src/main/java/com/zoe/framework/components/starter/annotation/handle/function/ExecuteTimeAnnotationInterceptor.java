@@ -21,7 +21,7 @@ public class ExecuteTimeAnnotationInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        ExecuteTimeLog executeTimeLog = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), ExecuteTimeLog.class, this.annotationProperties.getAllowedPublicOnly());
+        ExecuteTimeLog executeTimeLog = AnnoFindUtil.find(invocation.getMethod(), invocation.getThis(), ExecuteTimeLog.class, this.annotationProperties.isAllowedPublicOnly());
         if (ObjectUtil.isNull(executeTimeLog)) {
             return invocation.proceed();
         }
@@ -36,7 +36,7 @@ public class ExecuteTimeAnnotationInterceptor implements MethodInterceptor {
         if (StrUtil.isNotBlank(value)) {
             value = value + StringPoolConst.SPACE + StringPoolConst.DASH + StringPoolConst.SPACE;
         }
-        if (annotationProperties.getExecuteTimeLog().getLogLevelInfo()) {
+        if (annotationProperties.getExecuteTimeLog().isLogLevelInfo()) {
             log.info("{} 执行方法：{}.{} , 执行耗时：{} ms", value, className, methodName, execTimeMillis);
             return result;
         }
