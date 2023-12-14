@@ -12,5 +12,5 @@
 * refactor: Exception优化
 * refactor: starter-annotation优化
 * refactor: starter-web优化
-* refactor: `components-starter-compatible-ribbon-to-loadbalancer`
-  更名为`components-extra-compatible-ribbon-to-loadbalancer`
+* refactor: components-starter-compatible-ribbon-to-loadbalancer 更名为
+  components-extra-compatible-ribbon-to-loadbalancer
