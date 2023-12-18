@@ -6,6 +6,7 @@
 * feat: 升级相关类库版本
 * feat: 升级相关类库版本
 * feat: starter-redis增加多数据源支持
+* feat: starter-redis redisson支持多数据源
 * fix: 修复starter-database自定义mapper地址后，无法扫描默认的SuperMapper
 * refactor: 移除`components-extra-compatible-ribbon-to-loadbalancer`模块
 * refactor: 删除多余代码、工具类
