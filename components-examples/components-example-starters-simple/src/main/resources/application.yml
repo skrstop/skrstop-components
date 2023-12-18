@@ -121,12 +121,42 @@ zoe:
       config-yaml-str: |
         singleServerConfig:
           address: redis://127.0.0.1:6379
-          database: 1
+          database: 0
         threads: 10
         nettyThreads: 10
         codec:
           class: "org.redisson.codec.JsonJacksonCodec"
-        transportMode: "NIO"
+      dynamic:
+        enabled: true
+        primary: r_db0
+        data-sources:
+          r_db0:
+            config-yaml-str: |
+              singleServerConfig:
+                address: redis://127.0.0.1:6379
+                database: 1
+              threads: 10
+              nettyThreads: 10
+              codec:
+                class: "org.redisson.codec.JsonJacksonCodec"
+          r_db1:
+            config-yaml-str: |
+              singleServerConfig:
+                address: redis://127.0.0.1:6379
+                database: 2
+              threads: 10
+              nettyThreads: 10
+              codec:
+                class: "org.redisson.codec.JsonJacksonCodec"
+          r_db2:
+            config-yaml-str: |
+              singleServerConfig:
+                address: redis://127.0.0.1:6379
+                database: 3
+              threads: 10
+              nettyThreads: 10
+              codec:
+                class: "org.redisson.codec.JsonJacksonCodec"
     dynamic:
       enabled: true
       primary: db0

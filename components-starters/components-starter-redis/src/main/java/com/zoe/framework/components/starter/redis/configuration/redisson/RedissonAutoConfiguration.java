@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.io.InputStream;
 @ConditionalOnClass({RedissonClient.class, Config.class})
 @EnableConfigurationProperties({GlobalRedissonProperties.class})
 @Configuration
+@Order
 @ConditionalOnProperty(value = GlobalConfigConst.REDISSON_PREFIX + ".enabled", havingValue = "true", matchIfMissing = false)
 public class RedissonAutoConfiguration {
 

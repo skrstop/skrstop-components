@@ -81,6 +81,10 @@
             <artifactId>components-util-serialization</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.zoe.framework</groupId>
+            <artifactId>components-util-event</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
             <optional>true</optional>

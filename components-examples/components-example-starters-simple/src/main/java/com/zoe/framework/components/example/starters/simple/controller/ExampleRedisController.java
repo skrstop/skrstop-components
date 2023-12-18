@@ -116,11 +116,29 @@ public class ExampleRedisController {
     @GetMapping("/exampleRedisDynamic")
     public void exampleRedisDynamic() {
 //        exampleDynamicRedisService.primary();
-        exampleDynamicRedisService.db0();
-        exampleDynamicRedisService.db1();
-        exampleDynamicRedisService.db2();
+        exampleDynamicRedisService.redisDb0();
+        exampleDynamicRedisService.redisDb1();
+        exampleDynamicRedisService.redisDb2();
 //        exampleDynamicRedisService.mutl();
 //        exampleDynamicRedisService.service();
+    }
+
+    /**
+     * redisson client 样例
+     */
+    @GetMapping("/exampleRedissonDynamicClient")
+    public void exampleRedissonDynamicClient() {
+        exampleDynamicRedisService.redissonClient();
+    }
+
+    /**
+     * redisson aop client 样例
+     */
+    @GetMapping("/exampleRedissonDynamicClientAop")
+    public void exampleRedissonDynamicClientAop() {
+        exampleDynamicRedisService.redissonClientAop1();
+        exampleDynamicRedisService.redissonClientAop2();
+        exampleDynamicRedisService.redissonClientAop3();
     }
 
 }
