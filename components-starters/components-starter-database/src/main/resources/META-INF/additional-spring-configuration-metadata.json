@@ -1,9 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.database.configuration.GlobalDataBaseProperties",
+      "sourceType": "com.zoe.framework.components.starter.database.configuration.GlobalDatabaseProperties",
       "name": "database配置",
-      "type": "com.zoe.framework.components.starter.database.configuration.GlobalDataBaseProperties"
+      "type": "com.zoe.framework.components.starter.database.configuration.GlobalDatabaseProperties"
+    },
+    {
+      "sourceType": "com.zoe.framework.components.starter.database.configuration.dynamic.common.DynamicDataSourceProperties",
+      "name": "dynamic database配置",
+      "type": "com.zoe.framework.components.starter.database.configuration.dynamic.common.DynamicDataSourceProperties"
     }
   ],
   "properties": [
@@ -36,6 +41,112 @@
       "type": "java.lang.Boolean",
       "description": "懒加载.",
       "defaultValue": "true"
+    },
+    {
+      "name": "zoe.database.dynamic.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启动态数据源.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.database.dynamic.primary",
+      "type": "java.lang.String",
+      "description": "默认数据源.",
+      "defaultValue": "master"
+    },
+    {
+      "name": "zoe.database.dynamic.strict",
+      "type": "java.lang.Boolean",
+      "description": "是否启用严格模式,默认不启动. 严格模式下未匹配到数据源直接报错, 非严格模式下则使用默认数据源primary所设置的数据源.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.database.dynamic.p6spy",
+      "type": "java.lang.Boolean",
+      "description": "是否使用p6spy输出，默认不输出.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.database.dynamic.seata",
+      "type": "java.lang.Boolean",
+      "description": "是否使用开启seata，默认不开启.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.database.dynamic.lazy",
+      "type": "java.lang.Boolean",
+      "description": "是否懒加载数据源.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.database.dynamic.grace-destroy",
+      "type": "java.lang.Boolean",
+      "description": "是否优雅关闭数据源,等待一段时间后再将数据源销毁.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "zoe.database.dynamic.seata-mode",
+      "type": "com.baomidou.dynamic.datasource.enums.SeataMode",
+      "description": "seata使用模式，默认AT.",
+      "defaultValue": "at"
+    },
+    {
+      "name": "zoe.database.dynamic.public-key",
+      "type": "java.lang.String",
+      "description": "全局默认publicKey."
+    },
+    {
+      "name": "zoe.database.dynamic.data-sources",
+      "type": "java.util.Map",
+      "description": "多数据配置数据源."
+    },
+    {
+      "name": "zoe.database.dynamic.strategy",
+      "type": "java.lang.Class",
+      "description": "多数据源选择算法clazz，默认负载均衡算法."
+    },
+    {
+      "name": "zoe.database.dynamic.aop.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启aop.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.database.dynamic.aop.order",
+      "type": "java.lang.Integer",
+      "description": "aop顺序.",
+      "defaultValue": "Ordered.HIGHEST_PRECEDENCE"
+    },
+    {
+      "name": "zoe.database.dynamic.aop.allowed-public-only",
+      "type": "java.lang.Boolean",
+      "description": "aop是否只允许public方法.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "zoe.database.dynamic.druid",
+      "type": "com.baomidou.dynamic.datasource.creator.druid.DruidConfig",
+      "description": "druid配置."
+    },
+    {
+      "name": "zoe.database.dynamic.hikari",
+      "type": "com.baomidou.dynamic.datasource.creator.hikaricp.HikariCpConfig",
+      "description": "hikari配置."
+    },
+    {
+      "name": "zoe.database.dynamic.beecp",
+      "type": "com.baomidou.dynamic.datasource.creator.beecp.BeeCpConfig",
+      "description": "beecp配置."
+    },
+    {
+      "name": "zoe.database.dynamic.dbcp2",
+      "type": "com.baomidou.dynamic.datasource.creator.dbcp.Dbcp2Config",
+      "description": "dbcp2配置."
+    },
+    {
+      "name": "zoe.database.dynamic.atomikos",
+      "type": "com.baomidou.dynamic.datasource.creator.atomikos.AtomikosConfig",
+      "description": "atomikos配置."
     }
   ]
 }

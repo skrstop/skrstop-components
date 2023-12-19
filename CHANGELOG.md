@@ -4,8 +4,10 @@
 
 * feat: 升级springboot到2.7.18
 * feat: 升级相关类库版本
-* feat: starter-redis增加多数据源支持
-* feat: starter-redis redisson支持多数据源
+* feat: starter-redis增加多数据源支持 @DSRedis
+* feat: starter-redis redisson支持多数据源 @DSRedisson
+* feat: starter-database 支持多数据源 @DSDatabase
+* feat: starter-database 支持多数据源垮库本地事务 @DSDatabaseTransactional
 * fix: 修复starter-database自定义mapper地址后，无法扫描默认的SuperMapper
 * refactor: 删除多余代码、工具类
 * refactor: 命名修改

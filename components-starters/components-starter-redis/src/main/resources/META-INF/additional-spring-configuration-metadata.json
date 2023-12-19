@@ -86,7 +86,7 @@
       "name": "zoe.redis.dynamic.aop.allowed-public-only",
       "type": "java.lang.Boolean",
       "description": "只允许public方法.",
-      "defaultValue": "false."
+      "defaultValue": "true."
     },
     {
       "name": "zoe.redis.dynamic.service.enabled",
@@ -166,7 +166,7 @@
       "name": "zoe.redis.redisson.dynamic.aop.allowed-public-only",
       "type": "java.lang.Boolean",
       "description": "只允许public方法.",
-      "defaultValue": "false."
+      "defaultValue": "true."
     },
     {
       "name": "zoe.redis.redisson.dynamic.client.enabled",

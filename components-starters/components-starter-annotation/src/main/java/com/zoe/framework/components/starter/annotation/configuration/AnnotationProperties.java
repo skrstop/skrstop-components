@@ -27,7 +27,7 @@ import java.util.List;
 @RefreshScope
 public class AnnotationProperties {
     /*** 只允许public方法 */
-    private boolean allowedPublicOnly = false;
+    private boolean allowedPublicOnly = true;
 
     @NestedConfigurationProperty
     private AccessControl accessControl = new AccessControl();

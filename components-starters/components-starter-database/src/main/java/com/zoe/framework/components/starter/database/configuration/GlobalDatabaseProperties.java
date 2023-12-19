@@ -19,7 +19,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.DATABASE_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class GlobalDataBaseProperties {
+public class GlobalDatabaseProperties {
 
     /*** 是否开启sql健康检查 */
     private boolean sqlHealthyCheck = false;

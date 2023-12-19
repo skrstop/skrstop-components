@@ -86,7 +86,7 @@ public class DynamicRedissonProperties {
         /**
          * 只允许public方法
          */
-        private boolean allowedPublicOnly = false;
+        private boolean allowedPublicOnly = true;
     }
 
     @Getter

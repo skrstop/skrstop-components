@@ -90,7 +90,7 @@ public class MorphiaAutoConfiguration {
         return Morphia.createDatastore(mongoClient, morphiaConfig);
     }
 
-    @Bean(MongodbConst.TRANSACTION_NAME)
+    @Bean(MongodbConst.TRANSACTION_NAME_MONGO)
     @ConditionalOnClass(name = "com.mongodb.client.MongoClient")
     @ConditionalOnMissingBean(MongoTransactionManager.class)
     @Order(Ordered.LOWEST_PRECEDENCE)
@@ -98,7 +98,7 @@ public class MorphiaAutoConfiguration {
         return new MongoTransactionManager(factory);
     }
 
-    @Bean(MongodbConst.TRANSACTION_REACTIVE_NAME)
+    @Bean(MongodbConst.TRANSACTION_REACTIVE_NAME_MONGO)
     @ConditionalOnClass(name = "com.mongodb.reactivestreams.client.MongoClient")
     @ConditionalOnMissingBean(ReactiveMongoTransactionManager.class)
     @ConditionalOnBean(ReactiveMongoDatabaseFactory.class)

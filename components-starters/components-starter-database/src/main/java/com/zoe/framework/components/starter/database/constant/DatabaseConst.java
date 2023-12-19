@@ -6,6 +6,6 @@ package com.zoe.framework.components.starter.database.constant;
  */
 public interface DatabaseConst {
 
-    String TRANSACTION_NAME = "DefaultDatabaseTransactionManager";
+    String TRANSACTION_NAME_DATABASE = "DefaultDatabaseTransactionManager";
 
 }

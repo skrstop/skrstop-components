@@ -160,14 +160,14 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean save(@NotNull T entity) {
         this.setCreateInfo(entity);
         return super.save(entity);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean saveBatch(@NotEmpty Collection<T> entityList) {
         entityList.forEach(item -> this.setCreateInfo(item));
         String sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE);
@@ -175,27 +175,27 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean update(Wrapper<T> updateWrapper) {
         return super.update(this.setUpdateTimeUpdateInfo(updateWrapper));
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean update(T entity, Wrapper<T> updateWrapper) {
         this.setUpdateInfo(entity);
         return super.update(entity, updateWrapper);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean updateById(@NotNull T entity) {
         this.setUpdateInfo(entity);
         return super.updateById(entity);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean updateBatchById(@NotEmpty Collection<T> entityList) {
         entityList.forEach(entity -> this.updateById(entity));
         String sqlStatement = getSqlStatement(SqlMethod.UPDATE_BY_ID);
@@ -207,7 +207,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean saveOrUpdate(T entity) {
         if (null != entity) {
             TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
@@ -225,7 +225,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean saveOrUpdateBatch(Collection<T> entityList) {
         TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
@@ -249,7 +249,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeById(Serializable id) {
         String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
         int result = this.getBaseMapper().removePhysicalById(id, tableName, idColumnName);
@@ -257,7 +257,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByMap(Map<String, Object> columnMap) {
         String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
         int result = this.getBaseMapper().removePhysicalByMap(columnMap, tableName);
@@ -265,7 +265,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean remove(Wrapper<T> queryWrapper) {
         String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
         int result = this.getBaseMapper().removePhysicalByCustom(queryWrapper.getSqlSegment(), queryWrapper, tableName);
@@ -273,7 +273,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByIds(Collection<?> ids) {
         String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
         int result = this.getBaseMapper().removePhysicalByIds(ids, tableName, idColumnName);
@@ -281,7 +281,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicByIds(Collection<?> ids) {
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.in(idColumnName, ids);
@@ -289,7 +289,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicById(Serializable id) {
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.eq(idColumnName, id);
@@ -297,14 +297,14 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogic(Wrapper<T> updateWrapper) {
         Wrapper<T> newUpdateWrapper = this.setRemoveUpdateInfo(updateWrapper, false);
         return super.update(newUpdateWrapper);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicByMap(Map<String, Object> columnMap) {
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.allEq(columnMap);
@@ -312,7 +312,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicByIds(Collection<?> ids) {
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.in(idColumnName, ids);
@@ -320,7 +320,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicById(Serializable id) {
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.eq(idColumnName, id);
@@ -328,14 +328,14 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogic(Wrapper<T> updateWrapper) {
         Wrapper<T> newUpdateWrapper = this.setRemoveUpdateInfo(updateWrapper, true);
         return super.update(newUpdateWrapper);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME)
+    @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicByMap(Map<String, Object> columnMap) {
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.allEq(columnMap);

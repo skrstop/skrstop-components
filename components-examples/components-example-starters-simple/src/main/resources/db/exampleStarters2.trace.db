@@ -1,0 +1,3 @@
+2023-12-19 14:34:15.126000+08:00 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EXAMPLE1" not found (this database is empty); SQL statement:
+INSERT INTO example1  ( id, name, age, birth, die, status,  update_by, update_time, create_by, create_time )  VALUES  ( ?, ?, ?, ?, ?, ?,  ?, ?, ?, ? ) [42104-224]

@@ -37,7 +37,7 @@ import java.util.*;
 @Configuration
 @EnableTransactionManagement
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
-@EnableConfigurationProperties(GlobalDataBaseProperties.class)
+@EnableConfigurationProperties(GlobalDatabaseProperties.class)
 public class MybatisPlusCommonAutoConfiguration {
 
     /**
@@ -50,7 +50,7 @@ public class MybatisPlusCommonAutoConfiguration {
     protected void initSqlSessionFactory(MybatisSqlSessionFactoryBean sqlSessionFactoryBean
             , IdentifierGenerator identifierGenerator
             , MybatisPlusInterceptor mybatisPlusInterceptor
-            , GlobalDataBaseProperties globalDataBaseProperties
+            , GlobalDatabaseProperties globalDataBaseProperties
     ) throws Exception {
         // 不显示mp banner
         GlobalConfig globalConfig = new GlobalConfig();
@@ -87,7 +87,7 @@ public class MybatisPlusCommonAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
-    public MybatisPlusInterceptor mybatisPlusInterceptor(GlobalDataBaseProperties globalDataBaseProperties) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor(GlobalDatabaseProperties globalDataBaseProperties) {
         MybatisPlusInterceptor mybatisPlusInterceptor = this.commonInnerInterceptor();
         if (globalDataBaseProperties.isSqlHealthyCheck()) {
             // sql性能插件
@@ -117,7 +117,7 @@ public class MybatisPlusCommonAutoConfiguration {
         return interceptor;
     }
 
-    @Bean(DatabaseConst.TRANSACTION_NAME)
+    @Bean(DatabaseConst.TRANSACTION_NAME_DATABASE)
     @ConditionalOnMissingBean(DataSourceTransactionManager.class)
     DataSourceTransactionManager transactionManager(DataSource dataSource,
                                                     ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
