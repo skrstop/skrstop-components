@@ -3,3 +3,4 @@ com.zoe.framework.components.starter.database.configuration.MybatisPlusCommonAut
 com.zoe.framework.components.starter.database.configuration.MybatisPlusIdAutoConfiguration
 com.zoe.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration
 com.zoe.framework.components.starter.database.configuration.ResponseHandlerInterceptorAutoConfiguration
+com.zoe.framework.components.starter.database.configuration.dynamic.DynamicDataSourceAutoConfiguration

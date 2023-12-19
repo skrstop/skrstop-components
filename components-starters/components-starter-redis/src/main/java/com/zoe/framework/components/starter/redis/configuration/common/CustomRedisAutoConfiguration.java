@@ -7,7 +7,7 @@ import com.zoe.framework.components.starter.redis.filter.FastjsonValueFilter;
 import com.zoe.framework.components.starter.redis.filter.StringValueFilter;
 import com.zoe.framework.components.starter.redis.filter.ValueFilter;
 import com.zoe.framework.components.starter.redis.selector.DsSelector;
-import com.zoe.framework.components.starter.redis.selector.DsSpelExpressionProcessor;
+import com.zoe.framework.components.starter.redis.selector.DsSpelExpressionSelector;
 import com.zoe.framework.components.starter.redis.service.DynamicRedisService;
 import com.zoe.framework.components.starter.redis.service.RedisService;
 import com.zoe.framework.components.starter.redis.service.impl.DynamicRedisServiceImpl;
@@ -44,8 +44,8 @@ public class CustomRedisAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(name = {GlobalConfigConst.REDIS_DYNAMIC + ".enabled", GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled"}, havingValue = "true")
-    public DsSelector dsProcessor(BeanFactory beanFactory) {
-        DsSpelExpressionProcessor spelExpressionProcessor = new DsSpelExpressionProcessor();
+    public DsSelector dsSelector(BeanFactory beanFactory) {
+        DsSpelExpressionSelector spelExpressionProcessor = new DsSpelExpressionSelector();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
         return spelExpressionProcessor;
     }

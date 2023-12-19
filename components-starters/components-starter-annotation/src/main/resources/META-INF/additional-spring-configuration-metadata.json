@@ -8,6 +8,12 @@
   ],
   "properties": [
     {
+      "name": "zoe.annotation.config.allowed-public-only",
+      "type": "java.lang.Boolean",
+      "description": "只允许public方法.",
+      "defaultValue": "true"
+    },
+    {
       "name": "zoe.annotation.config.access-controller.release-alias",
       "type": "java.util.List",
       "description": "放行的别名列表."

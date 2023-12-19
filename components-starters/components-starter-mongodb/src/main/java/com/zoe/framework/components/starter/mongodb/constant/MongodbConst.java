@@ -6,8 +6,8 @@ package com.zoe.framework.components.starter.mongodb.constant;
  */
 public interface MongodbConst {
 
-    String TRANSACTION_NAME = "DefaultMongoTransactionManager";
-    String TRANSACTION_REACTIVE_NAME = "DefaultReactiveMongoTransactionManager";
+    String TRANSACTION_NAME_MONGO = "DefaultMongoTransactionManager";
+    String TRANSACTION_REACTIVE_NAME_MONGO = "DefaultReactiveMongoTransactionManager";
 
     /**
      * 驼峰

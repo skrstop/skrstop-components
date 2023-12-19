@@ -2,19 +2,25 @@ package com.zoe.framework.components.example.starters.simple.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.zoe.framework.components.core.exception.ZoeBusinessException;
 import com.zoe.framework.components.example.starters.simple.entity.msyql.Example1;
 import com.zoe.framework.components.example.starters.simple.service.Example1MysqlService;
+import com.zoe.framework.components.starter.database.annotation.DSDatabaseTransactional;
+import com.zoe.framework.components.starter.database.constant.DatabaseConst;
 import com.zoe.framework.components.starter.database.wrapper.PageQuery;
 import com.zoe.framework.components.starter.id.service.IdService;
 import com.zoe.framework.components.util.value.data.RandomValueUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 蒋时华
@@ -48,6 +54,7 @@ public class ExampleDbController {
     /**
      * mysql 插入样例
      */
+    @Transactional(DatabaseConst.TRANSACTION_NAME_DATABASE)
     @GetMapping("/exampleMysqlUpdate")
     public void exampleMysqlUpdate() {
         // 1730515515425820672
@@ -76,9 +83,44 @@ public class ExampleDbController {
      *
      * @return
      */
+    @com.zoe.framework.components.starter.database.annotation.Transactional
     @GetMapping("/exampleMysqlQueryPage")
     public IPage<Example1> exampleMysqlQuery(PageQuery pageQuery) {
         return example1MysqlService.page(pageQuery.toPage());
+    }
+
+
+    /**
+     * 动态数据源样例
+     */
+    @GetMapping("/exampleDynamic")
+    @DSDatabaseTransactional(rollbackFor = Exception.class)
+    public Map<String, List<Example1>> exampleDynamic(boolean exception) {
+        List<Example1> db0 = example1MysqlService.addDb0();
+        if (exception) {
+            throw new ZoeBusinessException("模拟本地事务异常回滚");
+        }
+        List<Example1> db1 = example1MysqlService.addDb1();
+        Map<String, List<Example1>> result = new LinkedHashMap<>();
+        result.put("db0", db0);
+        result.put("db1", db1);
+        return result;
+    }
+
+//    @DsDatabaseTxEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+//    public void txEvent(Object obj) {
+//        System.out.println("aaaa");
+//    }
+
+    /**
+     * 动态数据源spel
+     *
+     * @param key
+     * @return
+     */
+    @GetMapping("/exampleDynamic2")
+    public List<Example1> exampleDynamic2(String key) {
+        return example1MysqlService.listByKey(key);
     }
 
 }

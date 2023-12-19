@@ -100,6 +100,14 @@
         <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
         <mybatis-fluent.version>1.9.9</mybatis-fluent.version>
+        <dynamic-database.version>4.2.0</dynamic-database.version>
+        <hikaricp.version>2.4.13</hikaricp.version>
+        <druid.version>1.2.20</druid.version>
+        <beeCp.version>3.4.2</beeCp.version>
+        <commons-dbcp2.version>2.10.0</commons-dbcp2.version>
+        <p6spy.version>3.9.1</p6spy.version>
+        <seata.version>1.4.2</seata.version>
+        <atomikos.version>4.0.6</atomikos.version>
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
         <!-- disruptor -->
@@ -635,6 +643,47 @@
                 <artifactId>fluent-mybatis-boot-starter</artifactId>
                 <version>${mybatis-fluent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring</artifactId>
+                <version>${dynamic-database.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP-java7</artifactId>
+                <version>${hikaricp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.atomikos</groupId>
+                <artifactId>transactions-jdbc</artifactId>
+                <version>${atomikos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.chris2018998</groupId>
+                <artifactId>beecp</artifactId>
+                <version>${beeCp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>${commons-dbcp2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-rm-datasource</artifactId>
+                <version>${seata.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>druid</artifactId>
+                        <groupId>com.alibaba</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <!-- pageHelper -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -654,7 +703,7 @@
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
             <!-- dozer -->

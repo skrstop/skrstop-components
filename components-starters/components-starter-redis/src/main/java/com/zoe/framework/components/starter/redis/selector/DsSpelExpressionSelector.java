@@ -29,7 +29,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.lang.reflect.Method;
 
-public class DsSpelExpressionProcessor extends DsSelector {
+public class DsSpelExpressionSelector extends DsSelector {
 
     /**
      * 参数发现器
