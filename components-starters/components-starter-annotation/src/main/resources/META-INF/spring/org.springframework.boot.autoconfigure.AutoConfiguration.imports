@@ -1,2 +1,2 @@
-com.zoe.framework.components.starter.annotation.configuration.WebMvcConfiguration
-com.zoe.framework.components.starter.annotation.configuration.AnnotationAutoConfiguration
+com.skrstop.framework.components.starter.annotation.configuration.WebMvcConfiguration
+com.skrstop.framework.components.starter.annotation.configuration.AnnotationAutoConfiguration

@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
-        <artifactId>zoe-components</artifactId>
+        <groupId>com.skrstop.framework</groupId>
+        <artifactId>components</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,7 @@
     <artifactId>components-project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Zoe Mix Micro-service Project Dependencies</name>
+    <name>Skrstop Mix Micro-service Project Dependencies</name>
 
     <properties>
 
@@ -25,28 +25,28 @@
 
             <!-- 公共基础组件库 -->
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-core</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-utils</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-starters</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-extra</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>

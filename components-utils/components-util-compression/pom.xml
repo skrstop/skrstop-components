@@ -3,7 +3,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <artifactId>components-utils</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -12,8 +12,8 @@
     <artifactId>components-util-compression</artifactId>
     <packaging>jar</packaging>
 
-    <name>Zoe Mix Micro-service components-util-compression</name>
-    <description>Zoe+ File Compression Utils</description>
+    <name>Skrstop Mix Micro-service components-util-compression</name>
+    <description>Skrstop+ File Compression Utils</description>
 
     <properties>
 

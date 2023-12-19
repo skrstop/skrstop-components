@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <artifactId>components-starters</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-database</artifactId>
 
-    <name>Zoe Mix Micro-service starter database</name>
-    <description>Zoe+ Database Starter</description>
+    <name>Skrstop Mix Micro-service starter database</name>
+    <description>Skrstop+ Database Starter</description>
 
     <dependencies>
         <dependency>
@@ -45,20 +45,20 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-id</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-value</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-constant</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-web</artifactId>
             <optional>true</optional>
         </dependency>

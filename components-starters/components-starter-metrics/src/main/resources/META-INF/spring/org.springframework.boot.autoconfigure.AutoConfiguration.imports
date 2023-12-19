@@ -1,4 +1,4 @@
-com.zoe.framework.components.starter.metrics.configuration.MetricsAutoConfiguration
-com.zoe.framework.components.starter.metrics.prometheus.log4j2.Log4j2RingBufferExportAutoConfiguration
-com.zoe.framework.components.starter.metrics.prometheus.log4j2.Log4j2CountExportAutoConfiguration
-com.zoe.framework.components.starter.metrics.prometheus.druid.DruidPrometheusAutoConfiguration
+com.skrstop.framework.components.starter.metrics.configuration.MetricsAutoConfiguration
+com.skrstop.framework.components.starter.metrics.prometheus.log4j2.Log4j2RingBufferExportAutoConfiguration
+com.skrstop.framework.components.starter.metrics.prometheus.log4j2.Log4j2CountExportAutoConfiguration
+com.skrstop.framework.components.starter.metrics.prometheus.druid.DruidPrometheusAutoConfiguration

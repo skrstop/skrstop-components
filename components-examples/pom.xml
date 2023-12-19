@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.zoe.framework</groupId>
-        <artifactId>zoe-components</artifactId>
+        <groupId>com.skrstop.framework</groupId>
+        <artifactId>components</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
 
     <artifactId>components-examples</artifactId>
     <packaging>pom</packaging>
 
-    <name>Zoe Mix Micro-service Project Examples Module</name>
-    <description>🏗 Zoe Mix Micro-service Examples Module</description>
+    <name>Skrstop Mix Micro-service Project Examples Module</name>
+    <description>🏗 Skrstop Mix Micro-service Examples Module</description>
 
     <modules>
         <module>components-example-starters-simple</module>
@@ -30,12 +30,12 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-example-starters</artifactId>
                 <version>${parent.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-project</artifactId>
                 <version>${parent.version}</version>
                 <scope>import</scope>

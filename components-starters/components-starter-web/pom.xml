@@ -4,19 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>components-starters</artifactId>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>components-starter-web</artifactId>
 
-    <name>Zoe Mix Micro-service starter web</name>
+    <name>Skrstop Mix Micro-service starter web</name>
     <description>Mixmicro+ Web Starter</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-common</artifactId>
         </dependency>
         <dependency>
@@ -65,23 +65,23 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-value</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-system</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-serialization</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-constant</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-spring-support</artifactId>
         </dependency>
 

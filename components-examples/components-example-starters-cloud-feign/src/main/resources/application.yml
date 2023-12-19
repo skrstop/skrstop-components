@@ -95,7 +95,7 @@ xxxxxService:
     MaxAutoRetriesNextServer: 2 #切换实例的重试次数
 
 
-zoe:
+skrstop:
   feign:
     config:
-      scan-package: com.zoe.framework.components.example.starters.cloud.feign.api
+      scan-package: com.skrstop.framework.components.example.starters.cloud.feign.api

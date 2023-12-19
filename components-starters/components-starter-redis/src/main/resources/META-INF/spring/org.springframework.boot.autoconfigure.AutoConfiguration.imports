@@ -1,5 +1,5 @@
-com.zoe.framework.components.starter.redis.configuration.common.CustomRedisAutoConfiguration
-com.zoe.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisConnectFactoryAutoConfiguration
-com.zoe.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisAutoConfiguration
-com.zoe.framework.components.starter.redis.configuration.redisson.RedissonAutoConfiguration
-com.zoe.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonAutoConfiguration
+com.skrstop.framework.components.starter.redis.configuration.common.CustomRedisAutoConfiguration
+com.skrstop.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisConnectFactoryAutoConfiguration
+com.skrstop.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisAutoConfiguration
+com.skrstop.framework.components.starter.redis.configuration.redisson.RedissonAutoConfiguration
+com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonAutoConfiguration

@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <artifactId>components-utils</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,12 +11,12 @@
 
     <artifactId>components-util-executor</artifactId>
 
-    <name>Zoe Mix Micro-service components-util-executor</name>
+    <name>Skrstop Mix Micro-service components-util-executor</name>
     <description>Mixmicro+ Thread Executor Util</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-constant</artifactId>
         </dependency>
         <dependency>
