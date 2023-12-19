@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zoe.framework</groupId>
-    <artifactId>zoe-components</artifactId>
+    <groupId>com.skrstop.framework</groupId>
+    <artifactId>components</artifactId>
     <packaging>pom</packaging>
     <version>${framework.components.revision}</version>
 
     <organization>
-        <name>Zoe Components</name>
+        <name>Skrstop Components</name>
         <url>https://blog.jiangsh.fun/</url>
     </organization>
 
@@ -22,8 +22,8 @@
         <module>components-examples</module>
     </modules>
 
-    <name>Zoe Mix Micro-service Components :: parent</name>
-    <description>🏗 Zoe Mix Micro-service Components Parent</description>
+    <name>Skrstop Mix Micro-service Components :: parent</name>
+    <description>🏗 Skrstop Mix Micro-service Components Parent</description>
     <inceptionYear>2020</inceptionYear>
 
     <repositories>
@@ -374,9 +374,9 @@
 
     <developers>
         <developer>
-            <id>Zoe</id>
+            <id>Skrstop</id>
             <name>Developer</name>
-            <email>developer@zoe.com</email>
+            <email>developer@skrstop.com</email>
             <roles>
                 <role>Architect</role>
                 <role>Developer</role>
@@ -2293,15 +2293,15 @@
     <distributionManagement>
         <!-- 配置快照版本发布的仓库-->
         <snapshotRepository>
-            <id>zoe-prod</id>
-            <name>zoe Snapshots Repository</name>
-            <url>http://prod-nexus.zoe.com:8081/repository/maven-snapshots/</url>
+            <id>skrstop-prod</id>
+            <name>skrstop Snapshots Repository</name>
+            <url>http://prod-nexus.skrstop.com:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
         <!-- 配置release版本发布的仓库-->
         <repository>
-            <id>zoe-prod</id>
-            <name>zoe Releases Repository</name>
-            <url>http://prod-nexus.zoe.com:8081/repository/maven-releases/</url>
+            <id>skrstop-prod</id>
+            <name>skrstop Releases Repository</name>
+            <url>http://prod-nexus.skrstop.com:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 

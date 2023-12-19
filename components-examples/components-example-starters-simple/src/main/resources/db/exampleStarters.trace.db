@@ -1,7 +1,7 @@
 2023-11-30 18:58:18.394099+08:00 jdbc[8]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]ccreate table example(\000d\000aid bigint primary key, \000d\000aname varchar(100),\000d\000aage int,\000d\000abirth datatime,\000d\000adie tinyint\000d\000a)"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
 ccreate table example(
-id bigint primary key, 
+id bigint primary key,
 name varchar(100),
 age int,
 birth datatime,
@@ -10,7 +10,7 @@ die tinyint
 2023-11-30 18:58:55.576297+08:00 jdbc[8]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table example1(\000d\000aid bigint primary key, \000d\000aname varchar(100),\000d\000aage int,\000d\000abirth datetime,\000d\000adie tinyint\000d\000a)[*]EXAMPLE"; SQL statement:
 create table example1(
-id bigint primary key, 
+id bigint primary key,
 name varchar(100),
 age int,
 birth datetime,
@@ -19,7 +19,7 @@ die tinyint
 2023-11-30 18:59:13.198722+08:00 jdbc[8]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table example_one(\000d\000aid bigint primary key, \000d\000aname varchar(100),\000d\000aage int,\000d\000abirth datetime,\000d\000adie tinyint\000d\000a)[*]EXAMPLE"; SQL statement:
 create table example_one(
-id bigint primary key, 
+id bigint primary key,
 name varchar(100),
 age int,
 birth datetime,
@@ -280,7 +280,7 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
-	at com.zoe.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
+	at com.skrstop.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -404,7 +404,7 @@ org.h2.message.DbException: File corrupted while reading record: null. Possible 
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
-	at com.zoe.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
+	at com.skrstop.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -705,7 +705,7 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
-	at com.zoe.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
+	at com.skrstop.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -829,7 +829,7 @@ org.h2.message.DbException: File corrupted while reading record: null. Possible 
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
-	at com.zoe.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
+	at com.skrstop.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1130,7 +1130,7 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
-	at com.zoe.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
+	at com.skrstop.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1254,7 +1254,7 @@ org.h2.message.DbException: File corrupted while reading record: null. Possible 
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
-	at com.zoe.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
+	at com.skrstop.framework.components.example.starters.simple.ExampleStartersSimpleApplicationBootstrap.main(ExampleStartersSimpleApplicationBootstrap.java:16)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

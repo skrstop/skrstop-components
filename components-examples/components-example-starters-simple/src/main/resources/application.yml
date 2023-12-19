@@ -12,7 +12,7 @@ spring:
       path: /h2Console
       enabled: true
   datasource:
-    url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/zoe-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters
+    url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/skrstop-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters
     driver-class-name: org.h2.Driver
     username: sa
     password: 123456
@@ -114,7 +114,7 @@ server:
 logging:
   config: classpath:logConfig/log4j2.xml
 
-zoe:
+skrstop:
   redis:
     redisson:
       enabled: true
@@ -200,7 +200,7 @@ zoe:
   database:
     config:
       sql-healthy-check: false
-      mapper-class-location: com.zoe.framework.components.example.starters.simple.mapper.mysql
+      mapper-class-location: com.skrstop.framework.components.example.starters.simple.mapper.mysql
       #      mapper-xml-location: classpath*:customMapper/*.xml
       mapper-xml-location: classpath*:customMapper/*.xml
   #      mapper-xml-location: classpath*:mapper/*.xml,classpath*:customMapper/*.xml
@@ -209,7 +209,7 @@ zoe:
       primary: db0
       data-sources:
         db0:
-          url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/zoe-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters
+          url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/skrstop-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters
           driver-class-name: org.h2.Driver
           username: sa
           password: 123456
@@ -256,7 +256,7 @@ zoe:
               # 登录密码
               login-password: 123456
         db1:
-          url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/zoe-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters2
+          url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/skrstop-components-8/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters2
           driver-class-name: org.h2.Driver
           username: sa
           password: 123456
@@ -309,7 +309,7 @@ zoe:
           - exampleAnnotationAccessControl1
   mongodb:
     config:
-      map-package: com.zoe.framework.components.example.starters.simple.entity.mongo
+      map-package: com.skrstop.framework.components.example.starters.simple.entity.mongo
       ## 默认
       #      collection-naming: identity
       #      property-naming: identity

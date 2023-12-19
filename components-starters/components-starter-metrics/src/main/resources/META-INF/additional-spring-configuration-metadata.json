@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.metrics.configuration.MetricsProperties",
+      "sourceType": "com.skrstop.framework.components.starter.metrics.configuration.MetricsProperties",
       "name": "metrics配置",
-      "type": "com.zoe.framework.components.starter.metrics.configuration.MetricsProperties"
+      "type": "com.skrstop.framework.components.starter.metrics.configuration.MetricsProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.metrics.enabled",
+      "name": "skrstop.metrics.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启metrics.",
       "defaultValue": "true"

@@ -1,20 +1,20 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.portShift.configuration.GlobalPortProperties",
+      "sourceType": "com.skrstop.framework.components.starter.portShift.configuration.GlobalPortProperties",
       "name": "http参数配置",
-      "type": "com.zoe.framework.components.starter.portShift.configuration.GlobalPortProperties"
+      "type": "com.skrstop.framework.components.starter.portShift.configuration.GlobalPortProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.http.port.config.enable",
+      "name": "skrstop.http.port.config.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启端口偏移.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.http.port.config.port-area",
+      "name": "skrstop.http.port.config.port-area",
       "type": "java.lang.String",
       "description": "指定端口范围, 如果不写则无限制，如: 8080-9090 .",
       "defaultValue": ""

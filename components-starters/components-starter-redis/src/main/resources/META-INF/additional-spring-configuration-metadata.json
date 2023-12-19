@@ -1,130 +1,130 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.common.GlobalRedisProperties",
+      "sourceType": "com.skrstop.framework.components.starter.redis.configuration.common.GlobalRedisProperties",
       "name": "redis参数配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.common.GlobalRedisProperties"
+      "type": "com.skrstop.framework.components.starter.redis.configuration.common.GlobalRedisProperties"
     },
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisProperties",
+      "sourceType": "com.skrstop.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisProperties",
       "name": "redis多数据源配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisProperties"
+      "type": "com.skrstop.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisProperties"
     },
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties",
+      "sourceType": "com.skrstop.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties",
       "name": "redisson参数配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties"
+      "type": "com.skrstop.framework.components.starter.redis.configuration.redisson.GlobalRedissonProperties"
     },
     {
-      "sourceType": "com.zoe.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonProperties",
+      "sourceType": "com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonProperties",
       "name": "redisson多数据源配置",
-      "type": "com.zoe.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonProperties"
+      "type": "com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.redis.config.fastjson-pretty-format-json",
+      "name": "skrstop.redis.config.fastjson-pretty-format-json",
       "type": "java.lang.Boolean",
       "description": "是够格式化json.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.config.fastjson-safe-mode",
+      "name": "skrstop.redis.config.fastjson-safe-mode",
       "type": "java.lang.Boolean",
       "description": "是否开启safeMode.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.redis.config.fastjson-auto-type",
+      "name": "skrstop.redis.config.fastjson-auto-type",
       "type": "java.lang.Boolean",
       "description": "是否开启autoType.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.config.value-processor",
+      "name": "skrstop.redis.config.value-processor",
       "type": "java.lang.Byte",
       "description": "值处理器：1、二进制，2、字符串，3，fastjson.",
       "defaultValue": "3"
     },
     {
-      "name": "zoe.redis.config.fastjson-filter-each",
+      "name": "skrstop.redis.config.fastjson-filter-each",
       "type": "java.lang.Boolean",
       "description": "此开关用于filter过滤，当autoType序列化和非autoType穿插使用是则开启遍历过滤，建议不要autoType穿插使用.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.dynamic.enabled",
+      "name": "skrstop.redis.dynamic.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启动态redis数据源.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.dynamic.primary",
+      "name": "skrstop.redis.dynamic.primary",
       "type": "java.lang.String",
       "description": "默认数据源.",
       "defaultValue": "default"
     },
     {
-      "name": "zoe.redis.dynamic.exception-while-not-found",
+      "name": "skrstop.redis.dynamic.exception-while-not-found",
       "type": "java.lang.Boolean",
       "description": "当为true时，未找到指定的redis时会抛出异常，为false时，则使用默认redis.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.dynamic.aop.enabled",
+      "name": "skrstop.redis.dynamic.aop.enabled",
       "type": "java.lang.Boolean",
       "description": "开启aop注解.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.redis.dynamic.aop.order",
+      "name": "skrstop.redis.dynamic.aop.order",
       "type": "java.lang.Integer",
       "description": "aop order.",
       "defaultValue": "Ordered.HIGHEST_PRECEDENCE + 1"
     },
     {
-      "name": "zoe.redis.dynamic.aop.allowed-public-only",
+      "name": "skrstop.redis.dynamic.aop.allowed-public-only",
       "type": "java.lang.Boolean",
       "description": "只允许public方法.",
       "defaultValue": "true."
     },
     {
-      "name": "zoe.redis.dynamic.service.enabled",
+      "name": "skrstop.redis.dynamic.service.enabled",
       "type": "java.lang.Boolean",
       "description": "开启 DynamicRedisService.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.redis.dynamic.service.order",
+      "name": "skrstop.redis.dynamic.service.order",
       "type": "java.lang.Integer",
       "description": "service order.",
       "defaultValue": "Ordered.HIGHEST_PRECEDENCE + 1"
     },
     {
-      "name": "zoe.redis.dynamic.data-sources",
+      "name": "skrstop.redis.dynamic.data-sources",
       "type": "java.util.Map",
       "description": "多数据源配置，属性同spring.redis."
     },
     {
-      "name": "zoe.redis.redisson.enabled",
+      "name": "skrstop.redis.redisson.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启redisson.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.redisson.config-file",
+      "name": "skrstop.redis.redisson.config-file",
       "type": "java.lang.String",
       "description": "从文件读取redisson配置.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.redisson.config-yaml-str",
+      "name": "skrstop.redis.redisson.config-yaml-str",
       "type": "java.lang.String",
       "description": "从yaml配置读取redisson配置.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.redisson.config-json-str",
+      "name": "skrstop.redis.redisson.config-json-str",
       "type": "java.lang.String",
       "description": "从json配置读取redisson配置.",
       "defaultValue": "false",
@@ -133,55 +133,55 @@
       }
     },
     {
-      "name": "zoe.redis.redisson.dynamic.enabled",
+      "name": "skrstop.redis.redisson.dynamic.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启动态redis数据源.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.primary",
+      "name": "skrstop.redis.redisson.dynamic.primary",
       "type": "java.lang.String",
       "description": "默认数据源.",
       "defaultValue": "default"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.exception-while-not-found",
+      "name": "skrstop.redis.redisson.dynamic.exception-while-not-found",
       "type": "java.lang.Boolean",
       "description": "当为true时，未找到指定的redis时会抛出异常，为false时，则使用默认redis.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.aop.enabled",
+      "name": "skrstop.redis.redisson.dynamic.aop.enabled",
       "type": "java.lang.Boolean",
       "description": "开启aop注解和DynamicAopRedissonClient.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.aop.order",
+      "name": "skrstop.redis.redisson.dynamic.aop.order",
       "type": "java.lang.Integer",
       "description": "aop order.",
       "defaultValue": "Ordered.HIGHEST_PRECEDENCE + 1"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.aop.allowed-public-only",
+      "name": "skrstop.redis.redisson.dynamic.aop.allowed-public-only",
       "type": "java.lang.Boolean",
       "description": "只允许public方法.",
       "defaultValue": "true."
     },
     {
-      "name": "zoe.redis.redisson.dynamic.client.enabled",
+      "name": "skrstop.redis.redisson.dynamic.client.enabled",
       "type": "java.lang.Boolean",
       "description": "开启 DynamicRedissonClient.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.client.order",
+      "name": "skrstop.redis.redisson.dynamic.client.order",
       "type": "java.lang.Integer",
       "description": "DynamicRedissonClient order.",
       "defaultValue": "Ordered.HIGHEST_PRECEDENCE + 1"
     },
     {
-      "name": "zoe.redis.redisson.dynamic.data-sources",
+      "name": "skrstop.redis.redisson.dynamic.data-sources",
       "type": "java.util.Map",
       "description": "多数据源配置，属性同spring.redis."
     }

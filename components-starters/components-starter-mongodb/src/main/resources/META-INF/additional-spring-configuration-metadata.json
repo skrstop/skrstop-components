@@ -1,110 +1,110 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.mongodb.configuration.GlobalMongodbProperties",
+      "sourceType": "com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties",
       "name": "Mongodb配置",
-      "type": "com.zoe.framework.components.starter.mongodb.configuration.GlobalMongodbProperties"
+      "type": "com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.mongodb.config.map-package",
+      "name": "skrstop.mongodb.config.map-package",
       "type": "java.lang.String",
       "description": "实体映射包地址.",
-      "defaultValue": "com.zoe.business"
+      "defaultValue": "com.skrstop.business"
     },
     {
-      "name": "zoe.mongodb.config.apply-caps",
+      "name": "skrstop.mongodb.config.apply-caps",
       "type": "java.lang.Boolean",
       "description": "自动创建caps.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.mongodb.config.apply-document-validations",
+      "name": "skrstop.mongodb.config.apply-document-validations",
       "type": "java.lang.Boolean",
       "description": "自动创建校验.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.mongodb.config.apply-indexes",
+      "name": "skrstop.mongodb.config.apply-indexes",
       "type": "java.lang.Boolean",
       "description": "自动创建索引.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.mongodb.config.auto-import-models",
+      "name": "skrstop.mongodb.config.auto-import-models",
       "type": "java.lang.Boolean",
       "description": "自动引入实体.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.mongodb.config.collection-naming",
+      "name": "skrstop.mongodb.config.collection-naming",
       "type": "java.lang.String",
       "description": "集合命名规则.",
       "defaultValue": "identity"
     },
     {
-      "name": "zoe.mongodb.config.property-naming",
+      "name": "skrstop.mongodb.config.property-naming",
       "type": "java.lang.String",
       "description": "属性命名规则.",
       "defaultValue": "identity"
     },
     {
-      "name": "zoe.mongodb.config.date-storage",
+      "name": "skrstop.mongodb.config.date-storage",
       "type": "java.lang.String",
       "description": "时区.",
       "defaultValue": "system_default"
     },
     {
-      "name": "zoe.mongodb.config.discriminator",
+      "name": "skrstop.mongodb.config.discriminator",
       "type": "java.lang.String",
       "description": "实体标识value.",
       "defaultValue": "className"
     },
     {
-      "name": "zoe.mongodb.config.discriminator-key",
+      "name": "skrstop.mongodb.config.discriminator-key",
       "type": "java.lang.String",
       "description": "实体标识key.",
       "defaultValue": "_class"
     },
     {
-      "name": "zoe.mongodb.config.enable-polymorphic-queries",
+      "name": "skrstop.mongodb.config.enable-polymorphic-queries",
       "type": "java.lang.Boolean",
       "description": "是否启用多态查询.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.mongodb.config.ignore-finals",
+      "name": "skrstop.mongodb.config.ignore-finals",
       "type": "java.lang.Boolean",
       "description": "是否忽略final字段.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.mongodb.config.property-discovery",
+      "name": "skrstop.mongodb.config.property-discovery",
       "type": "java.lang.String",
       "description": "属性发现规则.",
       "defaultValue": "fields"
     },
     {
-      "name": "zoe.mongodb.config.query-factory",
+      "name": "skrstop.mongodb.config.query-factory",
       "type": "java.lang.String",
       "description": "查询工厂.",
       "defaultValue": "dev.morphia.query.DefaultQueryFactory"
     },
     {
-      "name": "zoe.mongodb.config.store-empties",
+      "name": "skrstop.mongodb.config.store-empties",
       "type": "java.lang.Boolean",
       "description": "是否存储null值.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.mongodb.config.store-nulls",
+      "name": "skrstop.mongodb.config.store-nulls",
       "type": "java.lang.Boolean",
       "description": "是否忽略final字段.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.mongodb.config.uuid-representation",
+      "name": "skrstop.mongodb.config.uuid-representation",
       "type": "java.lang.String",
       "description": "uuid实现规则.",
       "defaultValue": "java_legacy"
@@ -112,7 +112,7 @@
   ],
   "hints": [
     {
-      "name": "zoe.mongodb.config.collection-naming",
+      "name": "skrstop.mongodb.config.collection-naming",
       "values": [
         {
           "value": "camelCase",
@@ -141,7 +141,7 @@
       ]
     },
     {
-      "name": "zoe.mongodb.config.property-naming",
+      "name": "skrstop.mongodb.config.property-naming",
       "values": [
         {
           "value": "camelCase",
@@ -170,7 +170,7 @@
       ]
     },
     {
-      "name": "zoe.mongodb.config.date-storage",
+      "name": "skrstop.mongodb.config.date-storage",
       "values": [
         {
           "value": "utc",
@@ -183,7 +183,7 @@
       ]
     },
     {
-      "name": "zoe.mongodb.config.discriminator",
+      "name": "skrstop.mongodb.config.discriminator",
       "values": [
         {
           "value": "className",
@@ -208,7 +208,7 @@
       ]
     },
     {
-      "name": "zoe.mongodb.config.property-discovery",
+      "name": "skrstop.mongodb.config.property-discovery",
       "values": [
         {
           "value": "fields",
@@ -221,7 +221,7 @@
       ]
     },
     {
-      "name": "zoe.mongodb.config.uuid-representation",
+      "name": "skrstop.mongodb.config.uuid-representation",
       "values": [
         {
           "value": "unspecified",
