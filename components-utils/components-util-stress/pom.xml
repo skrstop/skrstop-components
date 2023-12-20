@@ -11,8 +11,8 @@
 
     <artifactId>components-util-stress</artifactId>
 
-    <name>Skrstop Mix Micro-service util stress</name>
-    <description>Mixmicro+ Stress Util</description>
+    <name>skrstop mix micro service util stress</name>
+    <description>skrstop util stress</description>
 
     <dependencies>
         <dependency>

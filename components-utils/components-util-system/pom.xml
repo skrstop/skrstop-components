@@ -11,9 +11,8 @@
 
     <artifactId>components-util-system</artifactId>
 
-
-    <name>Skrstop Mix Micro-service util system</name>
-    <description>Mixmicro+ System Util</description>
+    <name>skrstop mix micro service util system</name>
+    <description>skrstop util system</description>
 
     <dependencies>
 

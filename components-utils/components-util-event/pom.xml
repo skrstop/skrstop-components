@@ -12,8 +12,8 @@
     <artifactId>components-util-event</artifactId>
     <packaging>jar</packaging>
 
-    <name>Skrstop Mix Micro-service components-util-event</name>
-    <description>Mixmicro+ Event Util</description>
+    <name>skrstop mix micro service util event</name>
+    <description>skrstop util event</description>
 
     <dependencies>
         <dependency>

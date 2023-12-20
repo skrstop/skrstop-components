@@ -11,8 +11,8 @@
 
     <artifactId>components-util-value</artifactId>
 
-    <name>Skrstop Mix Micro-service util value</name>
-    <description>Mixmicro+ Value Util</description>
+    <name>skrstop mix micro service util value</name>
+    <description>skrstop util value</description>
 
     <dependencies>
         <dependency>

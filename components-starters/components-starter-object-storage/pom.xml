@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-object-storage</artifactId>
 
-    <name>Skrstop Mix Micro-service starter object storage</name>
-    <description>Mixmicro+ Object Storage Starter</description>
+    <name>skrstop mix micro service starter object storage</name>
+    <description>skrstop object storage starter</description>
 
     <dependencies>
         <dependency>

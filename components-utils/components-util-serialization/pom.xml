@@ -11,8 +11,8 @@
 
     <artifactId>components-util-serialization</artifactId>
 
-    <name>Skrstop Mix Micro-service components-util-serialization</name>
-    <description>Mixmicro+ Serialization Util</description>
+    <name>skrstop mix micro service util serialization</name>
+    <description>skrstop util serialization</description>
 
     <dependencies>
         <dependency>

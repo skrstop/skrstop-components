@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-database</artifactId>
 
-    <name>Skrstop Mix Micro-service starter database</name>
-    <description>Skrstop+ Database Starter</description>
+    <name>skrstop mix micro service starter database</name>
+    <description>skrstop starter database</description>
 
     <dependencies>
         <dependency>

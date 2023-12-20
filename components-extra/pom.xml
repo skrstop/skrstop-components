@@ -13,8 +13,8 @@
     <artifactId>components-extra</artifactId>
     <packaging>pom</packaging>
 
-    <name>Skrstop Mix Micro-service Project Extra Module</name>
-    <description>🏗 Skrstop Mix Micro-service Extra Module</description>
+    <name>skrstop mix micro service extra modules</name>
+    <description>🏗 skrstop mix micro service extra modules</description>
 
     <modules>
     </modules>

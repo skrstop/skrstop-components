@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-common</artifactId>
 
-    <name>Skrstop Mix Micro-service starter common</name>
-    <description>Mixmicro+ Starter Common</description>
+    <name>skrstop mix micro service starter common</name>
+    <description>skrstop starter common</description>
 
     <dependencies>
         <dependency>

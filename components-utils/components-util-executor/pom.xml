@@ -11,8 +11,8 @@
 
     <artifactId>components-util-executor</artifactId>
 
-    <name>Skrstop Mix Micro-service components-util-executor</name>
-    <description>Mixmicro+ Thread Executor Util</description>
+    <name>skrstop mix micro service util executor</name>
+    <description>skrstop util executor</description>
 
     <dependencies>
         <dependency>

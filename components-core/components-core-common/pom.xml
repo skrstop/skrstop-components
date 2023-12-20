@@ -11,8 +11,8 @@
 
     <artifactId>components-core-common</artifactId>
 
-    <name>Skrstop Mix Micro-service Project Core common Module</name>
-    <description>🏗 Skrstop Mix Micro-service Core common Module</description>
+    <name>skrstop mix micro service core common module</name>
+    <description>🏗 skrstop mix micro service core common module</description>
 
     <dependencies>
         <dependency>

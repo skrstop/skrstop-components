@@ -12,8 +12,8 @@
     <artifactId>components-util-compression</artifactId>
     <packaging>jar</packaging>
 
-    <name>Skrstop Mix Micro-service components-util-compression</name>
-    <description>Skrstop+ File Compression Utils</description>
+    <name>skrstop mix micro service util compression</name>
+    <description>skrstop util compression</description>
 
     <properties>
 

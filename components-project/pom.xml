@@ -12,7 +12,7 @@
     <artifactId>components-project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Skrstop Mix Micro-service Project Dependencies</name>
+    <name>skrstop mix micro service project dependencies</name>
 
     <properties>
 

@@ -11,8 +11,8 @@
 
     <artifactId>components-util-db</artifactId>
 
-    <name>Skrstop Mix Micro-service components-util-db</name>
-    <description>Mixmicro+ Thread Database Util</description>
+    <name>skrstop mix micro service util database</name>
+    <description>skrstop util database</description>
 
     <dependencies>
         <dependency>
