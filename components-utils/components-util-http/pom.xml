@@ -11,8 +11,8 @@
 
     <artifactId>components-util-http</artifactId>
 
-    <name>Skrstop Mix Micro-service components-util-http</name>
-    <description>Mixmicro+ Http Util</description>
+    <name>skrstop mix micro service util http</name>
+    <description>skrstop util http</description>
 
     <dependencies>
         <dependency>

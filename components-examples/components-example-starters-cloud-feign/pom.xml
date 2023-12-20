@@ -11,8 +11,8 @@
 
     <artifactId>components-example-starters-cloud-feign</artifactId>
 
-    <name>Skrstop Mix Micro-service Project Examples Starters Module</name>
-    <description>🏗 Skrstop Mix Micro-service Examples Starters Module</description>
+    <name>skrstop mix micro service example feign modul</name>
+    <description>🏗 skrstop mix micro service example feign module</description>
 
     <properties>
     </properties>

@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-redis</artifactId>
 
-    <name>Skrstop Mix Micro-service starter redis</name>
-    <description>Mixmicro+ Redis Starter</description>
+    <name>skrstop mix micro service starter redis</name>
+    <description>skrstop starter redis</description>
 
     <dependencies>
         <dependency>

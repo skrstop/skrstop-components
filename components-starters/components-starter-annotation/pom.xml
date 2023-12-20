@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-annotation</artifactId>
 
-    <name>Skrstop Mix Micro-service starter annotation</name>
-    <description>Skrstop+ Annotation Starter</description>
+    <name>skrstop mix micro service starter annotation</name>
+    <description>skrstop starter annotation</description>
 
     <dependencies>
         <dependency>

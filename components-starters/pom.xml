@@ -27,8 +27,8 @@
     </modules>
     <packaging>pom</packaging>
 
-    <name>Skrstop Mix Micro-service Project Starters Module</name>
-    <description>🏗 Skrstop Mix Micro-service Starters Module</description>
+    <name>skrstop mix micro service starter modules</name>
+    <description>🏗 skrstop mix micro service starter modules</description>
 
     <properties>
     </properties>
@@ -113,7 +113,7 @@
             </dependency>
             <dependency>
                 <groupId>com.skrstop.framework</groupId>
-                <artifactId>components-starter-ftp</artifactId>
+                <artifactId>components-starter-object-storage</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>

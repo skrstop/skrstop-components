@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-id</artifactId>
 
-    <name>Skrstop Mix Micro-service starter id</name>
-    <description>Mixmicro+ ID Starter</description>
+    <name>skrstop mix micro service starter id</name>
+    <description>skrstop starter id</description>
 
     <dependencies>
 

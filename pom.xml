@@ -9,8 +9,8 @@
     <version>${framework.components.revision}</version>
 
     <organization>
-        <name>Skrstop Components</name>
-        <url>https://blog.jiangsh.fun/</url>
+        <name>skrstop components</name>
+        <url>https://skstop.com/</url>
     </organization>
 
     <modules>
@@ -22,8 +22,8 @@
         <module>components-examples</module>
     </modules>
 
-    <name>Skrstop Mix Micro-service Components :: parent</name>
-    <description>Spring boot components to minimize extra code and unified package version</description>
+    <name>skrstop mix micro service components :: parent</name>
+    <description>spring boot components to minimize extra code and unified package version</description>
     <inceptionYear>2020</inceptionYear>
 
     <repositories>
@@ -45,10 +45,54 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>${release.id}</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>${release.id}</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <prerequisites>
+        <!-- min version maven -->
+        <maven>3.2.5</maven>
+    </prerequisites>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://choosealicense.com/licenses/mit/</url>
+            <distribution>manual</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/skrstop/skrstop-components</url>
+        <connection>https://github.com/skrstop/skrstop-components.git</connection>
+        <developerConnection>https://github.com/skrstop/skrstop-components.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>skrstop</id>
+            <name>skrstop</name>
+            <email>4086824@qq.com</email>
+            <roles>
+                <role>Architect</role>
+                <role>Project Manager</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <!-- 项目版本 -->
         <framework.components.revision>1.2.1.20231128-RELEASE</framework.components.revision>
         <java.version>1.8</java.version>
+        <release.id>sonatype</release.id>
 
         <!-- Deploy Properties -->
         <maven.deploy.skip>false</maven.deploy.skip>
@@ -356,34 +400,9 @@
         <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.5.0</maven-flatten-plugin.version>
+        <maven-nexus-staging-maven-plugin.version>1.6.13</maven-nexus-staging-maven-plugin.version>
 
     </properties>
-
-    <prerequisites>
-        <!-- min version maven -->
-        <maven>3.2.5</maven>
-    </prerequisites>
-
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://choosealicense.com/licenses/mit/</url>
-            <distribution>manual</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>Skrstop</id>
-            <name>Developer</name>
-            <email>developer@skrstop.com</email>
-            <roles>
-                <role>Architect</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
 
     <dependencies>
 
@@ -1925,7 +1944,6 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -1941,7 +1959,23 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalJOptions>
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </additionalJOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -1966,7 +2000,29 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>${release.id}</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -2063,6 +2119,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${maven-nexus-staging-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -2289,21 +2351,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <distributionManagement>
-        <!-- 配置快照版本发布的仓库-->
-        <snapshotRepository>
-            <id>skrstop-prod</id>
-            <name>skrstop Snapshots Repository</name>
-            <url>http://prod-nexus.skrstop.com:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-        <!-- 配置release版本发布的仓库-->
-        <repository>
-            <id>skrstop-prod</id>
-            <name>skrstop Releases Repository</name>
-            <url>http://prod-nexus.skrstop.com:8081/repository/maven-releases/</url>
-        </repository>
-    </distributionManagement>
 
 
 </project>

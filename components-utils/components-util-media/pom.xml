@@ -11,8 +11,8 @@
 
     <artifactId>components-util-media</artifactId>
 
-    <name>Skrstop Mix Micro-service util media</name>
-    <description>Mixmicro+ Media Util</description>
+    <name>skrstop mix micro service util media</name>
+    <description>skrstop util media</description>
 
     <dependencies>
         <dependency>

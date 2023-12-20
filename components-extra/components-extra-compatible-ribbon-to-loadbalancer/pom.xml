@@ -11,8 +11,8 @@
 
     <artifactId>components-extra-compatible-ribbon-to-loadbalancer</artifactId>
 
-    <name>Skrstop Mix Micro-service starter compatible ribbon to load balancer</name>
-    <description>Skrstop+ compatible ribbon to load balancer Starter</description>
+    <name>skrstop mix micro service extra starter compatible ribbon to load balancer</name>
+    <description>skrstop extra starter compatible ribbon to load balancer</description>
 
     <properties>
         <ribbon.version>2.3.0</ribbon.version>

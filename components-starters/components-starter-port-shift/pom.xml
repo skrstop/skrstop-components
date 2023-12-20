@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-port-shift</artifactId>
 
-    <name>Skrstop Mix Micro-service starter Port Shift</name>
-    <description>Mixmicro+ Port Shift Starter</description>
+    <name>skrstop mix micro service starter port shift</name>
+    <description>skrstop starter port shift</description>
 
     <dependencies>
         <dependency>

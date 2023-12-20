@@ -11,8 +11,8 @@
 
     <artifactId>components-core-exception</artifactId>
 
-    <name>Skrstop Mix Micro-service Project Core Exception Module</name>
-    <description>🏗 Skrstop Mix Micro-service Core Exception Module</description>
+    <name>skrstop mix micro service core exception module</name>
+    <description>🏗 skrstop mix micro service core exception module</description>
 
     <dependencies>
 

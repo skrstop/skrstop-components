@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-feign-protostuff</artifactId>
 
-    <name>Skrstop Mix Micro-service starter feign protostuff</name>
-    <description>Skrstop+ Feign Protostuff Starter</description>
+    <name>skrstop mix micro service starter feign protostuff</name>
+    <description>skrstop starter feign protostuff</description>
 
     <dependencies>
         <dependency>

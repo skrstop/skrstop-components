@@ -11,8 +11,8 @@
 
     <artifactId>components-util-crypto</artifactId>
 
-    <name>Skrstop Mix Micro-service util crypto</name>
-    <description>Skrstop+ Crypto Util</description>
+    <name>skrstop mix micro service util crypto</name>
+    <description>skrstop util crypto</description>
 
     <dependencies>
         <dependency>

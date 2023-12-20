@@ -11,8 +11,8 @@
 
     <artifactId>components-core-annotation</artifactId>
 
-    <name>Skrstop Mix Micro-service Project Core annotation Module</name>
-    <description>🏗 Skrstop Mix Micro-service Core annotation Module</description>
+    <name>skrstop mix micro service core annotation module</name>
+    <description>🏗 skrstop mix micro service core annotation module</description>
 
     <dependencies>
 

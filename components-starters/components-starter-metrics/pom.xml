@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-metrics</artifactId>
 
-    <name>Skrstop Mix Micro-service starter metrics</name>
-    <description>Mixmicro+ FTP Starter</description>
+    <name>skrstop mix micro service starter metrics</name>
+    <description>skrstop starter metrics</description>
 
     <dependencies>
         <dependency>

@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-mongodb</artifactId>
 
-    <name>Skrstop Mix Micro-service starter mongodb</name>
-    <description>Skrstop+ Mongodb Starter</description>
+    <name>skrstop mix micro service starter mongodb</name>
+    <description>skrstop starter mongodb</description>
 
     <properties>
         <morphia.version>2.4.9</morphia.version>

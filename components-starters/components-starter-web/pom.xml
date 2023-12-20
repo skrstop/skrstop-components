@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-web</artifactId>
 
-    <name>Skrstop Mix Micro-service starter web</name>
-    <description>Mixmicro+ Web Starter</description>
+    <name>skrstop mix micro service starter web</name>
+    <description>skrstop starter web</description>
 
     <dependencies>
         <dependency>

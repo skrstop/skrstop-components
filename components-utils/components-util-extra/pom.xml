@@ -11,8 +11,8 @@
 
     <artifactId>components-util-extra</artifactId>
 
-    <name>Skrstop Mix Micro-service util extra（emoji、ftp、qrcode、email、captcha）</name>
-    <description>Mixmicro+ emoji、ftp、qrcode、email、captcha Util</description>
+    <name>skrstop mix micro service util extra(emoji、ftp、qrcode、email、captcha)</name>
+    <description>skrstop util extra(emoji、ftp、qrcode、email、captcha)</description>
 
     <dependencies>
         <dependency>

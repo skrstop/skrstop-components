@@ -11,8 +11,8 @@
 
     <artifactId>components-starter-spring-support</artifactId>
 
-    <name>Skrstop Mix Micro-service starter spring support</name>
-    <description>Skrstop+ Spring Support Starter</description>
+    <name>skrstop mix micro service starter spring support</name>
+    <description>skrstop starter spring support</description>
 
     <dependencies>
         <dependency>

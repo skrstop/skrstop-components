@@ -11,8 +11,8 @@
 
     <artifactId>components-util-setting</artifactId>
 
-    <name>Skrstop Mix Micro-service util setting</name>
-    <description>Mixmicro+ Setting Util</description>
+    <name>skrstop mix micro service util setting</name>
+    <description>skrstop util setting</description>
 
     <dependencies>
         <dependency>
