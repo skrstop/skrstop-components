@@ -23,7 +23,7 @@
     </modules>
 
     <name>Skrstop Mix Micro-service Components :: parent</name>
-    <description>🏗 Skrstop Mix Micro-service Components Parent</description>
+    <description>Spring boot components to minimize extra code and unified package version</description>
     <inceptionYear>2020</inceptionYear>
 
     <repositories>
