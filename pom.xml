@@ -155,7 +155,7 @@
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
         <!-- disruptor -->
-        <disruptor.version>4.0.0</disruptor.version>
+        <disruptor.version>3.4.4</disruptor.version>
         <!-- pageHelper -->
         <pagehelper.version>6.0.0</pagehelper.version>
         <page-helper-starter.version>2.0.0</page-helper-starter.version>
