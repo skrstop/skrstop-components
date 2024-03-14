@@ -1,5 +1,9 @@
 # 组件
 
+##### 1.2.2.20240314-RELEASE
+
+* fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4
+
 ##### 1.2.1.20231221-RELEASE
 
 * feat: 升级springboot到2.7.18

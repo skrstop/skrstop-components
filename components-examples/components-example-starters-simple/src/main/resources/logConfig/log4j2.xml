@@ -71,6 +71,12 @@
             <appender-ref ref="INFO"/>
             <appender-ref ref="ERROR"/>
         </root>
+        <!--        <asyncRoot level="INFO">-->
+        <!--            <appender-ref ref="STDOUT"/>-->
+        <!--            <appender-ref ref="INFO"/>-->
+        <!--            <appender-ref ref="ERROR"/>-->
+        <!--        </asyncRoot>-->
+        <!--        <AsyncLogger name="net.sf.ehcache" level="INFO"/>-->
 
         <Logger name="net.sf.ehcache" level="INFO"/>
         <Logger name="druid.sql" level="INFO"/>
