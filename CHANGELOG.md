@@ -6,6 +6,7 @@
 * feat: 增加磁盘容量检测工具类DiskSpaceUtil
 * feat: components-starter-object-storage增加腾讯cos支持
 * feat: components-starter-object-storage增加多数据源支持 @DSObjectStorage
+* feat: @SProcessor 支持处理类本身实现断言ProcessorAssert接口
 
 ##### 1.2.1.20231221-RELEASE
 
