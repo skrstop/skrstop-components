@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.redis.selector;
+package com.skrstop.framework.components.starter.objectStorage.selector;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

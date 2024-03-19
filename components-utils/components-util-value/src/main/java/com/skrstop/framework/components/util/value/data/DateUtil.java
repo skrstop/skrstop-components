@@ -251,4 +251,12 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
         return localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
 
+    public static Date toDate(LocalDateTime localDateTime) {
+        if (ObjectUtil.isNull(localDateTime)) {
+            return null;
+        }
+        return Date.from(localDateTime.atZone(ZoneOffset.of("+8")).toInstant());
+
+    }
+
 }

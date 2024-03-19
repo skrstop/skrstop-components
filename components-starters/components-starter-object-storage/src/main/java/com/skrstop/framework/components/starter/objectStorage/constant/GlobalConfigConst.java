@@ -9,5 +9,6 @@ package com.skrstop.framework.components.starter.objectStorage.constant;
 public interface GlobalConfigConst {
 
     String OBJECT_STORAGE_PREFIX = "skrstop.object-storage";
+    String DYNAMIC_OBJECT_STORAGE_PREFIX = "skrstop.object-storage.dynamic";
 
 }
