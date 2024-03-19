@@ -8,6 +8,7 @@ import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemp
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author 蒋时华
  * @date 2019/7/2
  */
+@Slf4j
 public class FtpObjectStorageServiceImpl implements ObjectStorageService {
 
     @Getter
@@ -58,6 +60,11 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public String getDefaultBucketName() {
+        return null;
+    }
+
+    @Override
     public boolean upload(String bucketName, String targetPath, File file) {
         targetPath = basePath + targetPath;
         String fileName = FileUtil.getName(targetPath);
@@ -82,16 +89,22 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public void download(String bucketName, String targetPath, String localPath) {
+    public boolean download(String bucketName, String targetPath, String localPath) {
         targetPath = basePath + targetPath;
-        this.download(bucketName, targetPath, new File(localPath));
+        return this.download(bucketName, targetPath, new File(localPath));
     }
 
     @Override
-    public void download(String bucketName, String targetPath, File localFile) {
+    public boolean download(String bucketName, String targetPath, File localFile) {
         targetPath = basePath + targetPath;
         String fileName = FileUtil.getName(targetPath);
-        this.ftpClient.download(targetPath, fileName, localFile);
+        try {
+            this.ftpClient.download(targetPath, fileName, localFile);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
