@@ -55,7 +55,8 @@ public @interface SProcessor {
 
     /**
      * 处理器满足条件判断
-     * 当为空时，默认不满足任何条件
+     * 当为空时，将检查该processor是否实现了ProcessorAssert接口
+     * 如未实现，则默认不满足任何条件
      */
     Class<? extends ProcessorAssert> assertClass() default DefaultAssert.class;
 

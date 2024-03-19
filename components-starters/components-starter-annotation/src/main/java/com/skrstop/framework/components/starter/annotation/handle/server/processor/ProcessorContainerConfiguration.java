@@ -103,17 +103,26 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
                             + " 未继承 ProcessorAssert");
                 }
                 processorAssert = (ProcessorAssert) assertBean;
-            } else {
+            } else if (ObjectUtil.isNotNull(sProcessor.assertClass())) {
                 Class<? extends ProcessorAssert> processAssertClass = sProcessor.assertClass();
-                if (ObjectUtil.isNull(processAssertClass)) {
-                    processAssertClass = DefaultAssert.class;
-                    log.error("容器：{} 处理器：{} 未指定断言，请检查！！！当前使用默认断言处理类", containerName, key);
-                }
                 processorAssert = processorAssertMap.get(processAssertClass);
                 if (ObjectUtil.isNull(processorAssert)) {
                     processorAssert = ReflectUtil.newInstance(processAssertClass);
                     processorAssertMap.put(processAssertClass, processorAssert);
                 }
+            } else if (bean instanceof ProcessorAssert) {
+                // bean本身实现了ProcessorAssert接口
+                processorAssert = (ProcessorAssert) bean;
+            }
+            if (ObjectUtil.isNull(processorAssert)) {
+                // 没有找到任何断言实现类， 使用默认的断言实现类
+                Class<? extends ProcessorAssert> processAssertClass = DefaultAssert.class;
+                processorAssert = processorAssertMap.get(processAssertClass);
+                if (ObjectUtil.isNull(processorAssert)) {
+                    processorAssert = ReflectUtil.newInstance(processAssertClass);
+                    processorAssertMap.put(processAssertClass, processorAssert);
+                }
+                log.error("容器：{} 处理器：{} 未指定断言，请检查！！！当前使用默认断言处理类", containerName, key);
             }
             ProcessorEntity processorEntity = ProcessorEntity.builder()
                     .containerName(containerName)
