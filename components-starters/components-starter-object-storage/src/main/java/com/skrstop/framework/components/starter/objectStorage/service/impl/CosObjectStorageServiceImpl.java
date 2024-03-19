@@ -87,13 +87,27 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         }
     }
 
+    private String getOrDefaultBucketName(String bucketName) {
+        bucketName = StrUtil.blankToDefault(bucketName, this.getDefaultBucketName());
+        if (StrUtil.isBlank(bucketName)) {
+            throw new IllegalArgumentException("bucketName不能为空");
+        }
+        return bucketName;
+    }
+
     @Override
     public Object getClient() {
         return this.transferManager;
     }
 
     @Override
+    public String getDefaultBucketName() {
+        return this.cosProperties.getBucketName();
+    }
+
+    @Override
     public boolean upload(String bucketName, String targetPath, File file) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         try {
             targetPath = basePath + targetPath;
             Upload upload = this.transferManager.upload(bucketName, targetPath, file);
@@ -107,6 +121,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public boolean upload(String bucketName, String targetPath, byte[] bytes) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes)) {
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -121,49 +136,50 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public boolean upload(String bucketName, String targetPath, InputStream inputStream) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
-        try {
+        try (inputStream) {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             Upload upload = this.transferManager.upload(bucketName, targetPath, inputStream, objectMetadata);
             upload.waitForUploadResult();
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-        } finally {
-            try {
-                inputStream.close();
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            }
         }
         return false;
     }
 
     @Override
-    public void download(String bucketName, String targetPath, String localPath) {
+    public boolean download(String bucketName, String targetPath, String localPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
-        this.download(bucketName, targetPath, new File(localPath));
+        return this.download(bucketName, targetPath, new File(localPath));
     }
 
     @Override
-    public void download(String bucketName, String targetPath, File localFile) {
+    public boolean download(String bucketName, String targetPath, File localFile) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         Download download = this.transferManager.download(bucketName, targetPath, localFile);
         try {
             download.waitForCompletion();
+            return true;
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage(), e);
+            return false;
         }
     }
 
     @Override
     public boolean exists(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         return this.cosClient.doesObjectExist(bucketName, targetPath);
     }
 
     @Override
     public boolean delete(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         try {
             this.cosClient.deleteObject(bucketName, targetPath);
@@ -176,6 +192,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public boolean delete(String bucketName, List<String> targetPaths) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucketName);
         ArrayList<DeleteObjectsRequest.KeyVersion> keyList = new ArrayList<>();
         for (String targetPath : targetPaths) {
@@ -194,6 +211,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public boolean copy(String bucketName, String sourcePath, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         return this.copy(bucketName, sourcePath, bucketName, targetPath);
     }
 
@@ -210,6 +228,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public boolean move(String bucketName, String sourcePath, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         boolean copy = this.copy(bucketName, sourcePath, bucketName, targetPath);
         if (!copy) {
             return false;
@@ -228,6 +247,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
         URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath, DateUtil.toDate(endTime), HttpMethodName.GET);
         try {
@@ -250,6 +270,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         Map<String, String> result = new HashMap<>(targetPath.size(), 1);
         for (String path : targetPath) {
             result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime));
@@ -259,6 +280,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public CosStorageTemplateSign getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
         CosStorageTemplateSign sign = new CosStorageTemplateSign();
         try {
             TreeMap<String, Object> config = new TreeMap<>();

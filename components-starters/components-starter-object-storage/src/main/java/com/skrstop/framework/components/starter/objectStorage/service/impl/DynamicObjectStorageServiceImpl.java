@@ -50,13 +50,13 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
-    public void download(String dsKey, String bucketName, String targetPath, String localPath) {
-        this.objectStorageService.download(bucketName, targetPath, localPath);
+    public boolean download(String dsKey, String bucketName, String targetPath, String localPath) {
+        return this.objectStorageService.download(bucketName, targetPath, localPath);
     }
 
     @Override
-    public void download(String dsKey, String bucketName, String targetPath, File localFile) {
-        this.objectStorageService.download(bucketName, targetPath, localFile);
+    public boolean download(String dsKey, String bucketName, String targetPath, File localFile) {
+        return this.objectStorageService.download(bucketName, targetPath, localFile);
     }
 
     @Override

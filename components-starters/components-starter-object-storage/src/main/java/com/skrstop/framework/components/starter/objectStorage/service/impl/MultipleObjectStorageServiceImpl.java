@@ -68,7 +68,6 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
         return objectStorageService;
     }
 
-
     @Override
     public String getBasePath() {
         return this.getObjectStorageService().getBasePath();
@@ -77,6 +76,12 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public Object getClient() {
         return this.getObjectStorageService().getClient();
+    }
+
+    @Override
+    public String getDefaultBucketName() {
+        ObjectStorageService objectStorageService = this.getObjectStorageService();
+        return objectStorageService.getDefaultBucketName();
     }
 
     @Override
@@ -95,13 +100,13 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public void download(String bucketName, String targetPath, String localPath) {
-        this.getObjectStorageService().download(bucketName, targetPath, localPath);
+    public boolean download(String bucketName, String targetPath, String localPath) {
+        return this.getObjectStorageService().download(bucketName, targetPath, localPath);
     }
 
     @Override
-    public void download(String bucketName, String targetPath, File localFile) {
-        this.getObjectStorageService().download(bucketName, targetPath, localFile);
+    public boolean download(String bucketName, String targetPath, File localFile) {
+        return this.getObjectStorageService().download(bucketName, targetPath, localFile);
     }
 
     @Override
