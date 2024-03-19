@@ -1,12 +1,12 @@
 package com.skrstop.framework.components.starter.redis.configuration.redissonDynamic;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
 import com.skrstop.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
 import com.skrstop.framework.components.starter.common.proxy.DynamicServiceAdvisor;
 import com.skrstop.framework.components.starter.redis.annotation.DSRedisson;
 import com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.aop.DynamicAnnotationInterceptor;
 import com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.client.DynamicClientInterceptor;
 import com.skrstop.framework.components.starter.redis.constant.GlobalConfigConst;
-import com.skrstop.framework.components.starter.redis.selector.DsSelector;
 import com.skrstop.framework.components.starter.redis.service.impl.DynamicAopRedissonClient;
 import com.skrstop.framework.components.starter.redis.service.impl.DynamicRedissonClient;
 import org.redisson.api.RedissonClient;

@@ -1,12 +1,12 @@
 package com.skrstop.framework.components.starter.objectStorage.configuration.dynamic;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
+import com.skrstop.framework.components.starter.common.dsSelector.DsSpelExpressionSelector;
 import com.skrstop.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
 import com.skrstop.framework.components.starter.common.proxy.DynamicServiceAdvisor;
 import com.skrstop.framework.components.starter.objectStorage.annotation.DSObjectStorage;
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.aop.DynamicAnnotationInterceptor;
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.service.DynamicServiceInterceptor;
-import com.skrstop.framework.components.starter.objectStorage.selector.DsSelector;
-import com.skrstop.framework.components.starter.objectStorage.selector.DsSpelExpressionSelector;
 import com.skrstop.framework.components.starter.objectStorage.service.DynamicObjectStorageService;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.starter.objectStorage.service.impl.DynamicObjectStorageServiceImpl;

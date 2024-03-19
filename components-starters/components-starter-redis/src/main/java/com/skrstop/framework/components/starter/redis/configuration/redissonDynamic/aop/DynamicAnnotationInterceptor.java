@@ -1,10 +1,10 @@
 package com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.aop;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
 import com.skrstop.framework.components.starter.common.util.AnnoFindUtil;
 import com.skrstop.framework.components.starter.redis.annotation.DSRedisson;
 import com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonContextHolder;
 import com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonProperties;
-import com.skrstop.framework.components.starter.redis.selector.DsSelector;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

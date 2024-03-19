@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.redis.selector;
+package com.skrstop.framework.components.starter.common.dsSelector;
 
 import org.aopalliance.intercept.MethodInvocation;
 
