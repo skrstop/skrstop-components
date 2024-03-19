@@ -81,11 +81,18 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     public boolean upload(String bucketName, String targetPath, InputStream inputStream) {
         targetPath = basePath + targetPath;
         String fileName = FileUtil.getName(targetPath);
-        try (inputStream) {
+        try {
             return this.ftpClient.upload(targetPath, fileName, inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+            }
         }
+        return false;
     }
 
     @Override

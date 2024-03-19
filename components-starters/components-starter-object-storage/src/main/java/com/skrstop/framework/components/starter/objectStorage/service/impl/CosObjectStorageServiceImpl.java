@@ -138,13 +138,19 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     public boolean upload(String bucketName, String targetPath, InputStream inputStream) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
-        try (inputStream) {
+        try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             Upload upload = this.transferManager.upload(bucketName, targetPath, inputStream, objectMetadata);
             upload.waitForUploadResult();
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
         }
         return false;
     }
