@@ -41,6 +41,10 @@ public class ProcessorContext {
         return (List<T>) getProcessors(containerName, assertParam, false);
     }
 
+    public static <T> List<T> getProcessorsWithoutDefault(Object assertParam, Class<T> cls) {
+        return (List<T>) getProcessorsWithoutDefault(null, assertParam, cls);
+    }
+
     /**
      * 返回指定类型的处理器, 包含默认处理器
      *
@@ -53,6 +57,10 @@ public class ProcessorContext {
      */
     public static <T> List<T> getProcessors(String containerName, Object assertParam, Class<T> cls) {
         return (List<T>) getProcessors(containerName, assertParam, true);
+    }
+
+    public static <T> List<T> getProcessors(Object assertParam, Class<T> cls) {
+        return (List<T>) getProcessors(null, assertParam, cls);
     }
 
     /**
@@ -93,6 +101,10 @@ public class ProcessorContext {
         return result.stream().map(ProcessorEntity::getProcessor).collect(Collectors.toList());
     }
 
+    public static List<Object> getProcessors(Object assertParam, boolean containDefault) {
+        return getProcessors(null, assertParam, containDefault);
+    }
+
     /**
      * 获取第一顺序的处理器，不包含默认处理器
      *
@@ -105,6 +117,10 @@ public class ProcessorContext {
         return (T) getProcessorOne(containerName, assertParam, false);
     }
 
+    public static <T> T getProcessorOneWithoutDefault(Object assertParam, Class<T> cls) {
+        return (T) getProcessorOneWithoutDefault(null, assertParam, cls);
+    }
+
     /**
      * 获取第一顺序的处理器，包含默认处理器
      *
@@ -115,6 +131,10 @@ public class ProcessorContext {
      */
     public static <T> T getProcessorOne(String containerName, Object assertParam, Class<T> cls) {
         return (T) getProcessorOne(containerName, assertParam, true);
+    }
+
+    public static <T> T getProcessorOne(Object assertParam, Class<T> cls) {
+        return (T) getProcessorOne(null, assertParam, cls);
     }
 
     /**
@@ -158,6 +178,10 @@ public class ProcessorContext {
         return result.getProcessor();
     }
 
+    public static Object getProcessorOne(Object assertParam, boolean containDefault) {
+        return getProcessorOne(null, assertParam, containDefault);
+    }
+
     /**
      * 返回指定类型的处理器
      *
@@ -168,6 +192,10 @@ public class ProcessorContext {
      */
     public static <T> T getProcessorOne(String containerName, String key, Class<T> cls) {
         return (T) getProcessorOne(containerName, key);
+    }
+
+    public static <T> T getProcessorOne(String key, Class<T> cls) {
+        return (T) getProcessorOne(null, key, cls);
     }
 
     /**
@@ -192,6 +220,10 @@ public class ProcessorContext {
         return processorEntity.getProcessor();
     }
 
+    public static Object getProcessorOne(String key) {
+        return getProcessorOne(null, key);
+    }
+
 
     /**
      * 获取指定类型的第一顺序默认处理器
@@ -203,6 +235,10 @@ public class ProcessorContext {
      */
     public static <T> T getProcessorOneDefault(String containerName, Object assertParam, Class<T> cls) {
         return (T) getProcessorOneDefault(containerName, assertParam);
+    }
+
+    public static <T> T getProcessorOneDefault(Object assertParam, Class<T> cls) {
+        return (T) getProcessorOneDefault(null, assertParam, cls);
     }
 
     /**
@@ -236,6 +272,10 @@ public class ProcessorContext {
         return result.getProcessor();
     }
 
+    public static Object getProcessorOneDefault(Object assertParam) {
+        return getProcessorOneDefault(null, assertParam);
+    }
+
     /**
      * 获取指定类型的默认处理器
      *
@@ -245,6 +285,10 @@ public class ProcessorContext {
      */
     public static <T> List<T> getProcessorsDefault(String containerName, Object assertParam, Class<T> cls) {
         return (List<T>) getProcessorsDefault(containerName, assertParam);
+    }
+
+    public static <T> List<T> getProcessorsDefault(Object assertParam, Class<T> cls) {
+        return (List<T>) getProcessorsDefault(null, assertParam, cls);
     }
 
     /**
@@ -274,6 +318,10 @@ public class ProcessorContext {
             throw new ProcessorException();
         }
         return result.stream().map(ProcessorEntity::getProcessor).collect(Collectors.toList());
+    }
+
+    public static List<Object> getProcessorsDefault(Object assertParam) {
+        return getProcessorsDefault(null, assertParam);
     }
 
 }
