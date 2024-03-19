@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.objectStorage.selector;
+package com.skrstop.framework.components.starter.common.dsSelector;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

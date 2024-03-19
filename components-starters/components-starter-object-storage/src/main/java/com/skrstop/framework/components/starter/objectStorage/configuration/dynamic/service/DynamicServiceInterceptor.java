@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.service;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicDatasourceContextHolder;
-import com.skrstop.framework.components.starter.objectStorage.selector.DsSelector;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

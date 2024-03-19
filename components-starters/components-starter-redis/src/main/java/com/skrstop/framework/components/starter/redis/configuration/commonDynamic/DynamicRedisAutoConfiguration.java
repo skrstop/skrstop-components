@@ -1,12 +1,12 @@
 package com.skrstop.framework.components.starter.redis.configuration.commonDynamic;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
 import com.skrstop.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
 import com.skrstop.framework.components.starter.common.proxy.DynamicServiceAdvisor;
 import com.skrstop.framework.components.starter.redis.annotation.DSRedis;
 import com.skrstop.framework.components.starter.redis.configuration.commonDynamic.aop.DynamicAnnotationInterceptor;
 import com.skrstop.framework.components.starter.redis.configuration.commonDynamic.service.DynamicServiceInterceptor;
 import com.skrstop.framework.components.starter.redis.constant.GlobalConfigConst;
-import com.skrstop.framework.components.starter.redis.selector.DsSelector;
 import com.skrstop.framework.components.starter.redis.service.DynamicRedisService;
 import com.skrstop.framework.components.starter.redis.service.RedisService;
 import com.skrstop.framework.components.starter.redis.service.impl.DynamicRedisServiceImpl;

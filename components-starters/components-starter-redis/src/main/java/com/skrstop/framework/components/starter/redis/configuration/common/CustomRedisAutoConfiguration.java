@@ -1,13 +1,13 @@
 package com.skrstop.framework.components.starter.redis.configuration.common;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
+import com.skrstop.framework.components.starter.common.dsSelector.DsSpelExpressionSelector;
 import com.skrstop.framework.components.starter.redis.constant.GlobalConfigConst;
 import com.skrstop.framework.components.starter.redis.constant.ValueProcessorConst;
 import com.skrstop.framework.components.starter.redis.filter.BinaryValueFilter;
 import com.skrstop.framework.components.starter.redis.filter.FastjsonValueFilter;
 import com.skrstop.framework.components.starter.redis.filter.StringValueFilter;
 import com.skrstop.framework.components.starter.redis.filter.ValueFilter;
-import com.skrstop.framework.components.starter.redis.selector.DsSelector;
-import com.skrstop.framework.components.starter.redis.selector.DsSpelExpressionSelector;
 import com.skrstop.framework.components.starter.redis.service.DynamicRedisService;
 import com.skrstop.framework.components.starter.redis.service.RedisService;
 import com.skrstop.framework.components.starter.redis.service.impl.DynamicRedisServiceImpl;

@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.redis.configuration.commonDynamic.service;
 
+import com.skrstop.framework.components.starter.common.dsSelector.DsSelector;
 import com.skrstop.framework.components.starter.redis.configuration.commonDynamic.DynamicConnectFactoryContextHolder;
-import com.skrstop.framework.components.starter.redis.selector.DsSelector;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
