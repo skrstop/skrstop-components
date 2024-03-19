@@ -10,7 +10,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /**
- * FtpConfig class
+ * ObjectStorageProperties
  *
  * @author 蒋时华
  * @date 2019/7/2
@@ -20,9 +20,12 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.OBJECT_STORAGE_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class GlobalObjectStorageProperties {
+public class ObjectStorageProperties {
 
     @NestedConfigurationProperty
     private FtpProperties ftp = new FtpProperties();
+
+    @NestedConfigurationProperty
+    private CosProperties cos = new CosProperties();
 
 }

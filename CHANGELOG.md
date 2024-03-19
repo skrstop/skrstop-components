@@ -3,7 +3,9 @@
 ##### 1.2.2.20240314-RELEASE
 
 * fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4
-* feat: 增加磁盘容量检测工具类
+* feat: 增加磁盘容量检测工具类DiskSpaceUtil
+* feat: components-starter-object-storage增加腾讯cos支持
+* feat: components-starter-object-storage增加多数据源支持 @DSObjectStorage
 
 ##### 1.2.1.20231221-RELEASE
 

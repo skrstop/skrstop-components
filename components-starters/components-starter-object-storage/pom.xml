@@ -16,6 +16,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-starter-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-extra</artifactId>
         </dependency>
@@ -30,6 +34,20 @@
         <dependency>
             <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-value</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-util-executor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos-sts_api</artifactId>
+            <version>${cos-sts.version}</version>
         </dependency>
     </dependencies>
 
