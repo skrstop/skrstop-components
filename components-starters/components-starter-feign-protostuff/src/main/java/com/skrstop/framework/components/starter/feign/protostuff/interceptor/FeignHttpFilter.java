@@ -2,7 +2,7 @@ package com.skrstop.framework.components.starter.feign.protostuff.interceptor;
 
 import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.enums.CharSetEnum;
-import com.skrstop.framework.components.util.enums.HttpContentTypeEnum;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class FeignHttpFilter implements Filter {
     private void processProtostuffContentType(ServletRequest servletRequest, ServletResponse servletResponse) {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         if (FeignConst.USE_FEIGN_VALUE.equals(request.getHeader(FeignConst.USE_FEIGN_NAME))) {
-            servletResponse.setContentType(HttpContentTypeEnum.PROTOBUF.getContentType());
+            servletResponse.setContentType(ContentTypeEnum.PROTOBUF.getContentType());
             servletResponse.setCharacterEncoding(CharSetEnum.UTF8.getCharSet());
         }
     }

@@ -11,7 +11,7 @@ import com.skrstop.framework.components.starter.web.exception.core.interceptor.E
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
 import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
-import com.skrstop.framework.components.util.enums.HttpContentTypeEnum;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
@@ -187,10 +187,10 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
         List<String> feignValues = headers.header(FeignConst.USE_FEIGN_NAME);
         List<String> contentTypeValues = headers.header(HttpHeaders.CONTENT_TYPE);
         if (CollectionUtil.isNotEmpty(feignValues)) {
-            contentType = MediaType.parseMediaType(HttpContentTypeEnum.PROTOBUF.getContentType());
+            contentType = MediaType.parseMediaType(ContentTypeEnum.PROTOBUF.getContentType());
         } else if (CollectionUtil.isNotEmpty(contentTypeValues)) {
             String str = contentTypeValues.get(0);
-            if (HttpContentTypeEnum.PROTOBUF.getContentType().equals(str) || MediaType.APPLICATION_JSON_VALUE.equals(str)) {
+            if (ContentTypeEnum.PROTOBUF.getContentType().equals(str) || MediaType.APPLICATION_JSON_VALUE.equals(str)) {
                 contentType = MediaType.parseMediaType(str);
             }
         }

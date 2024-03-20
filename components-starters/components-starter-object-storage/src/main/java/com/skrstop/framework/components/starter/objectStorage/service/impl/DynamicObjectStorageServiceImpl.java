@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.objectStorage.service.impl;
 import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.DynamicObjectStorageService;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,6 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     public DynamicObjectStorageServiceImpl(ObjectStorageService objectStorageService) {
         this.objectStorageService = objectStorageService;
     }
-
 
     @Override
     public String getBasePath(String dsKey) {
@@ -105,8 +105,8 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime) {
-        return this.objectStorageService.getTemporaryAccessSign(bucketName, targetPath, expireSecondTime);
+    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+        return this.objectStorageService.getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
     @Override
