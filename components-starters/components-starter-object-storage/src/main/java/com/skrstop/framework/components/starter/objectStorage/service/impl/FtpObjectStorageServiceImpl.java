@@ -6,6 +6,7 @@ import com.skrstop.framework.components.core.exception.defined.illegal.NotSuppor
 import com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties;
 import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -162,7 +163,7 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public StorageTemplateSign getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime) {
+    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long MaxSize, List<ContentTypeEnum> contentType) {
         throw new NotSupportedException("FTP不支持该操作");
     }
 

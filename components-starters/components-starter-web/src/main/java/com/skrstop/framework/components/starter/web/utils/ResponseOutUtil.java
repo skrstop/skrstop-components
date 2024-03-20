@@ -2,7 +2,7 @@ package com.skrstop.framework.components.starter.web.utils;
 
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.util.enums.CharSetEnum;
-import com.skrstop.framework.components.util.enums.HttpContentTypeEnum;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ import java.nio.charset.Charset;
  */
 public class ResponseOutUtil extends ServletUtil {
     public static String DEFAULT_CHARSET = CharSetEnum.UTF8.toString();
-    public static String DEFAULT_APPLICATION = HttpContentTypeEnum.APPLICATION_JSON_UTF8.toString();
+    public static String DEFAULT_APPLICATION = ContentTypeEnum.APPLICATION_JSON_UTF8.toString();
 
     public static Mono<Void> fluxOut(ServerHttpResponse response, IResult IResult, Class errorCodeCls) throws IOException {
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
@@ -36,8 +36,8 @@ public class ResponseOutUtil extends ServletUtil {
     }
 
     public static Mono<Void> fluxOut(ServerHttpResponse response, IResult IResult, Class errorCodeCls, CharSetEnum charSetEnum,
-                                     HttpContentTypeEnum httpContentTypeEnum) throws IOException {
-        response.getHeaders().setContentType(MediaType.parseMediaType(httpContentTypeEnum.getContentType()));
+                                     ContentTypeEnum contentTypeEnum) throws IOException {
+        response.getHeaders().setContentType(MediaType.parseMediaType(contentTypeEnum.getContentType()));
         response.getHeaders()
                 .setAcceptCharset(CollectionUtil.newArrayList(Charset.forName(charSetEnum.getCharSet())));
         String body = FastJsonUtil.toJson(errorCodeCls);
@@ -55,10 +55,10 @@ public class ResponseOutUtil extends ServletUtil {
     }
 
     public static void out(HttpServletResponse response, IResult IResult, Class errorCodeCls, CharSetEnum charSetEnum,
-                           HttpContentTypeEnum httpContentTypeEnum)
+                           ContentTypeEnum contentTypeEnum)
             throws IOException {
         response.setCharacterEncoding(charSetEnum.toString());
-        response.setContentType(httpContentTypeEnum.toString());
+        response.setContentType(contentTypeEnum.toString());
 
         try (PrintWriter writer = response.getWriter()) {
             writer.print(FastJsonUtil.toJson(errorCodeCls));

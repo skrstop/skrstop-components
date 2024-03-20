@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.objectStorage.service;
 
 import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import java.io.Closeable;
 import java.io.File;
@@ -201,10 +202,91 @@ public interface ObjectStorageService extends Closeable {
      * @param expireSecondTime
      * @return
      */
-    <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime);
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime) {
+        return getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, null, null, null);
+    }
 
     default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime) {
-        return getTemporaryAccessSign(null, targetPath, expireSecondTime);
+        return getTemporaryAccessSign(null, targetPath, expireSecondTime, null, null, null);
     }
+
+    /**
+     * 获取临时访问秘钥, 限制大小
+     *
+     * @param bucketName
+     * @param targetPath
+     * @param expireSecondTime
+     * @param minSize          最小文件大小 单位：kb
+     * @param maxSize          最大文件大小 单位：kb
+     * @return
+     */
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
+        return getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, null);
+    }
+
+    /**
+     * @param targetPath
+     * @param expireSecondTime
+     * @param minSize          最小文件大小 单位：kb
+     * @param maxSize          最大文件大小 单位：kb
+     * @param <T>
+     * @return
+     */
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
+        return getTemporaryAccessSign(null, targetPath, expireSecondTime, minSize, maxSize, null);
+    }
+
+    /**
+     * 获取临时访问秘钥, 限制文件类型
+     *
+     * @param bucketName
+     * @param targetPath
+     * @param expireSecondTime
+     * @return
+     */
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+        return getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, null, null, contentType);
+    }
+
+    /**
+     * @param targetPath
+     * @param expireSecondTime
+     * @param contentType
+     * @param <T>
+     * @return
+     */
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+        return getTemporaryAccessSign(null, targetPath, expireSecondTime, null, null, contentType);
+    }
+
+
+    /**
+     * 获取临时访问秘钥, 限制大小 和 文件类型
+     *
+     * @param bucketName
+     * @param targetPath
+     * @param expireSecondTime
+     * @param minSize          最小文件大小 单位：kb
+     * @param maxSize          最大文件大小 单位：kb
+     * @param contentType
+     * @return
+     */
+    <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime
+            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType);
+
+    /**
+     * @param targetPath
+     * @param expireSecondTime
+     * @param minSize          最小文件大小 单位：kb
+     * @param maxSize          最大文件大小 单位：kb
+     * @param contentType
+     * @param <T>
+     * @return
+     */
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime
+            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+        return getTemporaryAccessSign(null, targetPath, expireSecondTime, minSize, maxSize, contentType);
+    }
+
 
 }

@@ -18,7 +18,7 @@ import com.skrstop.framework.components.starter.web.exception.global.interceptor
 import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
-import com.skrstop.framework.components.util.enums.HttpContentTypeEnum;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
@@ -337,7 +337,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         while (headerNames.hasMoreElements()) {
             String element = headerNames.nextElement();
             if (element.equals(FeignConst.USE_FEIGN_NAME) ||
-                    request.getHeader(element).startsWith(HttpContentTypeEnum.PROTOBUF.getContentType()) ||
+                    request.getHeader(element).startsWith(ContentTypeEnum.PROTOBUF.getContentType()) ||
                     request.getHeader(element).startsWith(MediaType.APPLICATION_JSON_VALUE)) {
                 return;
             }

@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
+import cn.hutool.core.map.MapUtil;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -14,9 +15,13 @@ import com.qcloud.cos.transfer.TransferManager;
 import com.qcloud.cos.transfer.Upload;
 import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
 import com.skrstop.framework.components.starter.objectStorage.entiry.CosStorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.executor.ThreadPoolUtil;
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.DateUtil;
+import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import com.tencent.cloud.CosStsClient;
 import com.tencent.cloud.Response;
@@ -33,6 +38,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * FtpServiceImpl class
@@ -279,7 +285,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public CosStorageTemplateSign getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime) {
+    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         CosStorageTemplateSign sign = new CosStorageTemplateSign();
         try {
@@ -293,11 +299,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             // 换成 bucket 所在地区
             config.put("region", cosProperties.getRegion());
             // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
-            List<String> prefix = new ArrayList<>();
-            prefix.add(targetPath);
-            config.put("allowPrefixes", prefix);
+            config.put("allowPrefixes", CollectionUtil.newArrayList(targetPath));
             // 密钥的权限列表。简单上传和分片需要以下的权限，其他权限列表请看 https://cloud.tencent.com/document/product/436/31923
-            String[] allowActions = new String[]{
+            config.put("allowActions", CollectionUtil.newArrayList(
                     // 简单上传
                     "name/cos:PutObject",
                     "name/cos:PostObject",
@@ -307,15 +311,33 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     "name/cos:ListParts",
                     "name/cos:UploadPart",
                     "name/cos:CompleteMultipartUpload"
-            };
-            config.put("allowActions", allowActions);
+            ));
+            Map<String, Object> policy = new HashMap<>();
+            Map<String, Object> policyCondition = new HashMap<>();
+            policy.put("condition", policyCondition);
+            if (ObjectUtil.isNotNull(minSize)) {
+                // 限制大小
+                policyCondition.put("numeric_greater_than_equal", MapUtil.builder("cos:content-type", minSize * 1024));
+            }
+            if (ObjectUtil.isNotNull(maxSize)) {
+                // 限制大小
+                policyCondition.put("numeric_less_than_equal", MapUtil.builder("cos:content-type", maxSize * 1024));
+            }
+            if (CollectionUtil.isNotEmpty(contentType)) {
+                // 限制类型
+                List<String> contentTypeStrList = contentType.stream().map(ContentTypeEnum::getContentType).collect(Collectors.toList());
+                policyCondition.put("string_like", MapUtil.builder("cos:content-type", contentTypeStrList));
+            }
+            if (MapUtil.isNotEmpty(policyCondition)) {
+                config.put("policy", policy);
+            }
             Response response = CosStsClient.getCredential(config);
             sign.setTmpSecretId(response.credentials.tmpSecretId);
             sign.setTmpSecretKey(response.credentials.tmpSecretKey);
             sign.setSessionToken(response.credentials.sessionToken);
             sign.setExpireSecondTime(expireSecondTime);
             sign.setExpireDateTime(LocalDateTime.now().plusSeconds(expireSecondTime));
-            return sign;
+            return (T) sign;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);

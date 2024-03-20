@@ -2,7 +2,7 @@ package com.skrstop.framework.components.starter.web.utils;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
-import com.skrstop.framework.components.util.enums.HttpContentTypeEnum;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.value.validate.ParameterValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class RequestBeanUtil {
             return FastJsonUtil.toBean(StringPoolConst.EMPTY_JSON, cls);
         }
         HttpServletRequest request = WebUtil.getRequest();
-        if (HttpContentTypeEnum.APPLICATION_JSON_UTF8.getContentType().contains(request.getContentType())) {
+        if (ContentTypeEnum.APPLICATION_JSON_UTF8.getContentType().contains(request.getContentType())) {
             String requestBody = RequestUtil.getRequestBody(request);
             return FastJsonUtil.toBean(requestBody, cls);
         }
