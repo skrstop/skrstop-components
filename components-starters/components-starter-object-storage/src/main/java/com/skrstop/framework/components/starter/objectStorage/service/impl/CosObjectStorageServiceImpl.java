@@ -323,11 +323,11 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             policy.put("condition", policyCondition);
             if (ObjectUtil.isNotNull(minSize)) {
                 // 限制大小
-                policyCondition.put("numeric_greater_than_equal", MapUtil.builder("cos:content-type", minSize * 1024));
+                policyCondition.put("numeric_greater_than_equal", MapUtil.builder("cos:content-length", minSize * 1024));
             }
             if (ObjectUtil.isNotNull(maxSize)) {
                 // 限制大小
-                policyCondition.put("numeric_less_than_equal", MapUtil.builder("cos:content-type", maxSize * 1024));
+                policyCondition.put("numeric_less_than_equal", MapUtil.builder("cos:content-length", maxSize * 1024));
             }
             if (CollectionUtil.isNotEmpty(contentType)) {
                 // 限制类型
