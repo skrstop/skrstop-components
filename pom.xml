@@ -125,7 +125,7 @@
         <checker.version>3.40.0</checker.version>
 
         <!-- oshi -->
-        <oshi.version>6.4.8</oshi.version>
+        <oshi.version>6.5.0</oshi.version>
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
