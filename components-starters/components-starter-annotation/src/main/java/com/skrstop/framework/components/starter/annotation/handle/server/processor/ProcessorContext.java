@@ -186,26 +186,26 @@ public class ProcessorContext {
      * 返回指定类型的处理器
      *
      * @param containerName
-     * @param key
+     * @param name
      * @param cls
      * @return
      */
-    public static <T> T getProcessorOne(String containerName, String key, Class<T> cls) {
-        return (T) getProcessorOne(containerName, key);
+    public static <T> T getProcessorOneByName(String containerName, String name, Class<T> cls) {
+        return (T) getProcessorOneByName(containerName, name);
     }
 
-    public static <T> T getProcessorOne(String key, Class<T> cls) {
-        return (T) getProcessorOne(null, key, cls);
+    public static <T> T getProcessorOneByName(String name, Class<T> cls) {
+        return (T) getProcessorOneByName(null, name, cls);
     }
 
     /**
      * 获取相关处理器
      *
      * @param containerName
-     * @param key
+     * @param name
      * @return
      */
-    public static Object getProcessorOne(String containerName, String key) {
+    public static Object getProcessorOneByName(String containerName, String name) {
         if (StrUtil.isBlank(containerName)) {
             containerName = ProcessorContext.DEFAULT_CONTAINERS_NAME;
         }
@@ -213,15 +213,15 @@ public class ProcessorContext {
         if (ObjectUtil.isNull(processorContainer)) {
             throw new ProcessorException();
         }
-        ProcessorEntity processorEntity = processorContainer.getProcessorEntitiesKey().get(key);
+        ProcessorEntity processorEntity = processorContainer.getProcessorEntitiesKey().get(name);
         if (ObjectUtil.isNull(processorEntity)) {
             throw new ProcessorException();
         }
         return processorEntity.getProcessor();
     }
 
-    public static Object getProcessorOne(String key) {
-        return getProcessorOne(null, key);
+    public static Object getProcessorOneByName(String name) {
+        return getProcessorOneByName(null, name);
     }
 
 
