@@ -339,7 +339,7 @@
         <okhttp-feign.version>11.10</okhttp-feign.version>
         <httpclient.version>4.5.14</httpclient.version>
         <httpclient-feign.version>11.10</httpclient-feign.version>
-        <httpclient5.version>5.2.2</httpclient5.version>
+        <httpclient5.version>5.3.1</httpclient5.version>
         <httpclient5-feign.version>11.10</httpclient5-feign.version>
         <hystrix-feign.version>11.10</hystrix-feign.version>
         <retrofit.version>2.9.0</retrofit.version>
