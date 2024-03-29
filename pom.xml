@@ -337,12 +337,12 @@
         <async-http-client.version>2.12.3</async-http-client.version>
         <mica-http.version>3.1.5.1</mica-http.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <okhttp-feign.version>13.1</okhttp-feign.version>
+        <okhttp-feign.version>13.2.1</okhttp-feign.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <httpclient-feign.version>13.1</httpclient-feign.version>
-        <httpclient5.version>5.2.2</httpclient5.version>
-        <httpclient5-feign.version>13.1</httpclient5-feign.version>
-        <hystrix-feign.version>13.1</hystrix-feign.version>
+        <httpclient-feign.version>13.2.1</httpclient-feign.version>
+        <httpclient5.version>5.3.1</httpclient5.version>
+        <httpclient5-feign.version>13.2.1</httpclient5-feign.version>
+        <hystrix-feign.version>13.2.1</hystrix-feign.version>
         <retrofit.version>2.9.0</retrofit.version>
         <!-- platform-bom -->
         <platform-bom.version>Cairo-SR8</platform-bom.version>

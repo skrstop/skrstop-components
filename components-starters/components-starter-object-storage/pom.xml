@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos-sts_api</artifactId>
-            <version>${cos-sts.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
