@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.database.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.yulichang.base.MPJBaseService;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @param <T>
  * @author 蒋时华
  */
-public interface SuperService<T> extends IService<T> {
+public interface SuperService<T> extends MPJBaseService<T> {
 
     /**
      * 获取操作人id

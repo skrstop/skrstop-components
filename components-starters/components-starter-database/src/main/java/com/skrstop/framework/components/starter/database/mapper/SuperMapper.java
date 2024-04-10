@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.database.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @author 蒋时华
  * @date 2020-06-19 09:30:06
  */
-public interface SuperMapper<T> extends BaseMapper<T> {
+public interface SuperMapper<T> extends MPJBaseMapper<T> {
 
     /**
      * 物理删除

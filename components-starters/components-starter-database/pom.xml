@@ -20,6 +20,10 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.yulichang</groupId>
+            <artifactId>mybatis-plus-join-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring</artifactId>
         </dependency>
