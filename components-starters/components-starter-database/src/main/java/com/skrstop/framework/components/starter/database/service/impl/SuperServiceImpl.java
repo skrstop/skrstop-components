@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.*;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.database.constant.DatabaseConst;
 import com.skrstop.framework.components.starter.database.entity.*;
@@ -42,7 +42,7 @@ import java.util.Objects;
  * @param <T> model
  * @author 蒋时华
  */
-public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends AbstractBaseEntity> extends ServiceImpl<M, T> implements SuperService<T> {
+public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends AbstractBaseEntity> extends MPJBaseServiceImpl<M, T> implements SuperService<T> {
 
     private static final String UPDATE_BY = "update_by";
     private static final String UPDATE_TIME = "update_time";

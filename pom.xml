@@ -141,6 +141,7 @@
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
         <mybatis-plus-starter.version>3.5.4.1</mybatis-plus-starter.version>
+        <mybatis-plus-join.version>1.4.12</mybatis-plus-join.version>
         <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
         <mybatis-fluent.version>1.9.9</mybatis-fluent.version>
@@ -640,6 +641,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yulichang</groupId>
+                <artifactId>mybatis-plus-join-boot-starter</artifactId>
+                <version>${mybatis-plus-join.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
