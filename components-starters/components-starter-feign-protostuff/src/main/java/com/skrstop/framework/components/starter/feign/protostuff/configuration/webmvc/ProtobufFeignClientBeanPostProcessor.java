@@ -13,14 +13,15 @@ import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.cloud.openfeign.FeignClientFactoryBean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Supplier;
 
 /**
  * 在feignclient 上 自动配置 FeignMessageConverterAutoConfiguration protostuff序列化支持配置类
@@ -37,10 +38,21 @@ public class ProtobufFeignClientBeanPostProcessor implements BeanDefinitionRegis
 
         // 扫描有protostuffFeignClient的注解
         String[] beanNamesForAnnotation = ((DefaultListableBeanFactory) registry).getBeanNamesForAnnotation(ProtostuffFeignClient.class);
-        List<String> serviceName = Arrays.asList(beanNamesForAnnotation);
+        List<String> serviceName = CollectionUtil.newArrayList(beanNamesForAnnotation);
         ListIterator<String> iterator = serviceName.listIterator();
         while (iterator.hasNext()) {
-            BeanDefinition beanDefinition = registry.getBeanDefinition(iterator.next());
+            String next = iterator.next();
+            BeanDefinition beanDefinition = registry.getBeanDefinition(next);
+            // 可能是controller继承了feignclient, 需要过滤
+            if (!(beanDefinition instanceof GenericBeanDefinition)) {
+                iterator.remove();
+                continue;
+            }
+            Supplier<?> instanceSupplier = ((GenericBeanDefinition) beanDefinition).getInstanceSupplier();
+            if (ObjectUtil.isNull(instanceSupplier)) {
+                iterator.remove();
+                continue;
+            }
             FeignClientFactoryBean feignClientFactoryBean = (FeignClientFactoryBean) beanDefinition.getAttribute("feignClientsRegistrarFactoryBean");
             if (ObjectUtil.isNull(feignClientFactoryBean)) {
                 Object name = beanDefinition.getPropertyValues().get("name");

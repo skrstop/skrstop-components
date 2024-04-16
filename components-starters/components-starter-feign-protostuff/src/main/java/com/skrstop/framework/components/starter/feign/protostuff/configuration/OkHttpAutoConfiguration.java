@@ -84,7 +84,7 @@ public class OkHttpAutoConfiguration {
                 .followRedirects(followRedirects)
                 .connectionPool(connectionPool)
                 // 自定义请求日志拦截器
-                .addInterceptor(new OkHttpResponseLogInterceptor())
+                .addInterceptor(new OkHttpResponseLogInterceptor(globalHttp2Properties.isLogInfoLevelForRequest()))
                 .protocols(protocols)
                 .build();
 

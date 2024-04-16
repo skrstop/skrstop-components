@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.feign.protostuff.converter;
 
 import com.skrstop.framework.components.util.constant.FeignConst;
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -34,11 +35,9 @@ public class WebMvcProtostuffReturnResponseHandler extends RequestResponseBodyMe
         super(converters, manager);
     }
 
-    public WebMvcProtostuffReturnResponseHandler(List<HttpMessageConverter<?>> converters, List<Object> requestResponseBodyAdvice) {
-        super(converters, requestResponseBodyAdvice);
-    }
-
-    public WebMvcProtostuffReturnResponseHandler(List<HttpMessageConverter<?>> converters, ContentNegotiationManager manager, List<Object> requestResponseBodyAdvice) {
+    public WebMvcProtostuffReturnResponseHandler(List<HttpMessageConverter<?>> converters
+            , ContentNegotiationManager manager
+            , List<Object> requestResponseBodyAdvice) {
         super(converters, manager, requestResponseBodyAdvice);
     }
 
@@ -63,7 +62,7 @@ public class WebMvcProtostuffReturnResponseHandler extends RequestResponseBodyMe
 
         if (inputMessage.getHeaders().containsKey(FeignConst.USE_FEIGN_NAME)) {
             List<String> header = inputMessage.getHeaders().get(FeignConst.USE_FEIGN_NAME);
-            if (header != null && FeignConst.USE_FEIGN_VALUE.equals(header.get(0))) {
+            if (CollectionUtil.isNotEmpty(header) && FeignConst.USE_FEIGN_VALUE.equals(header.get(0))) {
                 MediaType application = new MediaType("application", "x-protobuf", StandardCharsets.UTF_8);
                 outputMessage.getHeaders().setContentType(application);
             }

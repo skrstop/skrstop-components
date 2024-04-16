@@ -58,7 +58,9 @@ public class ProtostuffReturnResponseHandlerAutoConfiguration implements Initial
                 RequestResponseBodyMethodProcessor oldHandle = (RequestResponseBodyMethodProcessor) handler;
                 int index = handlers.indexOf(handler);
                 WebMvcProtostuffReturnResponseHandler webMvcProtostuffReturnResponseHandler =
-                        new WebMvcProtostuffReturnResponseHandler(adapter.getMessageConverters(), this.contentNegotiationManager, responseBodyAdvice);
+                        new WebMvcProtostuffReturnResponseHandler(adapter.getMessageConverters()
+                                , this.contentNegotiationManager
+                                , responseBodyAdvice);
                 handlers.set(index, webMvcProtostuffReturnResponseHandler);
                 handlers.remove(handler);
                 break;
