@@ -37,16 +37,28 @@ public interface RemoteFeignOrigin {
     @GetMapping("/exampleFeign1")
     Result<String> exampleFeign1(@SpringQueryMap HashMap<String, String> params);
 
+    @GetMapping("/exampleFeign1")
+    String exampleFeign1WithoutResult(@SpringQueryMap HashMap<String, String> params);
+
     @GetMapping("/exampleFeign2")
     ListResult<String> exampleFeign2(@RequestParam(name = "list", required = false) List<String> list);
+
+    @GetMapping("/exampleFeign2")
+    String exampleFeign2WithoutResult(@RequestParam(name = "list", required = false) List<String> list);
 
 
     @GetMapping("/exampleFeign3")
     Result<String> exampleFeign3(@RequestParam(name = "id") String id);
 
+    @GetMapping("/exampleFeign3")
+    String exampleFeign3WithoutResult(@RequestParam(name = "id") String id);
+
 
     @PostMapping("/exampleFeign4")
     Result<String> exampleFeign4(@RequestBody HashMap<String, String> params);
+
+    @PostMapping("/exampleFeign4")
+    String exampleFeign4WithoutResult(@RequestBody HashMap<String, String> params);
 
     @Slf4j
     @SuppressWarnings("unchecked")
@@ -58,8 +70,18 @@ public interface RemoteFeignOrigin {
         }
 
         @Override
+        public String exampleFeign1WithoutResult(HashMap<String, String> params) {
+            return null;
+        }
+
+        @Override
         public ListResult<String> exampleFeign2(List<String> list) {
             return ListResult.Builder.error();
+        }
+
+        @Override
+        public String exampleFeign2WithoutResult(List<String> list) {
+            return null;
         }
 
         @Override
@@ -68,8 +90,18 @@ public interface RemoteFeignOrigin {
         }
 
         @Override
+        public String exampleFeign3WithoutResult(String id) {
+            return null;
+        }
+
+        @Override
         public Result<String> exampleFeign4(HashMap<String, String> params) {
             return Result.Builder.error();
+        }
+
+        @Override
+        public String exampleFeign4WithoutResult(HashMap<String, String> params) {
+            return null;
         }
     }
 

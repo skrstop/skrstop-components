@@ -1,8 +1,9 @@
 package com.skrstop.framework.components.starter.feign.protostuff.configuration.webmvc;
 
+import com.skrstop.framework.components.starter.feign.protostuff.configuration.GlobalFeignProperties;
 import com.skrstop.framework.components.starter.feign.protostuff.converter.ProtostuffHttpMessageConverter;
 import com.skrstop.framework.components.starter.feign.protostuff.interceptor.FeignHttpFilter;
-import com.skrstop.framework.components.starter.feign.protostuff.interceptor.FeignMarkInterceptor;
+import com.skrstop.framework.components.starter.feign.protostuff.interceptor.FeignMarkAndHeaderInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import jakarta.servlet.Filter;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
@@ -19,6 +21,7 @@ import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 /**
  * @author 蒋时华
  * @desc feign消息转换配置
@@ -26,11 +29,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@EnableConfigurationProperties(GlobalFeignProperties.class)
 public class FeignMessageConverterAutoConfiguration {
 
     @Bean
-    public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
-        return new ProtostuffHttpMessageConverter();
+    public ProtostuffHttpMessageConverter protobufHttpMessageConverter(GlobalFeignProperties globalFeignProperties) {
+        return new ProtostuffHttpMessageConverter(globalFeignProperties);
     }
 
     @Bean
@@ -55,8 +59,8 @@ public class FeignMessageConverterAutoConfiguration {
     }
 
     @Bean
-    public FeignMarkInterceptor feignMarkInterceptor() {
-        return new FeignMarkInterceptor();
+    public FeignMarkAndHeaderInterceptor feignMarkInterceptor(GlobalFeignProperties globalFeignProperties) {
+        return new FeignMarkAndHeaderInterceptor(globalFeignProperties);
     }
 
 }

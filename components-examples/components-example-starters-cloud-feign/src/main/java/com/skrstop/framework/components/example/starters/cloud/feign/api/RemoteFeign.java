@@ -1,8 +1,11 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.api;
 
+import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.ListResult;
+import com.skrstop.framework.components.core.common.response.PageCollectionResult;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceUtil;
+import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import com.skrstop.framework.components.starter.feign.protostuff.annotation.ProtostuffFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
@@ -28,8 +31,8 @@ import java.util.List;
 // Local version
 @ProtostuffFeignClient(url = "http://localhost:8080"
         , path = "/feign"
-        , name = "server-discovery-name" + "-TestFeign"
-        , contextId = "server-discovery-name" + "-TestFeign"
+        , name = "server-discovery-name" + "-TestFeign-ctrl"
+        , contextId = "server-discovery-name" + "-TestFeign-ctrl"
         , fallbackFactory = RemoteFeign.RemoteFeignClientFallBack.class
         , configuration = {RemoteFeign.AccessClientFallBackFactory.class})
 public interface RemoteFeign {
@@ -40,13 +43,17 @@ public interface RemoteFeign {
     @GetMapping("/exampleFeign2")
     ListResult<String> exampleFeign2(@RequestParam(name = "list", required = false) List<String> list);
 
-
     @GetMapping("/exampleFeign3")
-    Result<String> exampleFeign3(@RequestParam(name = "id") String id);
-
+    Result<DemoInfo> exampleFeign3(@RequestParam(name = "id") String id);
 
     @PostMapping("/exampleFeign4")
-    Result<String> exampleFeign4(@RequestBody HashMap<String, String> params);
+    ListResult<DemoInfo> exampleFeign4(@RequestBody HashMap<String, String> params);
+
+    @PostMapping("/exampleFeign5")
+    PageCollectionResult<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list);
+
+    @PostMapping("/exampleFeign6")
+    DefaultResult exampleFeign6();
 
     @Slf4j
     @SuppressWarnings("unchecked")
@@ -63,13 +70,24 @@ public interface RemoteFeign {
         }
 
         @Override
-        public Result<String> exampleFeign3(String id) {
+        public Result<DemoInfo> exampleFeign3(String id) {
             return Result.Builder.error();
         }
 
+
         @Override
-        public Result<String> exampleFeign4(HashMap<String, String> params) {
-            return Result.Builder.error();
+        public ListResult<DemoInfo> exampleFeign4(HashMap<String, String> params) {
+            return ListResult.Builder.error();
+        }
+
+        @Override
+        public PageCollectionResult<DemoInfo> exampleFeign5(List<String> list) {
+            return PageCollectionResult.Builder.error();
+        }
+
+        @Override
+        public DefaultResult exampleFeign6() {
+            return DefaultResult.Builder.error();
         }
     }
 

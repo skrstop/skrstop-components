@@ -1,7 +1,10 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.controller;
 
+import com.skrstop.framework.components.core.common.response.ListResult;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeign;
+import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeignController;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeignOrigin;
+import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import com.skrstop.framework.components.util.stress.StressStoreUtil;
 import com.skrstop.framework.components.util.stress.result.StressResult;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
@@ -27,20 +30,42 @@ public class LocalController {
     @Autowired
     private RemoteFeign remoteFeign;
     @Autowired
+    private RemoteFeignController remoteFeignController;
+    @Autowired
     private RemoteFeignOrigin remoteFeignOrigin;
 
     @GetMapping("/exampleRemote1")
     public String exampleRemote1() {
-        System.out.println(remoteFeign.exampleFeign1(new HashMap<String, String>() {{
+
+        System.out.println("测试打印：" + remoteFeign.exampleFeign1(new HashMap<String, String>() {{
             put("name", "skrstop");
             put("age", "18");
         }}));
-        System.out.println(remoteFeign.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
-        System.out.println(remoteFeign.exampleFeign3("skrstop"));
-        System.out.println(remoteFeign.exampleFeign4(new HashMap<String, String>() {{
+        System.out.println("测试打印：" + remoteFeign.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
+        System.out.println("测试打印：" + remoteFeign.exampleFeign3("skrstop"));
+        ListResult<DemoInfo> listResult = remoteFeign.exampleFeign4(new HashMap<String, String>() {{
+            put("name", "skrstop");
+            put("age", "18");
+        }});
+        System.out.println("测试打印：" + listResult);
+        System.out.println("测试打印：" + remoteFeign.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
+        System.out.println("测试打印：" + remoteFeign.exampleFeign6());
+
+
+        System.out.println("测试打印：without result");
+        System.out.println("测试打印：" + remoteFeignController.exampleFeign1(new HashMap<String, String>() {{
             put("name", "skrstop");
             put("age", "18");
         }}));
+        System.out.println("测试打印：" + remoteFeignController.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
+        System.out.println("测试打印：" + remoteFeignController.exampleFeign3("skrstop"));
+        System.out.println("测试打印：" + remoteFeignController.exampleFeign4(new HashMap<String, String>() {{
+            put("name", "skrstop");
+            put("age", "18");
+        }}));
+
+        System.out.println("测试打印：" + remoteFeignController.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
+        System.out.println("测试打印：6");
         return "success";
     }
 

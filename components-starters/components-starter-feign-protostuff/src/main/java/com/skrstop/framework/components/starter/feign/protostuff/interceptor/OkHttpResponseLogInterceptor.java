@@ -16,6 +16,12 @@ import java.io.IOException;
 @Slf4j
 public class OkHttpResponseLogInterceptor implements Interceptor {
 
+    private boolean logInfoLevelForRequest = false;
+
+    public OkHttpResponseLogInterceptor(boolean logInfoLevelForRequest) {
+        this.logInfoLevelForRequest = logInfoLevelForRequest;
+    }
+
     /**
      * ˚
      * 这里记录所有，根据实际情况选择合适的日志level
@@ -29,9 +35,17 @@ public class OkHttpResponseLogInterceptor implements Interceptor {
     public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
         try {
-            log.debug("okhttp请求值日志打印: {}", request.toString());
+            if (this.logInfoLevelForRequest) {
+                log.info("okhttp请求值日志打印: {}", request);
+            } else {
+                log.debug("okhttp请求值日志打印: {}", request);
+            }
             Response response = chain.proceed(request);
-            log.debug("okhttp返回值日志打印: {}", response.toString());
+            if (this.logInfoLevelForRequest) {
+                log.info("okhttp返回值日志打印: {}", response);
+            } else {
+                log.debug("okhttp返回值日志打印: {}", response);
+            }
             return response;
         } catch (Exception e) {
             throw e;

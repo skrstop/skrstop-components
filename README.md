@@ -2,6 +2,19 @@
 
 * JDK 17
 
+# maven使用
+
+已上传maven, 请按需使用
+
+```xml
+
+<dependency>
+    <groupId>com.skrstop.framework</groupId>
+    <artifactId>components-xxxx-xxxxxxxx</artifactId>
+    <version>${skrstop.version}</version>
+</dependency>
+```
+
 # 基础工具包
 
 ```

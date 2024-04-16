@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.starter.feign.protostuff.configuration;
 
-import com.skrstop.framework.components.util.serialization.protostuff.ProtostuffUtil;
+import com.skrstop.framework.components.util.serialization.protobuf.ProtostuffUtil;
 import feign.FeignException;
 import feign.Response;
 import feign.codec.DecodeException;

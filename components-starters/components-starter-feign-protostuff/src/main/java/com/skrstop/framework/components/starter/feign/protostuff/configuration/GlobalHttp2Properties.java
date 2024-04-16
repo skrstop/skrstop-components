@@ -21,5 +21,7 @@ public class GlobalHttp2Properties {
 
     /*** 是否开启http2 */
     private boolean enable = true;
+    /*** 输出info级别日志 */
+    private boolean logInfoLevelForRequest = false;
 
 }

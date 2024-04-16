@@ -1,12 +1,15 @@
 package com.skrstop.framework.components.starter.feign.protostuff.configuration;
 
 import com.skrstop.framework.components.starter.feign.protostuff.constant.GlobalConfigConst;
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.util.HashSet;
 
 /**
  * @author 蒋时华
@@ -19,8 +22,36 @@ import org.springframework.core.annotation.Order;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalFeignProperties {
 
-    /*** feign扫描包路径，多个路径逗号分隔，也可以使用@EnableFeignClients */
+    /**
+     * feign扫描包路径，多个路径逗号分隔，也可以使用@EnableFeignClients
+     */
     private String scanPackage;
+    /**
+     * 关闭 自适应删除全局相应格式 功能，默认：false
+     * 即：会根据FeignClient的returnType自动处理,
+     * 如果不使用Result包装, 则只返回response中的data部分，访问失败则返回null
+     * 如果使用Result包装, 则只返回有Result包装的对象
+     * <p>
+     * 注意：如果开启了自适应处理，分页接口则返回 CommonPageData
+     *
+     * @see com.skrstop.framework.components.core.common.response.page.CommonPageData
+     */
+    private Boolean stopAutoRemoveGlobalResponse = false;
 
+    /**
+     * 是否传递请求头，默认：true
+     */
+    private Boolean transferHeader = true;
+
+    /**
+     * 传递请求头时需要过滤的请求头
+     */
+    private HashSet<String> transferHeaderIgnore = CollectionUtil.newHashSet(
+            "accept",
+            "accept-encoding",
+            "accept-language",
+            "content-length",
+            "content-type"
+    );
 
 }
