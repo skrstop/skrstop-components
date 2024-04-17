@@ -10,6 +10,7 @@
 * feat: components-starter-feign-protostuff 增加`入参`支持protostuff序列化
 * feat: components-starter-feign-protostuff 增加FeignClient返回值自适应处理
 * feat: components-starter-feign-protostuff 增加请求头传递
+* feat: components-starter-mongodb 增加多数据源支持
 
 ##### 1.2.1.20231221-RELEASE
 

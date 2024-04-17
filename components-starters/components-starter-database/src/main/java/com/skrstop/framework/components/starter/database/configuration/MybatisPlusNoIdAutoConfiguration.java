@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.github.yulichang.autoconfigure.MybatisPlusJoinProperties;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -22,6 +23,10 @@ import javax.sql.DataSource;
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
 @EnableConfigurationProperties(GlobalDatabaseProperties.class)
 public class MybatisPlusNoIdAutoConfiguration extends MybatisPlusCommonAutoConfiguration {
+
+    public MybatisPlusNoIdAutoConfiguration(MybatisPlusJoinProperties mybatisPlusJoinProperties) {
+        super(mybatisPlusJoinProperties);
+    }
 
     /**
      * 自定义 sqlSessionFactory
