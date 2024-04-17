@@ -14,13 +14,12 @@ public class StressStoreUtilTest {
     public void test() {
         StressResult stressResult = StressStoreUtil.test(10, 10, new StressTask() {
             @Override
-            public Object doTask() throws Exception {
+            public void doTask() throws Exception {
                 /**
                  *  your task code
                  */
                 Thread.sleep(10);
                 System.out.println(100);
-                return null;
             }
         });
         String str = StressStoreUtil.format(stressResult);
@@ -32,13 +31,12 @@ public class StressStoreUtilTest {
         // demo 2
         StressStoreUtil.testAndPrint(10, 10, new StressTask() {
             @Override
-            public Object doTask() throws Exception {
+            public void doTask() throws Exception {
                 /**
                  *  your task code
                  */
                 Thread.sleep(10);
                 System.out.println(100);
-                return null;
             }
         });
     }

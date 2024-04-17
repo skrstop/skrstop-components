@@ -45,7 +45,7 @@ public enum ContentTypeEnum {
     TEXT_MARKDOWN("text/markdown"),
     TEXT_PLAIN("text/plain"),
     TEXT_XML("text/xml"),
-    PROTOBUF("application/x-protobuf"),
+    PROTOBUF("application/x-protobuf;charset=UTF-8"),
     ;
 
     @Getter

@@ -26,9 +26,12 @@ public class RemoteServerController implements RemoteFeignController {
 
     @Override
     @GetMapping("/exampleFeign1")
-    public String exampleFeign1(@SpringQueryMap HashMap<String, String> params) {
+    public Integer exampleFeign1(@SpringQueryMap DemoInfo params) {
         System.out.println(JSONUtil.toJsonStr(params));
-        return "success 1";
+        if (true) {
+            throw new RuntimeException("test exception");
+        }
+        return 100;
     }
 
     @Override

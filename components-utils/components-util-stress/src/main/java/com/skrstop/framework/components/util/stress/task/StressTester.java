@@ -31,8 +31,8 @@ public class StressTester {
 
     private StressTask emptyTestService = new StressTask() {
         @Override
-        public Object doTask() throws Exception {
-            return null;
+        public void doTask() throws Exception {
+
         }
     };
 

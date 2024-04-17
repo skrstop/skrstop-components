@@ -3,10 +3,11 @@
 ##### 1.2.2.20240416-RELEASE
 
 * fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4
-* feat: 增加磁盘容量检测工具类DiskSpaceUtil
-* feat: components-starter-object-storage增加腾讯cos支持
-* feat: components-starter-object-storage增加多数据源支持 @DSObjectStorage
+* feat: 增加磁盘容量检测工具类 DiskSpaceUtil
+* feat: components-starter-object-storage 增加腾讯cos支持
+* feat: components-starter-object-storage 增加多数据源支持 @DSObjectStorage
 * feat: @SProcessor 支持处理类本身实现断言ProcessorAssert接口
+* feat: components-starter-feign-protostuff 增加`入参`支持protostuff序列化
 * feat: components-starter-feign-protostuff 增加FeignClient返回值自适应处理
 * feat: components-starter-feign-protostuff 增加请求头传递
 

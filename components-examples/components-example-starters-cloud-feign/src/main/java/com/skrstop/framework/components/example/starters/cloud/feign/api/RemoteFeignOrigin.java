@@ -3,6 +3,7 @@ package com.skrstop.framework.components.example.starters.cloud.feign.api;
 import com.skrstop.framework.components.core.common.response.ListResult;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceUtil;
+import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -35,43 +36,24 @@ import java.util.List;
 public interface RemoteFeignOrigin {
 
     @GetMapping("/exampleFeign1")
-    Result<String> exampleFeign1(@SpringQueryMap HashMap<String, String> params);
-
-    @GetMapping("/exampleFeign1")
-    String exampleFeign1WithoutResult(@SpringQueryMap HashMap<String, String> params);
+    Result<String> exampleFeign1(@SpringQueryMap DemoInfo params);
 
     @GetMapping("/exampleFeign2")
     ListResult<String> exampleFeign2(@RequestParam(name = "list", required = false) List<String> list);
 
-    @GetMapping("/exampleFeign2")
-    String exampleFeign2WithoutResult(@RequestParam(name = "list", required = false) List<String> list);
-
-
     @GetMapping("/exampleFeign3")
     Result<String> exampleFeign3(@RequestParam(name = "id") String id);
 
-    @GetMapping("/exampleFeign3")
-    String exampleFeign3WithoutResult(@RequestParam(name = "id") String id);
-
-
     @PostMapping("/exampleFeign4")
     Result<String> exampleFeign4(@RequestBody HashMap<String, String> params);
-
-    @PostMapping("/exampleFeign4")
-    String exampleFeign4WithoutResult(@RequestBody HashMap<String, String> params);
 
     @Slf4j
     @SuppressWarnings("unchecked")
     class RemoteFeignClientFallBack implements RemoteFeignOrigin {
 
         @Override
-        public Result<String> exampleFeign1(HashMap<String, String> params) {
+        public Result<String> exampleFeign1(DemoInfo params) {
             return Result.Builder.error();
-        }
-
-        @Override
-        public String exampleFeign1WithoutResult(HashMap<String, String> params) {
-            return null;
         }
 
         @Override
@@ -79,30 +61,18 @@ public interface RemoteFeignOrigin {
             return ListResult.Builder.error();
         }
 
-        @Override
-        public String exampleFeign2WithoutResult(List<String> list) {
-            return null;
-        }
 
         @Override
         public Result<String> exampleFeign3(String id) {
             return Result.Builder.error();
         }
 
-        @Override
-        public String exampleFeign3WithoutResult(String id) {
-            return null;
-        }
 
         @Override
         public Result<String> exampleFeign4(HashMap<String, String> params) {
             return Result.Builder.error();
         }
 
-        @Override
-        public String exampleFeign4WithoutResult(HashMap<String, String> params) {
-            return null;
-        }
     }
 
     @Slf4j

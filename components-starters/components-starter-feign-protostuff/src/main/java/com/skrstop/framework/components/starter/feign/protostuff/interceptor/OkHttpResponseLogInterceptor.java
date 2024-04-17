@@ -35,19 +35,24 @@ public class OkHttpResponseLogInterceptor implements Interceptor {
     public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
         try {
-            if (this.logInfoLevelForRequest) {
-                log.info("okhttp请求值日志打印: {}", request);
-            } else {
-                log.debug("okhttp请求值日志打印: {}", request);
-            }
             Response response = chain.proceed(request);
             if (this.logInfoLevelForRequest) {
-                log.info("okhttp返回值日志打印: {}", response);
+                if (response.isSuccessful()) {
+                    log.info("okhttp请求日志打印, request: {}, response: {}", request, response);
+                } else {
+                    log.error("okhttp请求日志打印, request: {}, response: {}", request, response);
+                }
             } else {
-                log.debug("okhttp返回值日志打印: {}", response);
+                if (response.isSuccessful()) {
+                    log.debug("okhttp请求日志打印, request: {}, response: {}", request, response);
+                } else {
+                    log.error("okhttp请求日志打印, request: {}, response: {}", request, response);
+                }
             }
             return response;
         } catch (Exception e) {
+            log.error("okhttp请求异常: {}, request: {}", e.getMessage(), request);
+            log.error(e.getMessage(), e);
             throw e;
         }
     }

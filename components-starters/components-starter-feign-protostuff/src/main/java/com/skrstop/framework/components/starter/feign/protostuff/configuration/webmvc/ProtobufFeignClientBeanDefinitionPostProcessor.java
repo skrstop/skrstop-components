@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 @Configuration
 @Slf4j
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class ProtobufFeignClientBeanPostProcessor implements BeanDefinitionRegistryPostProcessor {
+public class ProtobufFeignClientBeanDefinitionPostProcessor implements BeanDefinitionRegistryPostProcessor {
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 
@@ -73,6 +73,7 @@ public class ProtobufFeignClientBeanPostProcessor implements BeanDefinitionRegis
                 iterator.set(StrUtil.blankToDefault(contextId, name) + ".FeignClientSpecification");
             }
         }
+
         // 自动配置protostuff 配置类
         serviceName.forEach(beanDefinitionName -> {
             BeanDefinition beanDefinition = registry.getBeanDefinition(beanDefinitionName);

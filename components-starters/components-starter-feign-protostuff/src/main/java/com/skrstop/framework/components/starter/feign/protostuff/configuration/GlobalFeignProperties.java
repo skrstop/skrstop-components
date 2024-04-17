@@ -33,10 +33,17 @@ public class GlobalFeignProperties {
      * 如果使用Result包装, 则只返回有Result包装的对象
      * <p>
      * 注意：如果开启了自适应处理，分页接口则返回 CommonPageData
+     * 注意：此参数为客户端配置，服务端配置可在starter-web中关闭 useFeignSupport 可实现服务端不返回包装格式
+     * 当服务端关闭userFeignSupport时，客户端需要开启此参数，否则将类型转换错误，导致报错
      *
      * @see com.skrstop.framework.components.core.common.response.page.CommonPageData
      */
-    private Boolean stopAutoRemoveGlobalResponse = false;
+    private boolean stopAutoRemoveGlobalResponse = false;
+
+    /**
+     * 是否开启全局自适应相应格式的错误日志，默认：true
+     */
+    private boolean logErrorAutoRemoveGlobalResponse = true;
 
     /**
      * 是否传递请求头，默认：true

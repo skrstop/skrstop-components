@@ -7,5 +7,5 @@ package com.skrstop.framework.components.util.stress.task;
  * @date 2018-02-15
  **/
 public interface StressTask {
-    Object doTask() throws Exception;
+    void doTask() throws Exception;
 }

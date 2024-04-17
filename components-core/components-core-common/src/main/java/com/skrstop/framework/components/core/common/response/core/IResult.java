@@ -51,4 +51,9 @@ public interface IResult extends Serializable {
         return CommonResultCode.SUCCESS.getCode().equals(this.getCode());
     }
 
+    @Transient
+    default boolean isFailed() {
+        return !isSuccess();
+    }
+
 }

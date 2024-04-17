@@ -1,10 +1,16 @@
 package com.skrstop.framework.components.starter.feign.protostuff.converter;
 
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.skrstop.framework.components.core.common.response.*;
 import com.skrstop.framework.components.core.common.response.core.IDataResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.core.common.response.page.CommonPageData;
 import com.skrstop.framework.components.starter.feign.protostuff.configuration.GlobalFeignProperties;
+import com.skrstop.framework.components.starter.feign.protostuff.configuration.interceptor.DynamicFeignClientMethodContextHolder;
+import com.skrstop.framework.components.starter.spring.support.bean.SpringUtil;
+import com.skrstop.framework.components.starter.web.configuration.GlobalResponseProperties;
+import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.serialization.protobuf.ProtostuffUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpInputMessage;
@@ -15,7 +21,10 @@ import org.springframework.http.converter.GenericHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -32,14 +41,21 @@ import java.util.*;
 public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter<Object>
         implements GenericHttpMessageConverter<Object> {
 
-    public static final MediaType PROTOBUF_MEDIA_TYPE = new MediaType("application", "x-protobuf",
-            StandardCharsets.UTF_8);
+    public static final MediaType PROTOBUF_MEDIA_TYPE = new MediaType("application", "x-protobuf", StandardCharsets.UTF_8);
     private GlobalFeignProperties globalFeignProperties;
+    private boolean webResponseFeignSupport = true;
 
     public ProtostuffHttpMessageConverter(GlobalFeignProperties globalFeignProperties) {
 //		super(PROTOBUF_MEDIA_TYPE, MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML);
         super(PROTOBUF_MEDIA_TYPE);
         this.globalFeignProperties = globalFeignProperties;
+        try {
+            GlobalResponseProperties globalResponseProperties = SpringUtil.getBean(GlobalResponseProperties.class);
+            webResponseFeignSupport = globalResponseProperties.isSupportFeign();
+        } catch (Exception | Error e) {
+            // 未使用starter-web包，无法使用自适应类型转换
+            webResponseFeignSupport = false;
+        }
     }
 
 
@@ -60,7 +76,8 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
 
     @Override
     public boolean canRead(Type type, Class<?> contextClass, MediaType mediaType) {
-        return mediaType != null && PROTOBUF_MEDIA_TYPE.isCompatibleWith(mediaType);
+        boolean feignProtobufType = mediaType != null && PROTOBUF_MEDIA_TYPE.isCompatibleWith(mediaType);
+        return feignProtobufType || this.isUseFign();
     }
 
     @Override
@@ -74,10 +91,21 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         } else {
             c = (Class<?>) type;
         }
-        if (globalFeignProperties.getStopAutoRemoveGlobalResponse()) {
-            // 关闭自动类型处理
-            returnValue = ProtostuffUtil.deserialize(inputMessage.getBody(), c);
-            return returnValue;
+        if (ObjectUtil.isNotNull(contextClass)) {
+            // 可能是controller
+            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
+        }
+        // 关闭自动类型处理
+        if (globalFeignProperties.isStopAutoRemoveGlobalResponse()) {
+            if (!IResult.class.isAssignableFrom(c)) {
+                log.error("当前已禁用自动类型转换，请查看是否设置了：skrstop.feign.config.stop-auto-remove-global-response = true 或 使用IResult类型接收数据");
+                return ProtostuffUtil.deserialize(inputMessage.getBody(), Result.class);
+            }
+            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
+        }
+        if (!webResponseFeignSupport) {
+            log.error("当前web已禁用feign包装支持，请查看是否设置了：skrstop.response.config.support-feign = false");
+            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
         }
         // 自动类型转换
         if (IResult.class.isAssignableFrom(c)) {
@@ -115,12 +143,26 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         } else {
             deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), Result.class);
         }
+        if (deserialize.isFailed() && globalFeignProperties.isLogErrorAutoRemoveGlobalResponse()) {
+            log.error("feign调用失败, 错误响应：{}", deserialize);
+        }
         return deserialize.getData();
     }
 
     @Override
     public boolean canWrite(Type type, Class<?> clazz, MediaType mediaType) {
-        return mediaType != null && PROTOBUF_MEDIA_TYPE.isCompatibleWith(mediaType);
+        boolean feignProtobufType = mediaType != null && PROTOBUF_MEDIA_TYPE.isCompatibleWith(mediaType);
+        return feignProtobufType || this.isUseFign() || DynamicFeignClientMethodContextHolder.peek();
+    }
+
+    private boolean isUseFign() {
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+            String header = request.getHeader(FeignConst.USE_FEIGN_NAME);
+            return BooleanUtil.toBoolean(header);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

@@ -195,7 +195,7 @@ public class AnnoFindUtil {
         // 如果不是代理类, 从当前类开始, 不断的找父类的声明
         if (!Proxy.isProxyClass(targetClass)) {
             Class<?> currentClass = targetClass;
-            while (currentClass != Object.class) {
+            while (currentClass != null && currentClass != Object.class) {
                 Annotation findAnno = AnnotatedElementUtils.findMergedAnnotation(currentClass, annotation);
                 if (findAnno != null) {
                     return findAnno;
