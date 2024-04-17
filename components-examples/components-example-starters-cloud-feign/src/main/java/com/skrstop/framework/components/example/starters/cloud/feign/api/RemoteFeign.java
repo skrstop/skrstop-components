@@ -38,7 +38,7 @@ import java.util.List;
 public interface RemoteFeign {
 
     @GetMapping("/exampleFeign1")
-    Result<String> exampleFeign1(@SpringQueryMap HashMap<String, String> params);
+    Result<Integer> exampleFeign1(@SpringQueryMap DemoInfo params);
 
     @GetMapping("/exampleFeign2")
     ListResult<String> exampleFeign2(@RequestParam(name = "list", required = false) List<String> list);
@@ -60,7 +60,7 @@ public interface RemoteFeign {
     class RemoteFeignClientFallBack implements RemoteFeign {
 
         @Override
-        public Result<String> exampleFeign1(HashMap<String, String> params) {
+        public Result<Integer> exampleFeign1(DemoInfo params) {
             return Result.Builder.error();
         }
 

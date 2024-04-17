@@ -4,5 +4,6 @@ com.skrstop.framework.components.starter.feign.protostuff.configuration.webmvc.P
 com.skrstop.framework.components.starter.feign.protostuff.configuration.Http2UndertowAutoConfiguration
 com.skrstop.framework.components.starter.feign.protostuff.configuration.Http2TomcatAutoConfiguration
 com.skrstop.framework.components.starter.feign.protostuff.configuration.OkHttpAutoConfiguration
-com.skrstop.framework.components.starter.feign.protostuff.configuration.webmvc.ProtobufFeignClientBeanPostProcessor
+com.skrstop.framework.components.starter.feign.protostuff.configuration.webmvc.ProtobufFeignClientBeanDefinitionPostProcessor
+com.skrstop.framework.components.starter.feign.protostuff.configuration.webmvc.ProtobufFeignClientBeanFactoryPostProcessor
 com.skrstop.framework.components.starter.feign.protostuff.configuration.FeignCustomAutoConfiguration

@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.feign.protostuff.interceptor;
 import com.skrstop.framework.components.starter.feign.protostuff.annotation.ProtostuffFeignClient;
 import com.skrstop.framework.components.starter.feign.protostuff.configuration.GlobalFeignProperties;
 import com.skrstop.framework.components.util.constant.FeignConst;
+import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import feign.RequestInterceptor;
@@ -51,6 +52,7 @@ public class FeignMarkAndHeaderInterceptor implements RequestInterceptor {
                 // 添加feignMark 标记为protostuff
                 template.header(FeignConst.USE_FEIGN_NAME, FeignConst.USE_FEIGN_VALUE);
                 template.header(FeignConst.FEIGN_PROTOCOL_NAME, FeignConst.FEIGN_PROTOCOL_VALUE_PROTOSTUFF);
+                template.header("Content-Type", ContentTypeEnum.PROTOBUF.getContentType());
             }
             // 请求头传递
             if (globalFeignProperties.getTransferHeader()) {
