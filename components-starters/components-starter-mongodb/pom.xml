@@ -42,6 +42,11 @@
             <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-constant</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-starter-common</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

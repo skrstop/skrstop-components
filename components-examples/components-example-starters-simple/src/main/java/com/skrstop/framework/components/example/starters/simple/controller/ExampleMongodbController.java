@@ -6,6 +6,7 @@ import com.skrstop.framework.components.example.starters.simple.entity.mongo.Exa
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
 import com.skrstop.framework.components.example.starters.simple.service.Example1MongoService;
 import com.skrstop.framework.components.example.starters.simple.service.Example2MongoService;
+import com.skrstop.framework.components.starter.mongodb.configuration.dynamic.DynamicMongoContextHolder;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.lambda.LambdaUtil;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author 蒋时华
@@ -80,7 +82,7 @@ public class ExampleMongodbController {
      */
     @GetMapping("/exampleMongodb2")
     public Example2Mongo exampleMongodb2() {
-        return example2MongoService.findById(1731581202680385536L);
+        return example2MongoService.findById(1734451410227040256L);
     }
 
     /**
@@ -91,13 +93,13 @@ public class ExampleMongodbController {
     @GetMapping("/exampleMongodb3")
     public Example2Mongo exampleMongodb3() {
         Query<Example2Mongo> query = example2MongoService.find(CollectionUtil.newArrayList(
-                Filters.eq(LambdaUtil.convertToFieldName(Example2Mongo::getId), 1731581202680385536L)
+                Filters.eq(LambdaUtil.convertToFieldName(Example2Mongo::getId), 1734451410227040256L)
         ));
         example2MongoService.update(query, CollectionUtil.newArrayList(
                 UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValStr), "ddddd")
                 , UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValInt), 9999)
         ));
-        return example2MongoService.findById(1731581202680385536L);
+        return example2MongoService.findById(1734451410227040256L);
     }
 
     /**
@@ -118,15 +120,41 @@ public class ExampleMongodbController {
      */
     @GetMapping("/exampleMongodb5")
     public Example2Mongo exampleMongodb5() {
-        Example2Mongo byId = example2MongoService.findById(1731581202680385536L);
-        byId.setVersion(5L);
+        Example2Mongo byId = example2MongoService.findById(1734451410227040256L);
+//        byId.setVersion(1000L);
         example2MongoService.updateWithVersion(byId.getVersion()
-                , CollectionUtil.newArrayList(Filters.eq(LambdaUtil.convertToFieldName(Example2Mongo::getId), 1731581202680385536L))
+                , CollectionUtil.newArrayList(Filters.eq(LambdaUtil.convertToFieldName(Example2Mongo::getId), 1734451410227040256L))
                 , CollectionUtil.newArrayList(
                         UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValStr), "111ddddd")
                         , UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValInt), 11119999)
                 ));
-        return example2MongoService.findById(1731581202680385536L);
+        return example2MongoService.findById(1734451410227040256L);
+    }
+
+
+    /**
+     * mongo 多数据源
+     *
+     * @return
+     */
+    @GetMapping("/exampleMongodbMulti1")
+    public List<Object> exampleMongodbMulti1() {
+        example1MongoService.saveMaster("aaaaaaa111111");
+        example1MongoService.saveSlave("bbbbbbb111111");
+        Example1Mongo res1 = example1MongoService.findById("aaaaaaa111111");
+        DynamicMongoContextHolder.push("slave");
+        Example1Mongo res2 = example1MongoService.findById("bbbbbbb111111");
+        DynamicMongoContextHolder.poll();
+
+
+        example2MongoService.saveMaster(11111111L);
+        example2MongoService.saveSlave(22222222L);
+        Example2Mongo res3 = example2MongoService.findById(11111111L);
+        DynamicMongoContextHolder.push("slave");
+        Example2Mongo res4 = example2MongoService.findById(22222222L);
+        DynamicMongoContextHolder.poll();
+
+        return CollectionUtil.newArrayList(res1, res2, res3, res4);
     }
 
 }
