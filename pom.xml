@@ -3,14 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zoe.framework</groupId>
-    <artifactId>zoe-components</artifactId>
+    <groupId>com.skrstop.framework</groupId>
+    <artifactId>components</artifactId>
     <packaging>pom</packaging>
     <version>${framework.components.revision}</version>
 
     <organization>
-        <name>Zoe Components</name>
-        <url>https://blog.jiangsh.fun/</url>
+        <name>skrstop components</name>
+        <url>https://skstop.com/</url>
     </organization>
 
     <modules>
@@ -22,9 +22,10 @@
         <module>components-examples</module>
     </modules>
 
-    <name>Zoe Mix Micro-service Components :: parent</name>
-    <description>🏗 Zoe Mix Micro-service Components Parent</description>
+    <name>skrstop mix micro service components :: parent</name>
+    <description>spring boot components to minimize extra code and unified package version</description>
     <inceptionYear>2020</inceptionYear>
+    <url>https://github.com/skrstop/skrstop-components</url>
 
     <repositories>
         <repository>
@@ -45,10 +46,54 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-snapshots</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-releases</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <prerequisites>
+        <!-- min version maven -->
+        <maven>3.2.5</maven>
+    </prerequisites>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://choosealicense.com/licenses/mit/</url>
+            <distribution>manual</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/skrstop/skrstop-components</url>
+        <connection>https://github.com/skrstop/skrstop-components.git</connection>
+        <developerConnection>https://github.com/skrstop/skrstop-components.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>skrstop</id>
+            <name>skrstop</name>
+            <email>4086824@qq.com</email>
+            <roles>
+                <role>Architect</role>
+                <role>Project Manager</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <!-- 项目版本 -->
-        <framework.components.revision>1.2.4.20231128-RELEASE</framework.components.revision>
-        <java.version>1.8</java.version>
+        <framework.components.revision>1.3.2.20240416-RELEASE</framework.components.revision>
+        <java.version>17</java.version>
+        <release.id>sonatype</release.id>
 
         <!-- Deploy Properties -->
         <maven.deploy.skip>false</maven.deploy.skip>
@@ -56,8 +101,8 @@
         <!-- base properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <resource.delimiter>@</resource.delimiter>
 
         <!-- metrics -->
@@ -75,34 +120,43 @@
 
         <!-- dependencies  -->
         <lombok.version>1.18.30</lombok.version>
-        <slf4j-api.version>1.7.36</slf4j-api.version>
+        <slf4j-api.version>2.0.9</slf4j-api.version>
         <log4j.version>2.22.0</log4j.version>
         <checker.version>3.40.0</checker.version>
 
         <!-- oshi -->
-        <oshi.version>6.4.8</oshi.version>
+        <oshi.version>6.5.0</oshi.version>
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-boot.version>3.1.6</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <!-- cache -->
         <cache-caffeine.version>3.1.8</cache-caffeine.version>
         <!-- mybatis -->
-        <mybatis.version>3.5.13</mybatis.version>
-        <mybatis-spring.version>2.1.1</mybatis-spring.version>
+        <mybatis.version>3.5.14</mybatis.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <mybatis-starter.version>3.0.3</mybatis-starter.version>
-        <mybatis-plus-starter.version>3.5.3.2</mybatis-plus-starter.version>
-        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
-        <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
+        <mybatis-plus-starter.version>3.5.4.1</mybatis-plus-starter.version>
+        <mybatis-plus-join.version>1.4.12</mybatis-plus-join.version>
+        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
         <mybatis-fluent.version>1.9.9</mybatis-fluent.version>
+        <dynamic-database.version>4.2.0</dynamic-database.version>
+        <hikaricp.version>2.4.13</hikaricp.version>
+        <druid.version>1.2.20</druid.version>
+        <beeCp.version>3.4.2</beeCp.version>
+        <commons-dbcp2.version>2.10.0</commons-dbcp2.version>
+        <p6spy.version>3.9.1</p6spy.version>
+        <seata.version>1.4.2</seata.version>
+        <atomikos.version>4.0.6</atomikos.version>
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
         <!-- disruptor -->
-        <disruptor.version>4.0.0</disruptor.version>
+        <disruptor.version>3.4.4</disruptor.version>
         <!-- pageHelper -->
         <pagehelper.version>6.0.0</pagehelper.version>
         <page-helper-starter.version>2.0.0</page-helper-starter.version>
@@ -144,8 +198,8 @@
         <swagger-annotations.version>2.2.19</swagger-annotations.version>
         <swagger-stater.version>2.0.2.RELEASE</swagger-stater.version>
         <!-- validation -->
-        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
-        <jakarta-validator.version>2.0.2</jakarta-validator.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <jakarta-validator.version>3.0.2</jakarta-validator.version>
         <!-- dubbo -->
         <dubbo.version>3.2.9</dubbo.version>
         <!-- zk client -->
@@ -167,10 +221,11 @@
         <!-- redis -->
         <lettuce.version>6.3.0.RELEASE</lettuce.version>
         <jedis.version>5.1.0</jedis.version>
-        <redisson.version>3.24.3</redisson.version>
+        <redisson.version>3.25.0</redisson.version>
         <!-- mongodb -->
         <mongo-driver.version>3.12.14</mongo-driver.version>
         <mongo-driver-sync.version>4.11.1</mongo-driver-sync.version>
+        <morphia-core.version>2.4.9</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -179,7 +234,7 @@
         <google-guava.version>32.1.3-jre</google-guava.version>
         <error_prone_annotations.version>2.23.0</error_prone_annotations.version>
         <!-- servlet api-->
-        <servlet-api.version>4.0.1</servlet-api.version>
+        <servlet-api.version>6.0.0</servlet-api.version>
         <!-- ali TTL -->
         <ttl.version>2.14.3</ttl.version>
         <!-- 图片处理 -->
@@ -281,14 +336,14 @@
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <!-- http -->
         <async-http-client.version>2.12.3</async-http-client.version>
-        <mica-http.version>2.7.17.1</mica-http.version>
+        <mica-http.version>3.1.5.1</mica-http.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <okhttp-feign.version>11.10</okhttp-feign.version>
+        <okhttp-feign.version>13.2.1</okhttp-feign.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <httpclient-feign.version>11.10</httpclient-feign.version>
-        <httpclient5.version>5.2.2</httpclient5.version>
-        <httpclient5-feign.version>11.10</httpclient5-feign.version>
-        <hystrix-feign.version>11.10</hystrix-feign.version>
+        <httpclient-feign.version>13.2.1</httpclient-feign.version>
+        <httpclient5.version>5.3.1</httpclient5.version>
+        <httpclient5-feign.version>13.2.1</httpclient5-feign.version>
+        <hystrix-feign.version>13.2.1</hystrix-feign.version>
         <retrofit.version>2.9.0</retrofit.version>
         <!-- platform-bom -->
         <platform-bom.version>Cairo-SR8</platform-bom.version>
@@ -323,6 +378,10 @@
         <!-- rule -->
         <liteflow.version>2.11.3</liteflow.version>
 
+        <!-- object storage -->
+        <cos.version>5.6.155</cos.version>
+        <cos-sts.version>3.1.0</cos-sts.version>
+
         <!-- maven plugins -->
         <maven-archetype-plugin.version>3.2.1</maven-archetype-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -348,34 +407,8 @@
         <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.5.0</maven-flatten-plugin.version>
-
+        <maven-nexus-staging-maven-plugin.version>1.6.13</maven-nexus-staging-maven-plugin.version>
     </properties>
-
-    <prerequisites>
-        <!-- min version maven -->
-        <maven>3.2.5</maven>
-    </prerequisites>
-
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://choosealicense.com/licenses/mit/</url>
-            <distribution>manual</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>Zoe</id>
-            <name>Developer</name>
-            <email>developer@zoe.com</email>
-            <roles>
-                <role>Architect</role>
-                <role>Developer</role>
-            </roles>
-            <timezone>+8</timezone>
-        </developer>
-    </developers>
 
     <dependencies>
 
@@ -610,6 +643,11 @@
                 <version>${mybatis-plus-starter.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.github.yulichang</groupId>
+                <artifactId>mybatis-plus-join-boot-starter</artifactId>
+                <version>${mybatis-plus-join.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
                 <version>${mybatis-plus.version}</version>
@@ -634,6 +672,47 @@
                 <artifactId>fluent-mybatis-boot-starter</artifactId>
                 <version>${mybatis-fluent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring</artifactId>
+                <version>${dynamic-database.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP-java7</artifactId>
+                <version>${hikaricp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.atomikos</groupId>
+                <artifactId>transactions-jdbc</artifactId>
+                <version>${atomikos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.chris2018998</groupId>
+                <artifactId>beecp</artifactId>
+                <version>${beeCp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>${commons-dbcp2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-rm-datasource</artifactId>
+                <version>${seata.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>druid</artifactId>
+                        <groupId>com.alibaba</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <!-- pageHelper -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -653,7 +732,7 @@
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
             <!-- dozer -->
@@ -1095,6 +1174,11 @@
                 <artifactId>mongodb-driver-async</artifactId>
                 <version>${mongo-driver.version}</version>
             </dependency>
+            <dependency>
+                <groupId>dev.morphia.morphia</groupId>
+                <artifactId>morphia-core</artifactId>
+                <version>${morphia-core.version}</version>
+            </dependency>
             <!-- lz4 -->
             <dependency>
                 <groupId>org.lz4</groupId>
@@ -1115,8 +1199,8 @@
             </dependency>
             <!-- servlet-api -->
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
             </dependency>
             <!-- ali ttl -->
@@ -1477,11 +1561,6 @@
                 <groupId>org.bytedeco</groupId>
                 <artifactId>modsecurity-platform</artifactId>
                 <version>${modsecurity-platform.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bytedeco</groupId>
-                <artifactId>systems-platform</artifactId>
-                <version>${javacv.version}</version>
             </dependency>
             <!-- Additional dependencies required to use CUDA, cuDNN, NCCL, and TensorRT -->
             <dependency>
@@ -1854,6 +1933,19 @@
                 <artifactId>liteflow-spring-boot-starter</artifactId>
                 <version>${liteflow.version}</version>
             </dependency>
+
+            <!-- object storage -->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${cos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos-sts_api</artifactId>
+                <version>${cos-sts.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -1868,12 +1960,10 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -1881,7 +1971,6 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -1897,7 +1986,23 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalJOptions>
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </additionalJOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -1922,7 +2027,29 @@
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>${release.id}</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -1940,8 +2067,6 @@
                     </executions>
                     <configuration>
                         <mainClass>${start-class}</mainClass>
-                        <!--maven编译时将本地引用的jar包一起打包-->
-                        <includeSystemScope>true</includeSystemScope>
                     </configuration>
                 </plugin>
 
@@ -2019,6 +2144,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${maven-nexus-staging-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -2245,21 +2376,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <distributionManagement>
-        <!-- 配置快照版本发布的仓库-->
-        <snapshotRepository>
-            <id>zoe-prod</id>
-            <name>zoe Snapshots Repository</name>
-            <url>http://prod-nexus.zoe.com:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-        <!-- 配置release版本发布的仓库-->
-        <repository>
-            <id>zoe-prod</id>
-            <name>zoe Releases Repository</name>
-            <url>http://prod-nexus.zoe.com:8081/repository/maven-releases/</url>
-        </repository>
-    </distributionManagement>
 
 
 </project>

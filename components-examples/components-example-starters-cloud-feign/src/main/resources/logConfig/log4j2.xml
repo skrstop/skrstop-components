@@ -112,8 +112,8 @@
         <Logger name="org.springblade" level="DEBUG"/>
         <Logger name="io.seata" level="DEBUG"/>
         <Logger name="org.springblade.core.version" level="INFO"/>
-        <!-- zoe -->
-        <Logger name="com.zoe" level="DEBUG"/>
+        <!-- skrstop -->
+        <Logger name="com.skrstop" level="DEBUG"/>
 
     </Loggers>
 

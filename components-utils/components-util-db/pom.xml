@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>components-utils</artifactId>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>components-util-db</artifactId>
 
-    <name>Zoe Mix Micro-service components-util-db</name>
-    <description>Mixmicro+ Thread Database Util</description>
+    <name>skrstop mix micro service util database</name>
+    <description>skrstop util database</description>
 
     <dependencies>
         <dependency>

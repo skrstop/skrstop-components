@@ -1,1 +1,2 @@
-com.zoe.framework.components.starter.ftp.configuration.FTPServiceAutoConfiguration
+com.skrstop.framework.components.starter.objectStorage.configuration.ObjectStorageServiceAutoConfiguration
+com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageServiceAutoConfiguration

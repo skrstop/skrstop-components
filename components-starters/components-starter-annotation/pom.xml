@@ -4,17 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>components-starters</artifactId>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>components-starter-annotation</artifactId>
 
-    <name>Zoe Mix Micro-service starter annotation</name>
-    <description>Zoe+ Annotation Starter</description>
+    <name>skrstop mix micro service starter annotation</name>
+    <description>skrstop starter annotation</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-starter-common</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -68,11 +72,11 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-value</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-system</artifactId>
         </dependency>
     </dependencies>

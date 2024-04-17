@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.zoe.framework</groupId>
-        <artifactId>zoe-components</artifactId>
+        <groupId>com.skrstop.framework</groupId>
+        <artifactId>components</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
 
     <artifactId>components-examples</artifactId>
     <packaging>pom</packaging>
 
-    <name>Zoe Mix Micro-service Project Examples Module</name>
-    <description>🏗 Zoe Mix Micro-service Examples Module</description>
+    <name>skrstop mix micro service example modules</name>
+    <description>🏗 skrstop mix micro service example modules</description>
 
     <modules>
         <module>components-example-starters-simple</module>
@@ -30,12 +30,12 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-example-starters</artifactId>
                 <version>${parent.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-project</artifactId>
                 <version>${parent.version}</version>
                 <scope>import</scope>
@@ -50,8 +50,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
-        <artifactId>zoe-components</artifactId>
+        <groupId>com.skrstop.framework</groupId>
+        <artifactId>components</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -29,8 +29,8 @@
         <module>components-util-db</module>
     </modules>
 
-    <name>Zoe Mix Micro-service Project Utils Module</name>
-    <description>🏗 Zoe Mix Micro-service Utils Module</description>
+    <name>skrstop mix micro service util modules</name>
+    <description>🏗 skrstop mix micro service util modules</description>
 
     <properties>
 
@@ -38,11 +38,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-core-exception</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-core-annotation</artifactId>
         </dependency>
         <dependency>
@@ -58,7 +58,7 @@
 
             <!-- private package -->
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-core</artifactId>
                 <version>${framework.components.revision}</version>
                 <type>pom</type>
@@ -67,72 +67,72 @@
 
             <!-- self package -->
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-compression</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-event</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-executor</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-http</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-serialization</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-constant</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-extra</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-setting</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-system</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-value</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-crypto</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-media</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-stress</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
-                <groupId>com.zoe.framework</groupId>
+                <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-util-db</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>

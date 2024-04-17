@@ -1,71 +1,267 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.objectStorage.configuration.GlobalObjectStorageProperties",
-      "name": "ftp服务配置",
-      "type": "com.zoe.framework.components.starter.objectStorage.configuration.GlobalObjectStorageProperties"
+      "name": "skrstop.object-storage",
+      "type": "com.skrstop.framework.components.starter.objectStorage.configuration.ObjectStorageProperties",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.ObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos",
+      "type": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.ObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.dynamic",
+      "type": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.aop",
+      "type": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Aop",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.service",
+      "type": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Service",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.ftp",
+      "type": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.ObjectStorageProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.object-storage.ftp.enable",
+      "name": "skrstop.object-storage.cos.access-url-host",
+      "type": "java.lang.String",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos.access-url-protocol",
+      "type": "java.lang.String",
+      "description": "访问域名",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": "https"
+    },
+    {
+      "name": "skrstop.object-storage.cos.base-path",
+      "type": "java.lang.String",
+      "description": "前缀路径",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": "\/"
+    },
+    {
+      "name": "skrstop.object-storage.cos.bucket-name",
+      "type": "java.lang.String",
+      "description": "存储桶名",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos.enable",
       "type": "java.lang.Boolean",
-      "description": "是否开启ftp.",
-      "defaultValue": "true"
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": false
     },
     {
-      "name": "zoe.object-storage.ftp.host",
+      "name": "skrstop.object-storage.cos.minimum-upload-part-size",
+      "type": "java.lang.Long",
+      "description": "分块上传的块大小，单位：字节, 默认：5MB",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos.multipart-copy-part-size",
+      "type": "java.lang.Long",
+      "description": "分块复制的块大小，单位：字节，默认为100MB",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos.multipart-copy-threshold",
+      "type": "java.lang.Long",
+      "description": "大于等于该值则并发的分块复制文件，单位：字节，默认为5GB",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos.multipart-upload-threshold",
+      "type": "java.lang.Long",
+      "description": "大于等于该值则并发的分块上传文件，单位, 默认：5MB",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
+    },
+    {
+      "name": "skrstop.object-storage.cos.region",
       "type": "java.lang.String",
-      "description": "ftp ip."
+      "description": "区域",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
     },
     {
-      "name": "zoe.object-storage.ftp.port",
+      "name": "skrstop.object-storage.cos.request-timeout",
       "type": "java.lang.Integer",
-      "description": "ftp 端口.",
-      "defaultValue": "21"
+      "description": "超时时间，单位：毫秒, 默认：5m",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
     },
     {
-      "name": "zoe.object-storage.ftp.username",
+      "name": "skrstop.object-storage.cos.secret-id",
       "type": "java.lang.String",
-      "description": "用户."
+      "description": "secretId",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
     },
     {
-      "name": "zoe.object-storage.ftp.password",
+      "name": "skrstop.object-storage.cos.secret-key",
       "type": "java.lang.String",
-      "description": "密码."
+      "description": "secretKey",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties"
     },
     {
-      "name": "zoe.object-storage.ftp.base-path",
+      "name": "skrstop.object-storage.cos.thread-keep-alive-time",
+      "type": "java.lang.Integer",
+      "description": "分片并发，限制时间，单位：分钟，默认：10分钟",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": 10
+    },
+    {
+      "name": "skrstop.object-storage.cos.thread-max",
+      "type": "java.lang.Integer",
+      "description": "分片并发，线程最大",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": 32
+    },
+    {
+      "name": "skrstop.object-storage.cos.thread-min",
+      "type": "java.lang.Integer",
+      "description": "分片并发，线程最小",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "skrstop.object-storage.cos.thread-queue",
+      "type": "java.lang.Integer",
+      "description": "分片并发，队列数量，默认：100",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": 100
+    },
+    {
+      "name": "skrstop.object-storage.cos.use-http-ssl",
+      "type": "java.lang.Boolean",
+      "description": "是否使用https",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "skrstop.object-storage.cos.use-multi-thread",
+      "type": "java.lang.Boolean",
+      "description": "是否开启多线程分片操作",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.aop.allowed-public-only",
+      "type": "java.lang.Boolean",
+      "description": "aop allowedPublicOnly",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Aop",
+      "defaultValue": true
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.aop.enabled",
+      "type": "java.lang.Boolean",
+      "description": "开启aop注解",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Aop",
+      "defaultValue": true
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.aop.order",
+      "type": "java.lang.Integer",
+      "description": "aop order",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Aop"
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.cos-data-sources",
+      "type": "java.util.LinkedHashMap<java.lang.String,com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties>",
+      "description": "cos多数据源",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启动态数据源",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.exception-while-not-found",
+      "type": "java.lang.Boolean",
+      "description": "当为true时，未找到指定的数据源时会抛出异常，为false时，则使用默认数据源",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.ftp-data-sources",
+      "type": "java.util.LinkedHashMap<java.lang.String,com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties>",
+      "description": "ftp数据源",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties"
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.primary",
       "type": "java.lang.String",
-      "description": "基本路径."
+      "description": "设置默认数据源",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties",
+      "defaultValue": "default"
     },
     {
-      "name": "zoe.object-storage.ftp.upload-path",
+      "name": "skrstop.object-storage.dynamic.service.enabled",
+      "type": "java.lang.Boolean",
+      "description": "开启 DynamicObjectStorageService",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Service",
+      "defaultValue": true
+    },
+    {
+      "name": "skrstop.object-storage.dynamic.service.order",
+      "type": "java.lang.Integer",
+      "description": "service order",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties$Service"
+    },
+    {
+      "name": "skrstop.object-storage.ftp.base-path",
       "type": "java.lang.String",
-      "description": "上传路径."
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties",
+      "defaultValue": "\/"
     },
     {
-      "name": "zoe.object-storage.ftp.mode",
+      "name": "skrstop.object-storage.ftp.charset",
+      "type": "java.lang.String",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties"
+    },
+    {
+      "name": "skrstop.object-storage.ftp.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "skrstop.object-storage.ftp.host",
+      "type": "java.lang.String",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties"
+    },
+    {
+      "name": "skrstop.object-storage.ftp.mode",
       "type": "cn.hutool.extra.ftp.FtpMode",
-      "description": "ftp模式."
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties"
     },
     {
-      "name": "zoe.object-storage.ftp.charset",
+      "name": "skrstop.object-storage.ftp.password",
       "type": "java.lang.String",
-      "description": "编码.",
-      "defaultValue": "UTF-8"
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties"
+    },
+    {
+      "name": "skrstop.object-storage.ftp.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties",
+      "defaultValue": 21
+    },
+    {
+      "name": "skrstop.object-storage.ftp.username",
+      "type": "java.lang.String",
+      "sourceType": "com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties"
     }
   ],
-  "hints": [
-    {
-      "name": "zoe.object-storage.ftp.charset",
-      "values": [
-        {
-          "value": "UTF-8",
-          "description": "UTF-8"
-        }
-      ]
-    }
-  ]
+  "hints": []
 }
-

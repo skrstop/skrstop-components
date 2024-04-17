@@ -1,28 +1,31 @@
 # 组件
 
-##### 1.2.4.20231128-RELEASE
+##### 1.3.2.20240416-RELEASE
+
+* fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4
+* feat: 增加磁盘容量检测工具类DiskSpaceUtil
+* feat: components-starter-object-storage增加腾讯cos支持
+* feat: components-starter-object-storage增加多数据源支持 @DSObjectStorage
+* feat: @SProcessor 支持处理类本身实现断言ProcessorAssert接口
+* feat: components-starter-feign-protostuff 增加`入参`支持protostuff序列化
+* feat: components-starter-feign-protostuff 增加FeignClient返回值自适应处理
+* feat: components-starter-feign-protostuff 增加请求头传递
+
+##### 1.3.1.20231221-RELEASE
 
 * feat: 升级springboot到2.7.18
 * feat: 升级相关类库版本
+* feat: starter-redis增加多数据源支持 @DSRedis
+* feat: starter-redis redisson支持多数据源 @DSRedisson
+* feat: starter-database 支持多数据源 @DSDatabase
+* feat: starter-database 支持多数据源垮库本地事务 @DSDatabaseTransactional
+* fix: 修复starter-database自定义mapper地址后，无法扫描默认的SuperMapper
 * refactor: 删除多余代码、工具类
-* feat: redis组件增加多数据源支持
+* refactor: 命名修改
+* refactor: core-common的IResult优化
+* refactor: core-exception的Exception优化
+* refactor: starter-annotation优化
+* refactor: starter-web优化
+* refactor: components-starter-compatible-ribbon-to-loadbalancer更名为components-extra-compatible-ribbon-to-loadbalancer
+* refactor: 统一Properties配置类bool类型为boolean
 
-##### 1.2.3.20220414-RELEASE
-
-* feat: 升级springboot到2.6.6
-* feat: 升级springcloud
-* feat: 升级javacv版本
-* feat: 升级相关类库版本
-* refactor: 移除 `validation-api` 迁移至 `jakarta-validator`, 当前仅迁移到2.x版本过渡
-
-##### 1.2.2.20211125-RELEASE
-
-* feat: 增加ProcessUtil工具类
-* perf：mongodb、mysql组件包升级、优化
-* perf：event 组件包升级、优化，增加callback抽象类
-
-##### 1.2.1.20211025-RELEASE
-
-* feat: 升级框架版本
-* refactor：去除ribbon
-* refactor：增加ribbon兼容包

@@ -1,9 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.FeignAutoScanConfiguration,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc.FeignMessageConverterAutoConfiguration,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc.ProtostuffReturnResponseHandlerAutoConfiguration,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.Http2UndertowAutoConfiguration,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.Http2TomcatAutoConfiguration,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.OkHttpAutoConfiguration,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.webmvc.ProtobufFeignClientBeanPostProcessor,\
-    com.zoe.framework.components.starter.feign.protostuff.configuration.FeignCustomAutoConfiguration

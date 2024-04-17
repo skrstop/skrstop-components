@@ -1,6 +1,20 @@
 # 最低jdk版本
 
-* JDK 8
+* JDK 17
+* JDK 17 以下，请使用1.2.x版本
+
+# maven使用
+
+已上传maven, 请按需使用
+
+```xml
+
+<dependency>
+    <groupId>com.skrstop.framework</groupId>
+    <artifactId>components-xxxx-xxxxxxxx</artifactId>
+    <version>${skrstop.version}</version>
+</dependency>
+```
 
 # 基础工具包
 
@@ -21,10 +35,10 @@
 │
 │
 ├── components-extra                                                        #├── 额外模块
-│   └── components-starter-compatible-ribbon-to-loadbalancer                 └───└── ribbon在新版本中已被废弃删除，此模块用于兼容还在用ribbon的项目
 │
 │
 ├── components-starters                                                     #├── starter自动配置模块
+│   ├── starter-common                                                       │   ├── 通用模块
 │   ├── starter-annotation                                                   │   ├── 通用自定义注解
 │   ├── starter-banner                                                       │   ├── banner
 │   ├── starter-database                                                     │   ├── database
@@ -72,6 +86,7 @@
 * mybatis 3.5.14
 * mybatis-plus 3.5.4.1
 * mybatis-fluent 1.9.9
+* redisson 3.25.0
 * druid 1.2.20
 * hutool 5.8.23
 * fastjson 2.0.42
@@ -79,13 +94,12 @@
 * protostuff 1.8.0
 * lettuce 6.3.0.RELEASE
 * jedis 5.1.0
-* morphia 2.4.8
+* morphia 2.4.9
 * javacv 1.5.9
 * ...
 
 # 计划待添加功能
 
-* components-starter-redis 多数据源支持兼容redisson
-* components-starter-database 增加多数据源支持
 * components-starter-mongodb 增加多数据源支持
-* components-starter-object-storage 模块中增加：阿里云oss、华为云obs、腾讯云cos
+* components-starter-object-storage 模块中增加：阿里云oss、华为云obs
+* components-starter-mqtt

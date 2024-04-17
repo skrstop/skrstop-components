@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>components-starters</artifactId>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <version>${framework.components.revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>components-starter-id</artifactId>
 
-    <name>Zoe Mix Micro-service starter id</name>
-    <description>Mixmicro+ ID Starter</description>
+    <name>skrstop mix micro service starter id</name>
+    <description>skrstop starter id</description>
 
     <dependencies>
 

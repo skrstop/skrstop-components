@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <artifactId>components-examples</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,8 +11,8 @@
 
     <artifactId>components-example-starters-simple</artifactId>
 
-    <name>Zoe Mix Micro-service Project Examples Starters Module</name>
-    <description>🏗 Zoe Mix Micro-service Examples Starters Module</description>
+    <name>skrstop mix micro service example simple module</name>
+    <description>🏗 skrstop mix micro service example simple module</description>
 
     <properties>
     </properties>
@@ -37,9 +37,8 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-web</artifactId>
             <exclusions>
                 <exclusion>
@@ -49,23 +48,23 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-annotation</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-port-shift</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-banner</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-database</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-redis</artifactId>
         </dependency>
         <dependency>
@@ -73,11 +72,11 @@
             <artifactId>redisson</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-mongodb</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-id</artifactId>
         </dependency>
         <dependency>
@@ -96,6 +95,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

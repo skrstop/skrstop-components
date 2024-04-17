@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zoe.framework</groupId>
+        <groupId>com.skrstop.framework</groupId>
         <artifactId>components-core</artifactId>
         <version>${framework.components.revision}</version>
     </parent>
@@ -11,13 +11,13 @@
 
     <artifactId>components-core-exception</artifactId>
 
-    <name>Zoe Mix Micro-service Project Core Exception Module</name>
-    <description>🏗 Zoe Mix Micro-service Core Exception Module</description>
+    <name>skrstop mix micro service core exception module</name>
+    <description>🏗 skrstop mix micro service core exception module</description>
 
     <dependencies>
 
         <dependency>
-            <groupId>com.zoe.framework</groupId>
+            <groupId>com.skrstop.framework</groupId>
             <artifactId>components-core-common</artifactId>
         </dependency>
 

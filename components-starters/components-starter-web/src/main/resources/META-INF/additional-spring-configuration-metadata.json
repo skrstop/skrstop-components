@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties",
+      "sourceType": "com.skrstop.framework.components.starter.web.configuration.GlobalResponseProperties",
       "name": "全局返回值处理",
-      "type": "com.zoe.framework.components.starter.web.configuration.GlobalResponseProperties"
+      "type": "com.skrstop.framework.components.starter.web.configuration.GlobalResponseProperties"
     },
     {
-      "sourceType": "com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties",
+      "sourceType": "com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties",
       "name": "全局异常处理",
-      "type": "com.zoe.framework.components.starter.web.configuration.GlobalExceptionProperties"
+      "type": "com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties"
     }
   ],
   "properties": [
@@ -25,57 +25,74 @@
       "defaultValue": "/event/status/up"
     },
     {
-      "name": "zoe.response.config.enable",
+      "name": "skrstop.response.config.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启全局返回值处理.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.response.config.show-null-value",
+      "name": "skrstop.response.config.show-null-value",
       "type": "java.lang.Boolean",
       "description": "是否显示null字段节点.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.response.config.long-to-string",
+      "name": "skrstop.response.config.long-to-string",
       "type": "java.lang.Boolean",
       "description": "long 类型转换成string.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.response.config.support-feign",
+      "name": "skrstop.response.config.support-feign",
       "type": "java.lang.Boolean",
       "description": "使用feign, 是否统一处理.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.response.config.date-time-format",
+      "name": "skrstop.response.config.date-time-format",
+      "type": "java.lang.String",
+      "description": "日期时间格式化.",
+      "defaultValue": "yyyy-MM-dd HH:mm:ss"
+    },
+    {
+      "name": "skrstop.response.config.date-format",
+      "type": "java.lang.String",
+      "description": "日期格式化.",
+      "defaultValue": "yyyy-MM-dd"
+    },
+    {
+      "name": "skrstop.response.config.time-format",
       "type": "java.lang.String",
       "description": "时间格式化.",
-      "defaultValue": "true"
+      "defaultValue": "HH:mm:ss"
     },
     {
-      "name": "zoe.response.config.trans-result-response",
+      "name": "skrstop.response.config.disable-global-trans-result-type-response",
       "type": "java.lang.Boolean",
-      "description": "根据返回值类型自动转换Result.",
+      "description": "全局关闭IResult返回值自适应处理.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.exception.config.enable",
+      "name": "skrstop.response.config.disable-global-response-list",
+      "type": "java.util.List",
+      "description": "不自动包装Result的接口列表."
+    },
+    {
+      "name": "skrstop.exception.config.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启全局异常处理.",
       "defaultValue": "true"
     },
     {
-      "name": "zoe.exception.config.has-html-error",
+      "name": "skrstop.exception.config.has-html-error",
       "type": "java.lang.Boolean",
       "description": "是否有错误页面展示.",
       "defaultValue": "false"
     },
     {
-      "name": "zoe.exception.config.show-business-service-exception",
+      "name": "skrstop.exception.config.log-business-service-exception",
       "type": "java.lang.Boolean",
-      "description": "是否打印业务异常.",
+      "description": "是否打印业务异常日志.",
       "defaultValue": "false"
     }
   ]

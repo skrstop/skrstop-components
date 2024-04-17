@@ -1,4 +1,4 @@
 cn.hutool.extra.pinyin.engine.tinypinyin.TinyPinyinEngine
 cn.hutool.extra.pinyin.engine.jpinyin.JPinyinEngine
 cn.hutool.extra.pinyin.engine.pinyin4j.Pinyin4jEngine
-com.zoe.framework.components.util.extra.pinyin.DoubbPinyinEngine
+com.skrstop.framework.components.util.extra.pinyin.DoubbPinyinEngine

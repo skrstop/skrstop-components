@@ -1,19 +1,25 @@
 {
   "groups": [
     {
-      "sourceType": "com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties",
+      "sourceType": "com.skrstop.framework.components.starter.annotation.configuration.AnnotationProperties",
       "name": "访问控制参数配置",
-      "type": "com.zoe.framework.components.starter.annotation.configutation.AnnotationProperties"
+      "type": "com.skrstop.framework.components.starter.annotation.configuration.AnnotationProperties"
     }
   ],
   "properties": [
     {
-      "name": "zoe.annotation.config.access-controller.release-alias",
+      "name": "skrstop.annotation.config.allowed-public-only",
+      "type": "java.lang.Boolean",
+      "description": "只允许public方法.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "skrstop.annotation.config.access-controller.release-alias",
       "type": "java.util.List",
       "description": "放行的别名列表."
     },
     {
-      "name": "zoe.annotation.config.execute-time-log.log-level-info",
+      "name": "skrstop.annotation.config.execute-time-log.log-level-info",
       "type": "java.lang.Boolean",
       "description": "log日志级别为:info, 否则为:debug.",
       "defaultValue": "true"
