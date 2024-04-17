@@ -9,5 +9,10 @@ package com.skrstop.framework.components.starter.mongodb.constant;
 public interface GlobalConfigConst {
 
     String MONGODB_PREFIX = "skrstop.mongodb.config";
+    String MONGODB_DYNAMIC = "skrstop.mongodb.dynamic";
+
+    String DS_DEFAULT = "default";
+    String DS_MASTER = "master";
+    String DS_SLAVE = "slave";
 
 }

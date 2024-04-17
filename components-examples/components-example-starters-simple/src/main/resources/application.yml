@@ -320,3 +320,10 @@ skrstop:
       ## 中划线
       #      collection-naming: kebabCase
       #      property-naming: kebabCase
+    dynamic:
+      enabled: true
+      data-sources:
+        master:
+          uri: mongodb://root:123456@127.0.0.1:27017/example_starts_mongo?authSource=admin&minpoolsize=10&maxpoolsize=50
+        slave:
+          uri: mongodb://root:123456@127.0.0.1:27017/example_starts_mongo1?authSource=admin&minpoolsize=10&maxpoolsize=50

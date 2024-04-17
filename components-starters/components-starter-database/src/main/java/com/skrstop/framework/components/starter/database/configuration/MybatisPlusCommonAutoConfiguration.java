@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerIntercept
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.github.yulichang.autoconfigure.MybatisPlusJoinProperties;
 import com.skrstop.framework.components.starter.database.constant.DatabaseConst;
 import com.skrstop.framework.components.starter.database.constant.GlobalConfigConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
@@ -39,6 +40,11 @@ import java.util.*;
 @AutoConfigureBefore(MybatisPlusAutoConfiguration.class)
 @EnableConfigurationProperties(GlobalDatabaseProperties.class)
 public class MybatisPlusCommonAutoConfiguration {
+
+    public MybatisPlusCommonAutoConfiguration(MybatisPlusJoinProperties mybatisPlusJoinProperties) {
+        // 关闭 mpjoin banner
+        mybatisPlusJoinProperties.setBanner(false);
+    }
 
     /**
      * 初始化 {@link MybatisSqlSessionFactoryBean}
@@ -119,8 +125,8 @@ public class MybatisPlusCommonAutoConfiguration {
 
     @Bean(DatabaseConst.TRANSACTION_NAME_DATABASE)
     @ConditionalOnMissingBean(DataSourceTransactionManager.class)
-    DataSourceTransactionManager transactionManager(DataSource dataSource,
-                                                    ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
+    DataSourceTransactionManager databaseTransactionManager(DataSource dataSource,
+                                                            ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
         transactionManagerCustomizers.ifAvailable((customizers) -> customizers.customize(transactionManager));
         return transactionManager;
