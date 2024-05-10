@@ -1,6 +1,6 @@
 # 组件
 
-##### 1.2.2.20240416-RELEASE
+##### 1.2.2.20240510-RELEASE
 
 * fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4
 * feat: 增加磁盘容量检测工具类 DiskSpaceUtil
