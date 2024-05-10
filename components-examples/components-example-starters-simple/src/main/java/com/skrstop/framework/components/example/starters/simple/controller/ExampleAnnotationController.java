@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.controller;
 
+import com.skrstop.framework.components.example.starters.simple.configuration.AccessLimitConfiguration;
 import com.skrstop.framework.components.example.starters.simple.constant.ProcessorContainerNameConst;
 import com.skrstop.framework.components.example.starters.simple.entity.response.ExamplePrivacyInfo;
 import com.skrstop.framework.components.example.starters.simple.service.processor.ExampleProcessorService;
@@ -38,6 +39,17 @@ public class ExampleAnnotationController {
     @AccessLimit(limit = 1)
     @GetMapping("/exampleAnnotationAccessLimit")
     public void exampleAnnotationAccessLimit() {
+
+    }
+
+    /**
+     * 限流注解 -- 自定义
+     */
+//    @AccessLimit(limit = 1, message = "自定义限流异常信息", beanName = "accessLimitRule1")
+//    @AccessLimit(limit = 1, message = "自定义限流异常信息", beanClass = AccessLimitConfiguration.CustomAccessLimitRule.class)
+    @AccessLimit(limit = 1, message = "自定义限流异常信息", defaultRule = AccessLimitConfiguration.CustomAccessLimitRule.class)
+    @GetMapping("/exampleAnnotationAccessLimitCustom")
+    public void exampleAnnotationAccessLimitCustom() {
 
     }
 

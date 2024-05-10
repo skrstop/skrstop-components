@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.objectStorage.entiry;
+package com.skrstop.framework.components.starter.objectStorage.entity;
 
 import lombok.Getter;
 import lombok.Setter;

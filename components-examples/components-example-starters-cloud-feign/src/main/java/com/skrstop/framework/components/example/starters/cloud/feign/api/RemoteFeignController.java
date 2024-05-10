@@ -26,7 +26,10 @@ import java.util.List;
 @ProtostuffFeignClient(url = "http://localhost:8080"
         , path = "/feign"
         , name = "server-discovery-name" + "-TestFeign"
-        , contextId = "server-discovery-name" + "-TestFeign")
+        , contextId = "server-discovery-name" + "-TestFeign"
+        // 使用本地实现类（controller必须实现该client），不走远程，可用于服务快速合并
+        , local = true
+)
 public interface RemoteFeignController {
 
     @GetMapping("/exampleFeign1")
