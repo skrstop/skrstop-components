@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
-import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.DynamicObjectStorageService;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.enums.ContentTypeEnum;

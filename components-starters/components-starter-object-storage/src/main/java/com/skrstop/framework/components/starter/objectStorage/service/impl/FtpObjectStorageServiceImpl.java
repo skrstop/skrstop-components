@@ -4,7 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.ftp.Ftp;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties;
-import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.value.data.StrUtil;

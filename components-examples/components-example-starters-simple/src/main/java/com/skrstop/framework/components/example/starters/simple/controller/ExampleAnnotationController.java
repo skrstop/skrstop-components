@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.controller;
 
+import com.skrstop.framework.components.example.starters.simple.configuration.AccessLimitConfiguration;
 import com.skrstop.framework.components.example.starters.simple.constant.ProcessorContainerNameConst;
 import com.skrstop.framework.components.example.starters.simple.entity.response.ExamplePrivacyInfo;
 import com.skrstop.framework.components.example.starters.simple.service.processor.ExampleProcessorService;
@@ -42,6 +43,17 @@ public class ExampleAnnotationController {
     }
 
     /**
+     * 限流注解 -- 自定义
+     */
+//    @AccessLimit(limit = 1, message = "自定义限流异常信息", beanName = "accessLimitRule1")
+//    @AccessLimit(limit = 1, message = "自定义限流异常信息", beanClass = AccessLimitConfiguration.CustomAccessLimitRule.class)
+    @AccessLimit(limit = 1, message = "自定义限流异常信息", defaultRule = AccessLimitConfiguration.CustomAccessLimitRule.class)
+    @GetMapping("/exampleAnnotationAccessLimitCustom")
+    public void exampleAnnotationAccessLimitCustom() {
+
+    }
+
+    /**
      * 执行耗时日志注解
      *
      * @throws InterruptedException
@@ -76,7 +88,7 @@ public class ExampleAnnotationController {
     /**
      * 同步锁注解2
      */
-    @ServiceLock(lockId = "serviceLock", fastFail = true, timeoutMs = 1000)
+    @ServiceLock(lockId = "serviceLock", fastFail = true, timeoutMs = 11000)
     @GetMapping("/exampleAnnotationServiceLock2")
     public void exampleAnnotationServiceLock2() {
         System.out.println("aaa");

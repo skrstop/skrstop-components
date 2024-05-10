@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.starter.objectStorage.service;
 
-import com.skrstop.framework.components.starter.objectStorage.entiry.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import java.io.Closeable;

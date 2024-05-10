@@ -16,4 +16,9 @@ public class AccessLimitException extends SkrstopRuntimeException {
     public AccessLimitException() {
         super(WebAnnotationExceptionCode.ACCESS_LIMIT);
     }
+
+    public AccessLimitException(String message) {
+        super(WebAnnotationExceptionCode.ACCESS_LIMIT, message);
+    }
+
 }
