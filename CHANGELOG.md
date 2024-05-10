@@ -11,6 +11,7 @@
 * feat: components-starter-feign-protostuff 增加FeignClient返回值自适应处理
 * feat: components-starter-feign-protostuff 增加请求头传递
 * feat: components-starter-mongodb 增加多数据源支持
+* feat: components-starter-annotation @AccessLimit 增加自定义规则支持
 
 ##### 1.3.1.20231221-RELEASE
 

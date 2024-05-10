@@ -1,31 +1,32 @@
 package com.skrstop.framework.components.starter.annotation.handle.function;
 
-import com.google.common.util.concurrent.RateLimiter;
+import cn.hutool.core.util.ReflectUtil;
 import com.skrstop.framework.components.starter.annotation.anno.function.AccessLimit;
 import com.skrstop.framework.components.starter.annotation.configuration.AnnotationProperties;
 import com.skrstop.framework.components.starter.annotation.exception.aspect.AccessLimitException;
+import com.skrstop.framework.components.starter.annotation.handle.function.accessLimit.AccessLimitRule;
 import com.skrstop.framework.components.starter.common.util.AnnoFindUtil;
-import com.skrstop.framework.components.util.enums.CharSetEnum;
+import com.skrstop.framework.components.starter.spring.support.bean.SpringUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
+import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.util.DigestUtils;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class AccessLimitAnnotationInterceptor implements MethodInterceptor {
 
     private final AnnotationProperties annotationProperties;
-    /**
-     * 用来存放不同接口的RateLimiter(key为接口名称，value为RateLimiter)
-     * 每秒只发出 limit 个令牌，此处是单进程服务的限流,内部采用令牌捅算法实现
-     */
-    private final ConcurrentHashMap<String, RateLimiter> limitMap = new ConcurrentHashMap<>();
+
+    private final Map<Object, AccessLimitRule> ruleMap;
 
     public AccessLimitAnnotationInterceptor(AnnotationProperties annotationProperties) {
         this.annotationProperties = annotationProperties;
+        ruleMap = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -34,31 +35,68 @@ public class AccessLimitAnnotationInterceptor implements MethodInterceptor {
         if (ObjectUtil.isNull(accessLimit)) {
             return invocation.proceed();
         }
-
-        String methodStr = invocation.getMethod().toString();
-        String functionName = DigestUtils.md5DigestAsHex(methodStr.getBytes(CharSetEnum.UTF8.getCharSet()));
-        // 获取注解每秒加入桶中的token
-        double limitNum = accessLimit.limit();
-        log.debug("function:{}, limit:{}, 开启限流", methodStr, limitNum);
-        RateLimiter rateLimiter;
-        // 获取rateLimiter
-        if (limitMap.containsKey(functionName)) {
-            rateLimiter = limitMap.get(functionName);
-            double rate = rateLimiter.getRate();
-            if (rate != limitNum) {
-                limitMap.put(functionName, RateLimiter.create(limitNum));
-                rateLimiter = limitMap.get(functionName);
+        AccessLimitRule rule = null;
+        if (StrUtil.isNotBlank(accessLimit.beanName())) {
+            // beanName
+            rule = ruleMap.get(accessLimit.beanName());
+            if (ObjectUtil.isNull(rule)) {
+                try {
+                    Object bean = SpringUtil.getBean(accessLimit.beanName());
+                    if (!(bean instanceof AccessLimitRule)) {
+                        throw new RuntimeException("beanName: " + accessLimit.beanName() + "未实现限流规则接口AccessLimitRule");
+                    }
+                    rule = (AccessLimitRule) bean;
+                    if (ObjectUtil.isNull(rule)) {
+                        throw new RuntimeException("未找到限流规则, beanName: " + accessLimit.beanName());
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    throw new RuntimeException("未找到限流规则, beanName: " + accessLimit.beanName());
+                }
+                ruleMap.put(accessLimit.beanName(), rule);
             }
-        } else {
-            limitMap.put(functionName, RateLimiter.create(limitNum));
-            rateLimiter = limitMap.get(functionName);
+        } else if (ObjectUtil.isNotNull(accessLimit.beanClass())
+                && accessLimit.beanClass() != void.class
+                && accessLimit.beanClass() != Void.class) {
+            // beanClass
+            rule = ruleMap.get(accessLimit.beanClass());
+            if (ObjectUtil.isNull(rule)) {
+                if (!AccessLimitRule.class.isAssignableFrom(accessLimit.beanClass())) {
+                    throw new RuntimeException("beanClass: " + accessLimit.beanClass().getName() + "未实现限流规则接口AccessLimitRule");
+                }
+                try {
+                    rule = (AccessLimitRule) SpringUtil.getBean(accessLimit.beanClass());
+                    if (ObjectUtil.isNull(rule)) {
+                        throw new RuntimeException("未找到限流规则, beanClass: " + accessLimit.beanClass().getName());
+                    }
+                } catch (NoUniqueBeanDefinitionException e) {
+                    log.error(e.getMessage(), e);
+                    throw new RuntimeException("找到多个限流规则, beanClass: " + accessLimit.beanClass().getName());
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    throw new RuntimeException("未找到限流规则, beanClass: " + accessLimit.beanClass().getName());
+                }
+                ruleMap.put(accessLimit.beanClass(), rule);
+            }
+        } else if (ObjectUtil.isNotNull(accessLimit.defaultRule())) {
+            // defaultRule
+            rule = ruleMap.get(accessLimit.defaultRule());
+            if (ObjectUtil.isNull(rule)) {
+                rule = ReflectUtil.newInstance(accessLimit.defaultRule());
+                ruleMap.put(accessLimit.defaultRule(), rule);
+            }
         }
-        boolean tryAcquire = rateLimiter.tryAcquire();
-        if (tryAcquire) {
+        if (ObjectUtil.isNull(rule)) {
+            throw new RuntimeException("未设置任何限流规则");
+        }
+        if (rule.canContinue(invocation, accessLimit.limit())) {
             //执行方法
             return invocation.proceed();
         }
         //拒绝请求
+        if (StrUtil.isNotBlank(accessLimit.message())) {
+            throw new AccessLimitException(accessLimit.message());
+        }
         throw new AccessLimitException();
     }
 
