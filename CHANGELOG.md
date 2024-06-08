@@ -2,6 +2,9 @@
 
 ##### 1.3.3.20240510-RELEASE
 
+* fix: 修复@SProcessor注解无法扫描到自身bean的问题
+* fix: RegularExpressionConst.HTTP_URL正则表达式优化
+
 ##### 1.3.2.20240510-RELEASE
 
 * fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4

@@ -1,8 +1,6 @@
 package com.skrstop.framework.components.starter.annotation.anno.server;
 
 import com.skrstop.framework.components.starter.annotation.handle.server.processor.ProcessorContext;
-import com.skrstop.framework.components.starter.annotation.handle.server.processor.asserts.DefaultAssert;
-import com.skrstop.framework.components.starter.annotation.handle.server.processor.asserts.ProcessorAssert;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AliasFor;
@@ -44,12 +42,18 @@ public @interface SProcessor {
     /**
      * 处理器满足条件判断，多个处理器满足条件的情况下 按照顺序默认取第一个。
      * 当为空时，默认取值assertBeanClass
+     * 断言类寻找循序：assertBeanName -> assertBeanClass -> assertClass -> 处理类本身是否实现ProcessorAssert接口
+     *
+     * @see com.skrstop.framework.components.starter.annotation.handle.server.processor.asserts.ProcessorAssert
      */
     String assertBeanName() default StringPoolConst.EMPTY;
 
     /**
      * 处理器满足条件判断，多个处理器满足条件的情况下 按照顺序默认取第一个。
      * 当为空时，默认取值assertClass
+     * 断言类寻找循序：assertBeanName -> assertBeanClass -> assertClass -> 处理类本身是否实现ProcessorAssert接口
+     *
+     * @see com.skrstop.framework.components.starter.annotation.handle.server.processor.asserts.ProcessorAssert
      */
     Class<?> assertBeanClass() default void.class;
 
@@ -57,8 +61,12 @@ public @interface SProcessor {
      * 处理器满足条件判断
      * 当为空时，将检查该processor是否实现了ProcessorAssert接口
      * 如未实现，则默认不满足任何条件
+     *
+     * @see com.skrstop.framework.components.starter.annotation.handle.server.processor.asserts.DefaultAssert
+     * @see com.skrstop.framework.components.starter.annotation.handle.server.processor.asserts.ProcessorAssert
+     * 断言类寻找循序：assertBeanName -> assertBeanClass -> assertClass -> 处理类本身是否实现ProcessorAssert接口
      */
-    Class<? extends ProcessorAssert> assertClass() default DefaultAssert.class;
+    Class<?> assertClass() default void.class;
 
     /**
      * 是否是默认的处理器，当找不到对应的处理器时，默认使用该处理器，多个默认处理器, 按照顺序默认取第一个

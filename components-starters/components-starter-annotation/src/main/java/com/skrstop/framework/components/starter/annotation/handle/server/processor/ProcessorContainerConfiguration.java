@@ -103,8 +103,10 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
                             + " 未继承 ProcessorAssert");
                 }
                 processorAssert = (ProcessorAssert) assertBean;
-            } else if (ObjectUtil.isNotNull(sProcessor.assertClass())) {
-                Class<? extends ProcessorAssert> processAssertClass = sProcessor.assertClass();
+            } else if (ObjectUtil.isNotNull(sProcessor.assertClass())
+                    && !void.class.equals(sProcessor.assertBeanClass())
+                    && ProcessorAssert.class.isAssignableFrom(sProcessor.assertClass())) {
+                Class<? extends ProcessorAssert> processAssertClass = (Class<? extends ProcessorAssert>) sProcessor.assertClass();
                 processorAssert = processorAssertMap.get(processAssertClass);
                 if (ObjectUtil.isNull(processorAssert)) {
                     processorAssert = ReflectUtil.newInstance(processAssertClass);
