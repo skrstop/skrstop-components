@@ -49,7 +49,7 @@ public interface RegularExpressionConst {
     /**
      * HTTP url
      */
-    String HTTP_URL = "^(https?):\\/\\/[\\w\\-]+(\\.[\\w\\-]+)+([\\w\\-.,@?^=%&:\\/~+#]*[\\w\\-@?^=%&\\/~+#])?$";
+    String HTTP_URL = "^(https?):\\/\\/[\\w\\-]+(\\.[\\w\\-]+)+([\\w\\-.,@?^=%&:;\\/~+#]*[\\w\\-@?^=%&\\/~+#])?$";
 
     /**
      * ftp url
