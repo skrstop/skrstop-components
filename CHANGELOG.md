@@ -4,6 +4,7 @@
 
 * fix: 修复@SProcessor注解无法扫描到自身bean的问题
 * fix: RegularExpressionConst.HTTP_URL正则表达式优化
+* fix: dynamicRedissonClient 启动依赖DsSelector报错，默认关闭动态redissonClient
 
 ##### 1.3.2.20240510-RELEASE
 

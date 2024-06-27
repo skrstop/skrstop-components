@@ -30,7 +30,7 @@ import org.springframework.core.annotation.Order;
 @EnableConfigurationProperties(DynamicRedissonProperties.class)
 @Configuration
 @Order
-@ConditionalOnProperty(name = GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled", havingValue = "true", matchIfMissing = false)
 public class DynamicRedissonAutoConfiguration {
 
     @Bean
