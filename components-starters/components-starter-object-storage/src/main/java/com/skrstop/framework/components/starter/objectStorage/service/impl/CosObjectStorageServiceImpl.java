@@ -61,6 +61,12 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     public CosObjectStorageServiceImpl(CosProperties cosProperties) {
         this.cosProperties = cosProperties;
+        if (StrUtil.isNotBlank(cosProperties.getBasePath())) {
+            basePath = cosProperties.getBasePath();
+        }
+        if (StrUtil.isBlank(basePath)) {
+            basePath = "/";
+        }
         try {
             // 构建client
             COSCredentials cred = new BasicCOSCredentials(cosProperties.getSecretId(), cosProperties.getSecretKey());
@@ -84,12 +90,6 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             this.transferManager = new TransferManager(this.cosClient, executor);
         } catch (Exception e) {
             throw new IllegalArgumentException("cos客户端创建失败");
-        }
-        if (StrUtil.isNotBlank(cosProperties.getBasePath())) {
-            basePath = cosProperties.getBasePath();
-        }
-        if (StrUtil.isBlank(basePath)) {
-            basePath = "/";
         }
     }
 
