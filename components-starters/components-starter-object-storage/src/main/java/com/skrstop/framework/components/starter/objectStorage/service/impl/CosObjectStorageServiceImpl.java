@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.URLUtil;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -270,7 +271,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     , StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
-                    , url.getQuery()
+                    , URLUtil.decode(url.getQuery())
                     , null
             );
             String result = newUrl.toString();
