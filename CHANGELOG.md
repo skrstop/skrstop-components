@@ -6,6 +6,7 @@
 * fix: RegularExpressionConst.HTTP_URL正则表达式优化
 * fix: dynamicRedissonClient 启动依赖DsSelector报错，默认关闭动态redissonClient
 * fix: object-storage-cos 修复base-path参数失效问题
+* fix：object-storage-cos 修复临时资源访问地址错误的问题
 
 ##### 1.3.2.20240510-RELEASE
 

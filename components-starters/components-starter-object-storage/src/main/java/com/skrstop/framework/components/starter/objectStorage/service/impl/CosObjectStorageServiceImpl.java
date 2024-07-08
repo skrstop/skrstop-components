@@ -263,7 +263,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     , url.getPort()
                     , url.getPath()
                     , url.getQuery()
-                    , ""
+                    , null
             );
             String result = newUrl.toString();
             result = result.replace(":80", "");
