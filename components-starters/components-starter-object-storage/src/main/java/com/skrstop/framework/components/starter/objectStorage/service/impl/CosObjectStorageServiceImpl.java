@@ -261,7 +261,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
-        URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath, DateUtil.toDate(endTime), HttpMethodName.GET);
+        URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath
+                , DateUtil.toDate(endTime), HttpMethodName.GET
+                , new HashMap<String, String>(), new HashMap<String, String>(), false, false);
         try {
             URI newUrl = new URI(StrUtil.blankToDefault(cosProperties.getAccessUrlProtocol(), url.getProtocol())
                     , url.getUserInfo()
