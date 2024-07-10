@@ -46,12 +46,16 @@ public interface IResult extends Serializable {
      *
      * @return
      */
-    Long getTimestamp();
+    default Long getTimestamp() {
+        return System.currentTimeMillis();
+    }
 
     /**
      * 设置时间
      */
-    void setTimestamp();
+    default void setTimestamp(Long timestamp) {
+
+    }
 
     /**
      * 是否成功
