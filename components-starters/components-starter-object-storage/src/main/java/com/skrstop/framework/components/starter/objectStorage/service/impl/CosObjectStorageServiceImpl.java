@@ -14,6 +14,7 @@ import com.qcloud.cos.region.Region;
 import com.qcloud.cos.transfer.Download;
 import com.qcloud.cos.transfer.TransferManager;
 import com.qcloud.cos.transfer.Upload;
+import com.qcloud.cos.utils.UrlEncoderUtils;
 import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.CosStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
@@ -250,6 +251,31 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             return false;
         }
         return this.delete(sourceBucketName, sourcePath);
+    }
+
+    @Override
+    public String getPublicAccessUrl(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(cosProperties.getAccessUrlHost())) {
+            return this.cosProperties.getAccessUrlProtocol() + "://" + this.cosProperties.getAccessUrlHost() + targetPath;
+        } else {
+            StringBuilder strBuilder = new StringBuilder();
+            strBuilder.append(this.cosClient.getClientConfig().getHttpProtocol().toString()).append("://");
+            strBuilder.append(this.cosClient.getClientConfig().getEndpointBuilder()
+                    .buildGeneralApiEndpoint(bucketName));
+            strBuilder.append(UrlEncoderUtils.encodeUrlPath(targetPath));
+            return strBuilder.toString();
+        }
+    }
+
+    @Override
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        Map<String, String> result = new HashMap<>(targetPath.size(), 1);
+        for (String path : targetPath) {
+            result.put(path, this.getPublicAccessUrl(bucketName, path));
+        }
+        return result;
     }
 
     @Override

@@ -151,6 +151,16 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    }
+
+    @Override
+    public String getPublicAccessUrl(String bucketName, String targetPath) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    }
+
+    @Override
     public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
         return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime);
     }
