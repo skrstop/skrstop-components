@@ -178,6 +178,30 @@ public interface DynamicObjectStorageService extends Closeable {
     /**
      * @param bucketName
      * @param targetPath
+     * @return
+     */
+    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath);
+
+    default Map<String, String> getPublicAccessUrl(List<String> targetPath) {
+        return getPublicAccessUrl(null, targetPath);
+    }
+
+    /**
+     * 获取公共资源访问地址
+     *
+     * @param bucketName
+     * @param targetPath
+     * @return
+     */
+    String getPublicAccessUrl(String bucketName, String targetPath);
+
+    default String getPublicAccessUrl(String targetPath) {
+        return getPublicAccessUrl(null, targetPath);
+    }
+
+    /**
+     * @param bucketName
+     * @param targetPath
      * @param expireTime 有效时间，单位：秒
      * @return
      */

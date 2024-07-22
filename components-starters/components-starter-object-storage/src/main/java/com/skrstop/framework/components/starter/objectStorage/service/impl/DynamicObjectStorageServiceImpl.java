@@ -100,6 +100,16 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
+    public String getPublicAccessUrl(String bucketName, String targetPath) {
+        return this.objectStorageService.getPublicAccessUrl(bucketName, targetPath);
+    }
+
+    @Override
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+        return this.objectStorageService.getPublicAccessUrl(bucketName, targetPath);
+    }
+
+    @Override
     public Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime) {
         return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime);
     }

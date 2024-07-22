@@ -7,6 +7,7 @@
 * fix: dynamicRedissonClient 启动依赖DsSelector报错，默认关闭动态redissonClient
 * fix: object-storage-cos 修复base-path参数失效问题
 * fix：object-storage-cos 修复临时资源访问地址错误的问题
+* feat：object-storage-cos 增加公共资源访问地址生成方法·getPublicAccessUrl·
 * feat: Result增加timestamp字段, 可用于客户端本地时间验证等场景
 
 ##### 1.2.2.20240510-RELEASE
