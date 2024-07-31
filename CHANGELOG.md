@@ -9,6 +9,7 @@
 * fix：object-storage-cos 修复临时资源访问地址错误的问题
 * feat：object-storage-cos 增加公共资源访问地址生成方法·getPublicAccessUrl·
 * feat: Result增加timestamp字段, 可用于客户端本地时间验证等场景
+* fix：Mybatis-plus-join 插件注入bug修复
 
 ##### 1.3.2.20240510-RELEASE
 
