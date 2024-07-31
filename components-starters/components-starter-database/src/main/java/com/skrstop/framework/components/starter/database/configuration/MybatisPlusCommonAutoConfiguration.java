@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.github.yulichang.autoconfigure.MybatisPlusJoinProperties;
+import com.github.yulichang.injector.MPJSqlInjector;
+import com.github.yulichang.interceptor.MPJInterceptor;
 import com.skrstop.framework.components.starter.database.constant.DatabaseConst;
 import com.skrstop.framework.components.starter.database.constant.GlobalConfigConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
@@ -62,6 +64,8 @@ public class MybatisPlusCommonAutoConfiguration {
         // 不显示mp banner
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig.setBanner(false);
+        // mybatis plus join 注入器
+        globalConfig.setSqlInjector(new MPJSqlInjector());
         // id生成配置
         globalConfig.setIdentifierGenerator(identifierGenerator);
         sqlSessionFactoryBean.setGlobalConfig(globalConfig);
@@ -76,7 +80,8 @@ public class MybatisPlusCommonAutoConfiguration {
             allResources.addAll(Arrays.asList(resources));
         }
         sqlSessionFactoryBean.setMapperLocations(ArrayUtil.toArray(allResources, Resource.class));
-        sqlSessionFactoryBean.setPlugins(mybatisPlusInterceptor);
+        // mybatis plus join 插件注入
+        sqlSessionFactoryBean.setPlugins(mybatisPlusInterceptor, new MPJInterceptor());
         if (ObjectUtil.isNull(sqlSessionFactoryBean.getObject())
                 || ObjectUtil.isNull(sqlSessionFactoryBean.getObject().getConfiguration())) {
             return;
