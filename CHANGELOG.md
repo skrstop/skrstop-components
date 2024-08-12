@@ -11,6 +11,7 @@
 * feat: Result增加timestamp字段, 可用于客户端本地时间验证等场景
 * fix：Mybatis-plus-join 插件注入bug修复
 * fix：使用hutool-bom
+* fix: cos临时签名bug修复
 
 ##### 1.2.2.20240510-RELEASE
 
