@@ -347,6 +347,10 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             if (!targetPath.startsWith("/")) {
                 targetPath = "/" + targetPath;
             }
+            if (StrUtil.isNotBlank(this.basePath)
+                    && !"/".equals(this.basePath)) {
+                targetPath = this.basePath + targetPath;
+            }
             statement.addResource(String.format("qcs::cos:%s:uid/%s:%s%s",
                     cosProperties.getRegion()
                     , bucketName.substring(bucketName.lastIndexOf("-") + 1)
