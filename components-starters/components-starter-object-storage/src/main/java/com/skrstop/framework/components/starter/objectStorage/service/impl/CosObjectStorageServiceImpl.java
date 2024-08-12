@@ -385,6 +385,8 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             sign.setExpireSecondTime(expireSecondTime);
             sign.setExpireDateTime(LocalDateTime.now().plusSeconds(expireSecondTime));
             sign.setTargetPath(targetPath);
+            sign.setBucketName(bucketName);
+            sign.setRegion(this.cosProperties.getRegion());
             return (T) sign;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
