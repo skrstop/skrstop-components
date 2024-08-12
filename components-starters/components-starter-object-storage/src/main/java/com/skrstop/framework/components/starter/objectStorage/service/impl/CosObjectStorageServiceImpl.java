@@ -331,7 +331,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             policy.addStatement(statement);
             statement.setEffect("allow");
             // 密钥的权限列表。简单上传和分片需要以下的权限，其他权限列表请看 https://cloud.tencent.com/document/product/436/31923
-            statement.addActions(CollectionUtil.newArrayList(
+            String[] actions = {
                     // 简单上传
                     "name/cos:PutObject",
                     "name/cos:PostObject",
@@ -341,7 +341,8 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     "name/cos:ListParts",
                     "name/cos:UploadPart",
                     "name/cos:CompleteMultipartUpload"
-            ).toArray(new String[7]));
+            };
+            statement.addActions(actions);
             // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
             if (!targetPath.startsWith("/")) {
                 targetPath = "/" + targetPath;
