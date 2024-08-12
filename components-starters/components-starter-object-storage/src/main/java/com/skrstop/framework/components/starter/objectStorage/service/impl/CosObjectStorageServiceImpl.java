@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.URLUtil;
+import com.alibaba.fastjson2.JSON;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -25,8 +25,7 @@ import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.DateUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
-import com.tencent.cloud.CosStsClient;
-import com.tencent.cloud.Response;
+import com.tencent.cloud.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +39,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * FtpServiceImpl class
@@ -322,15 +320,18 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             config.put("secretId", cosProperties.getSecretId());
             config.put("secretKey", cosProperties.getSecretKey());
             // 临时密钥有效时长，单位是秒
-            config.put("durationSeconds", expireSecondTime);
+            config.put("durationSeconds", Math.toIntExact(expireSecondTime));
             // 换成你的 bucket
             config.put("bucket", bucketName);
             // 换成 bucket 所在地区
             config.put("region", cosProperties.getRegion());
-            // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
-            config.put("allowPrefixes", CollectionUtil.newArrayList(targetPath));
+            // policy
+            Policy policy = new Policy();
+            Statement statement = new Statement();
+            policy.addStatement(statement);
+            statement.setEffect("allow");
             // 密钥的权限列表。简单上传和分片需要以下的权限，其他权限列表请看 https://cloud.tencent.com/document/product/436/31923
-            config.put("allowActions", CollectionUtil.newArrayList(
+            statement.addActions(CollectionUtil.newArrayList(
                     // 简单上传
                     "name/cos:PutObject",
                     "name/cos:PostObject",
@@ -340,26 +341,38 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     "name/cos:ListParts",
                     "name/cos:UploadPart",
                     "name/cos:CompleteMultipartUpload"
-            ));
-            Map<String, Object> policy = new HashMap<>();
-            Map<String, Object> policyCondition = new HashMap<>();
-            policy.put("condition", policyCondition);
+            ).toArray(new String[7]));
+            // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
+            if (!targetPath.startsWith("/")) {
+                targetPath = "/" + targetPath;
+            }
+            statement.addResource(String.format("qcs::cos:%s:uid/%s:%s%s",
+                    cosProperties.getRegion()
+                    , bucketName.substring(bucketName.lastIndexOf("-") + 1)
+                    , bucketName
+                    , targetPath));
             if (ObjectUtil.isNotNull(minSize)) {
                 // 限制大小
-                policyCondition.put("numeric_greater_than_equal", MapUtil.builder("cos:content-length", minSize * 1024));
+                ConditionTypeValue condition = new ConditionTypeValue();
+                condition.setKey("cos:content-length");
+                condition.addValue(String.valueOf(minSize * 1024));
+                statement.addCondition("numeric_greater_than_equal", condition);
             }
             if (ObjectUtil.isNotNull(maxSize)) {
                 // 限制大小
-                policyCondition.put("numeric_less_than_equal", MapUtil.builder("cos:content-length", maxSize * 1024));
+                ConditionTypeValue condition = new ConditionTypeValue();
+                condition.setKey("cos:content-length");
+                condition.addValue(String.valueOf(maxSize * 1024));
+                statement.addCondition("numeric_less_than_equal", condition);
             }
             if (CollectionUtil.isNotEmpty(contentType)) {
                 // 限制类型
-                List<String> contentTypeStrList = contentType.stream().map(ContentTypeEnum::getContentType).collect(Collectors.toList());
-                policyCondition.put("string_like", MapUtil.builder("cos:content-type", contentTypeStrList));
+                ConditionTypeValue condition = new ConditionTypeValue();
+                condition.setKey("cos:content-type");
+                contentType.stream().map(ContentTypeEnum::getContentType).forEach(condition::addValue);
+                statement.addCondition("string_like", condition);
             }
-            if (MapUtil.isNotEmpty(policyCondition)) {
-                config.put("policy", policy);
-            }
+            config.put("policy", JSON.toJSONString(policy));
             Response response = CosStsClient.getCredential(config);
             sign.setTmpSecretId(response.credentials.tmpSecretId);
             sign.setTmpSecretKey(response.credentials.tmpSecretKey);
