@@ -166,8 +166,8 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
-        return this.getObjectStorageService().getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+        return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
     @Override
