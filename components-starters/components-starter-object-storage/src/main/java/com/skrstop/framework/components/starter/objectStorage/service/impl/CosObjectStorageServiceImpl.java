@@ -368,7 +368,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                             , bucketName
                             , targetPath)
             ));
-            Map<String, Object> conditions = new HashMap();
+            Map<String, Object> conditions = new HashMap<>();
             if (ObjectUtil.isNotNull(minSize)) {
                 // 限制大小
                 Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(minSize)).map();
