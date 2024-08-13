@@ -368,22 +368,22 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                             , bucketName
                             , targetPath)
             ));
-            List<Map<String, Map<String, ArrayList<String>>>> conditions = new ArrayList<>();
+            Map<String, Object> conditions = new HashMap();
             if (ObjectUtil.isNotNull(minSize)) {
                 // 限制大小
-                Map<String, ArrayList<String>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(String.valueOf(minSize * 1024))).map();
-                conditions.add(MapUtil.builder("numeric_greater_than_equal", val).map());
+                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(minSize)).map();
+                conditions.put("numeric_greater_than_equal", val);
             }
             if (ObjectUtil.isNotNull(maxSize)) {
                 // 限制大小
-                Map<String, ArrayList<String>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(String.valueOf(maxSize * 1024))).map();
-                conditions.add(MapUtil.builder("numeric_less_than_equal", val).map());
+                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(maxSize)).map();
+                conditions.put("numeric_less_than_equal", val);
             }
             if (CollectionUtil.isNotEmpty(contentType)) {
                 // 限制类型
                 Set<String> list = contentType.stream().map(ContentTypeEnum::getContentType).collect(Collectors.toSet());
-                Map<String, ArrayList<String>> val = MapUtil.builder("cos:content-type", CollectionUtil.newArrayList(list)).map();
-                conditions.add(MapUtil.builder("string_like", val).map());
+                Map<String, Set<String>> val = MapUtil.builder("cos:content-type", list).map();
+                conditions.put("string_like", val);
             }
             statement.put("condition", conditions);
             config.put("policy", JSON.toJSONString(policy));
@@ -391,6 +391,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             sign.setTmpSecretId(response.credentials.tmpSecretId);
             sign.setTmpSecretKey(response.credentials.tmpSecretKey);
             sign.setSessionToken(response.credentials.sessionToken);
+            sign.setToken(response.credentials.token);
             sign.setExpireSecondTime(expireSecondTime);
             sign.setExpireDateTime(LocalDateTime.now().plusSeconds(expireSecondTime));
             sign.setTargetPath(targetPath);
