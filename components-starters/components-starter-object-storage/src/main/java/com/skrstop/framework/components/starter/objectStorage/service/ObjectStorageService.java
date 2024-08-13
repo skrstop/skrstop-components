@@ -273,8 +273,8 @@ public interface ObjectStorageService extends Closeable {
      * @param bucketName
      * @param targetPath
      * @param expireSecondTime
-     * @param minSize
-     * @param maxSize
+     * @param minSize          最小文件大小 单位：b
+     * @param maxSize          最大文件大小 单位：b
      * @param contentType
      * @return
      */
