@@ -116,7 +116,7 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
 
     @Override
     public <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
-        return this.objectStorageService.getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
+        return this.objectStorageService.getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
     @Override

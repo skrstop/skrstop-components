@@ -180,7 +180,7 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long MaxSize, List<ContentTypeEnum> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long MaxSize, List<ContentTypeEnum> contentType) {
         throw new NotSupportedException("FTP不支持该操作");
     }
 

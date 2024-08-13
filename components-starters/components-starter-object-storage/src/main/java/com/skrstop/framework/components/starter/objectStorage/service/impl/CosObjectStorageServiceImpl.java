@@ -321,7 +321,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         CosStorageTemplateSign sign = new CosStorageTemplateSign();
         try {
@@ -350,7 +350,8 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     "name/cos:ListMultipartUploads",
                     "name/cos:ListParts",
                     "name/cos:UploadPart",
-                    "name/cos:CompleteMultipartUpload"
+                    "name/cos:CompleteMultipartUpload",
+                    "name/cos:AbortMultipartUpload"
             };
             statement.put("action", actions);
             // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
