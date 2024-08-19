@@ -2,6 +2,7 @@ package com.skrstop.framework.components.starter.annotation.handle.function.acce
 
 import com.google.common.util.concurrent.RateLimiter;
 import com.skrstop.framework.components.util.enums.CharSetEnum;
+import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.DigestUtils;
@@ -34,10 +35,9 @@ public class DefaultAccessLimitRule implements AccessLimitRule {
         }
         // 获取注解每秒加入桶中的token
         log.debug("function:{}, limit:{}, 开启限流", methodStr, limitNum);
-        RateLimiter rateLimiter;
+        RateLimiter rateLimiter = limitMap.get(functionName);
         // 获取rateLimiter
-        if (limitMap.containsKey(functionName)) {
-            rateLimiter = limitMap.get(functionName);
+        if (ObjectUtil.isNotNull(rateLimiter)) {
             double rate = rateLimiter.getRate();
             if (rate != limitNum) {
                 limitMap.put(functionName, RateLimiter.create(limitNum));

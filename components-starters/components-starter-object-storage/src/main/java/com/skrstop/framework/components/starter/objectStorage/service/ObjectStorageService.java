@@ -185,6 +185,30 @@ public interface ObjectStorageService extends Closeable {
     /**
      * @param bucketName
      * @param targetPath
+     * @return
+     */
+    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath);
+
+    default Map<String, String> getPublicAccessUrl(List<String> targetPath) {
+        return getPublicAccessUrl(null, targetPath);
+    }
+
+    /**
+     * 获取公共资源访问地址
+     *
+     * @param bucketName
+     * @param targetPath
+     * @return
+     */
+    String getPublicAccessUrl(String bucketName, String targetPath);
+
+    default String getPublicAccessUrl(String targetPath) {
+        return getPublicAccessUrl(null, targetPath);
+    }
+
+    /**
+     * @param bucketName
+     * @param targetPath
      * @param expireTime 有效时间，单位：秒
      * @return
      */
@@ -202,12 +226,12 @@ public interface ObjectStorageService extends Closeable {
      * @param expireSecondTime
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime) {
-        return getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, null, null, null);
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime) {
+        return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, null, null, null);
     }
 
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime) {
-        return getTemporaryAccessSign(null, targetPath, expireSecondTime, null, null, null);
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime) {
+        return getTemporaryUploadSign(null, targetPath, expireSecondTime, null, null, null);
     }
 
     /**
@@ -220,8 +244,8 @@ public interface ObjectStorageService extends Closeable {
      * @param maxSize          最大文件大小 单位：kb
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
-        return getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, null);
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
+        return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, null);
     }
 
     /**
@@ -232,8 +256,8 @@ public interface ObjectStorageService extends Closeable {
      * @param <T>
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
-        return getTemporaryAccessSign(null, targetPath, expireSecondTime, minSize, maxSize, null);
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
+        return getTemporaryUploadSign(null, targetPath, expireSecondTime, minSize, maxSize, null);
     }
 
     /**
@@ -244,8 +268,8 @@ public interface ObjectStorageService extends Closeable {
      * @param expireSecondTime
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
-        return getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, null, null, contentType);
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+        return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, null, null, contentType);
     }
 
     /**
@@ -255,8 +279,8 @@ public interface ObjectStorageService extends Closeable {
      * @param <T>
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
-        return getTemporaryAccessSign(null, targetPath, expireSecondTime, null, null, contentType);
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+        return getTemporaryUploadSign(null, targetPath, expireSecondTime, null, null, contentType);
     }
 
 
@@ -266,26 +290,26 @@ public interface ObjectStorageService extends Closeable {
      * @param bucketName
      * @param targetPath
      * @param expireSecondTime
-     * @param minSize          最小文件大小 单位：kb
-     * @param maxSize          最大文件大小 单位：kb
+     * @param minSize          最小文件大小 单位：b
+     * @param maxSize          最大文件大小 单位：b
      * @param contentType
      * @return
      */
-    <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime
+    <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime
             , Long minSize, Long maxSize, List<ContentTypeEnum> contentType);
 
     /**
      * @param targetPath
      * @param expireSecondTime
-     * @param minSize          最小文件大小 单位：kb
-     * @param maxSize          最大文件大小 单位：kb
+     * @param minSize          最小文件大小 单位：b
+     * @param maxSize          最大文件大小 单位：b
      * @param contentType
      * @param <T>
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String targetPath, long expireSecondTime
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime
             , Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
-        return getTemporaryAccessSign(null, targetPath, expireSecondTime, minSize, maxSize, contentType);
+        return getTemporaryUploadSign(null, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
 

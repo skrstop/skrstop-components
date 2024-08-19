@@ -42,6 +42,22 @@ public interface IResult extends Serializable {
     void setMessage(String message);
 
     /**
+     * 获取当前时间
+     *
+     * @return
+     */
+    default Long getTimestamp() {
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * 设置时间
+     */
+    default void setTimestamp(Long timestamp) {
+
+    }
+
+    /**
      * 是否成功
      *
      * @return

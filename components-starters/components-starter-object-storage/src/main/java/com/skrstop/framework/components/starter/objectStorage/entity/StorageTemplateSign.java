@@ -13,8 +13,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class StorageTemplateSign {
+public abstract class StorageTemplateSign {
 
+    private String targetPath;
     /*** 有效期时间，单位：秒 */
     private Long expireSecondTime;
     /*** 有效期截止时间 */

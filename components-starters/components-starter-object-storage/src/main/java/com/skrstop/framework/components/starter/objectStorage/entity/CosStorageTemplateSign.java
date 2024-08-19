@@ -14,4 +14,7 @@ public class CosStorageTemplateSign extends StorageTemplateSign {
     private String tmpSecretId;
     private String tmpSecretKey;
     private String sessionToken;
+    private String token;
+    private String bucketName;
+    private String region;
 }

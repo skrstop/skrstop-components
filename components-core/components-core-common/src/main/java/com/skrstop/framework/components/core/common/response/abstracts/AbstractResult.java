@@ -19,6 +19,8 @@ public abstract class AbstractResult extends SerializableBean {
     protected String message;
     /*** specific description */
     protected String description;
+    /*** timestamp */
+    protected Long timestamp = System.currentTimeMillis();
 
     public AbstractResult() {
     }

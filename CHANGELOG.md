@@ -1,5 +1,18 @@
 # 组件
 
+##### 1.3.3.20240510-RELEASE
+
+* fix: 修复@SProcessor注解无法扫描到自身bean的问题
+* fix: RegularExpressionConst.HTTP_URL正则表达式优化
+* fix: dynamicRedissonClient 启动依赖DsSelector报错，默认关闭动态redissonClient
+* fix: object-storage-cos 修复base-path参数失效问题
+* fix：object-storage-cos 修复临时资源访问地址错误的问题
+* feat：object-storage-cos 增加公共资源访问地址生成方法·getPublicAccessUrl·
+* feat: Result增加timestamp字段, 可用于客户端本地时间验证等场景
+* fix：Mybatis-plus-join 插件注入bug修复
+* fix：使用hutool-bom
+* fix: cos临时签名bug修复
+
 ##### 1.3.2.20240510-RELEASE
 
 * fix: 修复disruptor包版本问题，4.0.0 降到 3.4.4

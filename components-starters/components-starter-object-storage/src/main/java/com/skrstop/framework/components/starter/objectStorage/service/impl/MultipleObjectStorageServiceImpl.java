@@ -151,13 +151,23 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    }
+
+    @Override
+    public String getPublicAccessUrl(String bucketName, String targetPath) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    }
+
+    @Override
     public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
         return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime);
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
-        return this.getObjectStorageService().getTemporaryAccessSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+        return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
     @Override
