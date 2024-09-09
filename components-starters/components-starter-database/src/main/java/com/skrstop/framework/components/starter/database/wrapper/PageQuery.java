@@ -63,6 +63,18 @@ public class PageQuery extends ClientPageQuery {
         return page;
     }
 
+    public <T> Page<T> toPage(Class<T> clazz, boolean calcCount) {
+        Page<T> page = this.toPage(clazz);
+        page.setSearchCount(calcCount);
+        return page;
+    }
+
+    public Page toPage(boolean calcCount) {
+        Page page = this.toPage();
+        page.setSearchCount(calcCount);
+        return page;
+    }
+
     private List<OrderItem> createOrderItem() {
         List<OrderItem> orderItemList = new ArrayList<>();
         orderItemList.addAll(OrderItem.ascs(ArrayUtil.toArray(this.getAscs(), String.class)));
