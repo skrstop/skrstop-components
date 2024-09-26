@@ -12,6 +12,7 @@
 * fix：Mybatis-plus-join 插件注入bug修复
 * fix：使用hutool-bom
 * fix: cos临时签名bug修复
+* fix: StrUtil.format方法bug修复
 
 ##### 1.2.2.20240510-RELEASE
 
