@@ -272,7 +272,7 @@ public class StrUtil extends cn.hutool.core.util.StrUtil {
         if (null == template) {
             return null;
         }
-        if (ObjectUtil.isEmptyBatch(params) || StrUtil.isBlank(template)) {
+        if (ArrayUtil.isEmpty(params) || StrUtil.isBlank(template)) {
             return template.toString();
         }
         return StrFormatter.format(template.toString(), params);
