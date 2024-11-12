@@ -284,7 +284,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         bucketName = this.getOrDefaultBucketName(bucketName);
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
         HashMap<String, String> requestParams = new HashMap<>();
-        if (ObjectUtil.isNull(params)) {
+        if (MapUtil.isNotEmpty(params)) {
             params.forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
         }
         URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath
