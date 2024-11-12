@@ -160,12 +160,12 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime) {
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
         throw new NotSupportedException("FTP不支持该操作");
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
         throw new NotSupportedException("FTP不支持该操作");
     }
 

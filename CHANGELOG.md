@@ -1,6 +1,6 @@
 # 组件
 
-##### 1.2.3.20240510-RELEASE
+##### 1.2.3.20241112-RELEASE
 
 * fix: 修复@SProcessor注解无法扫描到自身bean的问题
 * fix: RegularExpressionConst.HTTP_URL正则表达式优化
@@ -13,6 +13,7 @@
 * fix：使用hutool-bom
 * fix: cos临时签名bug修复
 * fix: StrUtil.format方法bug修复
+* feat: components-starter-object-storage cos 临时访问签名增加数据万象处理参数
 
 ##### 1.2.2.20240510-RELEASE
 
