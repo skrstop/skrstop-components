@@ -280,12 +280,16 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime) {
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
+        HashMap<String, String> requestParams = new HashMap<>();
+        if (ObjectUtil.isNull(params)) {
+            params.forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
+        }
         URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath
                 , DateUtil.toDate(endTime), HttpMethodName.GET
-                , new HashMap<String, String>(), new HashMap<String, String>(), false, false);
+                , new HashMap<String, String>(), requestParams, false, false);
         try {
             URI newUrl = new URI(StrUtil.blankToDefault(cosProperties.getAccessUrlProtocol(), url.getProtocol())
                     , url.getUserInfo()
@@ -305,11 +309,11 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         Map<String, String> result = new HashMap<>(targetPath.size(), 1);
         for (String path : targetPath) {
-            result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime));
+            result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime, params));
         }
         return result;
     }

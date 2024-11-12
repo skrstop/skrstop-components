@@ -169,20 +169,6 @@ public interface ObjectStorageService extends Closeable {
     boolean move(String sourceBucketName, String sourcePath, String targetBucketName, String targetPath);
 
     /**
-     * 获取临时访问地址
-     *
-     * @param bucketName
-     * @param targetPath
-     * @param expireTime 有效时间，单位：秒
-     * @return
-     */
-    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime);
-
-    default String getTemporaryAccessUrl(String targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime);
-    }
-
-    /**
      * @param bucketName
      * @param targetPath
      * @return
@@ -212,10 +198,32 @@ public interface ObjectStorageService extends Closeable {
      * @param expireTime 有效时间，单位：秒
      * @return
      */
-    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime);
+    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params);
 
     default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime);
+        return getTemporaryAccessUrl(null, targetPath, expireTime, null);
+    }
+
+    default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(null, targetPath, expireTime, params);
+    }
+
+    /**
+     * 获取临时访问地址
+     *
+     * @param bucketName
+     * @param targetPath
+     * @param expireTime 有效时间，单位：秒
+     * @return
+     */
+    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params);
+
+    default String getTemporaryAccessUrl(String targetPath, long expireTime) {
+        return getTemporaryAccessUrl(null, targetPath, expireTime, null);
+    }
+
+    default String getTemporaryAccessUrl(String targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(null, targetPath, expireTime, params);
     }
 
     /**
