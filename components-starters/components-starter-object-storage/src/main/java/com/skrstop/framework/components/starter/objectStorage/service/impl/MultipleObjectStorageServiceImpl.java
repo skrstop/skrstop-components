@@ -6,7 +6,6 @@ import com.skrstop.framework.components.starter.objectStorage.configuration.dyna
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -166,7 +165,7 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
         return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
