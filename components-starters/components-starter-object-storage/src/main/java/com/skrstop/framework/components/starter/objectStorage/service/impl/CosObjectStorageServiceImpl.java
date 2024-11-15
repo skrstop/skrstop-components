@@ -20,7 +20,6 @@ import com.skrstop.framework.components.starter.objectStorage.configuration.CosP
 import com.skrstop.framework.components.starter.objectStorage.entity.CosStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.executor.ThreadPoolUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.DateUtil;
@@ -41,7 +40,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * FtpServiceImpl class
@@ -319,7 +317,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         CosStorageTemplateSign sign = new CosStorageTemplateSign();
         try {
@@ -380,7 +378,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             }
             if (CollectionUtil.isNotEmpty(contentType)) {
                 // 限制类型
-                Set<String> list = contentType.stream().map(ContentTypeEnum::getContentType).collect(Collectors.toSet());
+                Set<String> list = new LinkedHashSet<>(contentType);
                 Map<String, Set<String>> val = MapUtil.builder("cos:content-type", list).map();
                 conditions.put("string_like", val);
             }

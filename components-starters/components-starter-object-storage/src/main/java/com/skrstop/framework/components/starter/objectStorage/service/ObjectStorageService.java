@@ -1,7 +1,6 @@
 package com.skrstop.framework.components.starter.objectStorage.service;
 
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import java.io.Closeable;
 import java.io.File;
@@ -276,7 +275,7 @@ public interface ObjectStorageService extends Closeable {
      * @param expireSecondTime
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, List<String> contentType) {
         return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, null, null, contentType);
     }
 
@@ -287,7 +286,7 @@ public interface ObjectStorageService extends Closeable {
      * @param <T>
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, List<String> contentType) {
         return getTemporaryUploadSign(null, targetPath, expireSecondTime, null, null, contentType);
     }
 
@@ -304,7 +303,7 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType);
+            , Long minSize, Long maxSize, List<String> contentType);
 
     /**
      * @param targetPath
@@ -316,7 +315,7 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+            , Long minSize, Long maxSize, List<String> contentType) {
         return getTemporaryUploadSign(null, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 

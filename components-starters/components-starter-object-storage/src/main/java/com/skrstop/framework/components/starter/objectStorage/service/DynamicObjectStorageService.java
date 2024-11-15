@@ -1,7 +1,6 @@
 package com.skrstop.framework.components.starter.objectStorage.service;
 
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import java.io.Closeable;
 import java.io.File;
@@ -259,11 +258,11 @@ public interface DynamicObjectStorageService extends Closeable {
      * @param expireSecondTime
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime, List<String> contentType) {
         return getTemporaryAccessSign(dsKey, bucketName, targetPath, expireSecondTime, null, null, contentType);
     }
 
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String targetPath, long expireSecondTime, List<String> contentType) {
         return getTemporaryAccessSign(dsKey, null, targetPath, expireSecondTime, null, null, contentType);
     }
 
@@ -277,10 +276,10 @@ public interface DynamicObjectStorageService extends Closeable {
      * @return
      */
     <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType);
+            , Long minSize, Long maxSize, List<String> contentType);
 
     default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+            , Long minSize, Long maxSize, List<String> contentType) {
         return getTemporaryAccessSign(dsKey, null, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 
