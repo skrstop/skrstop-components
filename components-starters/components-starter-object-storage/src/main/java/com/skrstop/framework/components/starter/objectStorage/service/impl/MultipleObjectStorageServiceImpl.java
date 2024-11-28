@@ -145,23 +145,23 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params);
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
     }
 
     @Override
-    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
-        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath, boolean useOriginHost) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath, useOriginHost);
     }
 
     @Override
-    public String getPublicAccessUrl(String bucketName, String targetPath) {
-        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath, useOriginHost);
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params);
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
     }
 
     @Override
