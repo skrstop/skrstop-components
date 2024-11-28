@@ -94,23 +94,23 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
-    public String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
-        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime, params);
+    public String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
     }
 
     @Override
-    public String getPublicAccessUrl(String bucketName, String targetPath) {
-        return this.objectStorageService.getPublicAccessUrl(bucketName, targetPath);
+    public String getPublicAccessUrl(String dsKey, String bucketName, String targetPath, boolean useOriginHost) {
+        return this.objectStorageService.getPublicAccessUrl(bucketName, targetPath, useOriginHost);
     }
 
     @Override
-    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
-        return this.objectStorageService.getPublicAccessUrl(bucketName, targetPath);
+    public Map<String, String> getPublicAccessUrl(String dsKey, String bucketName, List<String> targetPath, boolean useOriginHost) {
+        return this.objectStorageService.getPublicAccessUrl(bucketName, targetPath, useOriginHost);
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
-        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime, params);
+    public Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
     }
 
     @Override

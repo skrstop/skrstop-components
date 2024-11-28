@@ -165,10 +165,14 @@ public interface DynamicObjectStorageService extends Closeable {
      * @param targetPath
      * @return
      */
-    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath);
+    Map<String, String> getPublicAccessUrl(String dsKey, String bucketName, List<String> targetPath, boolean useOriginHost);
 
-    default Map<String, String> getPublicAccessUrl(List<String> targetPath) {
-        return getPublicAccessUrl(null, targetPath);
+    default Map<String, String> getPublicAccessUrl(String dsKey, String bucketName, List<String> targetPath) {
+        return getPublicAccessUrl(dsKey, null, targetPath, false);
+    }
+
+    default Map<String, String> getPublicAccessUrl(String dsKey, List<String> targetPath) {
+        return getPublicAccessUrl(dsKey, null, targetPath, false);
     }
 
     /**
@@ -178,10 +182,33 @@ public interface DynamicObjectStorageService extends Closeable {
      * @param targetPath
      * @return
      */
-    String getPublicAccessUrl(String bucketName, String targetPath);
+    String getPublicAccessUrl(String dsKey, String bucketName, String targetPath, boolean useOriginHost);
 
-    default String getPublicAccessUrl(String targetPath) {
-        return getPublicAccessUrl(null, targetPath);
+    default String getPublicAccessUrl(String dsKey, String bucketName, String targetPath) {
+        return getPublicAccessUrl(dsKey, null, targetPath, false);
+    }
+
+    default String getPublicAccessUrl(String dsKey, String targetPath) {
+        return getPublicAccessUrl(dsKey, null, targetPath, false);
+    }
+
+    /**
+     * @param bucketName
+     * @param targetPath
+     * @param expireTime 有效时间，单位：秒
+     * @return
+     */
+    Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
+
+    default Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(dsKey, bucketName, targetPath, expireTime, params, false);
+    }
+    default Map<String, String> getTemporaryAccessUrl(String dsKey, List<String> targetPath, long expireTime) {
+        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, null, false);
+    }
+
+    default Map<String, String> getTemporaryAccessUrl(String dsKey, List<String> targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, params, false);
     }
 
     /**
@@ -192,46 +219,17 @@ public interface DynamicObjectStorageService extends Closeable {
      * @param expireTime 有效时间，单位：秒
      * @return
      */
-    Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params);
+    String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
 
-    default Map<String, String> getTemporaryAccessUrl(String dsKey, List<String> targetPath, long expireTime) {
-        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, null);
+    default String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(dsKey, bucketName, targetPath, expireTime, params, false);
     }
-
-    default Map<String, String> getTemporaryAccessUrl(String dsKey, List<String> targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, params);
-    }
-
-    /**
-     * @param bucketName
-     * @param targetPath
-     * @param expireTime 有效时间，单位：秒
-     * @return
-     */
-    String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, long expireTime, Map<String, Object> params);
-
     default String getTemporaryAccessUrl(String dsKey, String targetPath, long expireTime) {
-        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, null);
+        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, null, false);
     }
 
     default String getTemporaryAccessUrl(String dsKey, String targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, params);
-    }
-
-    /**
-     * 获取临时访问秘钥
-     *
-     * @param bucketName
-     * @param targetPath
-     * @param expireSecondTime
-     * @return
-     */
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime) {
-        return getTemporaryAccessSign(dsKey, bucketName, targetPath, expireSecondTime, null, null, null);
-    }
-
-    default <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String targetPath, long expireSecondTime) {
-        return getTemporaryAccessSign(dsKey, null, targetPath, expireSecondTime, null, null, null);
+        return getTemporaryAccessUrl(dsKey, null, targetPath, expireTime, params, false);
     }
 
     /**

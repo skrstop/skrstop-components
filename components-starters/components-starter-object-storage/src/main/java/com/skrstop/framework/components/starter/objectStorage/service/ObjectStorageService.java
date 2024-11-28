@@ -172,10 +172,14 @@ public interface ObjectStorageService extends Closeable {
      * @param targetPath
      * @return
      */
-    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath);
+    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath, boolean useOriginHost);
+
+    default Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+        return getPublicAccessUrl(null, targetPath, false);
+    }
 
     default Map<String, String> getPublicAccessUrl(List<String> targetPath) {
-        return getPublicAccessUrl(null, targetPath);
+        return getPublicAccessUrl(null, targetPath, false);
     }
 
     /**
@@ -185,10 +189,13 @@ public interface ObjectStorageService extends Closeable {
      * @param targetPath
      * @return
      */
-    String getPublicAccessUrl(String bucketName, String targetPath);
+    String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost);
 
+    default String getPublicAccessUrl(String bucketName, String targetPath) {
+        return getPublicAccessUrl(null, targetPath, false);
+    }
     default String getPublicAccessUrl(String targetPath) {
-        return getPublicAccessUrl(null, targetPath);
+        return getPublicAccessUrl(null, targetPath, false);
     }
 
     /**
@@ -197,14 +204,17 @@ public interface ObjectStorageService extends Closeable {
      * @param expireTime 有效时间，单位：秒
      * @return
      */
-    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params);
+    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
 
+    default Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, false);
+    }
     default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, null);
+        return getTemporaryAccessUrl(null, targetPath, expireTime, null, false);
     }
 
     default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, params);
+        return getTemporaryAccessUrl(null, targetPath, expireTime, params, false);
     }
 
     /**
@@ -215,14 +225,17 @@ public interface ObjectStorageService extends Closeable {
      * @param expireTime 有效时间，单位：秒
      * @return
      */
-    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params);
+    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
 
+    default String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, false);
+    }
     default String getTemporaryAccessUrl(String targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, null);
+        return getTemporaryAccessUrl(null, targetPath, expireTime, null, false);
     }
 
     default String getTemporaryAccessUrl(String targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, params);
+        return getTemporaryAccessUrl(null, targetPath, expireTime, params, false);
     }
 
     /**
