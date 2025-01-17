@@ -16,7 +16,7 @@
       "name": "skrstop.http2.config.enable",
       "type": "java.lang.Boolean",
       "description": "是否开启http2.",
-      "defaultValue": "true"
+      "defaultValue": "false"
     },
     {
       "name": "skrstop.feign.config.scan-package",
