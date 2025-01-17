@@ -19,9 +19,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,6 +61,11 @@
             <groupId>com.skrstop.framework</groupId>
             <artifactId>components-util-stress</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-util-http</artifactId>
+        </dependency>
+
     </dependencies>
 
 

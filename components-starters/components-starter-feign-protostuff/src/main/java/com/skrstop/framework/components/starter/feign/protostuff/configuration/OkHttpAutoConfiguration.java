@@ -47,8 +47,8 @@ public class OkHttpAutoConfiguration {
     @ConditionalOnMissingBean({ConnectionPool.class})
     public ConnectionPool httpClientConnectionPool(FeignOkHttpProperties okHttpProperties
             , OkHttpClientConnectionPoolFactory connectionPoolFactory) {
-        Integer maxTotalConnections = okHttpProperties.getMaxConnections();
-        Long timeToLive = okHttpProperties.getTimeToLive();
+        int maxTotalConnections = okHttpProperties.getMaxConnections();
+        long timeToLive = okHttpProperties.getTimeToLive();
         TimeUnit ttlUnit = okHttpProperties.getTimeToLiveUnit();
         return connectionPoolFactory.create(maxTotalConnections, timeToLive, ttlUnit);
     }
@@ -66,11 +66,11 @@ public class OkHttpAutoConfiguration {
             , ConnectionPool connectionPool
             , FeignOkHttpProperties okHttpProperties
             , GlobalHttp2Properties globalHttp2Properties) {
-        Boolean followRedirects = okHttpProperties.isFollowRedirects();
-        Integer connectTimeout = okHttpProperties.getConnectionTimeout();
-        Integer readTimeout = okHttpProperties.getReadTimeout();
-        Integer writeTimeout = okHttpProperties.getWriteTimeout();
-        Boolean disableSslValidation = okHttpProperties.isDisableSslValidation();
+        boolean followRedirects = okHttpProperties.isFollowRedirects();
+        int connectTimeout = okHttpProperties.getConnectionTimeout();
+        int readTimeout = okHttpProperties.getReadTimeout();
+        int writeTimeout = okHttpProperties.getWriteTimeout();
+        boolean disableSslValidation = okHttpProperties.isDisableSslValidation();
         List<Protocol> protocols = new ArrayList<>();
         if (globalHttp2Properties.isEnable()) {
             protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
@@ -78,10 +78,11 @@ public class OkHttpAutoConfiguration {
             protocols.add(Protocol.HTTP_1_1);
         }
         return httpClientFactory.createBuilder(disableSslValidation)
-                .connectTimeout((long) connectTimeout, TimeUnit.MILLISECONDS)
-                .readTimeout((long) readTimeout, TimeUnit.MILLISECONDS)
-                .writeTimeout((long) writeTimeout, TimeUnit.MILLISECONDS)
+                .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+                .readTimeout(readTimeout, TimeUnit.MILLISECONDS)
+                .writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)
                 .followRedirects(followRedirects)
+                .retryOnConnectionFailure(true)
                 .connectionPool(connectionPool)
                 // 自定义请求日志拦截器
                 .addInterceptor(new OkHttpResponseLogInterceptor(globalHttp2Properties.isLogInfoLevelForRequest()))

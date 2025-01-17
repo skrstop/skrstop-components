@@ -100,8 +100,13 @@ skrstop:
     config:
       scan-package: com.skrstop.framework.components.example.starters.cloud.feign.api
       stop-auto-remove-global-response: false
+      gzip-compress: true
   response:
     config:
       ## 该选项为false是，必须设置 feign.config.stop-auto-remove-global-response = true
       ## 【如果同时使用了两个包，程序会做自动设置feign.config.stop-auto-remove-global-response = true】
       support-feign: true
+  http2:
+    config:
+      enable: true
+      log-info-level-for-request: false

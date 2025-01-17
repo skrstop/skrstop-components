@@ -49,6 +49,9 @@ public interface RemoteFeign {
     @PostMapping("/exampleFeign4")
     ListResult<DemoInfo> exampleFeign4(@RequestBody HashMap<String, String> params);
 
+    @PostMapping("/exampleFeign4")
+    DemoInfo exampleFeign42(@RequestBody HashMap<String, String> params);
+
     @PostMapping("/exampleFeign5")
     PageCollectionResult<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list);
 
@@ -78,6 +81,11 @@ public interface RemoteFeign {
         @Override
         public ListResult<DemoInfo> exampleFeign4(HashMap<String, String> params) {
             return ListResult.Builder.error();
+        }
+
+        @Override
+        public DemoInfo exampleFeign42(HashMap<String, String> params) {
+            return null;
         }
 
         @Override

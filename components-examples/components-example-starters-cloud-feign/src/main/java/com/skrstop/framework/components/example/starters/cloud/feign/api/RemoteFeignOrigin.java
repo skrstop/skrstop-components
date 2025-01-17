@@ -1,6 +1,8 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.api;
 
+import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.ListResult;
+import com.skrstop.framework.components.core.common.response.PageCollectionResult;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceUtil;
 import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
@@ -36,23 +38,32 @@ import java.util.List;
 public interface RemoteFeignOrigin {
 
     @GetMapping("/exampleFeign1")
-    Result<String> exampleFeign1(@SpringQueryMap DemoInfo params);
+    Result<Integer> exampleFeign1(@SpringQueryMap DemoInfo params);
 
     @GetMapping("/exampleFeign2")
     ListResult<String> exampleFeign2(@RequestParam(name = "list", required = false) List<String> list);
 
     @GetMapping("/exampleFeign3")
-    Result<String> exampleFeign3(@RequestParam(name = "id") String id);
+    Result<DemoInfo> exampleFeign3(@RequestParam(name = "id") String id);
 
     @PostMapping("/exampleFeign4")
-    Result<String> exampleFeign4(@RequestBody HashMap<String, String> params);
+    ListResult<DemoInfo> exampleFeign4(@RequestBody HashMap<String, String> params);
+
+    @PostMapping("/exampleFeign4")
+    DemoInfo exampleFeign42(@RequestBody HashMap<String, String> params);
+
+    @PostMapping("/exampleFeign5")
+    PageCollectionResult<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list);
+
+    @PostMapping("/exampleFeign6")
+    DefaultResult exampleFeign6();
 
     @Slf4j
     @SuppressWarnings("unchecked")
     class RemoteFeignClientFallBack implements RemoteFeignOrigin {
 
         @Override
-        public Result<String> exampleFeign1(DemoInfo params) {
+        public Result<Integer> exampleFeign1(DemoInfo params) {
             return Result.Builder.error();
         }
 
@@ -61,18 +72,31 @@ public interface RemoteFeignOrigin {
             return ListResult.Builder.error();
         }
 
-
         @Override
-        public Result<String> exampleFeign3(String id) {
+        public Result<DemoInfo> exampleFeign3(String id) {
             return Result.Builder.error();
         }
 
 
         @Override
-        public Result<String> exampleFeign4(HashMap<String, String> params) {
-            return Result.Builder.error();
+        public ListResult<DemoInfo> exampleFeign4(HashMap<String, String> params) {
+            return ListResult.Builder.error();
         }
 
+        @Override
+        public DemoInfo exampleFeign42(HashMap<String, String> params) {
+            return null;
+        }
+
+        @Override
+        public PageCollectionResult<DemoInfo> exampleFeign5(List<String> list) {
+            return PageCollectionResult.Builder.error();
+        }
+
+        @Override
+        public DefaultResult exampleFeign6() {
+            return DefaultResult.Builder.error();
+        }
     }
 
     @Slf4j
@@ -80,7 +104,7 @@ public interface RemoteFeignOrigin {
         @Override
         public RemoteFeignOrigin create(Throwable throwable) {
             log.error("TestFeign 服务调用失败: {}", ThrowableStackTraceUtil.getStackTraceStr(throwable));
-            return new RemoteFeignClientFallBack();
+            return new RemoteFeignOrigin.RemoteFeignClientFallBack();
         }
     }
 

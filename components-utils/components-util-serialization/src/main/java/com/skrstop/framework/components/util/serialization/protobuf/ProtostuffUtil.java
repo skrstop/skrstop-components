@@ -5,18 +5,21 @@ import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.PageListResult;
 import com.skrstop.framework.components.core.common.response.Result;
 import io.protostuff.LinkedBuffer;
-import io.protostuff.ProtobufIOUtil;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
 import lombok.experimental.UtilityClass;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * protostuff 序列化工具
@@ -124,9 +127,6 @@ public class ProtostuffUtil {
         try {
             Object serializeObject = obj;
             Schema schema = WRAPPER_SCHEMA;
-            /**
-             * @see ProtobufIOUtil
-             */
             if (ProtostuffUtil.notSupported(clazz)) {
                 serializeObject = SerializeDeserializeWrapper.builder(obj);
             } else {
@@ -137,6 +137,34 @@ public class ProtostuffUtil {
             buffer.clear();
         }
     }
+
+    /**
+     * 序列化对象，并压缩对象
+     *
+     * @param obj
+     * @return
+     * @throws IOException
+     */
+    public static byte[] serializeAndCompress(Object obj) throws IOException {
+        byte[] serialize = serialize(obj);
+        return compress(serialize);
+    }
+
+
+    /**
+     * 序列化对象，并压缩对象
+     *
+     * @param obj
+     * @return
+     * @throws IOException
+     */
+    public static byte[] serializeWithCompress(Object obj, boolean compress) throws IOException {
+        if (compress) {
+            return serializeAndCompress(obj);
+        }
+        return serialize(obj);
+    }
+
 
     /**
      * 反序列化对象
@@ -223,6 +251,35 @@ public class ProtostuffUtil {
     }
 
     /**
+     * 反序列化对象
+     *
+     * @param inputStream 需要反序列化的输入流
+     * @param clazz       反序列化后的对象class
+     * @param <T>         反序列化后的对象类型
+     * @return 反序列化后的实例对象
+     */
+    public static <T> T deserializeAndUncompress(InputStream inputStream, Class<T> clazz) throws IOException {
+        try (GZIPInputStream gzip = new GZIPInputStream(inputStream)) {
+            return deserialize(gzip, clazz);
+        }
+    }
+
+    /**
+     * 反序列化对象
+     *
+     * @param inputStream 需要反序列化的输入流
+     * @param clazz       反序列化后的对象class
+     * @param <T>         反序列化后的对象类型
+     * @return 反序列化后的实例对象
+     */
+    public static <T> T deserializeWithUncompress(InputStream inputStream, Class<T> clazz, boolean uncompress) throws IOException {
+        if (uncompress) {
+            return deserializeAndUncompress(inputStream, clazz);
+        }
+        return deserialize(inputStream, clazz);
+    }
+
+    /**
      * 反序列化Result<T>
      *
      * @param inputStream 需要反序列化的输入流
@@ -265,4 +322,29 @@ public class ProtostuffUtil {
     }
 
 
+    public static byte[] compress(byte[] bytes) throws IOException {
+        if (bytes == null || bytes.length == 0) {
+            return new byte[0];
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
+            gzip.write(bytes);
+        }
+        return outputStream.toByteArray();
+    }
+
+    public static byte[] uncompress(byte[] bytes) throws IOException {
+        if (bytes == null || bytes.length == 0) {
+            return new byte[0];
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        GZIPInputStream gunzip = new GZIPInputStream(in);
+        byte[] buffer = new byte[256];
+        int n;
+        while ((n = gunzip.read(buffer)) >= 0) {
+            out.write(buffer, 0, n);
+        }
+        return out.toByteArray();
+    }
 }

@@ -46,6 +46,11 @@ public class GlobalFeignProperties {
     private boolean logErrorAutoRemoveGlobalResponse = true;
 
     /**
+     * 是否开启gzip压缩，默认：true
+     */
+    private Boolean gzipCompress = true;
+
+    /**
      * 是否传递请求头，默认：true
      */
     private Boolean transferHeader = true;
