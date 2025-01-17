@@ -9,6 +9,8 @@ spring:
 
 server:
   port: 8080
+  http2:
+    enabled: false
   tomcat:
     threads:
       min-spare: 10
@@ -108,5 +110,5 @@ skrstop:
       support-feign: true
   http2:
     config:
-      enable: true
-      log-info-level-for-request: false
+      enable: false
+      log-info-level-for-request: true

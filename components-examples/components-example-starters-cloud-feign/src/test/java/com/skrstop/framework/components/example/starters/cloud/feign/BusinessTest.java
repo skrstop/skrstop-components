@@ -7,6 +7,7 @@ import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteF
 import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import com.skrstop.framework.components.util.stress.StressStoreUtil;
 import com.skrstop.framework.components.util.stress.result.StressResult;
+import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,10 +28,12 @@ public class BusinessTest {
     private RemoteFeignController remoteFeignController;
     @Autowired
     private RemoteFeignOrigin remoteFeignOrigin;
+    @Autowired
+    private OkHttpClient okHttpClient;
 
     @Test
     public void feignPbTest() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             testExecute();
         }
     }
@@ -52,6 +55,7 @@ public class BusinessTest {
             if (result.isFailed()) {
                 System.out.println("failed");
             }
+//            okHttpClient.newCall(new Request.Builder().url("http://localhost:8080/feign/exampleFeign3?id=1234567890").build()).execute().close();
         }, 10);
         // pb
         StressResult pbTest = StressStoreUtil.test(4, 2000, () -> {
