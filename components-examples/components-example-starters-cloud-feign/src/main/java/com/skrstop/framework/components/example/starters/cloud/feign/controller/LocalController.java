@@ -67,21 +67,21 @@ public class LocalController {
     public void exampleTest() {
         // 原始
         StressResult originTest = StressStoreUtil.test(Runtime.getRuntime().availableProcessors() * 2, 5000, () -> {
-            remoteFeign.exampleFeign4(new HashMap<String, String>() {{
+            remoteFeignOrigin.exampleFeign4(new HashMap<String, String>() {{
                 put("name", "skrstop");
                 put("age", "18");
             }});
         }, 10);
         // pb
-        StressResult pbTest = StressStoreUtil.test(Runtime.getRuntime().availableProcessors() * 2, 5000, () -> {
-            remoteFeignController.exampleFeign4(new HashMap<String, String>() {{
-                put("name", "skrstop");
-                put("age", "18");
-            }});
-        }, 10);
+//        StressResult pbTest = StressStoreUtil.test(Runtime.getRuntime().availableProcessors() * 2, 5000, () -> {
+//            remoteFeignController.exampleFeign4(new HashMap<String, String>() {{
+//                put("name", "skrstop");
+//                put("age", "18");
+//            }});
+//        }, 10);
         // 控制台输出
-        System.out.println("原始压测\n" + StressStoreUtil.format(originTest));
-        System.out.println("pb压测\n" + StressStoreUtil.format(pbTest));
+//        System.out.println("原始压测\n" + StressStoreUtil.format(originTest));
+//        System.out.println("pb压测\n" + StressStoreUtil.format(pbTest));
     }
 
 }

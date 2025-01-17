@@ -103,6 +103,7 @@ public class OkHttpAutoConfiguration {
                 .readTimeout(readTimeout, TimeUnit.MILLISECONDS)
                 .writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)
                 .followRedirects(followRedirects)
+                .retryOnConnectionFailure(true)
                 .connectionPool(connectionPool)
                 // 自定义请求日志拦截器
                 .addInterceptor(new OkHttpResponseLogInterceptor(globalHttp2Properties.isLogInfoLevelForRequest()))

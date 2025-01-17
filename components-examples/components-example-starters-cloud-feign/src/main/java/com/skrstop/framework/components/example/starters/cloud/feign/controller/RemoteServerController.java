@@ -1,6 +1,5 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.skrstop.framework.components.core.common.response.page.CommonPageData;
 import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeignController;
@@ -27,7 +26,7 @@ public class RemoteServerController implements RemoteFeignController {
     @Override
     @GetMapping("/exampleFeign1")
     public Integer exampleFeign1(@SpringQueryMap DemoInfo params) {
-        System.out.println(JSONUtil.toJsonStr(params));
+//        System.out.println(JSONUtil.toJsonStr(params));
         if (true) {
             throw new RuntimeException("test exception");
         }
@@ -37,21 +36,21 @@ public class RemoteServerController implements RemoteFeignController {
     @Override
     @GetMapping("/exampleFeign2")
     public List<String> exampleFeign2(@RequestParam(name = "list", required = false) List<String> list) {
-        System.out.println(JSONUtil.toJsonStr(list));
+//        System.out.println(JSONUtil.toJsonStr(list));
         return list;
     }
 
     @Override
     @GetMapping("/exampleFeign3")
     public DemoInfo exampleFeign3(@RequestParam(name = "id") String id) {
-        System.out.println(id);
+//        System.out.println(id);
         return new DemoInfo("name");
     }
 
     @Override
     @PostMapping("/exampleFeign4")
     public List<DemoInfo> exampleFeign4(@RequestBody HashMap<String, String> params) {
-        System.out.println(JSONUtil.toJsonStr(params));
+//        System.out.println(JSONUtil.toJsonStr(params));
         List<DemoInfo> result = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             result.add(new DemoInfo("name-" + i));

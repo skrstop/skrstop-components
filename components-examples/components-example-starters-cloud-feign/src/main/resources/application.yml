@@ -14,8 +14,8 @@ server:
       min-spare: 10
       max: 200
     connection-timeout: 15000
-    accept-count: 4096
-    max-connections: 65000
+    #    accept-count: 4096
+    #    max-connections: 65000
     mbeanregistry:
       enabled: true
     relaxed-path-chars:
@@ -42,6 +42,8 @@ server:
       - '^'
       - '`'
       - '"'
+  http2:
+    enabled: true
 
 logging:
   config: classpath:logConfig/log4j2.xml
@@ -99,6 +101,7 @@ skrstop:
     config:
       scan-package: com.skrstop.framework.components.example.starters.cloud.feign.api
       stop-auto-remove-global-response: false
+      gzip-compress: true
   response:
     config:
       ## 该选项为false是，必须设置 feign.config.stop-auto-remove-global-response = true
