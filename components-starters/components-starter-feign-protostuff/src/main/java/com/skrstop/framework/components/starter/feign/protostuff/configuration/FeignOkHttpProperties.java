@@ -13,7 +13,7 @@ public class FeignOkHttpProperties {
     /**
      * Default value for disabling SSL validation.
      */
-    public static final boolean DEFAULT_DISABLE_SSL_VALIDATION = false;
+    public static final boolean DEFAULT_DISABLE_SSL_VALIDATION = true;
 
     /**
      * Default value for max number od connections.
