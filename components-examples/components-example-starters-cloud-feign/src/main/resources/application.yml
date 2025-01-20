@@ -110,5 +110,5 @@ skrstop:
       support-feign: true
   http2:
     config:
-      enable: false
-      log-info-level-for-request: true
+      enable: true
+      log-info-level-for-request: false
