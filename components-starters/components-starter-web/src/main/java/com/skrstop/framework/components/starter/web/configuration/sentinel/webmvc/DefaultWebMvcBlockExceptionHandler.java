@@ -15,24 +15,25 @@
  */
 package com.skrstop.framework.components.starter.web.configuration.sentinel.webmvc;
 
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.starter.web.utils.ResponseOutUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default handler for the blocked request.
  *
  * @author kaizi2009
  */
+@Slf4j
 public class DefaultWebMvcBlockExceptionHandler implements BlockExceptionHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
-        // 限流异常
+    public void handle(HttpServletRequest request, HttpServletResponse response, String s, BlockException e) throws Exception {
+        log.error("Sentinel block exception: {}", s, e);
         ResponseOutUtil.out(response, CommonResultCode.BUSY, CommonResultCode.class);
     }
-
 }
