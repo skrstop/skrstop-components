@@ -35,6 +35,7 @@ import org.springframework.context.expression.BeanFactoryResolver;
  */
 @Configuration
 @EnableConfigurationProperties(DynamicDataSourceProperties.class)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DynamicDataSourceAopConfiguration {
 
     private final DynamicDataSourceProperties properties;
@@ -45,6 +46,7 @@ public class DynamicDataSourceAopConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DsProcessor dsProcessor(BeanFactory beanFactory) {
         DsSpelExpressionProcessor spelExpressionProcessor = new DsSpelExpressionProcessor();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));

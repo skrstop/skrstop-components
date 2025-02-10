@@ -2,9 +2,8 @@ package com.skrstop.framework.components.core.common.util;
 
 import com.skrstop.framework.components.core.common.response.*;
 import com.skrstop.framework.components.core.common.response.core.*;
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
+import com.skrstop.framework.components.core.common.response.page.SimplePageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,61 +20,60 @@ import java.util.*;
 @SuppressWarnings("all")
 public class DynamicResult {
 
-    private static PageInfo defaultIfNull(PageInfo pageInfo, PageInfo defaultPageInfo) {
-        if (Objects.isNull(pageInfo)) {
-            return defaultPageInfo;
+    private static PageData defaultIfNull(PageData pageData, PageData defaultPageData) {
+        if (Objects.isNull(pageData)) {
+            return defaultPageData;
         }
-        return pageInfo;
+        return pageData;
     }
 
-    public static IPageResult buildPage(PageInfo pageInfo, Collection<?> val) {
+    public static IPageResult buildPage(PageData pageData, Collection<?> val) {
         if (Objects.isNull(val)) {
             return DefaultPageResult.Builder.success();
         }
-        pageInfo = defaultIfNull(pageInfo, new SimplePageInfo());
+        pageData = defaultIfNull(pageData, new SimplePageData());
         // object
         if (val instanceof List) {
-            return PageListResult.Builder.success(pageInfo, (List) val);
+            return PageListResult.Builder.success(pageData, (List) val);
         } else if (val instanceof HashSet) {
-            return PageHashSetResult.Builder.success(pageInfo, (HashSet) val);
+            return PageHashSetResult.Builder.success(pageData, (HashSet) val);
         } else if (val instanceof LinkedHashSet) {
-            return PageLinkedSetResult.Builder.success(pageInfo, (LinkedHashSet) val);
+            return PageLinkedSetResult.Builder.success(pageData, (LinkedHashSet) val);
         } else if (val instanceof Set) {
-            return PageSetResult.Builder.success(pageInfo, (Set) val);
+            return PageSetResult.Builder.success(pageData, (Set) val);
         } else if (val instanceof Collection) {
-            return PageCollectionResult.Builder.success(pageInfo, (Collection) val);
+            return PageCollectionResult.Builder.success(pageData, (Collection) val);
         }
-        return PageCollectionResult.Builder.success(pageInfo, val);
+        return PageCollectionResult.Builder.success(pageData, val);
     }
 
-    public static IPageResult buildPage(CommonPageData<?> commonPageData) {
-        if (Objects.isNull(commonPageData)) {
+    public static IPageResult buildPage(PageData<?> pageData) {
+        if (Objects.isNull(pageData)) {
             return DefaultPageResult.Builder.success();
         }
-        PageInfo pageInfo = defaultIfNull(commonPageData.getPageInfo(), new SimplePageInfo());
-        return buildPage(pageInfo, commonPageData.getData());
+        pageData = defaultIfNull(pageData, new SimplePageData());
+        Object rows = pageData.getRows();
+        if (rows instanceof List) {
+            return PageListResult.Builder.success(pageData);
+        } else if (rows instanceof LinkedHashSet) {
+            return PageLinkedSetResult.Builder.success(pageData);
+        } else if (rows instanceof HashSet) {
+            return PageHashSetResult.Builder.success(pageData);
+        } else if (rows instanceof Set) {
+            return PageSetResult.Builder.success(pageData);
+        } else if (rows instanceof Collection) {
+            return PageCollectionResult.Builder.success(pageData);
+        }
+        return PageListResult.Builder.success(pageData, new ArrayList<>());
     }
 
     public static IPageResult buildPage(IPageResult result) {
         if (Objects.isNull(result)) {
             return DefaultPageResult.Builder.success();
         }
-        PageInfo pageInfo = defaultIfNull(result.getPageInfo(), new SimplePageInfo());
-        // result
-        if (result instanceof IDataPageListResult) {
-            return PageListResult.Builder.success(pageInfo, ((IDataPageListResult<?>) result).getData());
-        } else if (result instanceof IDataPageHashSetResult) {
-            return PageHashSetResult.Builder.success(pageInfo, ((IDataPageHashSetResult<?>) result).getData());
-        } else if (result instanceof IDataPageLinkedSetResult) {
-            return PageLinkedSetResult.Builder.success(pageInfo, ((IDataPageLinkedSetResult<?>) result).getData());
-        } else if (result instanceof IDataPageSetResult) {
-            return PageSetResult.Builder.success(pageInfo, ((IDataPageSetResult<?>) result).getData());
-        } else if (result instanceof IDataPageCollectionResult) {
-            return PageCollectionResult.Builder.success(pageInfo, ((IDataPageCollectionResult<?>) result).getData());
-        } else if (result instanceof IPageResult) {
-            return DefaultPageResult.Builder.success(pageInfo);
-        }
-        return PageCollectionResult.Builder.result(result);
+        PageData pageData = defaultIfNull(result.getData(), new SimplePageData());
+        result.setData(pageData);
+        return result;
     }
 
     public static IResult build(Object val) {

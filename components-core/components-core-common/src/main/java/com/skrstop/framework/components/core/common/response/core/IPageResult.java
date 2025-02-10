@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.core.common.response.core;
 
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 
 /**
  * response code interface
@@ -8,9 +8,11 @@ import com.skrstop.framework.components.core.common.response.page.PageInfo;
  * @author 蒋时华
  * @date 2018/7/19
  */
-public interface IPageResult extends IResult {
+public interface IPageResult<T> extends IResult {
 
-    /*** get page info */
-    PageInfo getPageInfo();
+    /*** get page data */
+    PageData<T> getData();
+
+    void setData(PageData<T> data);
 
 }

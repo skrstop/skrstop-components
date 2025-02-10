@@ -6,7 +6,7 @@ import com.skrstop.framework.components.util.value.data.StrUtil;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.config.MorphiaConfig;
-import io.smallrye.config.ConfigValuePropertiesConfigSource;
+import io.smallrye.config.DefaultValuesConfigSource;
 import io.smallrye.config.SmallRyeConfigBuilder;
 import lombok.experimental.UtilityClass;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -64,7 +64,7 @@ public class DatastoreBuildUtil {
         params.put("morphia.store-empties", StrUtil.toString(globalMongodbProperties.isStoreEmpties()));
         params.put("morphia.store-nulls", StrUtil.toString(globalMongodbProperties.isStoreNulls()));
         params.put("morphia.uuid-representation", globalMongodbProperties.getUuidRepresentation());
-        ConfigValuePropertiesConfigSource configValue = new ConfigValuePropertiesConfigSource(params, "default", 0);
+        DefaultValuesConfigSource configValue = new DefaultValuesConfigSource(params, "default", 0);
         List<ConfigSource> configSources = new ArrayList<>();
         configSources.add(configValue);
         MorphiaConfig morphiaConfig = new SmallRyeConfigBuilder()

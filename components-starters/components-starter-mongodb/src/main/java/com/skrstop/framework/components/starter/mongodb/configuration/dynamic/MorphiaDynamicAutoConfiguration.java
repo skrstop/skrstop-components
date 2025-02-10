@@ -36,10 +36,12 @@ import org.springframework.core.env.Environment;
 @EnableConfigurationProperties({DynamicMongodbProperties.class, GlobalMongodbProperties.class})
 @AutoConfigureBefore(value = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @ConditionalOnProperty(prefix = GlobalConfigConst.MONGODB_DYNAMIC, name = "enabled", havingValue = "true", matchIfMissing = false)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class MorphiaDynamicAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DsSelector dsSelector(BeanFactory beanFactory) {
         DsSpelExpressionSelector spelExpressionProcessor = new DsSpelExpressionSelector();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));

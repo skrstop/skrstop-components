@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public abstract class AbstractPageInfo extends SerializableBean {
+public abstract class AbstractPageInfo<T> extends SerializableBean {
 
     /*** 当前页数 */
     protected long pageNumber;
@@ -19,7 +19,8 @@ public abstract class AbstractPageInfo extends SerializableBean {
     /*** 总数量 */
     protected long total;
     /*** 上一个分页信息，用户深度分页 */
-    private String lastPageInfo;
+    protected String lastPageInfo;
+    protected T rows;
 
     public AbstractPageInfo() {
     }

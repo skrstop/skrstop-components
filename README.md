@@ -78,24 +78,18 @@
 
 # 常用可用类库版本
 
-* springBoot 3.1.6
-* springCloud 2022.0.4
-* springCloudAlibaba 2022.0.0.0
-* log4j 2.22.0
-* lombok 1.8.30
-* mybatis 3.5.14
-* mybatis-plus 3.5.4.1
-* mybatis-fluent 1.9.9
-* redisson 3.25.0
-* druid 1.2.20
-* hutool 5.8.23
-* fastjson 2.0.42
-* dubbo 3.2.9
-* protostuff 1.8.0
-* lettuce 6.3.0.RELEASE
-* jedis 5.1.0
-* morphia 2.4.9
-* javacv 1.5.9
+* springBoot 3.4.1
+* springCloud 2023.0.5
+* springCloudAlibaba 2023.0.1.0
+* log4j 2.24.3
+* lombok 1.8.36
+* mybatis 3.5.19
+* mybatis-plus 3.5.7
+* redisson 3.43.0
+* druid 1.2.24
+* hutool 5.8.35
+* fastjson 2.0.54
+* morphia 2.4.14
 * ...
 
 # 计划待添加功能

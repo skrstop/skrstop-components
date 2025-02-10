@@ -13,6 +13,7 @@ import com.skrstop.framework.components.starter.redis.service.RedisService;
 import com.skrstop.framework.components.starter.redis.service.impl.DynamicRedisServiceImpl;
 import com.skrstop.framework.components.starter.redis.service.impl.RedisServiceImpl;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -23,6 +24,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -44,6 +46,7 @@ public class CustomRedisAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(name = {GlobalConfigConst.REDIS_DYNAMIC + ".enabled", GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled"}, havingValue = "true")
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DsSelector dsSelector(BeanFactory beanFactory) {
         DsSpelExpressionSelector spelExpressionProcessor = new DsSpelExpressionSelector();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));

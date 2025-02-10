@@ -2,7 +2,10 @@ package com.skrstop.framework.components.util.serialization.json;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.skrstop.framework.components.core.common.response.*;
+import com.skrstop.framework.components.core.common.response.CollectionResult;
+import com.skrstop.framework.components.core.common.response.DefaultPageResult;
+import com.skrstop.framework.components.core.common.response.DefaultResult;
+import com.skrstop.framework.components.core.common.response.Result;
 import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
@@ -149,23 +152,6 @@ public class GsonUtil {
     @SuppressWarnings("unchecked")
     public static DefaultResult toBeanForDefaultResult(String json) {
         return GsonUtil.toBean(json, DefaultResult.class);
-    }
-
-    /**
-     * json to PageResult<T>
-     *
-     * @param json
-     * @param data
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> PageListResult<T> toBeanForPageListResult(String json, Class<T> data) {
-        PageListResult<T> pageResult = GsonUtil.toBean(json, PageListResult.class);
-        if (pageResult.getData() != null) {
-            List<T> ts = GsonUtil.toBeanForList(pageResult.getData().toString(), data);
-            pageResult.setData(ts);
-        }
-        return pageResult;
     }
 
     /**

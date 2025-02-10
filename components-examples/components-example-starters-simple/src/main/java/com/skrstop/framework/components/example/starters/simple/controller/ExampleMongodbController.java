@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.controller;
 
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example1Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
@@ -59,7 +59,7 @@ public class ExampleMongodbController {
                 .build();
         example1MongoService.save(example1);
         Example2Mongo example2 = Example2Mongo.builder()
-                .valStr("aaaaaa")
+                .valStr("bbbb")
                 .valBol(false)
                 .valData(LocalDateTime.now())
                 .valLong(11111111L)
@@ -108,7 +108,7 @@ public class ExampleMongodbController {
      * @return
      */
     @GetMapping("/exampleMongodb4")
-    public CommonPageData<Example2Mongo> exampleMongodb4(PageQuery pageQuery) {
+    public ListSimplePageData<Example2Mongo> exampleMongodb4(PageQuery pageQuery) {
         return example2MongoService.findPage(pageQuery, CollectionUtil.newArrayList());
     }
 

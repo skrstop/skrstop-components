@@ -307,7 +307,7 @@ public class DynamicAopRedissonClient {
      * @param codec codec for values
      * @return JsonBucket object
      */
-    public <V> RJsonBucket<V> getJsonBucket(String name, JsonCodec<V> codec) {
+    public <V> RJsonBucket<V> getJsonBucket(String name, JsonCodec codec) {
         RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
         return redissonClient.getJsonBucket(name, codec);
     }

@@ -31,14 +31,14 @@ public class RetryTimeUtil {
         // 获取时间差
         long offsetSec = (currentTime - targetTriggerTime) / 1000;
         // 得到2的n次幂
-        long power = new Double(Math.pow(2, retryCount)).longValue();
+        long power = Double.valueOf(Math.pow(2, retryCount)).longValue();
         // 返回是否满足重试条件
         return offsetSec >= power * intervalSec;
     }
 
     public static Long getNextRetryTime(Long currentTime, int retryCount, int intervalSec) {
         // 得到2的n次幂
-        long power = new Double(Math.pow(2, retryCount)).longValue();
+        long power = Double.valueOf(Math.pow(2, retryCount)).longValue();
         // 返回是否满足重试条件
         return currentTime + power * intervalSec;
     }

@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass({TomcatServletWebServerFactory.class, Http2Protocol.class})
-@EnableConfigurationProperties(GlobalHttp2Properties.class)
+@EnableConfigurationProperties(GlobalFeignProperties.class)
 public class Http2TomcatAutoConfiguration implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
     @Autowired
-    private GlobalHttp2Properties globalHttp2Properties;
+    private GlobalFeignProperties globalFeignProperties;
 
     @Override
     public void customize(TomcatServletWebServerFactory factory) {
 
-        if (!globalHttp2Properties.isEnable()) {
+        if (!globalFeignProperties.isEnableHttp2()) {
             return;
         }
         factory.addProtocolHandlerCustomizers(s -> s.addUpgradeProtocol(new Http2Protocol()));

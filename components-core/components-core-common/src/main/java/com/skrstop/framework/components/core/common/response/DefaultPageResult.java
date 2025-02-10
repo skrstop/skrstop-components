@@ -4,8 +4,8 @@ import com.skrstop.framework.components.core.common.response.abstracts.AbstractP
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
+import com.skrstop.framework.components.core.common.response.page.SimplePageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@SuppressWarnings("all")
 public class DefaultPageResult extends AbstractPageResult implements IPageResult {
 
     private static final long serialVersionUID = 9019006933206591705L;
@@ -31,16 +32,16 @@ public class DefaultPageResult extends AbstractPageResult implements IPageResult
         super(IPageResult);
     }
 
-    public DefaultPageResult(IResult IResult, PageInfo pageInfo) {
-        super(IResult, pageInfo);
+    public DefaultPageResult(IResult IResult, PageData pageData) {
+        super(IResult, pageData);
     }
 
     public DefaultPageResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
+        super(IResult, new SimplePageData(pageNum, pageSize));
     }
 
     public DefaultPageResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
+        super(IResult, new SimplePageData(pageNum, pageSize, total));
     }
 
     public static class Builder {
@@ -77,8 +78,8 @@ public class DefaultPageResult extends AbstractPageResult implements IPageResult
          *
          * @return Result
          */
-        public static DefaultPageResult success(PageInfo pageInfo) {
-            return new DefaultPageResult(CommonResultCode.SUCCESS, pageInfo);
+        public static DefaultPageResult success(PageData pageData) {
+            return new DefaultPageResult(CommonResultCode.SUCCESS, pageData);
         }
 
 
@@ -114,8 +115,8 @@ public class DefaultPageResult extends AbstractPageResult implements IPageResult
          *
          * @return Result
          */
-        public static DefaultPageResult error(PageInfo pageInfo) {
-            return new DefaultPageResult(CommonResultCode.FAIL, pageInfo);
+        public static DefaultPageResult error(PageData pageData) {
+            return new DefaultPageResult(CommonResultCode.FAIL, pageData);
         }
 
         /**
@@ -150,8 +151,8 @@ public class DefaultPageResult extends AbstractPageResult implements IPageResult
          *
          * @return Result
          */
-        public static DefaultPageResult result(IResult IResult, PageInfo pageInfo) {
-            return new DefaultPageResult(IResult, pageInfo);
+        public static DefaultPageResult result(IResult IResult, PageData pageData) {
+            return new DefaultPageResult(IResult, pageData);
         }
 
     }

@@ -4,7 +4,7 @@ package com.skrstop.framework.components.core.common.response.page;
  * @author 蒋时华
  * @date 2020-05-02 15:17:51
  */
-public interface PageInfo {
+public interface PageData<T> {
 
     /*** 获取int当前页数 */
     long getPageNumber();
@@ -23,6 +23,10 @@ public interface PageInfo {
 
     /*** 设置总数量 */
     void setTotal(long total);
+
+    T getRows();
+
+    void setRows(T rows);
 
     /*** 上一个分页信息，用户深度分页 */
     default void setLastPageInfo(String lastPageInfo) {

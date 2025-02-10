@@ -5,7 +5,6 @@ import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import feign.Request;
 import org.springframework.aop.scope.ScopedProxyUtils;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -186,7 +185,8 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
         // code
         definition.addPropertyValue("qualifiers", qualifiers);
         AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
-        beanDefinition.setAttribute(FactoryBean.OBJECT_TYPE_ATTRIBUTE, className);
+        // 修复高版本不兼容问题
+//        beanDefinition.setAttribute(FactoryBean.OBJECT_TYPE_ATTRIBUTE, className);
         // has a default, won't be null
         boolean primary = (Boolean) attributes.get("primary");
         beanDefinition.setPrimary(primary);
@@ -230,7 +230,8 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
         validate(attributes);
 
         AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
-        beanDefinition.setAttribute(FactoryBean.OBJECT_TYPE_ATTRIBUTE, className);
+        // 修复高版本不兼容问题
+//        beanDefinition.setAttribute(FactoryBean.OBJECT_TYPE_ATTRIBUTE, className);
         beanDefinition.setAttribute("feignClientsRegistrarFactoryBean", factoryBean);
 
         // has a default, won't be null

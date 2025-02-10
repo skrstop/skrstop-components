@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class FullPageInfo extends AbstractPageInfo implements PageInfo {
+public class FullPageData<T> extends AbstractPageInfo<T> implements PageData<T> {
 
     private static final long serialVersionUID = 8898361203910360871L;
     /*** 总页数 */
@@ -33,16 +33,16 @@ public class FullPageInfo extends AbstractPageInfo implements PageInfo {
     private boolean hasNextPage;
 
 
-    public FullPageInfo() {
+    public FullPageData() {
     }
 
-    public FullPageInfo(long pageNumber, long pageSize) {
+    public FullPageData(long pageNumber, long pageSize) {
         this.pageNumber = Math.max(pageNumber, 0);
         this.pageSize = Math.max(pageSize, 0);
         this.setParam();
     }
 
-    public FullPageInfo(long pageNumber, long pageSize, long total) {
+    public FullPageData(long pageNumber, long pageSize, long total) {
         this.pageNumber = Math.max(pageNumber, 0);
         this.pageSize = Math.max(pageSize, 0);
         this.total = Math.max(total, 0);

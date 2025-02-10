@@ -31,6 +31,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 @ConditionalOnProperty(name = GlobalConfigConst.REDIS_DYNAMIC + ".enabled", havingValue = "true", matchIfMissing = false)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DynamicRedisAutoConfiguration {
     /**
      * aop

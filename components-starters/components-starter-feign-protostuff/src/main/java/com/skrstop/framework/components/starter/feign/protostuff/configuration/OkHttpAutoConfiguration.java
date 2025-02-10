@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -36,9 +36,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @ConditionalOnClass(Feign.class)
-@AutoConfigureAfter(FeignAutoConfiguration.class)
-@ConditionalOnProperty(value = "feign.okhttp.enabled", havingValue = "true", matchIfMissing = false)
-@EnableConfigurationProperties({GlobalHttp2Properties.class, FeignOkHttpProperties.class})
+@AutoConfigureBefore(FeignAutoConfiguration.class)
+@ConditionalOnProperty(value = "spring.cloud.openfeign.ok-http.enabled", havingValue = "true", matchIfMissing = false)
+@EnableConfigurationProperties({FeignOkHttpProperties.class, GlobalFeignProperties.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 @Slf4j
 public class OkHttpAutoConfiguration {
@@ -69,14 +69,14 @@ public class OkHttpAutoConfiguration {
     @Bean
     public OkHttpClient client(ConnectionPool connectionPool
             , FeignOkHttpProperties okHttpProperties
-            , GlobalHttp2Properties globalHttp2Properties) {
+            , GlobalFeignProperties globalFeignProperties) {
         boolean followRedirects = okHttpProperties.isFollowRedirects();
         int connectTimeout = okHttpProperties.getConnectionTimeout();
         int readTimeout = okHttpProperties.getReadTimeout();
         int writeTimeout = okHttpProperties.getWriteTimeout();
         boolean disableSslValidation = okHttpProperties.isDisableSslValidation();
         List<Protocol> protocols = new ArrayList<>();
-        if (globalHttp2Properties.isEnable()) {
+        if (globalFeignProperties.isEnableHttp2()) {
             protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
         } else {
             protocols.add(Protocol.HTTP_1_1);
@@ -106,7 +106,7 @@ public class OkHttpAutoConfiguration {
                 .retryOnConnectionFailure(true)
                 .connectionPool(connectionPool)
                 // 自定义请求日志拦截器
-                .addInterceptor(new OkHttpResponseLogInterceptor(globalHttp2Properties.isLogInfoLevelForRequest()))
+                .addInterceptor(new OkHttpResponseLogInterceptor(okHttpProperties.isLogInfoLevelForRequest()))
                 .protocols(protocols)
                 .build();
 

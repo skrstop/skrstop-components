@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import com.skrstop.framework.components.starter.web.configuration.format.*;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
@@ -69,9 +69,9 @@ public class JacksonAutoConfiguration {
         SimpleModule simpleModule = new SimpleModule();
         // 序列换成json时,将所有的long变成string
         if (globalResponseProperties == null || globalResponseProperties.isLongToString()) {
-            simpleModule.addSerializer(PageInfo.class, new JsonSerializer<PageInfo>() {
+            simpleModule.addSerializer(PageData.class, new JsonSerializer<PageData>() {
                 @Override
-                public void serialize(PageInfo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+                public void serialize(PageData value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
                     gen.writeRawValue(JSON.toJSONString(value));
                 }
             });

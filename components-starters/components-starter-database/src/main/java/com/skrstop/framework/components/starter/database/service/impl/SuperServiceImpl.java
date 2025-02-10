@@ -23,6 +23,7 @@ import com.skrstop.framework.components.starter.database.utils.SuperParamsUtil;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -54,7 +55,12 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     private static final String DELETED = "deleted";
 
     @Getter
-    private String idColumnName = StrUtil.toUnderlineCase(ReflectUtil.newInstance(entityClass).getIdName());
+    private String idColumnName;
+
+    @PostConstruct
+    private void init() {
+        idColumnName = StrUtil.toUnderlineCase(ReflectUtil.newInstance(super.getEntityClass()).getIdName());
+    }
 
     private void setCreateInfo(T entity) {
         if (!this.isAutoSetCreateExtraInfo()) {
@@ -210,7 +216,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean saveOrUpdate(T entity) {
         if (null != entity) {
-            TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
+            TableInfo tableInfo = TableInfoHelper.getTableInfo(super.getEntityClass());
             Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
             String keyProperty = tableInfo.getKeyProperty();
             Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
@@ -227,11 +233,11 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean saveOrUpdateBatch(Collection<T> entityList) {
-        TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+        TableInfo tableInfo = TableInfoHelper.getTableInfo(super.getEntityClass());
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
         Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
-        return SqlHelper.saveOrUpdateBatch(this.entityClass, this.mapperClass, this.log, entityList, entityList.size()
+        return SqlHelper.saveOrUpdateBatch(super.getSqlSessionFactory(), super.getEntityClass(), this.log, entityList, entityList.size()
                 , (sqlSession, entity) -> {
                     Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
                     boolean save = StringUtils.checkValNull(idVal)
@@ -251,7 +257,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeById(Serializable id) {
-        String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
+        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
         int result = this.getBaseMapper().removePhysicalById(id, tableName, idColumnName);
         return result > 0;
     }
@@ -259,7 +265,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByMap(Map<String, Object> columnMap) {
-        String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
+        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
         int result = this.getBaseMapper().removePhysicalByMap(columnMap, tableName);
         return result > 0;
     }
@@ -267,7 +273,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean remove(Wrapper<T> queryWrapper) {
-        String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
+        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
         int result = this.getBaseMapper().removePhysicalByCustom(queryWrapper.getSqlSegment(), queryWrapper, tableName);
         return result > 0;
     }
@@ -275,7 +281,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByIds(Collection<?> ids) {
-        String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
+        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
         int result = this.getBaseMapper().removePhysicalByIds(ids, tableName, idColumnName);
         return result > 0;
     }
@@ -346,14 +352,14 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
         if (ObjectUtil.isNull(updateWrapper)) {
             return updateWrapper;
         }
-        if (AbstractDeletedBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractTimeDeletedBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractOperatorTimeDeletedBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractCreatorTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractCreateTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractOperatorTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)) {
+        if (AbstractDeletedBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractTimeDeletedBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractOperatorTimeDeletedBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractTimeDeletedVersionBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractCreatorTimeDeletedVersionBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractCreateTimeDeletedVersionBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractOperatorTimeDeletedVersionBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractDeletedVersionBaseEntity.class.isAssignableFrom(super.getEntityClass())) {
             if (updateWrapper instanceof UpdateWrapper) {
                 UpdateWrapper<T> update = (UpdateWrapper<T>) updateWrapper;
                 update.set(DELETED, !undo);
@@ -382,8 +388,8 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
         if (!this.isAutoSetUpdateExtraInfo()) {
             return wrapper;
         }
-        if (AbstractTimeBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractTimeVersionBaseEntity.class.isAssignableFrom(entityClass)) {
+        if (AbstractTimeBaseEntity.class.isAssignableFrom(super.getEntityClass())
+                || AbstractTimeVersionBaseEntity.class.isAssignableFrom(super.getEntityClass())) {
             if (wrapper instanceof UpdateWrapper) {
                 UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) wrapper;
                 Map<String, Object> paramNameValueMap = ((UpdateWrapper<T>) wrapper).getParamNameValuePairs();
@@ -402,9 +408,9 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
                     updateWrapper.set(UPDATE_BY, this.getOptionUserId());
                 }
 
-                if (AbstractOperatorTimeVersionBaseEntity.class.isAssignableFrom(entityClass) ||
-                        AbstractOperatorTimeBaseEntity.class.isAssignableFrom(entityClass) ||
-                        UpdaterExpand.class.isAssignableFrom(entityClass)) {
+                if (AbstractOperatorTimeVersionBaseEntity.class.isAssignableFrom(super.getEntityClass()) ||
+                        AbstractOperatorTimeBaseEntity.class.isAssignableFrom(super.getEntityClass()) ||
+                        UpdaterExpand.class.isAssignableFrom(super.getEntityClass())) {
                     if (this.onlySetUpdateInfoWhenNull()
                             && (!paramMap.containsKey(UPDATER) || ObjectUtil.isNull(paramNameValueMap.get(paramMap.get(UPDATER))))) {
                         updateWrapper.set(UPDATER, this.getOperator());
@@ -452,9 +458,9 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
                     }
                 }
                 // updater
-                if (AbstractOperatorTimeVersionBaseEntity.class.isAssignableFrom(entityClass) ||
-                        AbstractOperatorTimeBaseEntity.class.isAssignableFrom(entityClass) ||
-                        UpdaterExpand.class.isAssignableFrom(entityClass)) {
+                if (AbstractOperatorTimeVersionBaseEntity.class.isAssignableFrom(super.getEntityClass()) ||
+                        AbstractOperatorTimeBaseEntity.class.isAssignableFrom(super.getEntityClass()) ||
+                        UpdaterExpand.class.isAssignableFrom(super.getEntityClass())) {
                     if (this.onlySetUpdateInfoWhenNull()
                             && (!paramMap.containsKey(UPDATER) || ObjectUtil.isNull(paramNameValueMap.get(paramMap.get(UPDATER))))) {
                         if (ObjectUtil.isNotNull(paramMap.get(UPDATER))) {

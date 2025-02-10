@@ -2,7 +2,7 @@ package com.skrstop.framework.components.starter.mongodb.service;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import dev.morphia.InsertManyOptions;
@@ -124,7 +124,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param filters
      * @return
      */
-    CommonPageData<T> findPage(PageQuery pageQuery, List<Filter> filters);
+    ListSimplePageData<T> findPage(PageQuery pageQuery, List<Filter> filters);
 
     /**
      * 分页查询
@@ -133,7 +133,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param filters
      * @return
      */
-    CommonPageData<T> findPage(PageQuery pageQuery, List<Filter> filters, FindOptions findOptions);
+    ListSimplePageData<T> findPage(PageQuery pageQuery, List<Filter> filters, FindOptions findOptions);
 
     /**
      * id查询

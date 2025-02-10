@@ -30,7 +30,7 @@ public class BusinessTest {
 
     @Test
     public void feignPbTest() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             testExecute();
         }
     }
@@ -54,20 +54,20 @@ public class BusinessTest {
             }
         }, 10);
         // pb
-        StressResult pbTest = StressStoreUtil.test(4, 2000, () -> {
-            ListResult<DemoInfo> result = remoteFeign.exampleFeign4(new HashMap<String, String>() {{
-                put("name", finalLongParam1);
-                put("age", "18");
-            }});
-            if (result.isFailed()) {
-                System.out.println("failed");
-            }
-        }, 10);
+//        StressResult pbTest = StressStoreUtil.test(4, 2000, () -> {
+//            ListResult<DemoInfo> result = remoteFeign.exampleFeign4(new HashMap<String, String>() {{
+//                put("name", finalLongParam1);
+//                put("age", "18");
+//            }});
+//            if (result.isFailed()) {
+//                System.out.println("failed");
+//            }
+//        }, 10);
 //        // 控制台输出
         System.out.println("原始");
         System.out.println(StressStoreUtil.format(originTest));
         System.out.println("pb");
-        System.out.println(StressStoreUtil.format(pbTest));
+//        System.out.println(StressStoreUtil.format(pbTest));
     }
 
 

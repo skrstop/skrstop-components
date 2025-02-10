@@ -5,12 +5,10 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.core.common.response.core.IDataPageListResult;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,16 +17,17 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class PageListResult<T> extends AbstractPageResult implements IDataPageListResult<T> {
-
-    List<T> data;
+public class PageListResult<T> extends AbstractPageResult<List<T>> implements IDataPageListResult<T> {
 
     public PageListResult() {
-        this.data = new ArrayList<>();
     }
 
     public PageListResult(IResult IResult) {
         super(IResult);
+    }
+
+    public PageListResult(IResult IResult, PageData pageData) {
+        super(IResult, pageData);
     }
 
     public PageListResult(IPageResult IPageResult) {
@@ -36,37 +35,28 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
     }
 
     public PageListResult(IPageResult IPageResult, List<T> list) {
-        super(IPageResult);
-        this.data = list;
+        super(IPageResult, list);
     }
 
-    public PageListResult(IResult IResult, PageInfo pageInfo) {
-        super(IResult, pageInfo);
-    }
-
-    public PageListResult(IResult IResult, PageInfo pageInfo, List<T> list) {
-        super(IResult, pageInfo);
-        this.data = list;
+    public PageListResult(IResult IResult, PageData pageData, List<T> list) {
+        super(IResult, pageData, list);
     }
 
     public PageListResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
+        super(IResult, pageNum, pageSize);
     }
 
     public PageListResult(IResult IResult, long pageNum, long pageSize, List<T> list) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
-        this.data = list;
+        super(IResult, pageNum, pageSize, list);
     }
 
     public PageListResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
+        super(IResult, pageNum, pageSize, total);
     }
 
     public PageListResult(IResult IResult, long pageNum, long pageSize, long total, List<T> list) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
-        this.data = list;
+        super(IResult, pageNum, pageSize, total, list);
     }
-
 
     public static class Builder {
 
@@ -120,8 +110,8 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
          *
          * @return Result
          */
-        public static PageListResult success(PageInfo pageInfo) {
-            return new PageListResult(CommonResultCode.SUCCESS, pageInfo);
+        public static PageListResult success(PageData pageData) {
+            return new PageListResult(CommonResultCode.SUCCESS, pageData);
         }
 
         /**
@@ -129,8 +119,8 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
          *
          * @return Result
          */
-        public static <T> PageListResult<T> success(PageInfo pageInfo, List<T> list) {
-            return new PageListResult<T>(CommonResultCode.SUCCESS, pageInfo, list);
+        public static <T> PageListResult<T> success(PageData pageData, List<T> list) {
+            return new PageListResult<T>(CommonResultCode.SUCCESS, pageData, list);
         }
 
         /**
@@ -183,8 +173,8 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
          *
          * @return Result
          */
-        public static PageListResult error(PageInfo pageInfo) {
-            return new PageListResult(CommonResultCode.FAIL, pageInfo);
+        public static PageListResult error(PageData pageData) {
+            return new PageListResult(CommonResultCode.FAIL, pageData);
         }
 
         /**
@@ -192,8 +182,8 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
          *
          * @return Result
          */
-        public static <T> PageListResult<T> error(PageInfo pageInfo, List<T> list) {
-            return new PageListResult<T>(CommonResultCode.FAIL, pageInfo, list);
+        public static <T> PageListResult<T> error(PageData pageData, List<T> list) {
+            return new PageListResult<T>(CommonResultCode.FAIL, pageData, list);
         }
 
         /**
@@ -246,8 +236,8 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
          *
          * @return Result
          */
-        public static PageListResult result(IResult IResult, PageInfo pageInfo) {
-            return new PageListResult(IResult, pageInfo);
+        public static PageListResult result(IResult IResult, PageData pageData) {
+            return new PageListResult(IResult, pageData);
         }
 
         /**
@@ -255,8 +245,8 @@ public class PageListResult<T> extends AbstractPageResult implements IDataPageLi
          *
          * @return Result
          */
-        public static <T> PageListResult<T> result(IResult IResult, PageInfo pageInfo, List<T> list) {
-            return new PageListResult<T>(IResult, pageInfo, list);
+        public static <T> PageListResult<T> result(IResult IResult, PageData pageData, List<T> list) {
+            return new PageListResult<T>(IResult, pageData, list);
         }
 
     }

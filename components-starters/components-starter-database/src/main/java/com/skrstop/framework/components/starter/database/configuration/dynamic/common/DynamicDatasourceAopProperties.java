@@ -20,13 +20,16 @@ public class DynamicDatasourceAopProperties {
     /**
      * enabled default DS annotation default true
      */
+    @Builder.Default
     private Boolean enabled = true;
     /**
      * aop order
      */
+    @Builder.Default
     private Integer order = Ordered.HIGHEST_PRECEDENCE;
     /**
      * aop allowedPublicOnly
      */
+    @Builder.Default
     private Boolean allowedPublicOnly = true;
 }

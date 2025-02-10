@@ -8,22 +8,7 @@ import java.util.LinkedHashSet;
  * @author 蒋时华
  * @date 2018/7/19
  */
-public interface IDataPageLinkedSetResult<T> extends IDataPageResult<LinkedHashSet<T>> {
+public interface IDataPageLinkedSetResult<T> extends IPageResult<LinkedHashSet<T>> {
 
-    /**
-     * get response data
-     *
-     * @return T
-     */
-    @Override
-    LinkedHashSet<T> getData();
-
-    /**
-     * set response data
-     *
-     * @param data
-     */
-    @Override
-    void setData(LinkedHashSet<T> data);
 
 }

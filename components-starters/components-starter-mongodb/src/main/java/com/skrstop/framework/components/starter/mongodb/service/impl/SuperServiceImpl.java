@@ -3,8 +3,7 @@ package com.skrstop.framework.components.starter.mongodb.service.impl;
 import cn.hutool.core.util.ReflectUtil;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.id.service.IdService;
 import com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties;
@@ -15,6 +14,7 @@ import com.skrstop.framework.components.starter.mongodb.entity.expand.UpdaterExp
 import com.skrstop.framework.components.starter.mongodb.entity.version.*;
 import com.skrstop.framework.components.starter.mongodb.service.SuperService;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
+import com.skrstop.framework.components.util.value.data.ArrayUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
@@ -22,6 +22,7 @@ import com.skrstop.framework.components.util.value.format.TextFormatUtil;
 import dev.morphia.*;
 import dev.morphia.query.FindOptions;
 import dev.morphia.query.Query;
+import dev.morphia.query.Sort;
 import dev.morphia.query.filters.Filter;
 import dev.morphia.query.filters.Filters;
 import dev.morphia.query.updates.UpdateOperator;
@@ -29,7 +30,6 @@ import dev.morphia.query.updates.UpdateOperators;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -250,50 +250,39 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     }
 
     @Override
-    public CommonPageData<T> findPage(PageQuery pageQuery, List<Filter> filters) {
+    public ListSimplePageData<T> findPage(PageQuery pageQuery, List<Filter> filters) {
         return this.findPage(pageQuery, filters, null);
     }
 
     @Override
-    public CommonPageData<T> findPage(PageQuery pageQuery, List<Filter> filters, FindOptions findOptions) {
+    public ListSimplePageData<T> findPage(PageQuery pageQuery, List<Filter> filters, FindOptions findOptions) {
         final Query<T> query = this.find(filters);
         // 获取总条数
         final long count = query.count();
         if (ObjectUtil.isNull(findOptions)) {
             findOptions = new FindOptions();
         }
-        Document sort = findOptions.getSort();
-        if (ObjectUtil.isNull(sort)) {
-            sort = new Document();
-        }
+        List<Sort> sorts = new ArrayList<>();
         // 排序：正排序
         for (String asc : pageQuery.getAscs()) {
-            if (sort.containsKey(asc)) {
-                continue;
-            }
-            sort.append(asc, ASC);
+            sorts.add(Sort.ascending(asc));
         }
         // 排序：倒排序
         for (String desc : pageQuery.getDescs()) {
-            if (sort.containsKey(desc)) {
-                continue;
-            }
-            sort.append(desc, DESC);
+            sorts.add(Sort.descending(desc));
         }
         // 分页数据
         findOptions.skip((pageQuery.getPageNumber() - 1) * pageQuery.getPageSize())
                 .limit(pageQuery.getPageSize())
-                .sort(sort);
+                .sort(ArrayUtil.toArray(sorts, Sort.class));
         final List<T> list = query.iterator(findOptions).toList();
 
         // 组装数据
-        SimplePageInfo simplePageInfo = new SimplePageInfo();
-        simplePageInfo.setPageSize(pageQuery.getPageSize());
-        simplePageInfo.setPageNumber(pageQuery.getPageNumber());
-        simplePageInfo.setTotal(count);
-        CommonPageData<T> result = new CommonPageData<T>();
-        result.setPageInfo(simplePageInfo);
-        result.setData(list);
+        ListSimplePageData<T> result = new ListSimplePageData();
+        result.setPageSize(pageQuery.getPageSize());
+        result.setPageNumber(pageQuery.getPageNumber());
+        result.setTotal(count);
+        result.setRows(list);
         return result;
     }
 
@@ -346,8 +335,6 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
         if (CollectionUtil.isEmpty(updates)) {
             return null;
         }
-        UpdateOperator first = updates.get(0);
-        updates.remove(0);
         updates.addAll(this.setUpdateTimeUpdateInfo(updates));
         UpdateOperator[] updatesArray;
         if (AbstractVersionBaseEntity.class.isAssignableFrom(this.entityClass)) {
@@ -365,7 +352,7 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
         }
         UpdateOptions updateOptions = new UpdateOptions();
         updateOptions.multi(true);
-        return query.update(first, updatesArray).execute(updateOptions);
+        return query.update(updateOptions, updatesArray);
     }
 
     @Override

@@ -60,7 +60,6 @@ public class DynamicMongoClient implements MongoClient {
         return mongoClient;
     }
 
-
     @Override
     public MongoDatabase getDatabase(String databaseName) {
         return this.getMongoClient().getDatabase(databaseName);
