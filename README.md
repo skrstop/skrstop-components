@@ -78,9 +78,9 @@
 
 # 常用可用类库版本
 
-* springBoot 3.4.1
+* springBoot 3.2.12
 * springCloud 2023.0.5
-* springCloudAlibaba 2023.0.1.0
+* springCloudAlibaba 2023.0.3.2
 * log4j 2.24.3
 * lombok 1.8.36
 * mybatis 3.5.19
