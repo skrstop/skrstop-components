@@ -32,8 +32,8 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @ConditionalOnClass(Feign.class)
 @AutoConfigureAfter(FeignAutoConfiguration.class)
-@ConditionalOnProperty(value = "feign.okhttp.enabled", havingValue = "true", matchIfMissing = false)
-@EnableConfigurationProperties({GlobalHttp2Properties.class, FeignOkHttpProperties.class})
+@ConditionalOnProperty(value = "feign.ok-http.enabled", havingValue = "true", matchIfMissing = false)
+@EnableConfigurationProperties({FeignOkHttpProperties.class, GlobalFeignProperties.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class OkHttpAutoConfiguration {
 
@@ -65,14 +65,14 @@ public class OkHttpAutoConfiguration {
     public OkHttpClient client(OkHttpClientFactory httpClientFactory
             , ConnectionPool connectionPool
             , FeignOkHttpProperties okHttpProperties
-            , GlobalHttp2Properties globalHttp2Properties) {
+            , GlobalFeignProperties globalFeignProperties) {
         boolean followRedirects = okHttpProperties.isFollowRedirects();
         int connectTimeout = okHttpProperties.getConnectionTimeout();
         int readTimeout = okHttpProperties.getReadTimeout();
         int writeTimeout = okHttpProperties.getWriteTimeout();
         boolean disableSslValidation = okHttpProperties.isDisableSslValidation();
         List<Protocol> protocols = new ArrayList<>();
-        if (globalHttp2Properties.isEnable()) {
+        if (globalFeignProperties.isEnableHttp2()) {
             protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
         } else {
             protocols.add(Protocol.HTTP_1_1);
@@ -85,7 +85,7 @@ public class OkHttpAutoConfiguration {
                 .retryOnConnectionFailure(true)
                 .connectionPool(connectionPool)
                 // 自定义请求日志拦截器
-                .addInterceptor(new OkHttpResponseLogInterceptor(globalHttp2Properties.isLogInfoLevelForRequest()))
+                .addInterceptor(new OkHttpResponseLogInterceptor(okHttpProperties.isLogInfoLevelForRequest()))
                 .protocols(protocols)
                 .build();
 

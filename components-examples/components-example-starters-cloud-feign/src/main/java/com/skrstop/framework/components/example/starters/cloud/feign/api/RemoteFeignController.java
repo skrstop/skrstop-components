@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.api;
 
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import com.skrstop.framework.components.starter.feign.protostuff.annotation.ProtostuffFeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
@@ -46,7 +46,7 @@ public interface RemoteFeignController {
     List<DemoInfo> exampleFeign4(@RequestBody HashMap<String, String> params);
 
     @PostMapping("/exampleFeign5")
-    CommonPageData<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list);
+    ListSimplePageData<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list);
 
     @PostMapping("/exampleFeign6")
     void exampleFeign6();

@@ -5,12 +5,10 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.core.common.response.core.IDataPageCollectionResult;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -19,54 +17,46 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-public class PageCollectionResult<T> extends AbstractPageResult implements IDataPageCollectionResult<T> {
-
-    Collection<T> data;
+public class PageCollectionResult<T> extends AbstractPageResult<Collection<T>> implements IDataPageCollectionResult<T> {
 
     public PageCollectionResult() {
-        this.data = new ArrayList<>();
     }
 
     public PageCollectionResult(IResult IResult) {
         super(IResult);
     }
 
-    public PageCollectionResult(IPageResult IPageResult) {
+    public PageCollectionResult(IResult IResult, PageData<Collection<T>> pageData) {
+        super(IResult, pageData);
+    }
+
+    public PageCollectionResult(IPageResult<Collection<T>> IPageResult) {
         super(IPageResult);
     }
 
-    public PageCollectionResult(IPageResult IPageResult, Collection<T> list) {
-        super(IPageResult);
-        this.data = list;
+    public PageCollectionResult(IPageResult<Collection<T>> IPageResult, Collection<T> list) {
+        super(IPageResult, list);
     }
 
-    public PageCollectionResult(IResult IResult, PageInfo pageInfo) {
-        super(IResult, pageInfo);
-    }
-
-    public PageCollectionResult(IResult IResult, PageInfo pageInfo, Collection<T> list) {
-        super(IResult, pageInfo);
-        this.data = list;
+    public PageCollectionResult(IResult IResult, PageData<Collection<T>> pageData, Collection<T> list) {
+        super(IResult, pageData, list);
     }
 
     public PageCollectionResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
+        super(IResult, pageNum, pageSize);
     }
 
     public PageCollectionResult(IResult IResult, long pageNum, long pageSize, Collection<T> list) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
-        this.data = list;
+        super(IResult, pageNum, pageSize, list);
     }
 
     public PageCollectionResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
+        super(IResult, pageNum, pageSize, total);
     }
 
     public PageCollectionResult(IResult IResult, long pageNum, long pageSize, long total, Collection<T> list) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
-        this.data = list;
+        super(IResult, pageNum, pageSize, total, list);
     }
-
 
     public static class Builder {
 
@@ -120,8 +110,8 @@ public class PageCollectionResult<T> extends AbstractPageResult implements IData
          *
          * @return Result
          */
-        public static PageCollectionResult success(PageInfo pageInfo) {
-            return new PageCollectionResult(CommonResultCode.SUCCESS, pageInfo);
+        public static PageCollectionResult success(PageData pageData) {
+            return new PageCollectionResult(CommonResultCode.SUCCESS, pageData);
         }
 
         /**
@@ -129,8 +119,8 @@ public class PageCollectionResult<T> extends AbstractPageResult implements IData
          *
          * @return Result
          */
-        public static <T> PageCollectionResult<T> success(PageInfo pageInfo, Collection<T> list) {
-            return new PageCollectionResult<T>(CommonResultCode.SUCCESS, pageInfo, list);
+        public static <T> PageCollectionResult<T> success(PageData pageData, Collection<T> list) {
+            return new PageCollectionResult<T>(CommonResultCode.SUCCESS, pageData, list);
         }
 
         /**
@@ -183,8 +173,8 @@ public class PageCollectionResult<T> extends AbstractPageResult implements IData
          *
          * @return Result
          */
-        public static PageCollectionResult error(PageInfo pageInfo) {
-            return new PageCollectionResult(CommonResultCode.FAIL, pageInfo);
+        public static PageCollectionResult error(PageData pageData) {
+            return new PageCollectionResult(CommonResultCode.FAIL, pageData);
         }
 
         /**
@@ -192,8 +182,8 @@ public class PageCollectionResult<T> extends AbstractPageResult implements IData
          *
          * @return Result
          */
-        public static <T> PageCollectionResult<T> error(PageInfo pageInfo, Collection<T> list) {
-            return new PageCollectionResult<T>(CommonResultCode.FAIL, pageInfo, list);
+        public static <T> PageCollectionResult<T> error(PageData pageData, Collection<T> list) {
+            return new PageCollectionResult<T>(CommonResultCode.FAIL, pageData, list);
         }
 
         /**
@@ -246,8 +236,8 @@ public class PageCollectionResult<T> extends AbstractPageResult implements IData
          *
          * @return Result
          */
-        public static PageCollectionResult result(IResult IResult, PageInfo pageInfo) {
-            return new PageCollectionResult(IResult, pageInfo);
+        public static PageCollectionResult result(IResult IResult, PageData pageData) {
+            return new PageCollectionResult(IResult, pageData);
         }
 
         /**
@@ -255,8 +245,8 @@ public class PageCollectionResult<T> extends AbstractPageResult implements IData
          *
          * @return Result
          */
-        public static <T> PageCollectionResult<T> result(IResult IResult, PageInfo pageInfo, Collection<T> list) {
-            return new PageCollectionResult<T>(IResult, pageInfo, list);
+        public static <T> PageCollectionResult<T> result(IResult IResult, PageData pageData, Collection<T> list) {
+            return new PageCollectionResult<T>(IResult, pageData, list);
         }
 
     }

@@ -1,7 +1,6 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.controller;
 
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeignController;
 import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -60,15 +59,14 @@ public class RemoteServerController implements RemoteFeignController {
 
     @Override
     @PostMapping("/exampleFeign5")
-    public CommonPageData<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list) {
+    public ListSimplePageData<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list) {
         List<DemoInfo> result = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             result.add(new DemoInfo("name-" + i));
         }
-        return CommonPageData.<DemoInfo>builder()
-                .pageInfo(new SimplePageInfo(100L, 100L))
-                .data(result)
-                .build();
+        ListSimplePageData<DemoInfo> objectSimplePageData = new ListSimplePageData<>();
+        objectSimplePageData.setRows(result);
+        return objectSimplePageData;
     }
 
     @Override

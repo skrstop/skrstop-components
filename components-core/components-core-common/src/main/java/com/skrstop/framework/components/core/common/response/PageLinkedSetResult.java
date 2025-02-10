@@ -5,8 +5,7 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.core.common.response.core.IDataPageLinkedSetResult;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,54 +17,46 @@ import java.util.LinkedHashSet;
  */
 @Getter
 @Setter
-public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataPageLinkedSetResult<T> {
-
-    LinkedHashSet<T> data;
+public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>> implements IDataPageLinkedSetResult<T> {
 
     public PageLinkedSetResult() {
-        this.data = new LinkedHashSet<>();
     }
 
     public PageLinkedSetResult(IResult IResult) {
         super(IResult);
     }
 
+    public PageLinkedSetResult(IResult IResult, PageData pageData) {
+        super(IResult, pageData);
+    }
+
     public PageLinkedSetResult(IPageResult IPageResult) {
         super(IPageResult);
     }
 
-    public PageLinkedSetResult(IPageResult IPageResult, LinkedHashSet<T> set) {
-        super(IPageResult);
-        this.data = set;
+    public PageLinkedSetResult(IPageResult IPageResult, LinkedHashSet<T> list) {
+        super(IPageResult, list);
     }
 
-    public PageLinkedSetResult(IResult IResult, PageInfo pageInfo) {
-        super(IResult, pageInfo);
-    }
-
-    public PageLinkedSetResult(IResult IResult, PageInfo pageInfo, LinkedHashSet<T> set) {
-        super(IResult, pageInfo);
-        this.data = set;
+    public PageLinkedSetResult(IResult IResult, PageData pageData, LinkedHashSet<T> list) {
+        super(IResult, pageData, list);
     }
 
     public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
+        super(IResult, pageNum, pageSize);
     }
 
-    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, LinkedHashSet<T> set) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
-        this.data = set;
+    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, LinkedHashSet<T> list) {
+        super(IResult, pageNum, pageSize, list);
     }
 
     public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
+        super(IResult, pageNum, pageSize, total);
     }
 
-    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, long total, LinkedHashSet<T> set) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
-        this.data = set;
+    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, long total, LinkedHashSet<T> list) {
+        super(IResult, pageNum, pageSize, total, list);
     }
-
 
     public static class Builder {
 
@@ -119,8 +110,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataP
          *
          * @return Result
          */
-        public static PageLinkedSetResult success(PageInfo pageInfo) {
-            return new PageLinkedSetResult(CommonResultCode.SUCCESS, pageInfo);
+        public static PageLinkedSetResult success(PageData pageData) {
+            return new PageLinkedSetResult(CommonResultCode.SUCCESS, pageData);
         }
 
         /**
@@ -128,8 +119,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataP
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> success(PageInfo pageInfo, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageInfo, set);
+        public static <T> PageLinkedSetResult<T> success(PageData pageData, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageData, set);
         }
 
         /**
@@ -182,8 +173,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataP
          *
          * @return Result
          */
-        public static PageLinkedSetResult error(PageInfo pageInfo) {
-            return new PageLinkedSetResult(CommonResultCode.FAIL, pageInfo);
+        public static PageLinkedSetResult error(PageData pageData) {
+            return new PageLinkedSetResult(CommonResultCode.FAIL, pageData);
         }
 
         /**
@@ -191,8 +182,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataP
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> error(PageInfo pageInfo, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageInfo, set);
+        public static <T> PageLinkedSetResult<T> error(PageData pageData, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageData, set);
         }
 
         /**
@@ -245,8 +236,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataP
          *
          * @return Result
          */
-        public static PageLinkedSetResult result(IResult IResult, PageInfo pageInfo) {
-            return new PageLinkedSetResult(IResult, pageInfo);
+        public static PageLinkedSetResult result(IResult IResult, PageData pageData) {
+            return new PageLinkedSetResult(IResult, pageData);
         }
 
         /**
@@ -254,8 +245,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult implements IDataP
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> result(IResult IResult, PageInfo pageInfo, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(IResult, pageInfo, set);
+        public static <T> PageLinkedSetResult<T> result(IResult IResult, PageData pageData, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(IResult, pageData, set);
         }
 
     }

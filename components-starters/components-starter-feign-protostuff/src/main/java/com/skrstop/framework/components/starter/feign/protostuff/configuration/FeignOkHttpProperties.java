@@ -1,5 +1,7 @@
 package com.skrstop.framework.components.starter.feign.protostuff.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.concurrent.TimeUnit;
@@ -7,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Ryan Baxter
  */
-@ConfigurationProperties(prefix = "feign.okhttp")
+@ConfigurationProperties(prefix = "feign.ok-http")
+@Getter
+@Setter
 public class FeignOkHttpProperties {
 
     /**
@@ -62,68 +66,7 @@ public class FeignOkHttpProperties {
 
     private int writeTimeout = DEFAULT_WRITE_TIMEOUT;
 
-    public int getWriteTimeout() {
-        return writeTimeout;
-    }
-
-    public void setWriteTimeout(int writeTimeout) {
-        this.writeTimeout = writeTimeout;
-    }
-
-    public int getReadTimeout() {
-        return readTimeout;
-    }
-
-    public void setReadTimeout(int readTimeout) {
-        this.readTimeout = readTimeout;
-    }
-
-    public boolean isDisableSslValidation() {
-        return this.disableSslValidation;
-    }
-
-    public void setDisableSslValidation(boolean disableSslValidation) {
-        this.disableSslValidation = disableSslValidation;
-    }
-
-    public int getMaxConnections() {
-        return this.maxConnections;
-    }
-
-    public void setMaxConnections(int maxConnections) {
-        this.maxConnections = maxConnections;
-    }
-
-    public long getTimeToLive() {
-        return this.timeToLive;
-    }
-
-    public void setTimeToLive(long timeToLive) {
-        this.timeToLive = timeToLive;
-    }
-
-    public TimeUnit getTimeToLiveUnit() {
-        return this.timeToLiveUnit;
-    }
-
-    public void setTimeToLiveUnit(TimeUnit timeToLiveUnit) {
-        this.timeToLiveUnit = timeToLiveUnit;
-    }
-
-    public boolean isFollowRedirects() {
-        return this.followRedirects;
-    }
-
-    public void setFollowRedirects(boolean followRedirects) {
-        this.followRedirects = followRedirects;
-    }
-
-    public int getConnectionTimeout() {
-        return this.connectionTimeout;
-    }
-
-    public void setConnectionTimeout(int connectionTimeout) {
-        this.connectionTimeout = connectionTimeout;
-    }
+    /*** 输出info级别日志 */
+    private boolean logInfoLevelForRequest = false;
 
 }

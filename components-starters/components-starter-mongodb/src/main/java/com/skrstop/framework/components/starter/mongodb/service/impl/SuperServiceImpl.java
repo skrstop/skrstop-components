@@ -3,8 +3,7 @@ package com.skrstop.framework.components.starter.mongodb.service.impl;
 import cn.hutool.core.util.ReflectUtil;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.id.service.IdService;
 import com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties;
@@ -250,12 +249,12 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     }
 
     @Override
-    public CommonPageData<T> findPage(PageQuery pageQuery, List<Filter> filters) {
+    public ListSimplePageData<T> findPage(PageQuery pageQuery, List<Filter> filters) {
         return this.findPage(pageQuery, filters, null);
     }
 
     @Override
-    public CommonPageData<T> findPage(PageQuery pageQuery, List<Filter> filters, FindOptions findOptions) {
+    public ListSimplePageData<T> findPage(PageQuery pageQuery, List<Filter> filters, FindOptions findOptions) {
         final Query<T> query = this.find(filters);
         // 获取总条数
         final long count = query.count();
@@ -287,13 +286,11 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
         final List<T> list = query.iterator(findOptions).toList();
 
         // 组装数据
-        SimplePageInfo simplePageInfo = new SimplePageInfo();
-        simplePageInfo.setPageSize(pageQuery.getPageSize());
-        simplePageInfo.setPageNumber(pageQuery.getPageNumber());
-        simplePageInfo.setTotal(count);
-        CommonPageData<T> result = new CommonPageData<T>();
-        result.setPageInfo(simplePageInfo);
-        result.setData(list);
+        ListSimplePageData<T> result = new ListSimplePageData();
+        result.setPageSize(pageQuery.getPageSize());
+        result.setPageNumber(pageQuery.getPageNumber());
+        result.setTotal(count);
+        result.setRows(list);
         return result;
     }
 

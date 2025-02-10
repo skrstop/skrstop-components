@@ -22,6 +22,9 @@ import java.util.HashSet;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalFeignProperties {
 
+    /*** 是否开启http2 */
+    private boolean enableHttp2 = false;
+
     /**
      * feign扫描包路径，多个路径逗号分隔，也可以使用@EnableFeignClients
      */

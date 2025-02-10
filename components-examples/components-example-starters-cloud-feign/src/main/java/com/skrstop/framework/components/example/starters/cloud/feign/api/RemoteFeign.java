@@ -4,6 +4,7 @@ import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.ListResult;
 import com.skrstop.framework.components.core.common.response.PageCollectionResult;
 import com.skrstop.framework.components.core.common.response.Result;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceUtil;
 import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import com.skrstop.framework.components.starter.feign.protostuff.annotation.ProtostuffFeignClient;
@@ -55,6 +56,9 @@ public interface RemoteFeign {
     @PostMapping("/exampleFeign5")
     PageCollectionResult<DemoInfo> exampleFeign5(@RequestParam(name = "list", required = false) List<String> list);
 
+    @PostMapping("/exampleFeign5")
+    ListSimplePageData<DemoInfo> exampleFeign51(@RequestParam(name = "list", required = false) List<String> list);
+
     @PostMapping("/exampleFeign6")
     DefaultResult exampleFeign6();
 
@@ -91,6 +95,11 @@ public interface RemoteFeign {
         @Override
         public PageCollectionResult<DemoInfo> exampleFeign5(List<String> list) {
             return PageCollectionResult.Builder.error();
+        }
+
+        @Override
+        public ListSimplePageData<DemoInfo> exampleFeign51(List<String> list) {
+            return new ListSimplePageData<>();
         }
 
         @Override

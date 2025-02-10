@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.skrstop.framework.components.core.common.response.*;
 import com.skrstop.framework.components.core.common.response.core.IDataResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import com.skrstop.framework.components.starter.feign.protostuff.configuration.GlobalFeignProperties;
 import com.skrstop.framework.components.starter.feign.protostuff.configuration.interceptor.DynamicFeignClientMethodContextHolder;
 import com.skrstop.framework.components.starter.spring.support.bean.SpringUtil;
@@ -116,12 +116,9 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
             return null;
         }
         Class<? extends IResult> iResultClass = null;
-        if (CommonPageData.class.isAssignableFrom(c)) {
+        if (PageData.class.isAssignableFrom(c)) {
             PageListResult deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), PageListResult.class, this.globalFeignProperties.getGzipCompress());
-            return CommonPageData.builder()
-                    .pageInfo(deserialize.getPageInfo())
-                    .data(deserialize.getData())
-                    .build();
+            return deserialize.getData();
         }
         IDataResult deserialize;
         if (List.class.isAssignableFrom(c)) {

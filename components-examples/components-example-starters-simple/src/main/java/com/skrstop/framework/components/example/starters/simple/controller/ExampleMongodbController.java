@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.controller;
 
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example1Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
@@ -108,7 +108,7 @@ public class ExampleMongodbController {
      * @return
      */
     @GetMapping("/exampleMongodb4")
-    public CommonPageData<Example2Mongo> exampleMongodb4(PageQuery pageQuery) {
+    public ListSimplePageData<Example2Mongo> exampleMongodb4(PageQuery pageQuery) {
         return example2MongoService.findPage(pageQuery, CollectionUtil.newArrayList());
     }
 

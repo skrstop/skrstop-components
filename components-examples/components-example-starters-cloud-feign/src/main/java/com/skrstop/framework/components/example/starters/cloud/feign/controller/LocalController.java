@@ -40,6 +40,8 @@ public class LocalController {
 
     @GetMapping("/exampleRemote1")
     public String exampleRemote1() {
+        System.out.println("测试打印：" + remoteFeign.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
+        System.out.println("测试打印：" + remoteFeign.exampleFeign51(CollectionUtil.newArrayList("skrstop", "18")));
 
         System.out.println("测试打印：" + remoteFeign.exampleFeign1(DemoInfo.builder().name("aaaaa").build()));
         System.out.println("测试打印：" + remoteFeign.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));

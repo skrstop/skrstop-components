@@ -8,7 +8,10 @@ import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.skrstop.framework.components.core.common.response.*;
+import com.skrstop.framework.components.core.common.response.CollectionResult;
+import com.skrstop.framework.components.core.common.response.DefaultPageResult;
+import com.skrstop.framework.components.core.common.response.DefaultResult;
+import com.skrstop.framework.components.core.common.response.Result;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -248,26 +251,6 @@ public class FastJsonUtil {
             return null;
         }
         return toBean(json, DefaultResult.class);
-    }
-
-    /**
-     * json to PageResult<T>
-     *
-     * @param json
-     * @param data
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> PageListResult<T> toBeanForPageListResult(String json, Class<T> data) {
-        if (StrUtil.isBlank(json) || ObjectUtil.isNull(data)) {
-            return null;
-        }
-        PageListResult<T> result = toBean(json, PageListResult.class);
-        if (ObjectUtil.isNotNull(result) && ObjectUtil.isNotNull(result.getData())) {
-            List<T> ts = toBeanForList(result.getData().toString(), data);
-            result.setData(ts);
-        }
-        return result;
     }
 
     /**
