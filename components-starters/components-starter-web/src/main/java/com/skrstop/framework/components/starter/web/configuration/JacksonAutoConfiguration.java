@@ -1,14 +1,9 @@
 package com.skrstop.framework.components.starter.web.configuration;
 
-import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
 import com.skrstop.framework.components.starter.web.configuration.format.*;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
@@ -18,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -69,12 +63,12 @@ public class JacksonAutoConfiguration {
         SimpleModule simpleModule = new SimpleModule();
         // 序列换成json时,将所有的long变成string
         if (globalResponseProperties == null || globalResponseProperties.isLongToString()) {
-            simpleModule.addSerializer(PageInfo.class, new JsonSerializer<PageInfo>() {
-                @Override
-                public void serialize(PageInfo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                    gen.writeRawValue(JSON.toJSONString(value));
-                }
-            });
+//            simpleModule.addSerializer(PageInfo.class, new JsonSerializer<PageInfo>() {
+//                @Override
+//                public void serialize(PageInfo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+//                    gen.writeRawValue(JSON.toJSONString(value));
+//                }
+//            });
             simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
             simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         }
