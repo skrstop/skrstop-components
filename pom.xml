@@ -191,10 +191,8 @@
         <bcprov-jdk16.version>1.46</bcprov-jdk16.version>
         <bcprov-jdk15.version>1.46</bcprov-jdk15.version>
         <bcprov-jdk15to18.version>1.80</bcprov-jdk15to18.version>
-        <!-- swagger -->
-        <swagger.version>3.0.0</swagger.version>
-        <swagger-annotations.version>2.2.28</swagger-annotations.version>
-        <swagger-stater.version>2.0.2.RELEASE</swagger-stater.version>
+        <!-- springdoc -->
+        <springdoc.version>2.5.0</springdoc.version>
         <!-- validation -->
         <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
         <jakarta-validator.version>3.1.0</jakarta-validator.version>
@@ -929,36 +927,16 @@
                 <artifactId>bcprov-jdk15to18</artifactId>
                 <version>${bcprov-jdk15to18.version}</version>
             </dependency>
-            <!-- Swagger Support -->
+            <!-- springdoc Support -->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-bean-validators</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.spring4all</groupId>
-                <artifactId>swagger-spring-boot-starter</artifactId>
-                <version>${swagger-stater.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
             <!-- Java Validation -->
             <dependency>
