@@ -79,7 +79,7 @@
 
 # 常用可用类库版本
 
-* springBoot 3.1.6
+* springBoot 2.7.18
 * springCloud 2022.0.4
 * springCloudAlibaba 2022.0.0.0
 * log4j 2.22.0
