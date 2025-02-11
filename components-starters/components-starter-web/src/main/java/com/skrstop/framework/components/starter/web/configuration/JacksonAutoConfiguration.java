@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
@@ -35,6 +36,7 @@ public class JacksonAutoConfiguration {
 
     public JacksonAutoConfiguration(GlobalResponseProperties globalResponseProperties
             , List<HttpMessageConverter<?>> converters) {
+        converters.add(0, new ByteArrayHttpMessageConverter());
         this.configureMessageConverters(converters, globalResponseProperties);
     }
 

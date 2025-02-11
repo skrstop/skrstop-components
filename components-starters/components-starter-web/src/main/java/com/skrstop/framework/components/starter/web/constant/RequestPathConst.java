@@ -26,10 +26,13 @@ public interface RequestPathConst {
     String DRUID_PATH_3 = "**/druid";
     String DRUID_PATH_4 = "**/druid/**";
 
+    String API_DOC = "/v3/api-docs";
+
     List<String> DEFAULT_NOT_GLOBAL_RESPONSE_RESULT_LIST = Arrays.asList(
             RequestPathConst.ACTUATOR_PATH_1, RequestPathConst.ACTUATOR_PATH_2, RequestPathConst.ACTUATOR_PATH_3, RequestPathConst.ACTUATOR_PATH_4,
             RequestPathConst.METRICS_PATH_1, RequestPathConst.METRICS_PATH_2, RequestPathConst.METRICS_PATH_3, RequestPathConst.METRICS_PATH_4,
-            RequestPathConst.DRUID_PATH_1, RequestPathConst.DRUID_PATH_2, RequestPathConst.DRUID_PATH_3, RequestPathConst.DRUID_PATH_4
+            RequestPathConst.DRUID_PATH_1, RequestPathConst.DRUID_PATH_2, RequestPathConst.DRUID_PATH_3, RequestPathConst.DRUID_PATH_4,
+            RequestPathConst.API_DOC
     );
 
 
