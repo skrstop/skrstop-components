@@ -15,6 +15,7 @@
 * fix: StrUtil.format方法bug修复
 * feat: components-starter-object-storage cos 临时访问签名增加数据万象处理参数
 * refactor: 合并data和pageInfo, 统一放在data中
+* fix: starter-web兼容springdoc的接入
 
 ##### 1.2.2.20240510-RELEASE
 
