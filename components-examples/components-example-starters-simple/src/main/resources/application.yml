@@ -200,7 +200,7 @@ skrstop:
   database:
     config:
       sql-healthy-check: false
-      mapper-class-location: com.skrstop.framework.components.example.starters.mysql
+      mapper-class-location: com.skrstop.framework.components.example.starters.simple.mapper.mysql
       #      mapper-xml-location: classpath*:customMapper/*.xml
       mapper-xml-location: classpath*:customMapper/*.xml
     #      mapper-xml-location: classpath*:mapper/*.xml,classpath*:customMapper/*.xml
