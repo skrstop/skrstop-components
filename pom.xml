@@ -1811,7 +1811,7 @@
             <dependency>
                 <groupId>org.openjdk.nashorn</groupId>
                 <artifactId>nashorn-core</artifactId>
-                <version>${ashorn.version}</version>
+                <version>${nashorn.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.javadelight</groupId>
