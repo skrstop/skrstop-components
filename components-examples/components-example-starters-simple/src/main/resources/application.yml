@@ -114,6 +114,16 @@ server:
 logging:
   config: classpath:logConfig/log4j2.xml
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    url: /v3/api-docs
+  packages-to-scan: com.skrstop.framework.components.example.starters.simple.controller
+  paths-to-match: /**
+
 skrstop:
   redis:
     redisson:
