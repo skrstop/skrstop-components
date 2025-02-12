@@ -16,6 +16,10 @@ public class ListSimplePageData<T> extends SimplePageData<List<T>> {
         ListSimplePageData<R> convertPage = new ListSimplePageData<>();
         List<R> collect = this.getRows().stream().map(mapper).collect(Collectors.toList());
         convertPage.setRows(collect);
+        convertPage.setPageNumber(this.pageNumber);
+        convertPage.setPageSize(this.pageSize);
+        convertPage.setTotal(this.total);
+        convertPage.setLastPageInfo(this.lastPageInfo);
         return convertPage;
     }
 
