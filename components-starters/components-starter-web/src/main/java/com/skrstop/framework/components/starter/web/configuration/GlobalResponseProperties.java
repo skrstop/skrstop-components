@@ -49,4 +49,7 @@ public class GlobalResponseProperties {
     /*** 不自动包装Result的接口列表 */
     private List<String> disableGlobalResponseList = new ArrayList<>(RequestPathConst.DEFAULT_NOT_GLOBAL_RESPONSE_RESULT_LIST);
 
+    /*** 是否开启feign调用的自动去除包装结构，用户controller直接集成feignClient的情况，默认：false */
+    private boolean enableFeignTransResultTypeResponse = false;
+
 }

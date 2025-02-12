@@ -125,6 +125,9 @@ springdoc:
   paths-to-match: /**
 
 skrstop:
+  response:
+    config:
+      enable-feign-trans-result-type-response: true
   redis:
     redisson:
       enabled: true
