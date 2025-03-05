@@ -17,6 +17,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -78,6 +79,10 @@ public class JacksonAutoConfiguration {
         if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(globalResponseProperties.getDateTimeFormat()));
+        }
+        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
+            simpleModule.addSerializer(Date.class, new DateSerializer(globalResponseProperties.getDateTimeFormat()));
+            simpleModule.addDeserializer(Date.class, new DateDeserializer(globalResponseProperties.getDateTimeFormat()));
         }
         if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
             simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(globalResponseProperties.getDateFormat()));
