@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.web.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -97,6 +98,7 @@ public class JacksonAutoConfiguration {
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         }
         globalObjectMapper = objectMapper.registerModule(simpleModule);
+        globalObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return globalObjectMapper;
     }
 
