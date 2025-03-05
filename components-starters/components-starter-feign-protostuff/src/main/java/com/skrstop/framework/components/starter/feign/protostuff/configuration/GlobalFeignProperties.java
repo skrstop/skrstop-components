@@ -66,7 +66,9 @@ public class GlobalFeignProperties {
             "accept-encoding",
             "accept-language",
             "content-length",
-            "content-type"
+            "content-type",
+            "host",
+            "connection"
     );
 
 }
