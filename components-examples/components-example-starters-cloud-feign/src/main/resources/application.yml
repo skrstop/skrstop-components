@@ -1,11 +1,24 @@
 spring:
-  # 在SpringBoot 2.1之前，这个配置默认就是true，而在2.1做了更改。
-  main:
-    allow-bean-definition-overriding: true
   application:
     name: components-example-starters-cloud-feign
   profiles:
     active: local
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 1000
+            readTimeout: 12000
+      #      httpclient:
+      #        max-connections: 200
+      #        max-connections-per-route: 50
+      ok-http:
+        enabled: true
+        log-info-level-for-request: true
+#    loadbalancer:
+#      clients:
+#        default:
 
 server:
   port: 8080
@@ -14,8 +27,8 @@ server:
       min-spare: 10
       max: 200
     connection-timeout: 15000
-    accept-count: 4096
-    max-connections: 65000
+    #    accept-count: 4096
+    #    max-connections: 65000
     mbeanregistry:
       enabled: true
     relaxed-path-chars:
@@ -42,27 +55,11 @@ server:
       - '^'
       - '`'
       - '"'
+  http2:
+    enabled: true
 
 logging:
   config: classpath:logConfig/log4j2.xml
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 1000
-        readTimeout: 12000
-  hystrix:
-    enabled: false
-  sentinel:
-    enabled: true
-  httpclient:
-    enabled: false
-    max-connections: 200
-    max-connections-per-route: 50
-  okhttp:
-    enabled: true
-
 
 ribbon:
   # 随机
@@ -97,8 +94,10 @@ xxxxxService:
 skrstop:
   feign:
     config:
+      enable-http2: false
       scan-package: com.skrstop.framework.components.example.starters.cloud.feign.api
       stop-auto-remove-global-response: false
+      gzip-compress: false
   response:
     config:
       ## 该选项为false是，必须设置 feign.config.stop-auto-remove-global-response = true

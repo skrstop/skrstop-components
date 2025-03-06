@@ -76,7 +76,7 @@ spring:
 
 
 server:
-  port: 8080
+  port: 8081
   tomcat:
     threads:
       min-spare: 10
@@ -114,7 +114,21 @@ server:
 logging:
   config: classpath:logConfig/log4j2.xml
 
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    url: /v3/api-docs
+  packages-to-scan: com.skrstop.framework.components.example.starters.simple.controller
+  paths-to-match: /**
+
 skrstop:
+  response:
+    config:
+      enable-feign-trans-result-type-response: true
   redis:
     redisson:
       enabled: true
@@ -235,24 +249,6 @@ skrstop:
             filters: stat,wall,slf4j
             # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
             connection-properties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
-            # 配置DruidStatFilter
-            web-stat-filter:
-              enabled: true
-              url-pattern: "/*"
-              exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
-            # 配置DruidStatViewServlet
-            stat-view-servlet:
-              url-pattern: "/druid/*"
-              # IP白名单(没有配置或者为空，则允许所有访问)
-              allow: 127.0.0.1, 10.30.8.118
-              # IP黑名单 (存在共同时，deny优先于allow)
-              deny: 192.168.1.73
-              #  禁用HTML页面上的“Reset All”功能
-              reset-enable: false
-              # 登录名
-              login-username: admin
-              # 登录密码
-              login-password: 123456
         db1:
           url: jdbc:h2:/Users/jphoebe/opt/code/IdeaProjects/github/skrstop-components-17/components-examples/components-example-starters-simple/src/main/resources/db/exampleStarters2
           driver-class-name: org.h2.Driver
@@ -282,24 +278,6 @@ skrstop:
             filters: stat,wall,slf4j
             # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
             connection-properties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
-            # 配置DruidStatFilter
-            web-stat-filter:
-              enabled: true
-              url-pattern: "/*"
-              exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
-            # 配置DruidStatViewServlet
-            stat-view-servlet:
-              url-pattern: "/druid/*"
-              # IP白名单(没有配置或者为空，则允许所有访问)
-              allow: 127.0.0.1, 10.30.8.118
-              # IP黑名单 (存在共同时，deny优先于allow)
-              deny: 192.168.1.73
-              #  禁用HTML页面上的“Reset All”功能
-              reset-enable: false
-              # 登录名
-              login-username: admin
-              # 登录密码
-              login-password: 123456
   annotation:
     config:
       access-control:
@@ -321,7 +299,7 @@ skrstop:
       #      collection-naming: kebabCase
       #      property-naming: kebabCase
     dynamic:
-      enabled: true
+      enabled: false
       data-sources:
         master:
           uri: mongodb://root:123456@127.0.0.1:27017/example_starts_mongo?authSource=admin&minpoolsize=10&maxpoolsize=50

@@ -3,10 +3,12 @@ package com.skrstop.framework.components.starter.annotation.configuration;
 import com.skrstop.framework.components.starter.annotation.constant.GlobalConfigConst;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
@@ -25,6 +27,7 @@ import java.util.List;
 @ConfigurationProperties(GlobalConfigConst.ANNOTATION_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RefreshScope
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class AnnotationProperties {
     /*** 只允许public方法 */
     private boolean allowedPublicOnly = true;

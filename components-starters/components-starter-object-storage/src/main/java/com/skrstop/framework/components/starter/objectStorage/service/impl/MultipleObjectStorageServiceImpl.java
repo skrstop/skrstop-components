@@ -6,7 +6,6 @@ import com.skrstop.framework.components.starter.objectStorage.configuration.dyna
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -146,27 +145,27 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime);
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
     }
 
     @Override
-    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
-        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath, boolean useOriginHost) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath, useOriginHost);
     }
 
     @Override
-    public String getPublicAccessUrl(String bucketName, String targetPath) {
-        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath);
+    public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
+        return this.getObjectStorageService().getPublicAccessUrl(bucketName, targetPath, useOriginHost);
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime);
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
         return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 

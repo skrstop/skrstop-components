@@ -9,5 +9,6 @@ com.skrstop.framework.components.starter.web.exception.global.webmvc.ErrorMvcAut
 com.skrstop.framework.components.starter.web.exception.global.webmvc.RequestExceptionHandler
 com.skrstop.framework.components.starter.web.exception.global.webflux.ExceptionAutoConfiguration
 com.skrstop.framework.components.starter.web.configuration.sentinel.SentinelDefaultResponseAutoConfiguration
+com.skrstop.framework.components.starter.web.configuration.FeignResponseAuthConfiguration
 com.skrstop.framework.components.starter.web.event.ShutdownEventController
 com.skrstop.framework.components.starter.web.event.StatusEventController

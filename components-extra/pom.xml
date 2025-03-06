@@ -33,12 +33,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- self modules -->
-            <dependency>
-                <groupId>com.skrstop.framework</groupId>
-                <artifactId>components-starter-compatible-ribbon-to-loadbalancer</artifactId>
-                <version>${framework.components.revision}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

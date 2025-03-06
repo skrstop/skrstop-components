@@ -3,9 +3,11 @@ package com.skrstop.framework.components.starter.redis.configuration.commonDynam
 import com.skrstop.framework.components.starter.redis.constant.GlobalConfigConst;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
 import java.util.LinkedHashMap;
@@ -22,6 +24,7 @@ import java.util.Map;
 @Builder
 @Accessors(chain = true)
 @ConfigurationProperties(prefix = GlobalConfigConst.REDIS_DYNAMIC)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DynamicRedisProperties {
 
     /*** 是否开启动态redis数据源 */

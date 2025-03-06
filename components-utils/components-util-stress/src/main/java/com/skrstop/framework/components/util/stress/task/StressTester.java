@@ -87,8 +87,6 @@ public class StressTester {
         ExecutorService executorService = new ThreadPoolExecutor(concurrencyLevel, concurrencyLevel * 2, 0L,
                 TimeUnit.MILLISECONDS, new SynchronousQueue<>(),
                 namedThreadFactory, new ThreadPoolExecutor.CallerRunsPolicy());
-
-        Executors.newFixedThreadPool(concurrencyLevel);
         List<StressThreadWorker> workers = new ArrayList(concurrencyLevel);
 
         int realTotalRequests;

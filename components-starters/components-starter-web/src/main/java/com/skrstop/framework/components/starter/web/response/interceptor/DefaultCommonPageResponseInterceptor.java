@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.starter.web.response.interceptor;
 
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import com.skrstop.framework.components.core.common.util.DynamicResult;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.response.core.ResponseHandlerInterceptor;
@@ -15,7 +15,7 @@ import org.springframework.core.Ordered;
 public class DefaultCommonPageResponseInterceptor implements ResponseHandlerInterceptor {
     @Override
     public boolean support(Object returnValue) {
-        return returnValue instanceof CommonPageData;
+        return returnValue instanceof PageData;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class DefaultCommonPageResponseInterceptor implements ResponseHandlerInte
     public InterceptorResult execute(Object returnValue) {
         return InterceptorResult.builder()
                 .next(false)
-                .result(DynamicResult.buildPage((CommonPageData<?>) returnValue))
+                .result(DynamicResult.buildPage((PageData<?>) returnValue))
                 .build();
     }
 }

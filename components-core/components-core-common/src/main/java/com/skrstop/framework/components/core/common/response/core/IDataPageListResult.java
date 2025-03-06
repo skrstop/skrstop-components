@@ -8,22 +8,7 @@ import java.util.List;
  * @author 蒋时华
  * @date 2018/7/19
  */
-public interface IDataPageListResult<T> extends IDataPageResult<List<T>> {
+public interface IDataPageListResult<T> extends IPageResult<List<T>> {
 
-    /**
-     * get response data
-     *
-     * @return T
-     */
-    @Override
-    List<T> getData();
-
-    /**
-     * set response data
-     *
-     * @param data
-     */
-    @Override
-    void setData(List<T> data);
 
 }

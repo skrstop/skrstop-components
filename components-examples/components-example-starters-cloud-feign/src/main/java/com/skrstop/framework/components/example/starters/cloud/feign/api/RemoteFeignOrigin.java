@@ -45,7 +45,7 @@ public interface RemoteFeignOrigin {
     Result<String> exampleFeign3(@RequestParam(name = "id") String id);
 
     @PostMapping("/exampleFeign4")
-    Result<String> exampleFeign4(@RequestBody HashMap<String, String> params);
+    ListResult<DemoInfo> exampleFeign4(@RequestBody HashMap<String, String> params);
 
     @Slf4j
     @SuppressWarnings("unchecked")
@@ -69,8 +69,8 @@ public interface RemoteFeignOrigin {
 
 
         @Override
-        public Result<String> exampleFeign4(HashMap<String, String> params) {
-            return Result.Builder.error();
+        public ListResult<DemoInfo> exampleFeign4(HashMap<String, String> params) {
+            return ListResult.Builder.error();
         }
 
     }

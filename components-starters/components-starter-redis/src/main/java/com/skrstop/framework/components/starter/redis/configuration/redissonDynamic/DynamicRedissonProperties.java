@@ -5,10 +5,12 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
 import java.util.LinkedHashMap;
@@ -23,6 +25,7 @@ import java.util.Map;
 @Configuration
 @ConditionalOnClass({Config.class, RedissonClient.class})
 @ConfigurationProperties(GlobalConfigConst.REDISSON_DYNAMIC_PREFIX)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DynamicRedissonProperties {
 
     /**

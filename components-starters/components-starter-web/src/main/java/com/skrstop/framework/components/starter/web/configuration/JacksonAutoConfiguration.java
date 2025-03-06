@@ -1,27 +1,24 @@
 package com.skrstop.framework.components.starter.web.configuration;
 
-import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
 import com.skrstop.framework.components.starter.web.configuration.format.*;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -41,6 +38,7 @@ public class JacksonAutoConfiguration {
 
     public JacksonAutoConfiguration(GlobalResponseProperties globalResponseProperties
             , List<HttpMessageConverter<?>> converters) {
+        converters.add(0, new ByteArrayHttpMessageConverter());
         this.configureMessageConverters(converters, globalResponseProperties);
     }
 
@@ -69,12 +67,12 @@ public class JacksonAutoConfiguration {
         SimpleModule simpleModule = new SimpleModule();
         // 序列换成json时,将所有的long变成string
         if (globalResponseProperties == null || globalResponseProperties.isLongToString()) {
-            simpleModule.addSerializer(PageInfo.class, new JsonSerializer<PageInfo>() {
-                @Override
-                public void serialize(PageInfo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                    gen.writeRawValue(JSON.toJSONString(value));
-                }
-            });
+//            simpleModule.addSerializer(PageData.class, new JsonSerializer<PageData>() {
+//                @Override
+//                public void serialize(PageData value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+//                    gen.writeRawValue(JSON.toJSONString(value, JSONWriter.Feature.WriteLongAsString));
+//                }
+//            });
             simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
             simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         }
@@ -82,6 +80,10 @@ public class JacksonAutoConfiguration {
         if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(globalResponseProperties.getDateTimeFormat()));
+        }
+        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
+            simpleModule.addSerializer(Date.class, new DateSerializer(globalResponseProperties.getDateTimeFormat()));
+            simpleModule.addDeserializer(Date.class, new DateDeserializer(globalResponseProperties.getDateTimeFormat()));
         }
         if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
             simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(globalResponseProperties.getDateFormat()));
@@ -96,6 +98,7 @@ public class JacksonAutoConfiguration {
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         }
         globalObjectMapper = objectMapper.registerModule(simpleModule);
+        globalObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return globalObjectMapper;
     }
 

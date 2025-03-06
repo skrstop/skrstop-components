@@ -31,6 +31,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @Order
 @ConditionalOnProperty(name = GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled", havingValue = "true", matchIfMissing = false)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DynamicRedissonAutoConfiguration {
 
     @Bean

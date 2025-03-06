@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.web.configuration.sentinel;
 
 import com.alibaba.csp.sentinel.adapter.spring.webflux.callback.BlockRequestHandler;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.skrstop.framework.components.starter.web.configuration.sentinel.webflux.DefaultWebFluxBlockRequestHandler;
 import com.skrstop.framework.components.starter.web.configuration.sentinel.webmvc.DefaultWebMvcBlockExceptionHandler;

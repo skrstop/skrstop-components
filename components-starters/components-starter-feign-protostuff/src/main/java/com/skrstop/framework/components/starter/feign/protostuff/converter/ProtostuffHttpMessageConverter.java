@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.skrstop.framework.components.core.common.response.*;
 import com.skrstop.framework.components.core.common.response.core.IDataResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.CommonPageData;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import com.skrstop.framework.components.starter.feign.protostuff.configuration.GlobalFeignProperties;
 import com.skrstop.framework.components.starter.feign.protostuff.configuration.interceptor.DynamicFeignClientMethodContextHolder;
 import com.skrstop.framework.components.starter.spring.support.bean.SpringUtil;
@@ -66,12 +66,12 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
 
     @Override
     protected Object readInternal(Class<?> clazz, HttpInputMessage inputMessage) throws IOException {
-        return ProtostuffUtil.deserialize(inputMessage.getBody(), clazz);
+        return ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), clazz, this.globalFeignProperties.getGzipCompress());
     }
 
     @Override
     protected void writeInternal(Object object, HttpOutputMessage outputMessage) throws IOException {
-        FileCopyUtils.copy(ProtostuffUtil.serialize(object), outputMessage.getBody());
+        FileCopyUtils.copy(ProtostuffUtil.serializeWithCompress(object, this.globalFeignProperties.getGzipCompress()), outputMessage.getBody());
     }
 
     @Override
@@ -93,55 +93,52 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         }
         if (ObjectUtil.isNotNull(contextClass)) {
             // 可能是controller
-            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
+            return ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), c, this.globalFeignProperties.getGzipCompress());
         }
         // 关闭自动类型处理
         if (globalFeignProperties.isStopAutoRemoveGlobalResponse()) {
             if (!IResult.class.isAssignableFrom(c)) {
                 log.error("当前已禁用自动类型转换，请查看是否设置了：skrstop.feign.config.stop-auto-remove-global-response = true 或 使用IResult类型接收数据");
-                return ProtostuffUtil.deserialize(inputMessage.getBody(), Result.class);
+                return ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), Result.class, this.globalFeignProperties.getGzipCompress());
             }
-            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
+            return ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), c, this.globalFeignProperties.getGzipCompress());
         }
         if (!webResponseFeignSupport) {
             log.error("当前web已禁用feign包装支持，请查看是否设置了：skrstop.response.config.support-feign = false");
-            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
+            return ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), c, this.globalFeignProperties.getGzipCompress());
         }
         // 自动类型转换
         if (IResult.class.isAssignableFrom(c)) {
             // IResult
-            return ProtostuffUtil.deserialize(inputMessage.getBody(), c);
+            return ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), c, this.globalFeignProperties.getGzipCompress());
         }
         if (Void.class.isAssignableFrom(c)) {
             return null;
         }
         Class<? extends IResult> iResultClass = null;
-        if (CommonPageData.class.isAssignableFrom(c)) {
-            PageListResult deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), PageListResult.class);
-            return CommonPageData.builder()
-                    .pageInfo(deserialize.getPageInfo())
-                    .data(deserialize.getData())
-                    .build();
+        if (PageData.class.isAssignableFrom(c)) {
+            PageListResult deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), PageListResult.class, this.globalFeignProperties.getGzipCompress());
+            return deserialize.getData();
         }
         IDataResult deserialize;
         if (List.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), ListResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), ListResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (HashSet.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), HashSetResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), HashSetResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (LinkedHashSet.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), LinkedSetResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedSetResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (LinkedHashMap.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), LinkedMapResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedMapResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (HashMap.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), MapResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), MapResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (Collection.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), CollectionResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), CollectionResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (Set.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), LinkedSetResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedSetResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (Map.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), LinkedMapResult.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedMapResult.class, this.globalFeignProperties.getGzipCompress());
         } else {
-            deserialize = ProtostuffUtil.deserialize(inputMessage.getBody(), Result.class);
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), Result.class, this.globalFeignProperties.getGzipCompress());
         }
         if (deserialize.isFailed() && globalFeignProperties.isLogErrorAutoRemoveGlobalResponse()) {
             log.error("feign调用失败, 错误响应：{}", deserialize);
@@ -168,7 +165,7 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
     @Override
     public void write(Object t, Type type, MediaType contentType, HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
-        FileCopyUtils.copy(ProtostuffUtil.serialize(t), outputMessage.getBody());
+        FileCopyUtils.copy(ProtostuffUtil.serializeWithCompress(t, globalFeignProperties.getGzipCompress()), outputMessage.getBody());
     }
 
 }

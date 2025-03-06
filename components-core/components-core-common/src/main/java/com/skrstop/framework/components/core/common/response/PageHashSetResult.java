@@ -5,8 +5,7 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.core.common.response.core.IDataPageHashSetResult;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageInfo;
-import com.skrstop.framework.components.core.common.response.page.SimplePageInfo;
+import com.skrstop.framework.components.core.common.response.page.PageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,54 +17,46 @@ import java.util.HashSet;
  */
 @Getter
 @Setter
-public class PageHashSetResult<T> extends AbstractPageResult implements IDataPageHashSetResult<T> {
-
-    HashSet<T> data;
+public class PageHashSetResult<T> extends AbstractPageResult<HashSet<T>> implements IDataPageHashSetResult<T> {
 
     public PageHashSetResult() {
-        this.data = new HashSet<>();
     }
 
     public PageHashSetResult(IResult IResult) {
         super(IResult);
     }
 
-    public PageHashSetResult(IPageResult IPageResult) {
+    public PageHashSetResult(IResult IResult, PageData<HashSet<T>> pageData) {
+        super(IResult, pageData);
+    }
+
+    public PageHashSetResult(IPageResult<HashSet<T>> IPageResult) {
         super(IPageResult);
     }
 
-    public PageHashSetResult(IPageResult IPageResult, HashSet<T> set) {
-        super(IPageResult);
-        this.data = set;
+    public PageHashSetResult(IPageResult<HashSet<T>> IPageResult, HashSet<T> list) {
+        super(IPageResult, list);
     }
 
-    public PageHashSetResult(IResult IResult, PageInfo pageInfo) {
-        super(IResult, pageInfo);
-    }
-
-    public PageHashSetResult(IResult IResult, PageInfo pageInfo, HashSet<T> set) {
-        super(IResult, pageInfo);
-        this.data = set;
+    public PageHashSetResult(IResult IResult, PageData<HashSet<T>> pageData, HashSet<T> list) {
+        super(IResult, pageData, list);
     }
 
     public PageHashSetResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
+        super(IResult, pageNum, pageSize);
     }
 
-    public PageHashSetResult(IResult IResult, long pageNum, long pageSize, HashSet<T> set) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize));
-        this.data = set;
+    public PageHashSetResult(IResult IResult, long pageNum, long pageSize, HashSet<T> list) {
+        super(IResult, pageNum, pageSize, list);
     }
 
     public PageHashSetResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
+        super(IResult, pageNum, pageSize, total);
     }
 
-    public PageHashSetResult(IResult IResult, long pageNum, long pageSize, long total, HashSet<T> set) {
-        super(IResult, new SimplePageInfo(pageNum, pageSize, total));
-        this.data = set;
+    public PageHashSetResult(IResult IResult, long pageNum, long pageSize, long total, HashSet<T> list) {
+        super(IResult, pageNum, pageSize, total, list);
     }
-
 
     public static class Builder {
 
@@ -119,8 +110,8 @@ public class PageHashSetResult<T> extends AbstractPageResult implements IDataPag
          *
          * @return Result
          */
-        public static PageHashSetResult success(PageInfo pageInfo) {
-            return new PageHashSetResult(CommonResultCode.SUCCESS, pageInfo);
+        public static PageHashSetResult success(PageData pageData) {
+            return new PageHashSetResult(CommonResultCode.SUCCESS, pageData);
         }
 
         /**
@@ -128,8 +119,8 @@ public class PageHashSetResult<T> extends AbstractPageResult implements IDataPag
          *
          * @return Result
          */
-        public static <T> PageHashSetResult<T> success(PageInfo pageInfo, HashSet<T> set) {
-            return new PageHashSetResult<T>(CommonResultCode.SUCCESS, pageInfo, set);
+        public static <T> PageHashSetResult<T> success(PageData pageData, HashSet<T> set) {
+            return new PageHashSetResult<T>(CommonResultCode.SUCCESS, pageData, set);
         }
 
         /**
@@ -182,8 +173,8 @@ public class PageHashSetResult<T> extends AbstractPageResult implements IDataPag
          *
          * @return Result
          */
-        public static PageHashSetResult error(PageInfo pageInfo) {
-            return new PageHashSetResult(CommonResultCode.FAIL, pageInfo);
+        public static PageHashSetResult error(PageData pageData) {
+            return new PageHashSetResult(CommonResultCode.FAIL, pageData);
         }
 
         /**
@@ -191,8 +182,8 @@ public class PageHashSetResult<T> extends AbstractPageResult implements IDataPag
          *
          * @return Result
          */
-        public static <T> PageHashSetResult<T> error(PageInfo pageInfo, HashSet<T> set) {
-            return new PageHashSetResult<T>(CommonResultCode.FAIL, pageInfo, set);
+        public static <T> PageHashSetResult<T> error(PageData pageData, HashSet<T> set) {
+            return new PageHashSetResult<T>(CommonResultCode.FAIL, pageData, set);
         }
 
         /**
@@ -245,8 +236,8 @@ public class PageHashSetResult<T> extends AbstractPageResult implements IDataPag
          *
          * @return Result
          */
-        public static PageHashSetResult result(IResult IResult, PageInfo pageInfo) {
-            return new PageHashSetResult(IResult, pageInfo);
+        public static PageHashSetResult result(IResult IResult, PageData pageData) {
+            return new PageHashSetResult(IResult, pageData);
         }
 
         /**
@@ -254,8 +245,8 @@ public class PageHashSetResult<T> extends AbstractPageResult implements IDataPag
          *
          * @return Result
          */
-        public static <T> PageHashSetResult<T> result(IResult IResult, PageInfo pageInfo, HashSet<T> set) {
-            return new PageHashSetResult<T>(IResult, pageInfo, set);
+        public static <T> PageHashSetResult<T> result(IResult IResult, PageData pageData, HashSet<T> set) {
+            return new PageHashSetResult<T>(IResult, pageData, set);
         }
 
     }

@@ -20,7 +20,6 @@ import com.skrstop.framework.components.starter.objectStorage.configuration.CosP
 import com.skrstop.framework.components.starter.objectStorage.entity.CosStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.executor.ThreadPoolUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.DateUtil;
@@ -41,7 +40,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * FtpServiceImpl class
@@ -255,9 +253,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getPublicAccessUrl(String bucketName, String targetPath) {
+    public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        if (StrUtil.isNotBlank(cosProperties.getAccessUrlHost())) {
+        if (StrUtil.isNotBlank(cosProperties.getAccessUrlHost()) && !useOriginHost) {
             return this.cosProperties.getAccessUrlProtocol() + "://" + this.cosProperties.getAccessUrlHost() + targetPath;
         } else {
             StringBuilder strBuilder = new StringBuilder();
@@ -270,26 +268,30 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+    public Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         Map<String, String> result = new HashMap<>(targetPath.size(), 1);
         for (String path : targetPath) {
-            result.put(path, this.getPublicAccessUrl(bucketName, path));
+            result.put(path, this.getPublicAccessUrl(bucketName, path, useOriginHost));
         }
         return result;
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime) {
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
+        HashMap<String, String> requestParams = new HashMap<>();
+        if (MapUtil.isNotEmpty(params)) {
+            params.forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
+        }
         URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath
                 , DateUtil.toDate(endTime), HttpMethodName.GET
-                , new HashMap<String, String>(), new HashMap<String, String>(), false, false);
+                , new HashMap<String, String>(), requestParams, false, false);
         try {
             URI newUrl = new URI(StrUtil.blankToDefault(cosProperties.getAccessUrlProtocol(), url.getProtocol())
                     , url.getUserInfo()
-                    , StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
+                    , useOriginHost ? url.getHost() : StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
                     , URLUtil.decode(url.getQuery())
@@ -305,17 +307,17 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime) {
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         Map<String, String> result = new HashMap<>(targetPath.size(), 1);
         for (String path : targetPath) {
-            result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime));
+            result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime, params, useOriginHost));
         }
         return result;
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         CosStorageTemplateSign sign = new CosStorageTemplateSign();
         try {
@@ -376,7 +378,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             }
             if (CollectionUtil.isNotEmpty(contentType)) {
                 // 限制类型
-                Set<String> list = contentType.stream().map(ContentTypeEnum::getContentType).collect(Collectors.toSet());
+                Set<String> list = new LinkedHashSet<>(contentType);
                 Map<String, Set<String>> val = MapUtil.builder("cos:content-type", list).map();
                 conditions.put("string_like", val);
             }

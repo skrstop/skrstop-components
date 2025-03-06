@@ -8,22 +8,7 @@ import java.util.Set;
  * @author 蒋时华
  * @date 2018/7/19
  */
-public interface IDataPageSetResult<T> extends IDataPageResult<Set<T>> {
+public interface IDataPageSetResult<T> extends IPageResult<Set<T>> {
 
-    /**
-     * get response data
-     *
-     * @return T
-     */
-    @Override
-    Set<T> getData();
-
-    /**
-     * set response data
-     *
-     * @param data
-     */
-    @Override
-    void setData(Set<T> data);
 
 }

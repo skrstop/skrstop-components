@@ -19,6 +19,7 @@ import org.springframework.core.Ordered;
  */
 @Configuration
 @EnableConfigurationProperties(AnnotationProperties.class)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class AnnotationAutoConfiguration {
 
     @Bean
@@ -29,7 +30,7 @@ public class AnnotationAutoConfiguration {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ProcessorContainerConfiguration processorContainerConfiguration() {
+    public static ProcessorContainerConfiguration processorContainerConfiguration() {
         return new ProcessorContainerConfiguration();
     }
 

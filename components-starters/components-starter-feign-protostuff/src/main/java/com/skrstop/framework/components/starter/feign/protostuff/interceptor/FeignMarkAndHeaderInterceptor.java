@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class FeignMarkAndHeaderInterceptor implements RequestInterceptor {
 
-    private static final Map<String, ProtostuffFeignClient> PROTOSTUFF_FEIGN_CLIENT_CACHE = new ConcurrentHashMap<>();
+    private static final Map<String, Boolean> PROTOSTUFF_FEIGN_CLIENT_CACHE = new ConcurrentHashMap<>();
 
     private GlobalFeignProperties globalFeignProperties;
 
@@ -43,12 +43,17 @@ public class FeignMarkAndHeaderInterceptor implements RequestInterceptor {
 
         try {
             String name = template.feignTarget().type().getName();
-            ProtostuffFeignClient protostuffFeignClient = PROTOSTUFF_FEIGN_CLIENT_CACHE.get(name);
-            if (protostuffFeignClient == null) {
-                protostuffFeignClient = Class.forName(name).getAnnotation(ProtostuffFeignClient.class);
-                PROTOSTUFF_FEIGN_CLIENT_CACHE.put(name, protostuffFeignClient);
+            Boolean isProtostuffFeignClient = PROTOSTUFF_FEIGN_CLIENT_CACHE.get(name);
+            if (isProtostuffFeignClient == null) {
+                ProtostuffFeignClient protostuffFeignClient = Class.forName(name).getAnnotation(ProtostuffFeignClient.class);
+                if (protostuffFeignClient != null) {
+                    isProtostuffFeignClient = true;
+                } else {
+                    isProtostuffFeignClient = false;
+                }
+                PROTOSTUFF_FEIGN_CLIENT_CACHE.put(name, isProtostuffFeignClient);
             }
-            if (ObjectUtil.isNotNull(protostuffFeignClient)) {
+            if (ObjectUtil.isNotNull(isProtostuffFeignClient) && isProtostuffFeignClient) {
                 // 添加feignMark 标记为protostuff
                 template.header(FeignConst.USE_FEIGN_NAME, FeignConst.USE_FEIGN_VALUE);
                 template.header(FeignConst.FEIGN_PROTOCOL_NAME, FeignConst.FEIGN_PROTOCOL_VALUE_PROTOSTUFF);

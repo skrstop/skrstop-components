@@ -1,10 +1,8 @@
 package com.skrstop.framework.components.example.starters.cloud.feign.controller;
 
-import com.skrstop.framework.components.core.common.response.ListResult;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeign;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeignController;
 import com.skrstop.framework.components.example.starters.cloud.feign.api.RemoteFeignOrigin;
-import com.skrstop.framework.components.example.starters.cloud.feign.entity.DemoInfo;
 import com.skrstop.framework.components.util.stress.StressStoreUtil;
 import com.skrstop.framework.components.util.stress.result.StressResult;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
@@ -37,43 +35,46 @@ public class LocalController {
     @GetMapping("/exampleRemote1")
     public String exampleRemote1() {
 
-        System.out.println("测试打印：" + remoteFeign.exampleFeign1(DemoInfo.builder().name("aaaaa").build()));
-        System.out.println("测试打印：" + remoteFeign.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
-        System.out.println("测试打印：" + remoteFeign.exampleFeign3("skrstop"));
-        ListResult<DemoInfo> listResult = remoteFeign.exampleFeign4(new HashMap<String, String>() {{
-            put("name", "skrstop");
-            put("age", "18");
-        }});
-        System.out.println("测试打印：" + listResult);
-        System.out.println("测试打印：" + remoteFeign.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
-        System.out.println("测试打印：" + remoteFeign.exampleFeign6());
-
-        System.out.println("测试打印：without result");
-        Integer s = remoteFeignController.exampleFeign1(DemoInfo.builder().name("aaaaa").build());
-        System.out.println("测试打印：" + s);
-        System.out.println("测试打印：" + remoteFeignController.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
-        System.out.println("测试打印：" + remoteFeignController.exampleFeign3("skrstop"));
-        System.out.println("测试打印：" + remoteFeignController.exampleFeign4(new HashMap<String, String>() {{
-            put("name", "skrstop");
-            put("age", "18");
-        }}));
+        System.out.println("测试打印：" + remoteFeign.exampleFeign51(CollectionUtil.newArrayList("skrstop", "18")));
+//        System.out.println("测试打印：" + remoteFeign.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
 //
-        System.out.println("测试打印：" + remoteFeignController.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
-        System.out.println("测试打印：6");
+//        System.out.println("测试打印：" + remoteFeign.exampleFeign1(DemoInfo.builder().name("aaaaa").build()));
+//        System.out.println("测试打印：" + remoteFeign.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
+//        System.out.println("测试打印：" + remoteFeign.exampleFeign3("skrstop"));
+//        ListResult<DemoInfo> listResult = remoteFeign.exampleFeign4(new HashMap<String, String>() {{
+//            put("name", "skrstop");
+//            put("age", "18");
+//        }});
+//        System.out.println("测试打印：" + listResult);
+//        System.out.println("测试打印：" + remoteFeign.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
+//        System.out.println("测试打印：" + remoteFeign.exampleFeign6());
+//
+//        System.out.println("测试打印：without result");
+//        Integer s = remoteFeignController.exampleFeign1(DemoInfo.builder().name("aaaaa").build());
+//        System.out.println("测试打印：" + s);
+//        System.out.println("测试打印：" + remoteFeignController.exampleFeign2(CollectionUtil.newArrayList("skrstop", "18")));
+//        System.out.println("测试打印：" + remoteFeignController.exampleFeign3("skrstop"));
+//        System.out.println("测试打印：" + remoteFeignController.exampleFeign4(new HashMap<String, String>() {{
+//            put("name", "skrstop");
+//            put("age", "18");
+//        }}));
+////
+//        System.out.println("测试打印：" + remoteFeignController.exampleFeign5(CollectionUtil.newArrayList("skrstop", "18")));
+//        System.out.println("测试打印：6");
         return "success";
     }
 
     @GetMapping("/exampleTest")
     public void exampleTest() {
         // 原始
-        StressResult originTest = StressStoreUtil.test(Runtime.getRuntime().availableProcessors() * 2, 5000, () -> {
-            remoteFeign.exampleFeign4(new HashMap<String, String>() {{
+        StressResult originTest = StressStoreUtil.test(4, 5000, () -> {
+            remoteFeignOrigin.exampleFeign4(new HashMap<String, String>() {{
                 put("name", "skrstop");
                 put("age", "18");
             }});
         }, 10);
         // pb
-        StressResult pbTest = StressStoreUtil.test(Runtime.getRuntime().availableProcessors() * 2, 5000, () -> {
+        StressResult pbTest = StressStoreUtil.test(4, 5000, () -> {
             remoteFeignController.exampleFeign4(new HashMap<String, String>() {{
                 put("name", "skrstop");
                 put("age", "18");

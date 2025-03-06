@@ -45,7 +45,6 @@ public class DynamicDatastore implements Datastore {
         this.dynamicMongodbProperties = dynamicMongodbProperties;
         this.globalMongodbProperties = globalMongodbProperties;
         // 初始化
-
         dynamicMongodbProperties.getDataSources().forEach((key, value) -> {
             MongoClient datasourceMongoClient = dynamicMongoClient.getDynamicMongoClientMap().get(key);
             if (ObjectUtil.isNull(datasourceMongoClient)) {
@@ -78,6 +77,7 @@ public class DynamicDatastore implements Datastore {
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public AggregationPipeline createAggregation(Class<?> source) {
         return this.getDatastore().createAggregation(source);
     }
@@ -93,16 +93,19 @@ public class DynamicDatastore implements Datastore {
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public void enableDocumentValidation() {
         this.getDatastore().enableDocumentValidation();
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public void ensureCaps() {
         this.getDatastore().ensureCaps();
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public void ensureIndexes() {
         this.getDatastore().ensureIndexes();
     }
@@ -118,6 +121,7 @@ public class DynamicDatastore implements Datastore {
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public <T> Query<T> find(String collection, Class<T> type) {
         return this.getDatastore().find(collection, type);
     }
@@ -143,6 +147,7 @@ public class DynamicDatastore implements Datastore {
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public String getLoggedQuery(FindOptions options) {
         return this.getDatastore().getLoggedQuery(options);
     }

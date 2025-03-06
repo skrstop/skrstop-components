@@ -1,6 +1,5 @@
 package com.skrstop.framework.components.starter.database.configuration.dynamic.common;
 
-import cn.beecp.BeeDataSource;
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.atomikos.jdbc.AtomikosDataSourceBean;
@@ -24,6 +23,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.stone.beecp.BeeDataSource;
 
 import java.util.ArrayList;
 import java.util.List;

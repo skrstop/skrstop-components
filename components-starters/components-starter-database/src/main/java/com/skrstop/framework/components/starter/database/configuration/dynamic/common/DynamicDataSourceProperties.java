@@ -14,8 +14,10 @@ import com.skrstop.framework.components.starter.database.constant.GlobalConfigCo
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.context.annotation.Role;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,6 +36,7 @@ import java.util.Map;
 @Builder
 @Accessors(chain = true)
 @ConfigurationProperties(prefix = GlobalConfigConst.DATABASE_DYNAMIC)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DynamicDataSourceProperties {
 
     private Boolean enabled = false;

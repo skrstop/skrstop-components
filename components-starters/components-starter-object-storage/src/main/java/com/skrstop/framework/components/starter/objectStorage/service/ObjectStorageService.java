@@ -1,7 +1,6 @@
 package com.skrstop.framework.components.starter.objectStorage.service;
 
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
-import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 
 import java.io.Closeable;
 import java.io.File;
@@ -169,28 +168,18 @@ public interface ObjectStorageService extends Closeable {
     boolean move(String sourceBucketName, String sourcePath, String targetBucketName, String targetPath);
 
     /**
-     * 获取临时访问地址
-     *
      * @param bucketName
      * @param targetPath
-     * @param expireTime 有效时间，单位：秒
      * @return
      */
-    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime);
+    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath, boolean useOriginHost);
 
-    default String getTemporaryAccessUrl(String targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime);
+    default Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath) {
+        return getPublicAccessUrl(null, targetPath, false);
     }
 
-    /**
-     * @param bucketName
-     * @param targetPath
-     * @return
-     */
-    Map<String, String> getPublicAccessUrl(String bucketName, List<String> targetPath);
-
     default Map<String, String> getPublicAccessUrl(List<String> targetPath) {
-        return getPublicAccessUrl(null, targetPath);
+        return getPublicAccessUrl(null, targetPath, false);
     }
 
     /**
@@ -200,10 +189,13 @@ public interface ObjectStorageService extends Closeable {
      * @param targetPath
      * @return
      */
-    String getPublicAccessUrl(String bucketName, String targetPath);
+    String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost);
 
+    default String getPublicAccessUrl(String bucketName, String targetPath) {
+        return getPublicAccessUrl(null, targetPath, false);
+    }
     default String getPublicAccessUrl(String targetPath) {
-        return getPublicAccessUrl(null, targetPath);
+        return getPublicAccessUrl(null, targetPath, false);
     }
 
     /**
@@ -212,10 +204,38 @@ public interface ObjectStorageService extends Closeable {
      * @param expireTime 有效时间，单位：秒
      * @return
      */
-    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime);
+    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
 
+    default Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, false);
+    }
     default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime);
+        return getTemporaryAccessUrl(null, targetPath, expireTime, null, false);
+    }
+
+    default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(null, targetPath, expireTime, params, false);
+    }
+
+    /**
+     * 获取临时访问地址
+     *
+     * @param bucketName
+     * @param targetPath
+     * @param expireTime 有效时间，单位：秒
+     * @return
+     */
+    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
+
+    default String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, false);
+    }
+    default String getTemporaryAccessUrl(String targetPath, long expireTime) {
+        return getTemporaryAccessUrl(null, targetPath, expireTime, null, false);
+    }
+
+    default String getTemporaryAccessUrl(String targetPath, long expireTime, Map<String, Object> params) {
+        return getTemporaryAccessUrl(null, targetPath, expireTime, params, false);
     }
 
     /**
@@ -268,7 +288,7 @@ public interface ObjectStorageService extends Closeable {
      * @param expireSecondTime
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, List<String> contentType) {
         return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, null, null, contentType);
     }
 
@@ -279,7 +299,7 @@ public interface ObjectStorageService extends Closeable {
      * @param <T>
      * @return
      */
-    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, List<ContentTypeEnum> contentType) {
+    default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, List<String> contentType) {
         return getTemporaryUploadSign(null, targetPath, expireSecondTime, null, null, contentType);
     }
 
@@ -296,7 +316,7 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType);
+            , Long minSize, Long maxSize, List<String> contentType);
 
     /**
      * @param targetPath
@@ -308,7 +328,7 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<ContentTypeEnum> contentType) {
+            , Long minSize, Long maxSize, List<String> contentType) {
         return getTemporaryUploadSign(null, targetPath, expireSecondTime, minSize, maxSize, contentType);
     }
 

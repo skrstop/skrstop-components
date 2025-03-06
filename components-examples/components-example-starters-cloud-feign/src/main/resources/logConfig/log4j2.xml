@@ -113,7 +113,7 @@
         <Logger name="io.seata" level="DEBUG"/>
         <Logger name="org.springblade.core.version" level="INFO"/>
         <!-- skrstop -->
-        <Logger name="com.skrstop" level="DEBUG"/>
+        <Logger name="com.skrstop" level="info"/>
 
     </Loggers>
 

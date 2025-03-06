@@ -1,6 +1,6 @@
 # 组件
 
-##### 1.3.3.20240510-RELEASE
+##### 1.3.3.20241112-RELEASE
 
 * fix: 修复@SProcessor注解无法扫描到自身bean的问题
 * fix: RegularExpressionConst.HTTP_URL正则表达式优化
@@ -12,6 +12,10 @@
 * fix：Mybatis-plus-join 插件注入bug修复
 * fix：使用hutool-bom
 * fix: cos临时签名bug修复
+* fix: StrUtil.format方法bug修复
+* feat: components-starter-object-storage cos 临时访问签名增加数据万象处理参数
+* refactor: 合并data和pageInfo, 统一放在data中
+* fix: starter-web兼容springdoc的接入
 
 ##### 1.3.2.20240510-RELEASE
 

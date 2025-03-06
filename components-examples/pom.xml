@@ -31,8 +31,13 @@
         <dependencies>
             <dependency>
                 <groupId>com.skrstop.framework</groupId>
-                <artifactId>components-example-starters</artifactId>
-                <version>${parent.version}</version>
+                <artifactId>components-example-starters-simple</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.skrstop.framework</groupId>
+                <artifactId>components-example-starters-cloud-feign</artifactId>
+                <version>${framework.components.revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.skrstop.framework</groupId>

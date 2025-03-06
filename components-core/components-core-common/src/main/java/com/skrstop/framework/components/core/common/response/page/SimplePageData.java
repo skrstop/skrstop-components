@@ -10,18 +10,19 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SimplePageInfo extends AbstractPageInfo implements PageInfo {
+public class SimplePageData<T> extends AbstractPageInfo<T> implements PageData<T> {
 
     private static final long serialVersionUID = -7653109079434897802L;
 
-    public SimplePageInfo() {
+    public SimplePageData() {
     }
 
-    public SimplePageInfo(long pageNum, long pageSize) {
+    public SimplePageData(long pageNum, long pageSize) {
         super(pageNum, pageSize);
     }
 
-    public SimplePageInfo(long pageNum, long pageSize, long total) {
+    public SimplePageData(long pageNum, long pageSize, long total) {
         super(pageNum, pageSize, total);
     }
+
 }
