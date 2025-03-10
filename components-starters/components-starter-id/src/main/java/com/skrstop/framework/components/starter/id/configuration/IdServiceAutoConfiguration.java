@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.id.configuration;
 import com.skrstop.framework.components.starter.id.constant.GenerateTypeConst;
 import com.skrstop.framework.components.starter.id.service.IdService;
 import com.skrstop.framework.components.starter.id.service.strategy.LocalIdServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class IdServiceAutoConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean(IdService.class)
     public IdService idGenerationService(GlobalIdProperties globalIdProperties) {
         if (GenerateTypeConst.LOCAL == globalIdProperties.getGenerateType()) {
             return new LocalIdServiceImpl(globalIdProperties);
