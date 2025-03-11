@@ -1020,6 +1020,11 @@
                 <version>${db-driver-mysql.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${db-driver-mysql.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${db-driver-h2.version}</version>
