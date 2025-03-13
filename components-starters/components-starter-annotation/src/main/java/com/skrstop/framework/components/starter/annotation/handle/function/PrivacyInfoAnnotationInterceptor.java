@@ -7,8 +7,10 @@ import com.skrstop.framework.components.starter.annotation.anno.function.Privacy
 import com.skrstop.framework.components.starter.annotation.anno.function.PrivacyInfoValue;
 import com.skrstop.framework.components.starter.annotation.configuration.AnnotationProperties;
 import com.skrstop.framework.components.starter.annotation.constant.PrivacyInfoType;
+import com.skrstop.framework.components.starter.annotation.handle.function.privacyInfo.PrivacyInfoTypeRule;
 import com.skrstop.framework.components.starter.common.util.AnnoFindUtil;
 import com.skrstop.framework.components.util.system.net.IPUtil;
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import com.skrstop.framework.components.util.value.security.SensitiveDataUtil;
@@ -26,15 +28,29 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
 
     private final AnnotationProperties annotationProperties;
+    private final Map<String, PrivacyInfoTypeRule> privacyInfoTypeRuleMap = new ConcurrentHashMap<>();
 
-    public PrivacyInfoAnnotationInterceptor(AnnotationProperties annotationProperties) {
+    public PrivacyInfoAnnotationInterceptor(AnnotationProperties annotationProperties, List<PrivacyInfoTypeRule> privacyInfoTypeRuleList) {
         this.annotationProperties = annotationProperties;
+        if (CollectionUtil.isEmpty(privacyInfoTypeRuleList)) {
+            return;
+        }
+        privacyInfoTypeRuleList.forEach(rule -> {
+            if (CollectionUtil.isEmpty(rule.supportType())) {
+                return;
+            }
+            rule.supportType().forEach(type -> {
+                this.privacyInfoTypeRuleMap.put(type, rule);
+            });
+        });
     }
 
     @Override
@@ -98,7 +114,7 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                 if (innerIp && !limit) {
                     continue;
                 }
-                if (privacyInfoValue.type() == PrivacyInfoType.SET_NULL) {
+                if (PrivacyInfoType.SET_NULL.equals(privacyInfoValue.type())) {
                     // 属性设置为null
                     BeanUtil.setProperty(returnVal, descriptor.getName(), null);
                     continue;
@@ -112,22 +128,28 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                     continue;
                 }
                 switch (privacyInfoValue.type()) {
-                    case DEFAULT:
+                    case PrivacyInfoType.DEFAULT:
                         BeanUtil.setProperty(returnVal, descriptor.getName(), SensitiveDataUtil.defaultHide(oldValue));
                         break;
-                    case BANK_CARD:
+                    case PrivacyInfoType.DEFAULT_BANK_CARD:
                         BeanUtil.setProperty(returnVal, descriptor.getName(), SensitiveDataUtil.bankCardNoHide(oldValue));
                         break;
-                    case ID_CARD:
+                    case PrivacyInfoType.DEFAULT_ID_CARD:
                         BeanUtil.setProperty(returnVal, descriptor.getName(), SensitiveDataUtil.idCardNoHide(oldValue));
                         break;
-                    case PHONE:
+                    case PrivacyInfoType.DEFAULT_PHONE:
                         BeanUtil.setProperty(returnVal, descriptor.getName(), SensitiveDataUtil.phoneOrTelNoHide(oldValue));
                         break;
-                    case EMAIL:
+                    case PrivacyInfoType.DEFAULT_EMAIL:
                         BeanUtil.setProperty(returnVal, descriptor.getName(), SensitiveDataUtil.emailHide(oldValue));
                         break;
                     default:
+                        // 自定义
+                        PrivacyInfoTypeRule rule = privacyInfoTypeRuleMap.get(privacyInfoValue.type());
+                        if (ObjectUtil.isNull(rule)) {
+                            break;
+                        }
+                        BeanUtil.setProperty(returnVal, descriptor.getName(), rule.handle(oldValue));
                         break;
                 }
             }

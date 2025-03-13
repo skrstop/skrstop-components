@@ -2,6 +2,7 @@ package com.skrstop.framework.components.starter.annotation.configuration;
 
 import com.skrstop.framework.components.starter.annotation.anno.function.*;
 import com.skrstop.framework.components.starter.annotation.handle.function.*;
+import com.skrstop.framework.components.starter.annotation.handle.function.privacyInfo.PrivacyInfoTypeRule;
 import com.skrstop.framework.components.starter.annotation.handle.server.processor.ProcessorContainerConfiguration;
 import com.skrstop.framework.components.starter.annotation.handle.trim.TrimAnnotationFormatterFactory;
 import com.skrstop.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
@@ -13,12 +14,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 
+import java.util.List;
+
 /**
  * @author 蒋时华
  * @date 2023-12-14 12:08:38
  */
 @Configuration
 @EnableConfigurationProperties(AnnotationProperties.class)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class AnnotationAutoConfiguration {
 
     @Bean
@@ -29,7 +33,7 @@ public class AnnotationAutoConfiguration {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ProcessorContainerConfiguration processorContainerConfiguration() {
+    public static ProcessorContainerConfiguration processorContainerConfiguration() {
         return new ProcessorContainerConfiguration();
     }
 
@@ -80,8 +84,8 @@ public class AnnotationAutoConfiguration {
 
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     @Bean
-    public Advisor privacyInfo(AnnotationProperties annotationProperties) {
-        PrivacyInfoAnnotationInterceptor interceptor = new PrivacyInfoAnnotationInterceptor(annotationProperties);
+    public Advisor privacyInfo(AnnotationProperties annotationProperties, List<PrivacyInfoTypeRule> privacyInfoTypeRuleList) {
+        PrivacyInfoAnnotationInterceptor interceptor = new PrivacyInfoAnnotationInterceptor(annotationProperties, privacyInfoTypeRuleList);
         DynamicAnnotationAdvisor advisor = new DynamicAnnotationAdvisor(interceptor, PrivacyInfo.class);
         advisor.setOrder(5);
         return advisor;
