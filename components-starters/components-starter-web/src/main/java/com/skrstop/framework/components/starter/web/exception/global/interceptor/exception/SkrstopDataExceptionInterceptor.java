@@ -1,6 +1,8 @@
 package com.skrstop.framework.components.starter.web.exception.global.interceptor.exception;
 
 import com.skrstop.framework.components.core.common.response.Result;
+import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
+import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
 import com.skrstop.framework.components.core.exception.core.SkrstopDataThrowable;
 import com.skrstop.framework.components.core.exception.core.data.ThrowableData;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
@@ -30,9 +32,15 @@ public class SkrstopDataExceptionInterceptor implements ExceptionHandlerIntercep
     public InterceptorResult execute(Exception e) {
         SkrstopDataThrowable serviceByDataException = (SkrstopDataThrowable) e;
         ThrowableData<?> throwableData = serviceByDataException.getThrowableData();
+        if (e instanceof BusinessThrowable) {
+            return InterceptorResult.builder()
+                    .next(false)
+                    .result(Result.Builder.result(serviceByDataException.getIResult(), throwableData.getData()))
+                    .build();
+        }
         return InterceptorResult.builder()
                 .next(false)
-                .result(Result.Builder.result(serviceByDataException.getIResult(), throwableData.getData()))
+                .result(Result.Builder.result(CommonResultCode.FAIL, throwableData.getData()))
                 .build();
     }
 }
