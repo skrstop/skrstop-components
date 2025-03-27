@@ -4,11 +4,13 @@ import com.mongodb.client.MongoClient;
 import com.skrstop.framework.components.starter.mongodb.constant.GlobalConfigConst;
 import com.skrstop.framework.components.starter.mongodb.utils.DatastoreBuildUtil;
 import dev.morphia.Datastore;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 /**
  * @author 蒋时华
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(GlobalMongodbProperties.class)
 @ConditionalOnProperty(prefix = GlobalConfigConst.MONGODB_DYNAMIC, name = "enabled", havingValue = "false", matchIfMissing = true)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class MorphiaAutoConfiguration {
 
     @Bean
