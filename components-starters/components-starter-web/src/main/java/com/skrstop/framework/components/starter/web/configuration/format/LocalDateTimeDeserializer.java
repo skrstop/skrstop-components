@@ -1,13 +1,12 @@
 package com.skrstop.framework.components.starter.web.configuration.format;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 
 /**
  * @author 蒋时华
@@ -15,7 +14,7 @@ import java.util.TimeZone;
  */
 public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
 
-    private String format;
+    private final String format;
 
     public LocalDateTimeDeserializer(String format) {
         this.format = format;
@@ -24,10 +23,6 @@ public class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext deserializationContext)
             throws IOException {
-        TimeZone zone = TimeZone.getTimeZone("GMT+8");
-        return LocalDateTime.parse(p.getValueAsString(), DateTimeFormatter
-                .ofPattern(format)
-                .withZone(zone.toZoneId())
-        );
+        return LocalDateTimeUtil.parse(p.getValueAsString(), format);
     }
 }

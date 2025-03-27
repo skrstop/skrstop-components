@@ -3,11 +3,10 @@ package com.skrstop.framework.components.starter.web.configuration.format;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.skrstop.framework.components.util.value.data.DateUtil;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * @author 蒋时华
@@ -15,16 +14,15 @@ import java.util.TimeZone;
  */
 public class DateSerializer extends JsonSerializer<Date> {
 
-    private SimpleDateFormat dateFormat;
+    private final String format;
 
-    public DateSerializer(String dateFormat) {
-        this.dateFormat = new SimpleDateFormat(dateFormat);
-        this.dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+    public DateSerializer(String format) {
+        this.format = format;
     }
 
     @Override
     public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers)
             throws IOException {
-        gen.writeString(dateFormat.format(value));
+        gen.writeString(DateUtil.format(value, format));
     }
 }

@@ -11,6 +11,7 @@ import com.skrstop.framework.components.starter.redis.filter.ValueFilter;
 import com.skrstop.framework.components.starter.redis.service.RedisService;
 import com.skrstop.framework.components.starter.redis.service.impl.RedisServiceImpl;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -21,6 +22,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,6 +39,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties({GlobalRedisProperties.class})
 @ConditionalOnProperty(name = GlobalConfigConst.REDIS_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class CustomRedisAutoConfiguration {
 
     @Bean
@@ -68,9 +71,7 @@ public class CustomRedisAutoConfiguration {
             case ValueProcessorConst.FAST_JSON:
             default:
                 redisServiceTemplate = new FastJsonRedisTemplate(connectionFactory
-                        , globalRedisProperties.isFastjsonPrettyFormatJson()
-                        , globalRedisProperties.isFastjsonSafeMode()
-                        , globalRedisProperties.isFastjsonAutoType());
+                        , globalRedisProperties);
                 // autoType： !globalRedisConfig.getFastjsonSafeMode() && globalRedisConfig.getFastjsonAutoType()
                 valueFilter = new FastjsonValueFilter(
                         globalRedisProperties.isFastjsonFilterEach()

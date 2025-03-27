@@ -21,7 +21,7 @@ public @interface PrivacyInfoValue {
     boolean limitIntranet() default false;
 
     /**
-     * 脱敏类型, 可自定义处理 @see {@link com.ynw.framework.components.starter.annotation.handle.function.privacyInfo.PrivacyInfoTypeRule}
+     * 脱敏类型, 可自定义处理 @see {@link com.skrstop.framework.components.starter.annotation.handle.function.privacyInfo.PrivacyInfoTypeRule}
      *
      * @return
      */

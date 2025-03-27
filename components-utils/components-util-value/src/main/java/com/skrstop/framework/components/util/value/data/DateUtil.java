@@ -76,6 +76,9 @@ public class DateUtil extends cn.hutool.core.date.DateUtil {
      * @Description: 将 String 按照固定格式转换为 DateTime
      */
     public static Date format(String time, String format) {
+        if (StrUtil.isBlank(time)) {
+            return null;
+        }
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
         LocalDateTime localDatetime = LocalDateTime.parse(time, dateTimeFormatter);
         ZoneId zoneId = ZoneId.systemDefault();

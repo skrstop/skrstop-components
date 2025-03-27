@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.redis.configuration.common;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.redis.constant.GlobalConfigConst;
 import com.skrstop.framework.components.starter.redis.constant.ValueProcessorConst;
+import com.skrstop.framework.components.util.constant.DateFormatConst;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -40,6 +41,10 @@ public class GlobalRedisProperties {
     private boolean fastjsonAutoType = false;
     /*** 此开关用于filter过滤，当autoType序列化和非autoType穿插使用, 并且autoType是开启状态时则开启遍历过滤，建议不要autoType穿插使用 */
     private boolean fastjsonFilterEach = false;
+    /*** 时间格式化 */
+    private String datetimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;
+    private String dateFormat = DateFormatConst.NORM_DATE_PATTERN;
+    private String timeFormat = DateFormatConst.NORM_TIME_PATTERN;
 
     public GlobalRedisProperties setValueProcessor(Byte valueProcessor) {
         if (!ValueProcessorConst.VALUES.contains(valueProcessor)) {

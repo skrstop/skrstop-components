@@ -3,12 +3,10 @@ package com.skrstop.framework.components.starter.web.configuration.format;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.skrstop.framework.components.util.value.data.DateUtil;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * @author 蒋时华
@@ -16,20 +14,15 @@ import java.util.TimeZone;
  */
 public class DateDeserializer extends JsonDeserializer<Date> {
 
-    private SimpleDateFormat dateFormat;
+    private final String format;
 
-    public DateDeserializer(String dateFormat) {
-        this.dateFormat = new SimpleDateFormat(dateFormat);
-        this.dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+    public DateDeserializer(String format) {
+        this.format = format;
     }
 
     @Override
     public Date deserialize(JsonParser p, DeserializationContext deserializationContext)
             throws IOException {
-        try {
-            return dateFormat.parse(p.getValueAsString());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        return DateUtil.format(p.getValueAsString(), format);
     }
 }
