@@ -13,9 +13,14 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,20 +43,23 @@ public class ExampleRedisController {
     /**
      * redis 样例
      */
-    @GetMapping("/exampleRedis")
-    public void exampleRedis() {
+    @PostMapping("/exampleRedis")
+    public void exampleRedis(@RequestBody ExampleRequestRedis request) {
         ExampleRequestRedis origin = ExampleRequestRedis.builder()
                 .valStr("aaaaaa")
                 .valBol(false)
                 .valData(LocalDateTime.now())
+                .valData2(LocalDate.now())
+                .valData3(LocalTime.now())
                 .valLong(11111111L)
                 .valInt(11111)
+                .valDecimal(new BigDecimal("0.00000001"))
                 .build();
         String cacheKey = "test";
         redisService.set(cacheKey, origin);
         ExampleRequestRedis cache = redisService.get(cacheKey, ExampleRequestRedis.class);
         System.out.println(cache.toString());
-        redisService.remove(cacheKey);
+//        redisService.remove(cacheKey);
         ExampleRequestRedis cache2 = redisService.get(cacheKey, ExampleRequestRedis.class);
         if (ObjectUtil.isNull(cache2)) {
             System.out.println("cache already removed");

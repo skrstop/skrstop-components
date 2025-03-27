@@ -1,13 +1,12 @@
 package com.skrstop.framework.components.starter.web.configuration.format;
 
+import cn.hutool.core.date.TemporalAccessorUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 
 /**
  * @author 蒋时华
@@ -15,7 +14,7 @@ import java.util.TimeZone;
  */
 public class LocalTimeSerializer extends JsonSerializer<LocalTime> {
 
-    private String format;
+    private final String format;
 
     public LocalTimeSerializer(String format) {
         this.format = format;
@@ -24,11 +23,6 @@ public class LocalTimeSerializer extends JsonSerializer<LocalTime> {
     @Override
     public void serialize(LocalTime value, JsonGenerator gen, SerializerProvider serializers)
             throws IOException {
-        TimeZone zone = TimeZone.getTimeZone("GMT+8");
-        gen.writeString(value.format(DateTimeFormatter
-                        .ofPattern(format)
-                        .withZone(zone.toZoneId())
-                )
-        );
+        gen.writeString(TemporalAccessorUtil.format(value, format));
     }
 }

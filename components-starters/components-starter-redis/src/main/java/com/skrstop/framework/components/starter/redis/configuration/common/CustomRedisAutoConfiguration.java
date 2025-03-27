@@ -8,9 +8,7 @@ import com.skrstop.framework.components.starter.redis.filter.BinaryValueFilter;
 import com.skrstop.framework.components.starter.redis.filter.FastjsonValueFilter;
 import com.skrstop.framework.components.starter.redis.filter.StringValueFilter;
 import com.skrstop.framework.components.starter.redis.filter.ValueFilter;
-import com.skrstop.framework.components.starter.redis.service.DynamicRedisService;
 import com.skrstop.framework.components.starter.redis.service.RedisService;
-import com.skrstop.framework.components.starter.redis.service.impl.DynamicRedisServiceImpl;
 import com.skrstop.framework.components.starter.redis.service.impl.RedisServiceImpl;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -41,12 +39,12 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties({GlobalRedisProperties.class})
 @ConditionalOnProperty(name = GlobalConfigConst.REDIS_PREFIX + ".enabled", havingValue = "true", matchIfMissing = true)
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class CustomRedisAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(name = {GlobalConfigConst.REDIS_DYNAMIC + ".enabled", GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled"}, havingValue = "true")
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DsSelector dsSelector(BeanFactory beanFactory) {
         DsSpelExpressionSelector spelExpressionProcessor = new DsSpelExpressionSelector();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
@@ -73,9 +71,7 @@ public class CustomRedisAutoConfiguration {
             case ValueProcessorConst.FAST_JSON:
             default:
                 redisServiceTemplate = new FastJsonRedisTemplate(connectionFactory
-                        , globalRedisProperties.isFastjsonPrettyFormatJson()
-                        , globalRedisProperties.isFastjsonSafeMode()
-                        , globalRedisProperties.isFastjsonAutoType());
+                        , globalRedisProperties);
                 // autoType： !globalRedisConfig.getFastjsonSafeMode() && globalRedisConfig.getFastjsonAutoType()
                 valueFilter = new FastjsonValueFilter(
                         globalRedisProperties.isFastjsonFilterEach()
@@ -86,9 +82,4 @@ public class CustomRedisAutoConfiguration {
         return new RedisServiceImpl(redisServiceTemplate, valueFilter);
     }
 
-    @Bean("fastJsonDynamicRedisService")
-    @ConditionalOnBean(RedisTemplate.class)
-    public DynamicRedisService dynamicRedisService(RedisService redisService) {
-        return new DynamicRedisServiceImpl(redisService);
-    }
 }

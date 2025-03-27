@@ -4,7 +4,10 @@ import com.skrstop.framework.components.core.common.serializable.SerializableBea
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * @author 蒋时华
@@ -23,5 +26,8 @@ public class ExampleRequestRedis extends SerializableBean {
     private Long valLong;
     private Boolean valBol;
     private LocalDateTime valData;
+    private LocalDate valData2;
+    private LocalTime valData3;
+    private BigDecimal valDecimal;
 
 }
