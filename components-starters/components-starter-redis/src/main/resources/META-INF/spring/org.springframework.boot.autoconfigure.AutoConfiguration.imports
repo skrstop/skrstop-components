@@ -3,3 +3,4 @@ com.skrstop.framework.components.starter.redis.configuration.commonDynamic.Dynam
 com.skrstop.framework.components.starter.redis.configuration.commonDynamic.DynamicRedisAutoConfiguration
 com.skrstop.framework.components.starter.redis.configuration.redisson.RedissonAutoConfiguration
 com.skrstop.framework.components.starter.redis.configuration.redissonDynamic.DynamicRedissonAutoConfiguration
+com.skrstop.framework.components.starter.redis.configuration.RoleSetAutoConfiguration

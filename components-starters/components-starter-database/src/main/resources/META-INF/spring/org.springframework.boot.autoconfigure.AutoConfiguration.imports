@@ -4,3 +4,4 @@ com.skrstop.framework.components.starter.database.configuration.MybatisPlusIdAut
 com.skrstop.framework.components.starter.database.configuration.MybatisPlusNoIdAutoConfiguration
 com.skrstop.framework.components.starter.database.configuration.ResponseHandlerInterceptorAutoConfiguration
 com.skrstop.framework.components.starter.database.configuration.dynamic.DynamicDataSourceAutoConfiguration
+com.skrstop.framework.components.starter.database.configuration.RoleSetAutoConfiguration
