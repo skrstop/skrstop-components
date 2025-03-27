@@ -38,6 +38,7 @@ public class MorphiaDynamicAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DsSelector dsSelector(BeanFactory beanFactory) {
         DsSpelExpressionSelector spelExpressionProcessor = new DsSpelExpressionSelector();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));

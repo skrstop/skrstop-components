@@ -45,6 +45,7 @@ public class CustomRedisAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(name = {GlobalConfigConst.REDIS_DYNAMIC + ".enabled", GlobalConfigConst.REDISSON_DYNAMIC_PREFIX + ".enabled"}, havingValue = "true")
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public DsSelector dsSelector(BeanFactory beanFactory) {
         DsSpelExpressionSelector spelExpressionProcessor = new DsSpelExpressionSelector();
         spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
