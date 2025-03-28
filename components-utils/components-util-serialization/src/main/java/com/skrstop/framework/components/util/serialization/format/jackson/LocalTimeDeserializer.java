@@ -1,24 +1,23 @@
-package com.skrstop.framework.components.starter.web.configuration.format;
+package com.skrstop.framework.components.util.serialization.format.jackson;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import lombok.AllArgsConstructor;
 
 import java.io.IOException;
 import java.time.LocalTime;
 
 /**
  * @author 蒋时华
- * @date 2023-11-30 15:56:14
+ * @date 2025-03-28 09:46:18
+ * @since 1.0.0
  */
+@AllArgsConstructor
 public class LocalTimeDeserializer extends JsonDeserializer<LocalTime> {
 
     private final String format;
-
-    public LocalTimeDeserializer(String format) {
-        this.format = format;
-    }
 
     @Override
     public LocalTime deserialize(JsonParser p, DeserializationContext deserializationContext)
