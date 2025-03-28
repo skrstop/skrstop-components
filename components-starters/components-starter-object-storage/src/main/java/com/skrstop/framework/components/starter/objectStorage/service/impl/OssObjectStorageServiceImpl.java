@@ -295,6 +295,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         if (StrUtil.isNotBlank(ossProperties.getAccessUrlHost()) && !useOriginHost) {
+            if (!targetPath.startsWith("/")) {
+                targetPath = "/" + targetPath;
+            }
             return this.ossProperties.getAccessUrlProtocol() + "://" + this.ossProperties.getAccessUrlHost() + targetPath;
         } else {
             StringBuilder strBuilder = new StringBuilder();
