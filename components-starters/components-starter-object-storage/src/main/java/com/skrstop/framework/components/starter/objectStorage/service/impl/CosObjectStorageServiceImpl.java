@@ -363,18 +363,19 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             if (StrUtil.isNotBlank(this.basePath)) {
                 targetPath = this.basePath + targetPath;
             }
-            if (!targetPath.startsWith("/")) {
-                targetPath = "/" + targetPath;
+            String matchTargetPath = targetPath;
+            if (!matchTargetPath.startsWith("/")) {
+                matchTargetPath = "/" + matchTargetPath;
             }
-            if (!targetPath.endsWith("*")) {
-                targetPath = targetPath + "*";
+            if (!matchTargetPath.endsWith("*")) {
+                matchTargetPath = matchTargetPath + "*";
             }
             statement.put("resource", CollectionUtil.newArrayList(
                     String.format("qcs::cos:%s:uid/%s:%s%s",
                             cosProperties.getRegion()
                             , bucketName.substring(bucketName.lastIndexOf("-") + 1)
                             , bucketName
-                            , targetPath)
+                            , matchTargetPath)
             ));
             Map<String, Object> conditions = new HashMap<>();
             if (ObjectUtil.isNotNull(minSize)) {
