@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.web.configuration.format;
+package com.skrstop.framework.components.util.serialization.format.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -10,7 +10,8 @@ import java.util.Date;
 
 /**
  * @author 蒋时华
- * @date 2023-11-30 15:56:44
+ * @date 2025-03-28 09:46:29
+ * @since 1.0.0
  */
 public class DateDeserializer extends JsonDeserializer<Date> {
 

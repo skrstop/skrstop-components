@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.web.configuration.format;
+package com.skrstop.framework.components.util.serialization.format.jackson;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -6,22 +6,23 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author 蒋时华
- * @date 2023-11-30 15:56:59
+ * @date 2025-03-28 09:43:11
+ * @since 1.0.0
  */
-public class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
+public class LocalDateSerializer extends JsonSerializer<LocalDate> {
 
     private final String format;
 
-    public LocalDateTimeSerializer(String format) {
+    public LocalDateSerializer(String format) {
         this.format = format;
     }
 
     @Override
-    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers)
+    public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers)
             throws IOException {
         gen.writeString(LocalDateTimeUtil.format(value, format));
     }

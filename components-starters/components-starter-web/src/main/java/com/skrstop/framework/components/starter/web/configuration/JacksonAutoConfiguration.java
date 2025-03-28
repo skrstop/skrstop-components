@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.skrstop.framework.components.starter.web.configuration.format.*;
+import com.skrstop.framework.components.util.serialization.format.jackson.*;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

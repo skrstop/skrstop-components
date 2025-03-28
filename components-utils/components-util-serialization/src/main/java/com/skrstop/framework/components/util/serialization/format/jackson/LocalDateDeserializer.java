@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.web.configuration.format;
+package com.skrstop.framework.components.util.serialization.format.jackson;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.fasterxml.jackson.core.JsonParser;
@@ -10,7 +10,8 @@ import java.time.LocalDate;
 
 /**
  * @author 蒋时华
- * @date 2023-11-30 15:56:44
+ * @date 2025-03-28 09:45:59
+ * @since 1.0.0
  */
 public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
 

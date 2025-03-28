@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.web.configuration.format;
+package com.skrstop.framework.components.util.serialization.format.jackson;
 
 import cn.hutool.core.date.TemporalAccessorUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -10,7 +10,8 @@ import java.time.LocalTime;
 
 /**
  * @author 蒋时华
- * @date 2023-11-30 15:56:31
+ * @date 2025-03-28 09:44:06
+ * @since 1.0.0
  */
 public class LocalTimeSerializer extends JsonSerializer<LocalTime> {
 

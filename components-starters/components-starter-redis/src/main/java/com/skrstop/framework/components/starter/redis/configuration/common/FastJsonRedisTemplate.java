@@ -1,26 +1,21 @@
 package com.skrstop.framework.components.starter.redis.configuration.common;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.date.TemporalAccessorUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONB;
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.JSONWriter;
-import com.alibaba.fastjson2.reader.ObjectReader;
 import com.alibaba.fastjson2.reader.ObjectReaderProvider;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.writer.ObjectWriter;
 import com.alibaba.fastjson2.writer.ObjectWriterProvider;
+import com.skrstop.framework.components.util.serialization.format.fastjson.*;
 import com.skrstop.framework.components.util.value.data.ArrayUtil;
-import com.skrstop.framework.components.util.value.data.DateUtil;
-import com.skrstop.framework.components.util.value.data.StrUtil;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -148,66 +143,19 @@ public class FastJsonRedisTemplate extends StringRedisTemplate {
 
         private ObjectWriterProvider getWriter() {
             ObjectWriterProvider defaultObjectWriterProvider = new ObjectWriterProvider();
-            defaultObjectWriterProvider.register(Date.class, new ObjectWriter<Date>() {
-                @Override
-                public void write(JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
-                    jsonWriter.writeString(DateUtil.format((Date) object, datetimeFormat));
-                }
-            });
-            defaultObjectWriterProvider.register(LocalDateTime.class, new ObjectWriter<LocalDateTime>() {
-                @Override
-                public void write(JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
-                    jsonWriter.writeString(LocalDateTimeUtil.format((LocalDateTime) object, datetimeFormat));
-                }
-            });
-            defaultObjectWriterProvider.register(LocalDate.class, new ObjectWriter<LocalDate>() {
-                @Override
-                public void write(JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
-                    jsonWriter.writeString(LocalDateTimeUtil.format((LocalDate) object, dateFormat));
-                }
-            });
-            defaultObjectWriterProvider.register(LocalTime.class, new ObjectWriter<LocalTime>() {
-                @Override
-                public void write(JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
-                    jsonWriter.writeString(TemporalAccessorUtil.format((LocalTime) object, timeFormat));
-                }
-            });
+            defaultObjectWriterProvider.register(Date.class, new DateObjectWriter(datetimeFormat));
+            defaultObjectWriterProvider.register(LocalDateTime.class, new LocalDateTimeObjectWriter(datetimeFormat));
+            defaultObjectWriterProvider.register(LocalDate.class, new LocalDateObjectWriter(dateFormat));
+            defaultObjectWriterProvider.register(LocalTime.class, new LocalTimeObjectWriter(timeFormat));
             return defaultObjectWriterProvider;
         }
 
         private ObjectReaderProvider getReader() {
             ObjectReaderProvider objectReaderProvider = new ObjectReaderProvider();
-            objectReaderProvider.register(Date.class, new ObjectReader<Date>() {
-                @Override
-                public Date readObject(JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
-                    String val = jsonReader.getString();
-                    return DateUtil.format(val, datetimeFormat);
-                }
-            });
-            objectReaderProvider.register(LocalDateTime.class, new ObjectReader<LocalDateTime>() {
-                @Override
-                public LocalDateTime readObject(JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
-                    String val = jsonReader.getString();
-                    return LocalDateTimeUtil.parse(val, datetimeFormat);
-                }
-            });
-            objectReaderProvider.register(LocalDate.class, new ObjectReader<LocalDate>() {
-                @Override
-                public LocalDate readObject(JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
-                    String val = jsonReader.getString();
-                    return LocalDateTimeUtil.parseDate(val, dateFormat);
-                }
-            });
-            objectReaderProvider.register(LocalTime.class, new ObjectReader<LocalTime>() {
-                @Override
-                public LocalTime readObject(JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
-                    String val = jsonReader.getString();
-                    if (StrUtil.isBlank(val)) {
-                        return null;
-                    }
-                    return LocalDateTimeUtil.parse(val, dateFormat).toLocalTime();
-                }
-            });
+            objectReaderProvider.register(Date.class, new DateObjectReader(datetimeFormat));
+            objectReaderProvider.register(LocalDateTime.class, new LocalDateTimeObjectReader(datetimeFormat));
+            objectReaderProvider.register(LocalDate.class, new LocalDateObjectReader(dateFormat));
+            objectReaderProvider.register(LocalTime.class, new LocalTimeObjectReader(timeFormat));
             return objectReaderProvider;
         }
 
