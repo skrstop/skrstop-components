@@ -4,35 +4,35 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * FtpConfig class
+ * oss Config class
  *
  * @author 蒋时华
  * @date 2019/7/2
  */
 @Getter
 @Setter
-public class CosProperties {
+public class OssProperties {
 
     private boolean enable = false;
-    /*** secretId */
-    private String secretId;
-    /*** secretKey */
-    private String secretKey;
+    /*** accessKeyId */
+    private String accessKeyId;
+    /*** accessKeySecret */
+    private String accessKeySecret;
     /*** 前缀路径 */
     private String basePath = "";
     /*** 访问域名 */
     private String accessUrlProtocol = "https";
     private String accessUrlHost;
+    /*** endpoint */
+    private String endpoint;
     /*** 区域 */
     private String region;
     /*** 存储桶名 */
     private String bucketName;
-    /*** 是否使用https */
-    private boolean useHttpSsl = true;
-    /*** 是否开启多线程分片操作 */
-    private boolean useMultiThread = false;
     /*** 超时时间，单位：毫秒, 默认：5m */
     private Integer requestTimeout = 5 * 60 * 1000;
+    /*** 是否开启多线程分片操作 */
+    private boolean useMultiThread = false;
     /*** 分片并发，线程最小 */
     private Integer threadMin = 0;
     /*** 分片并发，线程最大 */

@@ -66,7 +66,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             basePath = cosProperties.getBasePath();
         }
         if (StrUtil.isBlank(basePath)) {
-            basePath = "/";
+            basePath = "";
         }
         try {
             // 构建client
@@ -351,11 +351,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             };
             statement.put("action", actions);
             // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
-            if (!targetPath.startsWith("/")) {
-                targetPath = "/" + targetPath;
-            }
-            if (StrUtil.isNotBlank(this.basePath)
-                    && !"/".equals(this.basePath)) {
+            if (StrUtil.isNotBlank(this.basePath)) {
                 targetPath = this.basePath + targetPath;
             }
             statement.put("resource", CollectionUtil.newArrayList(
@@ -370,17 +366,20 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                 // 限制大小
                 Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(minSize)).map();
                 conditions.put("numeric_greater_than_equal", val);
+                sign.setLimitMinSize(minSize);
             }
             if (ObjectUtil.isNotNull(maxSize)) {
                 // 限制大小
                 Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(maxSize)).map();
                 conditions.put("numeric_less_than_equal", val);
+                sign.setLimitMaxSize(maxSize);
             }
             if (CollectionUtil.isNotEmpty(contentType)) {
                 // 限制类型
                 Set<String> list = new LinkedHashSet<>(contentType);
                 Map<String, Set<String>> val = MapUtil.builder("cos:content-type", list).map();
                 conditions.put("string_like", val);
+                sign.setLimitContentType(contentType);
             }
             statement.put("condition", conditions);
             config.put("policy", JSON.toJSONString(policy));
