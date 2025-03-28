@@ -28,4 +28,7 @@ public class ObjectStorageProperties {
     @NestedConfigurationProperty
     private CosProperties cos = new CosProperties();
 
+    @NestedConfigurationProperty
+    private OssProperties oss = new OssProperties();
+
 }

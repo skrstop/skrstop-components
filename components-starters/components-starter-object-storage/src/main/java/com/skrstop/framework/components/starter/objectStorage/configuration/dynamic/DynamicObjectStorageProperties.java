@@ -2,6 +2,7 @@ package com.skrstop.framework.components.starter.objectStorage.configuration.dyn
 
 import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
 import com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties;
+import com.skrstop.framework.components.starter.objectStorage.configuration.OssProperties;
 import com.skrstop.framework.components.starter.objectStorage.constant.GlobalConfigConst;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -48,6 +49,9 @@ public class DynamicObjectStorageProperties {
 
     /*** cos多数据源 */
     private LinkedHashMap<String, CosProperties> cosDataSources = new LinkedHashMap<>();
+
+    /*** oss多数据源 */
+    private LinkedHashMap<String, OssProperties> ossDataSources = new LinkedHashMap<>();
 
     @Getter
     @Setter

@@ -1,32 +1,23 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.URLUtil;
-import com.alibaba.fastjson2.JSON;
-import com.qcloud.cos.COSClient;
-import com.qcloud.cos.ClientConfig;
-import com.qcloud.cos.auth.BasicCOSCredentials;
-import com.qcloud.cos.auth.COSCredentials;
-import com.qcloud.cos.http.HttpMethodName;
-import com.qcloud.cos.http.HttpProtocol;
-import com.qcloud.cos.model.DeleteObjectsRequest;
-import com.qcloud.cos.model.ObjectMetadata;
-import com.qcloud.cos.region.Region;
-import com.qcloud.cos.transfer.Download;
-import com.qcloud.cos.transfer.TransferManager;
-import com.qcloud.cos.transfer.Upload;
-import com.qcloud.cos.utils.UrlEncoderUtils;
-import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
-import com.skrstop.framework.components.starter.objectStorage.entity.CosStorageTemplateSign;
+import com.aliyun.oss.ClientConfiguration;
+import com.aliyun.oss.HttpMethod;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.common.auth.CredentialsProvider;
+import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.model.*;
+import com.skrstop.framework.components.starter.objectStorage.configuration.OssProperties;
+import com.skrstop.framework.components.starter.objectStorage.entity.OssStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
-import com.skrstop.framework.components.util.executor.ThreadPoolUtil;
+import com.skrstop.framework.components.util.enums.CharSetEnum;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.DateUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
-import com.tencent.cloud.CosStsClient;
-import com.tencent.cloud.Response;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,60 +28,69 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
- * cosServiceImpl class
+ * ossServiceImpl class
  *
  * @author 蒋时华
  * @date 2019/7/2
  */
 @Slf4j
-public class CosObjectStorageServiceImpl implements ObjectStorageService {
+public class OssObjectStorageServiceImpl implements ObjectStorageService {
 
     @Getter
-    private CosProperties cosProperties;
+    private OssProperties ossProperties;
     @Getter
-    private COSClient cosClient;
-    @Getter
-    private TransferManager transferManager;
+    private OSSClient ossClient;
     private ThreadPoolExecutor executor;
     @Getter
     private String basePath = "";
 
-    public CosObjectStorageServiceImpl(CosProperties cosProperties) {
-        this.cosProperties = cosProperties;
-        if (StrUtil.isNotBlank(cosProperties.getBasePath())) {
-            basePath = cosProperties.getBasePath();
+    public OssObjectStorageServiceImpl(OssProperties ossProperties) {
+        this.ossProperties = ossProperties;
+        if (StrUtil.isNotBlank(ossProperties.getBasePath())) {
+            basePath = ossProperties.getBasePath();
         }
         if (StrUtil.isBlank(basePath)) {
             basePath = "";
         }
         try {
             // 构建client
-            COSCredentials cred = new BasicCOSCredentials(cosProperties.getSecretId(), cosProperties.getSecretKey());
-            Region region = new Region(cosProperties.getRegion());
-            ClientConfig clientConfig = new ClientConfig(region);
-            clientConfig.setHttpProtocol(cosProperties.isUseHttpSsl() ? HttpProtocol.https : HttpProtocol.http);
-            clientConfig.setRequestTimeOutEnable(true);
-            clientConfig.setRequestTimeout(cosProperties.getRequestTimeout());
-            this.cosClient = new COSClient(cred, clientConfig);
-            if (!cosProperties.isUseMultiThread()) {
-                this.transferManager = new TransferManager(this.cosClient);
-                return;
-            }
-            executor = new ThreadPoolExecutor(
-                    cosProperties.getThreadMin(),
-                    cosProperties.getThreadMax(),
-                    cosProperties.getThreadKeepAliveTime(),
-                    TimeUnit.MINUTES,
-                    ThreadPoolUtil.buildQueue(cosProperties.getThreadQueue()),
-                    ThreadPoolUtil.policyAbort());
-            this.transferManager = new TransferManager(this.cosClient, executor);
+            // credentials
+            CredentialsProvider credentialsProvider = new DefaultCredentialProvider(ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
+            // config
+            ClientConfiguration config = new ClientConfiguration();
+            config.setRequestTimeout(ossProperties.getRequestTimeout());
+            config.setConnectionTimeout(ossProperties.getRequestTimeout());
+            config.setSocketTimeout(ossProperties.getRequestTimeout());
+            config.setRequestTimeoutEnabled(true);
+            // client
+            this.ossClient = (OSSClient) OSSClientBuilder.create()
+                    .region(ossProperties.getRegion())
+                    .endpoint(ossProperties.getEndpoint())
+                    .clientConfiguration(config)
+                    .credentialsProvider(credentialsProvider)
+                    .build();
+//            if (!ossProperties.isUseMultiThread()) {
+//                this.transferManager = new TransferManager(this.cosClient);
+//                return;
+//            }
+//            executor = new ThreadPoolExecutor(
+//                    ossProperties.getThreadMin(),
+//                    ossProperties.getThreadMax(),
+//                    ossProperties.getThreadKeepAliveTime(),
+//                    TimeUnit.MINUTES,
+//                    ThreadPoolUtil.buildQueue(ossProperties.getThreadQueue()),
+//                    ThreadPoolUtil.policyAbort());
+//            this.transferManager = new TransferManager(this.cosClient, executor);
         } catch (Exception e) {
-            throw new IllegalArgumentException("cos客户端创建失败");
+            throw new IllegalArgumentException("oss客户端创建失败");
         }
     }
 
@@ -104,12 +104,12 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public Object getClient() {
-        return this.transferManager;
+        return this.ossClient;
     }
 
     @Override
     public String getDefaultBucketName() {
-        return this.cosProperties.getBucketName();
+        return this.ossProperties.getBucketName();
     }
 
     @Override
@@ -117,8 +117,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         bucketName = this.getOrDefaultBucketName(bucketName);
         try {
             targetPath = basePath + targetPath;
-            Upload upload = this.transferManager.upload(bucketName, targetPath, file);
-            upload.waitForUploadResult();
+            this.ossClient.putObject(bucketName, targetPath, file);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -131,9 +130,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes)) {
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            Upload upload = this.transferManager.upload(bucketName, targetPath, byteArrayInputStream, objectMetadata);
-            upload.waitForUploadResult();
+            this.ossClient.putObject(bucketName, targetPath, byteArrayInputStream);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -146,9 +143,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         try {
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            Upload upload = this.transferManager.upload(bucketName, targetPath, inputStream, objectMetadata);
-            upload.waitForUploadResult();
+            this.ossClient.putObject(bucketName, targetPath, inputStream);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -173,11 +168,10 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     public boolean download(String bucketName, String targetPath, File localFile) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
-        Download download = this.transferManager.download(bucketName, targetPath, localFile);
         try {
-            download.waitForCompletion();
+            this.ossClient.getObject(new GetObjectRequest(bucketName, targetPath), localFile);
             return true;
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
         }
@@ -187,7 +181,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     public boolean exists(String bucketName, String targetPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
-        return this.cosClient.doesObjectExist(bucketName, targetPath);
+        return this.ossClient.doesObjectExist(bucketName, targetPath);
     }
 
     @Override
@@ -195,7 +189,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
         try {
-            this.cosClient.deleteObject(bucketName, targetPath);
+            this.ossClient.deleteObject(bucketName, targetPath);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -207,14 +201,13 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     public boolean delete(String bucketName, List<String> targetPaths) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucketName);
-        ArrayList<DeleteObjectsRequest.KeyVersion> keyList = new ArrayList<>();
-        for (String targetPath : targetPaths) {
-            targetPath = basePath + targetPath;
-            keyList.add(new DeleteObjectsRequest.KeyVersion(targetPath));
-        }
+        List<String> keyList = targetPaths.stream()
+                .map(targetPath -> basePath + targetPath)
+                .collect(Collectors.toList());
         deleteObjectsRequest.setKeys(keyList);
+        deleteObjectsRequest.setBucketName(bucketName);
         try {
-            this.cosClient.deleteObjects(deleteObjectsRequest);
+            this.ossClient.deleteObjects(deleteObjectsRequest);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -231,7 +224,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean copy(String sourceBucketName, String sourcePath, String targetBucketName, String targetPath) {
         try {
-            this.transferManager.copy(sourceBucketName, sourcePath, targetBucketName, targetPath).waitForCopyResult();
+            this.ossClient.copyObject(sourceBucketName, sourcePath, targetBucketName, targetPath);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -266,16 +259,17 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         if (MapUtil.isNotEmpty(params)) {
             params.forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
         }
-        URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath
-                , DateUtil.toDate(endTime), HttpMethodName.GET
-                , new HashMap<String, String>(), requestParams, false, false);
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, targetPath, HttpMethod.GET);
+        request.setExpiration(DateUtil.toDate(endTime));
+        request.setQueryParameter(requestParams);
         try {
-            URI newUrl = new URI(StrUtil.blankToDefault(cosProperties.getAccessUrlProtocol(), url.getProtocol())
+            URL url = this.ossClient.generatePresignedUrl(request);
+            URI newUrl = new URI(StrUtil.blankToDefault(ossProperties.getAccessUrlProtocol(), url.getProtocol())
                     , url.getUserInfo()
-                    , useOriginHost ? url.getHost() : StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
+                    , useOriginHost ? url.getHost() : StrUtil.blankToDefault(ossProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
-                    , URLUtil.decode(url.getQuery())
+                    , url.getQuery()
                     , null
             );
             String result = newUrl.toString();
@@ -300,14 +294,20 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        if (StrUtil.isNotBlank(cosProperties.getAccessUrlHost()) && !useOriginHost) {
-            return this.cosProperties.getAccessUrlProtocol() + "://" + this.cosProperties.getAccessUrlHost() + targetPath;
+        if (StrUtil.isNotBlank(ossProperties.getAccessUrlHost()) && !useOriginHost) {
+            return this.ossProperties.getAccessUrlProtocol() + "://" + this.ossProperties.getAccessUrlHost() + targetPath;
         } else {
             StringBuilder strBuilder = new StringBuilder();
-            strBuilder.append(this.cosClient.getClientConfig().getHttpProtocol().toString()).append("://");
-            strBuilder.append(this.cosClient.getClientConfig().getEndpointBuilder()
-                    .buildGeneralApiEndpoint(bucketName));
-            strBuilder.append(UrlEncoderUtils.encodeUrlPath(targetPath));
+            strBuilder.append(this.ossClient.getClientConfiguration().getProtocol().toString()).append("://");
+            strBuilder.append(bucketName);
+            strBuilder.append(".oss-");
+            strBuilder.append(this.ossProperties.getRegion());
+            if (targetPath.startsWith("/")) {
+                strBuilder.append(".aliyuncs.com");
+            } else {
+                strBuilder.append(".aliyuncs.com/");
+            }
+            strBuilder.append(targetPath);
             return strBuilder.toString();
         }
     }
@@ -325,80 +325,48 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        CosStorageTemplateSign sign = new CosStorageTemplateSign();
+        OssStorageTemplateSign sign = new OssStorageTemplateSign();
         try {
-            TreeMap<String, Object> config = new TreeMap<>();
-            config.put("secretId", cosProperties.getSecretId());
-            config.put("secretKey", cosProperties.getSecretKey());
-            // 临时密钥有效时长，单位是秒
-            config.put("durationSeconds", Math.toIntExact(expireSecondTime));
-            // 换成你的 bucket
-            config.put("bucket", bucketName);
-            // 换成 bucket 所在地区
-            config.put("region", cosProperties.getRegion());
-            // policy
-            Map<String, Object> policy = new HashMap<>();
-            policy.put("version", "2.0");
-            Map<String, Object> statement = new HashMap<>();
-            policy.put("statement", CollectionUtil.newArrayList(statement));
-            statement.put("effect", "allow");
-            // 密钥的权限列表。简单上传和分片需要以下的权限，其他权限列表请看 https://cloud.tencent.com/document/product/436/31923
-            String[] actions = {
-                    // 简单上传
-                    "name/cos:PutObject",
-                    "name/cos:PostObject",
-                    // 分片上传
-                    "name/cos:InitiateMultipartUpload",
-                    "name/cos:ListMultipartUploads",
-                    "name/cos:ListParts",
-                    "name/cos:UploadPart",
-                    "name/cos:CompleteMultipartUpload",
-                    "name/cos:AbortMultipartUpload"
-            };
-            statement.put("action", actions);
-            // 可以通过 allowPrefixes 指定前缀数组, 例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
-            if (StrUtil.isNotBlank(this.basePath)) {
-                targetPath = this.basePath + targetPath;
-            }
-            statement.put("resource", CollectionUtil.newArrayList(
-                    String.format("qcs::cos:%s:uid/%s:%s%s",
-                            cosProperties.getRegion()
-                            , bucketName.substring(bucketName.lastIndexOf("-") + 1)
-                            , bucketName
-                            , targetPath)
-            ));
-            Map<String, Object> conditions = new HashMap<>();
-            if (ObjectUtil.isNotNull(minSize)) {
-                // 限制大小
-                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(minSize)).map();
-                conditions.put("numeric_greater_than_equal", val);
+            PolicyConditions policyConditions = new PolicyConditions();
+            policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, targetPath);
+            if (ObjectUtil.isNotNull(minSize)
+                    && minSize >= 0
+                    && ObjectUtil.isNotNull(maxSize)
+                    && maxSize >= minSize) {
+                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, minSize, maxSize);
                 sign.setLimitMinSize(minSize);
-            }
-            if (ObjectUtil.isNotNull(maxSize)) {
-                // 限制大小
-                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(maxSize)).map();
-                conditions.put("numeric_less_than_equal", val);
                 sign.setLimitMaxSize(maxSize);
             }
+            if (ObjectUtil.isNotNull(maxSize)
+                    && maxSize > 0) {
+                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, maxSize);
+                sign.setLimitMaxSize(maxSize);
+            }
+            if (ObjectUtil.isNotNull(minSize)
+                    && minSize > 0) {
+                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, minSize, Long.MAX_VALUE);
+                sign.setLimitMinSize(minSize);
+            }
             if (CollectionUtil.isNotEmpty(contentType)) {
-                // 限制类型
-                Set<String> list = new LinkedHashSet<>(contentType);
-                Map<String, Set<String>> val = MapUtil.builder("cos:content-type", list).map();
-                conditions.put("string_like", val);
+                for (String mime : contentType) {
+                    policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_TYPE, mime);
+                }
                 sign.setLimitContentType(contentType);
             }
-            statement.put("condition", conditions);
-            config.put("policy", JSON.toJSONString(policy));
-            Response response = CosStsClient.getCredential(config);
-            sign.setTmpSecretId(response.credentials.tmpSecretId);
-            sign.setTmpSecretKey(response.credentials.tmpSecretKey);
-            sign.setSessionToken(response.credentials.sessionToken);
-            sign.setToken(response.credentials.token);
+            Date expirationDate = DateUtil.plusSeconds(new Date(), Long.valueOf(expireSecondTime).intValue());
+            // 计算签名
+            String policy = ossClient.generatePostPolicy(expirationDate, policyConditions);
+            String encodedPolicy = BinaryUtil.toBase64String(policy.getBytes(CharSetEnum.UTF8.getCharSet()));
+            String signature = ossClient.calculatePostSignature(policy);
+
+            sign.setPolicy(encodedPolicy);
+            sign.setSignature(signature);
             sign.setExpireSecondTime(expireSecondTime);
             sign.setExpireDateTime(LocalDateTime.now().plusSeconds(expireSecondTime));
             sign.setTargetPath(targetPath);
             sign.setBucketName(bucketName);
-            sign.setRegion(this.cosProperties.getRegion());
+            sign.setRegion(this.ossProperties.getRegion());
+            sign.setEndpoint(this.ossProperties.getEndpoint());
             return (T) sign;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -408,6 +376,6 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public void close() {
-        this.transferManager.shutdownNow(true);
+        this.ossClient.shutdown();
     }
 }
