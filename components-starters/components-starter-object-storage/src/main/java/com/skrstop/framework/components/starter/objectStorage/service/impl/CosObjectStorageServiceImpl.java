@@ -301,6 +301,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         if (StrUtil.isNotBlank(cosProperties.getAccessUrlHost()) && !useOriginHost) {
+            if (!targetPath.startsWith("/")) {
+                targetPath = "/" + targetPath;
+            }
             return this.cosProperties.getAccessUrlProtocol() + "://" + this.cosProperties.getAccessUrlHost() + targetPath;
         } else {
             StringBuilder strBuilder = new StringBuilder();
