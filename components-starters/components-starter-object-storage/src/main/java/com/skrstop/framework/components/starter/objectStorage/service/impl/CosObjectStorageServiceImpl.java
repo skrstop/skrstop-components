@@ -366,6 +366,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             if (!targetPath.startsWith("/")) {
                 targetPath = "/" + targetPath;
             }
+            if (!targetPath.endsWith("*")) {
+                targetPath = targetPath + "*";
+            }
             statement.put("resource", CollectionUtil.newArrayList(
                     String.format("qcs::cos:%s:uid/%s:%s%s",
                             cosProperties.getRegion()
