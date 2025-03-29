@@ -1,6 +1,8 @@
 package com.skrstop.framework.components.starter.objectStorage.service;
 
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
+import com.skrstop.framework.components.starter.objectStorage.entity.UploadLimit;
 
 import java.io.Closeable;
 import java.io.File;
@@ -194,6 +196,7 @@ public interface ObjectStorageService extends Closeable {
     default String getPublicAccessUrl(String bucketName, String targetPath) {
         return getPublicAccessUrl(null, targetPath, false);
     }
+
     default String getPublicAccessUrl(String targetPath) {
         return getPublicAccessUrl(null, targetPath, false);
     }
@@ -201,20 +204,31 @@ public interface ObjectStorageService extends Closeable {
     /**
      * @param bucketName
      * @param targetPath
-     * @param expireTime 有效时间，单位：秒
      * @return
      */
-    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
+    Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, TemporaryAccessExtraParam extraParam);
 
-    default Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, false);
-    }
-    default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, null, false);
+    default Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireSecondTime, Map<String, Object> queryParams) {
+        return getTemporaryAccessUrl(bucketName, targetPath, TemporaryAccessExtraParam.builder()
+                .expireSecondTime(expireSecondTime)
+                .queryParams(queryParams)
+                .useOriginHost(false)
+                .build());
     }
 
-    default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, params, false);
+    default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireSecondTime) {
+        return getTemporaryAccessUrl(null, targetPath, TemporaryAccessExtraParam.builder()
+                .expireSecondTime(expireSecondTime)
+                .useOriginHost(false)
+                .build());
+    }
+
+    default Map<String, String> getTemporaryAccessUrl(List<String> targetPath, long expireSecondTime, Map<String, Object> queryParams) {
+        return getTemporaryAccessUrl(null, targetPath, TemporaryAccessExtraParam.builder()
+                .expireSecondTime(expireSecondTime)
+                .queryParams(queryParams)
+                .useOriginHost(false)
+                .build());
     }
 
     /**
@@ -222,20 +236,31 @@ public interface ObjectStorageService extends Closeable {
      *
      * @param bucketName
      * @param targetPath
-     * @param expireTime 有效时间，单位：秒
      * @return
      */
-    String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost);
+    String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam);
 
-    default String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, false);
-    }
-    default String getTemporaryAccessUrl(String targetPath, long expireTime) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, null, false);
+    default String getTemporaryAccessUrl(String bucketName, String targetPath, long expireSecondTime, Map<String, Object> queryParams) {
+        return getTemporaryAccessUrl(bucketName, targetPath, TemporaryAccessExtraParam.builder()
+                .expireSecondTime(expireSecondTime)
+                .queryParams(queryParams)
+                .useOriginHost(false)
+                .build());
     }
 
-    default String getTemporaryAccessUrl(String targetPath, long expireTime, Map<String, Object> params) {
-        return getTemporaryAccessUrl(null, targetPath, expireTime, params, false);
+    default String getTemporaryAccessUrl(String targetPath, long expireSecondTime) {
+        return getTemporaryAccessUrl(null, targetPath, TemporaryAccessExtraParam.builder()
+                .expireSecondTime(expireSecondTime)
+                .useOriginHost(false)
+                .build());
+    }
+
+    default String getTemporaryAccessUrl(String targetPath, long expireSecondTime, Map<String, Object> queryParams) {
+        return getTemporaryAccessUrl(null, targetPath, TemporaryAccessExtraParam.builder()
+                .expireSecondTime(expireSecondTime)
+                .queryParams(queryParams)
+                .useOriginHost(false)
+                .build());
     }
 
     /**
@@ -247,11 +272,15 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime) {
-        return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, null, null, null);
+        return getTemporaryUploadSign(bucketName, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .build());
     }
 
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime) {
-        return getTemporaryUploadSign(null, targetPath, expireSecondTime, null, null, null);
+        return getTemporaryUploadSign(null, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .build());
     }
 
     /**
@@ -263,11 +292,19 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
-        return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, null);
+        return getTemporaryUploadSign(bucketName, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .minSize(minSize)
+                .maxSize(maxSize)
+                .build());
     }
 
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, Long minSize, Long maxSize) {
-        return getTemporaryUploadSign(null, targetPath, expireSecondTime, minSize, maxSize, null);
+        return getTemporaryUploadSign(null, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .minSize(minSize)
+                .maxSize(maxSize)
+                .build());
     }
 
     /**
@@ -279,11 +316,17 @@ public interface ObjectStorageService extends Closeable {
      * @return
      */
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, List<String> contentType) {
-        return getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, null, null, contentType);
+        return getTemporaryUploadSign(bucketName, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .contentType(contentType)
+                .build());
     }
 
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime, List<String> contentType) {
-        return getTemporaryUploadSign(null, targetPath, expireSecondTime, null, null, contentType);
+        return getTemporaryUploadSign(null, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .contentType(contentType)
+                .build());
     }
 
 
@@ -292,18 +335,40 @@ public interface ObjectStorageService extends Closeable {
      *
      * @param bucketName
      * @param targetPath
-     * @param expireSecondTime
-     * @param minSize          最小文件大小 单位：b
-     * @param maxSize          最大文件大小 单位：b
-     * @param contentType
      * @return
      */
-    <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime
-            , Long minSize, Long maxSize, List<String> contentType);
+    <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, UploadLimit uploadLimit);
 
     default <T extends StorageTemplateSign> T getTemporaryUploadSign(String targetPath, long expireSecondTime
             , Long minSize, Long maxSize, List<String> contentType) {
-        return getTemporaryUploadSign(null, targetPath, expireSecondTime, minSize, maxSize, contentType);
+        return getTemporaryUploadSign(null, targetPath, UploadLimit.builder()
+                .expireSecondTime(expireSecondTime)
+                .minSize(minSize)
+                .maxSize(maxSize)
+                .contentType(contentType)
+                .build());
     }
+
+    /**
+     * 创建软链接
+     *
+     * @param bucketName
+     * @param linkPath
+     * @param targetPath
+     * @return
+     */
+    boolean createSymlink(String bucketName, String linkPath, String targetPath);
+
+    /**
+     * 创建软链接
+     *
+     * @param linkPath
+     * @param targetPath
+     * @return
+     */
+    default boolean createSymlink(String linkPath, String targetPath) {
+        return this.createSymlink(null, linkPath, targetPath);
+    }
+
 
 }

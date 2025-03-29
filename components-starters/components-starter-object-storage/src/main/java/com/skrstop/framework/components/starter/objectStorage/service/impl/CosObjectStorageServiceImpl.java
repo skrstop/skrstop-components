@@ -16,9 +16,12 @@ import com.qcloud.cos.transfer.Download;
 import com.qcloud.cos.transfer.TransferManager;
 import com.qcloud.cos.transfer.Upload;
 import com.qcloud.cos.utils.UrlEncoderUtils;
+import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.CosStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
+import com.skrstop.framework.components.starter.objectStorage.entity.UploadLimit;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.executor.ThreadPoolUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
@@ -259,20 +262,24 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
+        LocalDateTime endTime = LocalDateTime.now().plusSeconds(extraParam.getExpireSecondTime());
         HashMap<String, String> requestParams = new HashMap<>();
-        if (MapUtil.isNotEmpty(params)) {
-            params.forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
+        HashMap<String, String> requestHeaderParams = new HashMap<>();
+        if (MapUtil.isNotEmpty(extraParam.getQueryParams())) {
+            extraParam.getQueryParams().forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
+        }
+        if (MapUtil.isNotEmpty(extraParam.getHeaderParams())) {
+            extraParam.getHeaderParams().forEach((key, val) -> requestHeaderParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
         }
         URL url = this.cosClient.generatePresignedUrl(bucketName, targetPath
                 , DateUtil.toDate(endTime), HttpMethodName.GET
-                , new HashMap<String, String>(), requestParams, false, false);
+                , requestHeaderParams, requestParams, false, false);
         try {
             URI newUrl = new URI(StrUtil.blankToDefault(cosProperties.getAccessUrlProtocol(), url.getProtocol())
                     , url.getUserInfo()
-                    , useOriginHost ? url.getHost() : StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
+                    , extraParam.isUseOriginHost() ? url.getHost() : StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
                     , URLUtil.decode(url.getQuery())
@@ -288,11 +295,11 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         Map<String, String> result = new HashMap<>(targetPath.size(), 1);
         for (String path : targetPath) {
-            result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime, params, useOriginHost));
+            result.put(path, this.getTemporaryAccessUrl(bucketName, path, extraParam));
         }
         return result;
     }
@@ -326,7 +333,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, UploadLimit uploadLimit) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         CosStorageTemplateSign sign = new CosStorageTemplateSign();
         try {
@@ -334,7 +341,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             config.put("secretId", cosProperties.getSecretId());
             config.put("secretKey", cosProperties.getSecretKey());
             // 临时密钥有效时长，单位是秒
-            config.put("durationSeconds", Math.toIntExact(expireSecondTime));
+            config.put("durationSeconds", uploadLimit.getExpireSecondTime().intValue());
             // 换成你的 bucket
             config.put("bucket", bucketName);
             // 换成 bucket 所在地区
@@ -367,7 +374,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             if (!matchTargetPath.startsWith("/")) {
                 matchTargetPath = "/" + matchTargetPath;
             }
-            if (!matchTargetPath.endsWith("*")) {
+            if (!matchTargetPath.endsWith("*") && !uploadLimit.getExactMatchTarget()) {
                 matchTargetPath = matchTargetPath + "*";
             }
             statement.put("resource", CollectionUtil.newArrayList(
@@ -378,24 +385,24 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                             , matchTargetPath)
             ));
             Map<String, Object> conditions = new HashMap<>();
-            if (ObjectUtil.isNotNull(minSize)) {
+            if (ObjectUtil.isNotNull(uploadLimit.getMinSize()) && uploadLimit.getMinSize() > 0) {
                 // 限制大小
-                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(minSize)).map();
+                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(uploadLimit.getMinSize())).map();
                 conditions.put("numeric_greater_than_equal", val);
-                sign.setLimitMinSize(minSize);
+                sign.setLimitMinSize(uploadLimit.getMinSize());
             }
-            if (ObjectUtil.isNotNull(maxSize)) {
+            if (ObjectUtil.isNotNull(uploadLimit.getMaxSize()) && uploadLimit.getMaxSize() > 0) {
                 // 限制大小
-                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(maxSize)).map();
+                Map<String, ArrayList<Long>> val = MapUtil.builder("cos:content-length", CollectionUtil.newArrayList(uploadLimit.getMaxSize())).map();
                 conditions.put("numeric_less_than_equal", val);
-                sign.setLimitMaxSize(maxSize);
+                sign.setLimitMaxSize(uploadLimit.getMaxSize());
             }
-            if (CollectionUtil.isNotEmpty(contentType)) {
+            if (CollectionUtil.isNotEmpty(uploadLimit.getContentType())) {
                 // 限制类型
-                Set<String> list = new LinkedHashSet<>(contentType);
+                Set<String> list = new LinkedHashSet<>(uploadLimit.getContentType());
                 Map<String, Set<String>> val = MapUtil.builder("cos:content-type", list).map();
                 conditions.put("string_like", val);
-                sign.setLimitContentType(contentType);
+                sign.setLimitContentType(uploadLimit.getContentType());
             }
             statement.put("condition", conditions);
             config.put("policy", JSON.toJSONString(policy));
@@ -404,8 +411,8 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             sign.setTmpSecretKey(response.credentials.tmpSecretKey);
             sign.setSessionToken(response.credentials.sessionToken);
             sign.setToken(response.credentials.token);
-            sign.setExpireSecondTime(expireSecondTime);
-            sign.setExpireDateTime(LocalDateTime.now().plusSeconds(expireSecondTime));
+            sign.setExpireSecondTime(uploadLimit.getExpireSecondTime());
+            sign.setExpireDateTime(LocalDateTime.now().plusSeconds(uploadLimit.getExpireSecondTime()));
             sign.setTargetPath(targetPath);
             sign.setBucketName(bucketName);
             sign.setRegion(this.cosProperties.getRegion());
@@ -414,6 +421,11 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean createSymlink(String bucketName, String linkPath, String targetPath) {
+        throw new NotSupportedException("COS不支持该操作");
     }
 
     @Override

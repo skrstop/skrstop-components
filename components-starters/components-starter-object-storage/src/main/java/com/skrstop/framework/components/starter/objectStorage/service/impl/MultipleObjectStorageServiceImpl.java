@@ -6,6 +6,8 @@ import com.skrstop.framework.components.starter.objectStorage.configuration.OssP
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicDatasourceContextHolder;
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
+import com.skrstop.framework.components.starter.objectStorage.entity.UploadLimit;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -153,13 +155,13 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, extraParam);
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, TemporaryAccessExtraParam extraParam) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, extraParam);
     }
 
     @Override
@@ -173,8 +175,13 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
-        return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, UploadLimit uploadLimit) {
+        return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, uploadLimit);
+    }
+
+    @Override
+    public boolean createSymlink(String bucketName, String linkPath, String targetPath) {
+        return this.getObjectStorageService().createSymlink(bucketName, linkPath, targetPath);
     }
 
     @Override
