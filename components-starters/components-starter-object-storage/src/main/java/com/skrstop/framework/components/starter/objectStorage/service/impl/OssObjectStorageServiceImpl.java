@@ -12,6 +12,8 @@ import com.aliyun.oss.model.*;
 import com.skrstop.framework.components.starter.objectStorage.configuration.OssProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.OssStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
+import com.skrstop.framework.components.starter.objectStorage.entity.UploadLimit;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.enums.CharSetEnum;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
@@ -252,21 +254,26 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        LocalDateTime endTime = LocalDateTime.now().plusSeconds(expireTime);
+        LocalDateTime endTime = LocalDateTime.now().plusSeconds(extraParam.getExpireSecondTime());
         HashMap<String, String> requestParams = new HashMap<>();
-        if (MapUtil.isNotEmpty(params)) {
-            params.forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
+        HashMap<String, String> requestHeaderParams = new HashMap<>();
+        if (MapUtil.isNotEmpty(extraParam.getQueryParams())) {
+            extraParam.getQueryParams().forEach((key, val) -> requestParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
+        }
+        if (MapUtil.isNotEmpty(extraParam.getHeaderParams())) {
+            extraParam.getHeaderParams().forEach((key, val) -> requestHeaderParams.put(key, ObjectUtil.defaultIfNull(val, "").toString()));
         }
         GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, targetPath, HttpMethod.GET);
         request.setExpiration(DateUtil.toDate(endTime));
         request.setQueryParameter(requestParams);
+        request.setHeaders(requestHeaderParams);
         try {
             URL url = this.ossClient.generatePresignedUrl(request);
             URI newUrl = new URI(StrUtil.blankToDefault(ossProperties.getAccessUrlProtocol(), url.getProtocol())
                     , url.getUserInfo()
-                    , useOriginHost ? url.getHost() : StrUtil.blankToDefault(ossProperties.getAccessUrlHost(), url.getHost())
+                    , extraParam.isUseOriginHost() ? url.getHost() : StrUtil.blankToDefault(ossProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
                     , url.getQuery()
@@ -282,11 +289,11 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         Map<String, String> result = new HashMap<>(targetPath.size(), 1);
         for (String path : targetPath) {
-            result.put(path, this.getTemporaryAccessUrl(bucketName, path, expireTime, params, useOriginHost));
+            result.put(path, this.getTemporaryAccessUrl(bucketName, path, extraParam));
         }
         return result;
     }
@@ -326,37 +333,41 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, UploadLimit uploadLimit) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         OssStorageTemplateSign sign = new OssStorageTemplateSign();
         try {
             PolicyConditions policyConditions = new PolicyConditions();
-            policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, targetPath);
-            if (ObjectUtil.isNotNull(minSize)
-                    && minSize >= 0
-                    && ObjectUtil.isNotNull(maxSize)
-                    && maxSize >= minSize) {
-                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, minSize, maxSize);
-                sign.setLimitMinSize(minSize);
-                sign.setLimitMaxSize(maxSize);
+            if (uploadLimit.getExactMatchTarget()) {
+                policyConditions.addConditionItem(MatchMode.Exact, PolicyConditions.COND_KEY, targetPath);
+            } else {
+                policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, targetPath);
             }
-            if (ObjectUtil.isNotNull(maxSize)
-                    && maxSize > 0) {
-                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, maxSize);
-                sign.setLimitMaxSize(maxSize);
+            if (ObjectUtil.isNotNull(uploadLimit.getMinSize())
+                    && uploadLimit.getMinSize() >= 0
+                    && ObjectUtil.isNotNull(uploadLimit.getMaxSize())
+                    && uploadLimit.getMaxSize() >= uploadLimit.getMinSize()) {
+                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, uploadLimit.getMinSize(), uploadLimit.getMaxSize());
+                sign.setLimitMinSize(uploadLimit.getMinSize());
+                sign.setLimitMaxSize(uploadLimit.getMaxSize());
             }
-            if (ObjectUtil.isNotNull(minSize)
-                    && minSize > 0) {
-                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, minSize, Long.MAX_VALUE);
-                sign.setLimitMinSize(minSize);
+            if (ObjectUtil.isNotNull(uploadLimit.getMaxSize())
+                    && uploadLimit.getMaxSize() > 0) {
+                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, uploadLimit.getMaxSize());
+                sign.setLimitMaxSize(uploadLimit.getMaxSize());
             }
-            if (CollectionUtil.isNotEmpty(contentType)) {
-                for (String mime : contentType) {
+            if (ObjectUtil.isNotNull(uploadLimit.getMinSize())
+                    && uploadLimit.getMinSize() > 0) {
+                policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, uploadLimit.getMinSize(), Long.MAX_VALUE);
+                sign.setLimitMinSize(uploadLimit.getMinSize());
+            }
+            if (CollectionUtil.isNotEmpty(uploadLimit.getContentType())) {
+                for (String mime : uploadLimit.getContentType()) {
                     policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_TYPE, mime);
                 }
-                sign.setLimitContentType(contentType);
+                sign.setLimitContentType(uploadLimit.getContentType());
             }
-            Date expirationDate = DateUtil.plusSeconds(new Date(), Long.valueOf(expireSecondTime).intValue());
+            Date expirationDate = DateUtil.plusSeconds(new Date(), uploadLimit.getExpireSecondTime().intValue());
             // 计算签名
             String policy = ossClient.generatePostPolicy(expirationDate, policyConditions);
             String encodedPolicy = BinaryUtil.toBase64String(policy.getBytes(CharSetEnum.UTF8.getCharSet()));
@@ -364,8 +375,8 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
 
             sign.setPolicy(encodedPolicy);
             sign.setSignature(signature);
-            sign.setExpireSecondTime(expireSecondTime);
-            sign.setExpireDateTime(LocalDateTime.now().plusSeconds(expireSecondTime));
+            sign.setExpireSecondTime(uploadLimit.getExpireSecondTime());
+            sign.setExpireDateTime(LocalDateTime.now().plusSeconds(uploadLimit.getExpireSecondTime()));
             sign.setTargetPath(targetPath);
             sign.setBucketName(bucketName);
             sign.setRegion(this.ossProperties.getRegion());
@@ -375,6 +386,18 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean createSymlink(String bucketName, String linkPath, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        try {
+            this.ossClient.createSymlink(bucketName, linkPath, targetPath);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return false;
     }
 
     @Override
