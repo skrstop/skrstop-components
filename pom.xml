@@ -375,6 +375,8 @@
         <!-- rule -->
         <liteflow.version>2.11.3</liteflow.version>
 
+        <byte-buddy.version>1.17.5</byte-buddy.version>
+
         <!-- object storage -->
         <cos.version>5.6.240</cos.version>
         <cos-sts.version>3.1.1</cos-sts.version>
@@ -1814,6 +1816,12 @@
                 <groupId>com.yomahub</groupId>
                 <artifactId>liteflow-spring-boot-starter</artifactId>
                 <version>${liteflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>${byte-buddy.version}</version>
             </dependency>
 
             <!-- object storage -->
