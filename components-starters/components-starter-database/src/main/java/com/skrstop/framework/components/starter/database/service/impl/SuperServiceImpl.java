@@ -124,7 +124,7 @@ public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends Abstr
             if (this.onlySetUpdateInfoWhenNull()
                     && ObjectUtil.isNull(abstractTimeBaseEntity.getUpdateTime())) {
                 abstractTimeBaseEntity.setUpdateTime(LocalDateTime.now());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
+            } else if (!this.onlySetUpdateInfoWhenNull()) {
                 abstractTimeBaseEntity.setUpdateTime(LocalDateTime.now());
             }
             if (this.onlySetUpdateInfoWhenNull()

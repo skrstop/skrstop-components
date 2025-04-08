@@ -170,7 +170,7 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
             if (this.onlySetUpdateInfoWhenNull()
                     && ObjectUtil.isNull(abstractTimeBaseEntity.getUpdateTime())) {
                 abstractTimeBaseEntity.setUpdateTime(LocalDateTime.now());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
+            } else if (!this.onlySetUpdateInfoWhenNull()) {
                 abstractTimeBaseEntity.setUpdateTime(LocalDateTime.now());
             }
             if (this.onlySetUpdateInfoWhenNull()
