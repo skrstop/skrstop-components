@@ -91,18 +91,18 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         if (ex instanceof BindException) {
             BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
-            return new ResponseEntity(bindExceptionInterceptor.execute(ex), HttpStatus.OK);
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex), HttpStatus.INTERNAL_SERVER_ERROR);
         } else if (ex instanceof HttpMessageNotReadableException) {
             // json格式转换错误
             Throwable cause = ex.getCause();
             if (ObjectUtil.isNotNull(cause) && cause instanceof JsonMappingException && ObjectUtil.isNotNull(cause.getCause())) {
                 IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
                 iResult.setMessage(cause.getCause().getMessage());
-                return new ResponseEntity(iResult, HttpStatus.OK);
+                return new ResponseEntity(iResult, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.OK);
+            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.OK);
+        return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -228,7 +228,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             defaultMessage = ErrorMessageUtil.getFirstErrorMessage(errors.stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
         }
         paramError.setMessage(defaultMessage);
-        return new ResponseEntity(paramError, HttpStatus.OK);
+        return new ResponseEntity(paramError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -312,6 +312,8 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         if (ObjectUtil.isNotNull(response)
                 && (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
             response.setStatus(HttpStatusConst.HTTP_OK);
+        } else {
+            response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
         this.setResponseContentType(request, response);
         return exceptionHandleChainPattern.execute(e);

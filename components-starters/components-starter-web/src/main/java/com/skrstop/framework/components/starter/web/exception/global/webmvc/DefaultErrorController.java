@@ -94,6 +94,8 @@ public class DefaultErrorController extends AbstractErrorController {
         } else {
             if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
+            } else {
+                response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
             if (error instanceof SkrstopThrowable) {
 //                YnwThrowable ynwThrowable = (YnwThrowable) error;
