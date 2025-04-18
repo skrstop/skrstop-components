@@ -329,6 +329,8 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     @SuppressWarnings("unchecked")
     public IResult handleError(HttpServletRequest request, HttpServletResponse response, Error e) {
+        log.error(ThrowableStackTraceUtil.getStackTraceStr(e));
+        response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
         this.setResponseContentType(request, response);
         return errorHandleChainPattern.execute(e);
     }
