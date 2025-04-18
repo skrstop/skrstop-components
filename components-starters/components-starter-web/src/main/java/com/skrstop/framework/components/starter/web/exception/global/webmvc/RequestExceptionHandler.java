@@ -7,7 +7,6 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
-import com.skrstop.framework.components.core.exception.defined.illegal.ParameterException;
 import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceUtil;
 import com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.skrstop.framework.components.starter.web.constant.RequestConst;
@@ -92,7 +91,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         if (ex instanceof BindException) {
             BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
-            return new ResponseEntity(bindExceptionInterceptor.execute(ex), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex, null, null), HttpStatus.INTERNAL_SERVER_ERROR);
         } else if (ex instanceof HttpMessageNotReadableException) {
             // json格式转换错误
             Throwable cause = ex.getCause();
@@ -309,17 +308,14 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         } else {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));
         }
-        if (ObjectUtil.isNotNull(response)) {
-            if ((e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
-                response.setStatus(HttpStatusConst.HTTP_OK);
-            } else if (e instanceof ParameterException) {
-                response.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);
-            } else {
-                response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
-            }
-        }
         this.setResponseContentType(request, response);
-        return exceptionHandleChainPattern.execute(e);
+        IResult execute = exceptionHandleChainPattern.execute(e, response, null);
+        if ((e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
+            response.setStatus(HttpStatusConst.HTTP_OK);
+        } else if (response.getStatus() == HttpStatusConst.HTTP_OK) {
+            response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
+        }
+        return execute;
     }
 
     /**

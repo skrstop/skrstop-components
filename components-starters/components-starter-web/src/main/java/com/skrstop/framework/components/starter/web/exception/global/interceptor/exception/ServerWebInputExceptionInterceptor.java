@@ -6,10 +6,13 @@ import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.code.WebStarterExceptionCode;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebInputException;
 
 /**
@@ -29,12 +32,18 @@ public class ServerWebInputExceptionInterceptor implements ExceptionHandlerInter
     }
 
     @Override
-    public InterceptorResult execute(Exception e) {
+    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
         Throwable cause = e.getCause();
         if (ObjectUtil.isNull(cause)) {
             return null;
         }
         if (cause instanceof TypeMismatchException) {
+            if (ObjectUtil.isNotNull(httpServletResponse)) {
+                httpServletResponse.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);
+            }
+            if (ObjectUtil.isNotNull(serverHttpResponse)) {
+                serverHttpResponse.setRawStatusCode(HttpStatusConst.HTTP_BAD_REQUEST);
+            }
             IResult iResult = EnumCodeUtil.transferEnumCode(WebStarterExceptionCode.MATCH_PARAMETER);
             String message = iResult.getMessage();
             message = new StringBuffer(message)

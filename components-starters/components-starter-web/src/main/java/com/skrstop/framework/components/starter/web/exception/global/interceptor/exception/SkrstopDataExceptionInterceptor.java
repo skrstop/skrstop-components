@@ -7,9 +7,11 @@ import com.skrstop.framework.components.core.exception.core.SkrstopDataThrowable
 import com.skrstop.framework.components.core.exception.core.data.ThrowableData;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 
 /**
  * @author 蒋时华
@@ -29,7 +31,7 @@ public class SkrstopDataExceptionInterceptor implements ExceptionHandlerIntercep
     }
 
     @Override
-    public InterceptorResult execute(Exception e) {
+    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
         SkrstopDataThrowable serviceByDataException = (SkrstopDataThrowable) e;
         ThrowableData<?> throwableData = serviceByDataException.getThrowableData();
         if (e instanceof BusinessThrowable) {

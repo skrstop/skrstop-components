@@ -5,13 +5,17 @@ import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
+import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.validate.ErrorMessageUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 
 import java.util.List;
 import java.util.Set;
@@ -38,7 +42,13 @@ public class ConstraintViolationExceptionInterceptor implements ExceptionHandler
     }
 
     @Override
-    public InterceptorResult execute(Exception e) {
+    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
+        if (ObjectUtil.isNotNull(httpServletResponse)) {
+            httpServletResponse.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);
+        }
+        if (ObjectUtil.isNotNull(serverHttpResponse)) {
+            serverHttpResponse.setRawStatusCode(HttpStatusConst.HTTP_BAD_REQUEST);
+        }
         IResult paramError = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
         Set<ConstraintViolation<?>> constraintViolations = ((ConstraintViolationException) e).getConstraintViolations();
         if (CollectionUtil.isEmpty(constraintViolations)) {
