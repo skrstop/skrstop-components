@@ -5,12 +5,9 @@ import com.skrstop.framework.components.core.exception.defined.illegal.Parameter
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
-import com.skrstop.framework.components.util.value.data.ObjectUtil;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 
 /**
  * 参数异常handle
@@ -33,16 +30,11 @@ public class ParameterExceptionInterceptor implements ExceptionHandlerIntercepto
     }
 
     @Override
-    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
-        if (ObjectUtil.isNotNull(httpServletResponse)) {
-            httpServletResponse.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);
-        }
-        if (ObjectUtil.isNotNull(serverHttpResponse)) {
-            serverHttpResponse.setRawStatusCode(HttpStatusConst.HTTP_BAD_REQUEST);
-        }
+    public InterceptorResult execute(Exception e) {
         return InterceptorResult.builder()
                 .next(false)
                 .result(Result.Builder.result(((ParameterException) e).getIResult()))
+                .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                 .build();
     }
 
