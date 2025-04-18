@@ -5,6 +5,7 @@ import com.skrstop.framework.components.core.exception.SkrstopBusinessException;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
 import com.skrstop.framework.components.core.exception.core.SkrstopThrowable;
+import com.skrstop.framework.components.core.exception.defined.illegal.ParameterException;
 import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowHtmlMessageException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowJsonMessageException;
@@ -94,6 +95,8 @@ public class DefaultErrorController extends AbstractErrorController {
         } else {
             if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
+            } else if (error instanceof ParameterException) {
+                response.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);
             } else {
                 response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
