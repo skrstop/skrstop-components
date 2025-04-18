@@ -25,6 +25,11 @@ public class InterceptorResult {
     private boolean next;
 
     /**
+     * response响应码
+     */
+    private Integer responseStatus;
+
+    /**
      * 返回结果
      */
     private IResult result;

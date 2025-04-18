@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.exception.global.webflux;
 
+import cn.hutool.core.lang.Pair;
 import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
@@ -39,7 +40,10 @@ import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ExceptionHandler class
@@ -152,27 +156,27 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));
         }
 
-        HttpStatus httpStatus = exchange.getResponse().getStatusCode();
         IResult result;
         if (e instanceof Exception) {
-            result = exceptionHandleChainPattern.execute((Exception) e, null, response);
+            Pair<IResult, Integer> execute = exceptionHandleChainPattern.execute((Exception) e);
+            result = execute.getKey();
+            response.setRawStatusCode(execute.getValue());
         } else if (e instanceof Error) {
             result = errorHandleChainPattern.execute((Error) e);
+            response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
         } else {
             result = DefaultResult.Builder.error();
+            response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
         if (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable) {
             response.setRawStatusCode(HttpStatusConst.HTTP_OK);
-        } else if (Objects.requireNonNull(response.getStatusCode()).value() == HttpStatusConst.HTTP_OK) {
-            response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
         // 参考AbstractErrorWebExceptionHandler
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(e);
         }
         ServerRequest newRequest = ServerRequest.create(exchange, this.messageReaders);
-        final IResult finalResult = result;
-        return RouterFunctions.route(RequestPredicates.all(), req -> this.renderErrorResponse(req, response.getStatusCode(), finalResult))
+        return RouterFunctions.route(RequestPredicates.all(), req -> this.renderErrorResponse(req, response.getStatusCode(), result))
                 .route(newRequest)
                 .switchIfEmpty(Mono.error(e))
                 .flatMap((handler) -> handler.handle(newRequest))

@@ -1,18 +1,18 @@
 package com.skrstop.framework.components.starter.web.exception.core.interceptor;
 
+import cn.hutool.core.lang.Pair;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.global.interceptor.exception.*;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Comparator;
 import java.util.List;
 
@@ -45,19 +45,19 @@ public class ExceptionHandleChainPattern {
         exceptionHandlerInterceptors.sort(Comparator.comparingInt(ExceptionHandlerInterceptor::order));
     }
 
-    public IResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
+    public Pair<IResult, Integer> execute(Exception e) {
         for (ExceptionHandlerInterceptor exceptionHandlerInterceptor : exceptionHandlerInterceptors) {
             if (!exceptionHandlerInterceptor.support(e)) {
                 continue;
             }
-            InterceptorResult execute = exceptionHandlerInterceptor.execute(e, httpServletResponse, serverHttpResponse);
+            InterceptorResult execute = exceptionHandlerInterceptor.execute(e);
             if (ObjectUtil.isNull(execute)) {
-                return Result.Builder.result(CommonResultCode.FAIL);
+                return Pair.of(Result.Builder.result(CommonResultCode.FAIL), HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
             if (ObjectUtil.isNull(execute.getResult()) && !execute.isNext()) {
-                return Result.Builder.result(CommonResultCode.FAIL);
+                return Pair.of(Result.Builder.result(CommonResultCode.FAIL), HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
-            return execute.getResult();
+            return Pair.of(execute.getResult(), ObjectUtil.defaultIfNull(execute.getResponseStatus(), HttpStatusConst.HTTP_INTERNAL_ERROR));
         }
         return null;
     }

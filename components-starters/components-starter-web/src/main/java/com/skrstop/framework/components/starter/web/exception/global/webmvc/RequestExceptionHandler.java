@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.exception.global.webmvc;
 
+import cn.hutool.core.lang.Pair;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
@@ -94,16 +95,16 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         if (ex instanceof BindException) {
             BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
-            return new ResponseEntity(bindExceptionInterceptor.execute(ex, null, null), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
         } else if (ex instanceof HttpMessageNotReadableException) {
             // json格式转换错误
             Throwable cause = ex.getCause();
             if (ObjectUtil.isNotNull(cause) && cause instanceof JsonMappingException && ObjectUtil.isNotNull(cause.getCause())) {
                 IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
                 iResult.setMessage(cause.getCause().getMessage());
-                return new ResponseEntity(iResult, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity(iResult, HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -312,13 +313,12 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));
         }
         this.setResponseContentType(request, response);
-        IResult execute = exceptionHandleChainPattern.execute(e, response, null);
+        Pair<IResult, Integer> execute = exceptionHandleChainPattern.execute(e);
+        response.setStatus(execute.getValue());
         if ((e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
             response.setStatus(HttpStatusConst.HTTP_OK);
-        } else if (response.getStatus() == HttpStatusConst.HTTP_OK) {
-            response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
-        return execute;
+        return execute.getKey();
     }
 
     /**

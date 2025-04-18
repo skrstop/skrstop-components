@@ -5,15 +5,11 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
-import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 参数异常handle
@@ -36,24 +32,20 @@ public class NotFoundExceptionInterceptor implements ExceptionHandlerInterceptor
     }
 
     @Override
-    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
+    public InterceptorResult execute(Exception e) {
         HttpStatus status = ((ResponseStatusException) e).getStatus();
         if (HttpStatus.NOT_FOUND.value() == status.value()) {
-            if (ObjectUtil.isNotNull(httpServletResponse)) {
-                httpServletResponse.setStatus(HttpStatusConst.HTTP_NOT_FOUND);
-            }
-            if (ObjectUtil.isNotNull(serverHttpResponse)) {
-                serverHttpResponse.setRawStatusCode(HttpStatusConst.HTTP_NOT_FOUND);
-            }
             // 404
             return InterceptorResult.builder()
                     .next(false)
                     .result(DefaultResult.Builder.result(CommonResultCode.NOT_FOUND))
+                    .responseStatus(HttpStatusConst.HTTP_NOT_FOUND)
                     .build();
         }
         return InterceptorResult.builder()
                 .next(true)
                 .result(null)
+                .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                 .build();
     }
 

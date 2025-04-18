@@ -6,12 +6,10 @@ import com.skrstop.framework.components.core.exception.SkrstopBusinessException;
 import com.skrstop.framework.components.core.exception.core.SkrstopThrowable;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author 蒋时华
@@ -31,17 +29,19 @@ public class SkrstopExceptionInterceptor implements ExceptionHandlerInterceptor 
     }
 
     @Override
-    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
+    public InterceptorResult execute(Exception e) {
         SkrstopThrowable skrstopRuntimeException = (SkrstopThrowable) e;
         if (e instanceof SkrstopBusinessException) {
             return InterceptorResult.builder()
                     .next(false)
                     .result(Result.Builder.result(skrstopRuntimeException.getIResult()))
+                    .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                     .build();
         }
         return InterceptorResult.builder()
                 .next(false)
                 .result(Result.Builder.result(CommonResultCode.FAIL))
+                .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                 .build();
     }
 }
