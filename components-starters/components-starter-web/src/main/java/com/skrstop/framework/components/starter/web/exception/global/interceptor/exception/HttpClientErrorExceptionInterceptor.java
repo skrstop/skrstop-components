@@ -10,8 +10,10 @@ import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
@@ -33,7 +35,7 @@ public class HttpClientErrorExceptionInterceptor implements ExceptionHandlerInte
     }
 
     @Override
-    public InterceptorResult execute(Exception e) {
+    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
         HttpClientErrorException httpClientErrorException = (HttpClientErrorException) e;
         String httpResultStr = null;
         try {

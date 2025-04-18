@@ -10,6 +10,7 @@ import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpSt
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
 import com.skrstop.framework.components.util.constant.FeignConst;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
@@ -25,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.codec.HttpMessageWriter;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -37,10 +39,7 @@ import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ExceptionHandler class
@@ -128,12 +127,13 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable e) {
+        ServerHttpRequest request = exchange.getRequest();
+        ServerHttpResponse response = exchange.getResponse();
         if (globalExceptionProperties != null
                 && e instanceof BusinessThrowable
                 && !globalExceptionProperties.isLogBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(exchange) && !this.skipErrorPath(exchange)) {
-            ServerHttpRequest request = exchange.getRequest();
             String requestPath, requestQueryPath, requestBodyName, requestBody;
             // 获取请求信息
             if (ObjectUtil.isNull(request)) {
@@ -155,27 +155,28 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
         HttpStatus httpStatus = exchange.getResponse().getStatusCode();
         IResult result;
         if (e instanceof Exception) {
-            result = exceptionHandleChainPattern.execute((Exception) e);
+            result = exceptionHandleChainPattern.execute((Exception) e, null, response);
         } else if (e instanceof Error) {
             result = errorHandleChainPattern.execute((Error) e);
         } else {
             result = DefaultResult.Builder.error();
         }
         if (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable) {
-            httpStatus = HttpStatus.OK;
+            response.setRawStatusCode(HttpStatusConst.HTTP_OK);
+        } else if (Objects.requireNonNull(response.getStatusCode()).value() == HttpStatusConst.HTTP_OK) {
+            response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
         // 参考AbstractErrorWebExceptionHandler
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(e);
         }
         ServerRequest newRequest = ServerRequest.create(exchange, this.messageReaders);
-        HttpStatus finalHttpStatus = httpStatus;
         final IResult finalResult = result;
-        return RouterFunctions.route(RequestPredicates.all(), req -> this.renderErrorResponse(req, finalHttpStatus, finalResult))
+        return RouterFunctions.route(RequestPredicates.all(), req -> this.renderErrorResponse(req, response.getStatusCode(), finalResult))
                 .route(newRequest)
                 .switchIfEmpty(Mono.error(e))
                 .flatMap((handler) -> handler.handle(newRequest))
-                .flatMap((response) -> write(exchange, response));
+                .flatMap((flatResponse) -> write(exchange, flatResponse));
     }
 
     /**

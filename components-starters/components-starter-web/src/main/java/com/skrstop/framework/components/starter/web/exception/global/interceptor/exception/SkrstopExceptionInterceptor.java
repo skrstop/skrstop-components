@@ -9,6 +9,9 @@ import com.skrstop.framework.components.starter.web.exception.core.interceptor.E
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author 蒋时华
@@ -28,7 +31,7 @@ public class SkrstopExceptionInterceptor implements ExceptionHandlerInterceptor 
     }
 
     @Override
-    public InterceptorResult execute(Exception e) {
+    public InterceptorResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
         SkrstopThrowable skrstopRuntimeException = (SkrstopThrowable) e;
         if (e instanceof SkrstopBusinessException) {
             return InterceptorResult.builder()

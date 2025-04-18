@@ -1,6 +1,9 @@
 package com.skrstop.framework.components.starter.web.exception.core.interceptor;
 
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * web 异常处理拦截器
@@ -29,8 +32,10 @@ public interface ExceptionHandlerInterceptor {
      * 执行
      *
      * @param e
+     * @param response
+     * @param serverHttpResponse
      * @return
      */
-    InterceptorResult execute(Exception e);
+    InterceptorResult execute(Exception e, HttpServletResponse response, ServerHttpResponse serverHttpResponse);
 
 }

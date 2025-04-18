@@ -36,7 +36,7 @@ public class DefaultErrorController extends AbstractErrorController {
     protected ErrorProperties errorProperties;
     protected ErrorAttributes errorAttributes;
 
-    private final String FORWARD_REQUEST_URL = "javax.servlet.forward.request_uri";
+    private final String FORWARD_REQUEST_URL = "jakarta.servlet.forward.request_uri";
 
     /**
      * Create a new {@link DefaultErrorController} instance.

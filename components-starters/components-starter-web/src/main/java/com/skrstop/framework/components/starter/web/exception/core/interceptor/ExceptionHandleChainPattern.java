@@ -9,8 +9,10 @@ import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Comparator;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class ExceptionHandleChainPattern {
 
     @PostConstruct
     private void initChainPattern() {
+        exceptionHandlerInterceptors.add(new ParameterExceptionInterceptor());
         exceptionHandlerInterceptors.add(new ServerWebInputExceptionInterceptor());
         exceptionHandlerInterceptors.add(new NotFoundExceptionInterceptor());
         exceptionHandlerInterceptors.add(new BindExceptionInterceptor());
@@ -42,12 +45,12 @@ public class ExceptionHandleChainPattern {
         exceptionHandlerInterceptors.sort(Comparator.comparingInt(ExceptionHandlerInterceptor::order));
     }
 
-    public IResult execute(Exception e) {
+    public IResult execute(Exception e, HttpServletResponse httpServletResponse, ServerHttpResponse serverHttpResponse) {
         for (ExceptionHandlerInterceptor exceptionHandlerInterceptor : exceptionHandlerInterceptors) {
             if (!exceptionHandlerInterceptor.support(e)) {
                 continue;
             }
-            InterceptorResult execute = exceptionHandlerInterceptor.execute(e);
+            InterceptorResult execute = exceptionHandlerInterceptor.execute(e, httpServletResponse, serverHttpResponse);
             if (ObjectUtil.isNull(execute)) {
                 return Result.Builder.result(CommonResultCode.FAIL);
             }
