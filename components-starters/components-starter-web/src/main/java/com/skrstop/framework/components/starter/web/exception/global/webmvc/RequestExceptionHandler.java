@@ -226,6 +226,10 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
 //        errors.stream().forEach(x -> errorMsg.append(x.getDefaultMessage()).append(";"));
 //        ParameterException.ParameterErrorCode.PARAMETER_VALID_ERROR_CODE.setMessage(errorMsg.toString());
 //        String defaultMessage = errors.get(0).getDefaultMessage();
+        if (ex instanceof BindException) {
+            BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
+        }
         String defaultMessage = null;
         IResult paramError = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
         if (CollectionUtil.isNotEmpty(errors)) {
