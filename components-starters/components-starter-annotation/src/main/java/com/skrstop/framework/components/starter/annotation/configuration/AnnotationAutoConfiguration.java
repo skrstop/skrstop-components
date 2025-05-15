@@ -3,16 +3,21 @@ package com.skrstop.framework.components.starter.annotation.configuration;
 import com.skrstop.framework.components.starter.annotation.anno.function.*;
 import com.skrstop.framework.components.starter.annotation.handle.function.*;
 import com.skrstop.framework.components.starter.annotation.handle.function.privacyInfo.PrivacyInfoTypeRule;
+import com.skrstop.framework.components.starter.annotation.handle.paramAlias.AliasRequestMappingHandlerAdapter;
 import com.skrstop.framework.components.starter.annotation.handle.server.processor.ProcessorContainerConfiguration;
 import com.skrstop.framework.components.starter.annotation.handle.trim.TrimAnnotationFormatterFactory;
 import com.skrstop.framework.components.starter.common.proxy.DynamicAnnotationAdvisor;
 import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import java.util.List;
 
@@ -91,4 +96,15 @@ public class AnnotationAutoConfiguration {
         return advisor;
     }
 
+    @Bean
+    @ConditionalOnClass(WebMvcRegistrations.class)
+    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+    public WebMvcRegistrations webMvcRegistrations() {
+        return new WebMvcRegistrations() {
+            @Override
+            public RequestMappingHandlerAdapter getRequestMappingHandlerAdapter() {
+                return new AliasRequestMappingHandlerAdapter();
+            }
+        };
+    }
 }

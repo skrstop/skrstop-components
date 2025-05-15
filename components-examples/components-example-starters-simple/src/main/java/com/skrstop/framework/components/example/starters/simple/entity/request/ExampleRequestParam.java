@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 /**
  * @author 蒋时华
  * @date 2023-12-01 17:48:49
@@ -32,5 +34,7 @@ public class ExampleRequestParam {
 
     @NotNull(message = "1##valBool不能为空")
     private Boolean valBool;
+
+    private LocalDateTime valDateTime;
 
 }
