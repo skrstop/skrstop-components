@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
+@SuppressWarnings("all")
 public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
 
     private final AnnotationProperties annotationProperties;
@@ -60,13 +61,12 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
             return invocation.proceed();
         }
         Object returnVal = invocation.proceed();
-        // 是否限制内网访问
-        boolean limitIntranet = privacyInfo.limitIntranet();
-        this.setInfo(returnVal, limitIntranet);
+        boolean innerIp = this.innerIp();
+        this.setInfo(returnVal, innerIp);
         return returnVal;
     }
 
-    private void setInfo(Object returnVal, boolean limitIntranet) {
+    private void setInfo(Object returnVal, boolean innerIp) {
         if (ObjectUtil.isNull(returnVal)) {
             return;
         }
@@ -81,7 +81,7 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                     Collection collection = (Collection) returnVal;
                     collection.forEach(item -> {
                         try {
-                            this.setInfo(item, limitIntranet);
+                            this.setInfo(item, innerIp);
                         } catch (Exception e) {
                             log.error(e.getMessage(), e);
                         }
@@ -90,14 +90,14 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                     Map map = (Map) returnVal;
                     map.keySet().forEach(item -> {
                         try {
-                            this.setInfo(map.get(item), limitIntranet);
+                            this.setInfo(map.get(item), innerIp);
                         } catch (Exception e) {
                             log.error(e.getMessage(), e);
                         }
                     });
                 } else {
                     Object property = BeanUtil.getProperty(returnVal, descriptor.getName());
-                    this.setInfo(property, limitIntranet);
+                    this.setInfo(property, innerIp);
                 }
             } else {
                 // 将隐私信息置null
@@ -109,8 +109,7 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                 if (ObjectUtil.isNull(privacyInfoValue) || ObjectUtil.isNull(privacyInfoValue.type())) {
                     continue;
                 }
-                boolean innerIp = this.innerIp();
-                boolean limit = limitIntranet || privacyInfoValue.limitIntranet();
+                boolean limit = innerIp || privacyInfoValue.limitIntranet();
                 if (innerIp && !limit) {
                     continue;
                 }

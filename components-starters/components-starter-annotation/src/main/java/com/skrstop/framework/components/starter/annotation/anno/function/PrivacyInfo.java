@@ -17,7 +17,4 @@ import java.lang.annotation.*;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public @interface PrivacyInfo {
 
-    // 是否限制内网访问
-    boolean limitIntranet() default false;
-
 }
