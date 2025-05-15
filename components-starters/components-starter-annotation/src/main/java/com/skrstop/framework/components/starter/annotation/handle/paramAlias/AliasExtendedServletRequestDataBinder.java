@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.starter.annotation.handle.paramAlias;
 
-import com.ynw.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
+import com.skrstop.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
 
