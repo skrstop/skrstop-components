@@ -33,13 +33,13 @@ public class DateTimeFormatAutoConfiguration implements WebMvcConfigurer {
             return;
         }
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
+        if (StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
             registrar.setDateFormatter(DateTimeFormatter.ofPattern(globalResponseProperties.getDateFormat()));
         }
-        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
+        if (StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern(globalResponseProperties.getDateTimeFormat()));
         }
-        if (globalResponseProperties == null || StrUtil.isNotBlank(globalResponseProperties.getTimeFormat())) {
+        if (StrUtil.isNotBlank(globalResponseProperties.getTimeFormat())) {
             registrar.setTimeFormatter(DateTimeFormatter.ofPattern(globalResponseProperties.getTimeFormat()));
         }
         registrar.registerFormatters(registry);
