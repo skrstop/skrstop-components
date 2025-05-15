@@ -7,6 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /**
  * @author 蒋时华
@@ -33,5 +34,7 @@ public class ExampleRequestParam {
 
     @NotNull(message = "1##valBool不能为空")
     private Boolean valBool;
+
+    private LocalDateTime valDateTime;
 
 }
