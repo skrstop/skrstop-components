@@ -18,7 +18,7 @@ import java.lang.annotation.*;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public @interface PrivacyInfoValue {
     // 是否限制内网访问
-    boolean limitIntranet() default false;
+    boolean limitIntranet() default true;
 
     /**
      * 脱敏类型, 可自定义处理 @see {@link com.skrstop.framework.components.starter.annotation.handle.function.privacyInfo.PrivacyInfoTypeRule}
