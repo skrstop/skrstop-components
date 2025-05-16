@@ -8,9 +8,11 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.skrstop.framework.components.util.serialization.format.jackson.*;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -29,6 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @date 2018/11/22
  */
 @Configuration
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @ConditionalOnClass({MappingJackson2HttpMessageConverter.class})
 @EnableConfigurationProperties({GlobalResponseProperties.class})
 public class JacksonAutoConfiguration {
