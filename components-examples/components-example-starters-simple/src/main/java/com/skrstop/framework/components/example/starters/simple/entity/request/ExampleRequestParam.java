@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.entity.request;
 
+import com.skrstop.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -33,6 +34,8 @@ public class ExampleRequestParam {
     private Long valLong;
 
     @NotNull(message = "1##valBool不能为空")
+    @RequestParamAlias("valBool1")
+//    @JsonAlias("valBool2")
     private Boolean valBool;
 
     private LocalDateTime valDateTime;

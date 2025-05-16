@@ -71,6 +71,7 @@ public class ExampleValidController {
      */
     @PostMapping("/exampleValidPost")
     public IResult exampleValidPost(@RequestBody @Validated ExampleRequestParam requestParam) {
+        System.out.println(requestParam);
         return DefaultResult.Builder.success();
     }
 

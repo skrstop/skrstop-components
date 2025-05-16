@@ -64,7 +64,7 @@ public class JacksonAutoConfiguration {
     }
 
     private ObjectMapper setObjectMapper(ObjectMapper objectMapper, GlobalResponseProperties globalResponseProperties) {
-        SimpleModule simpleModule = new SimpleModule();
+        SimpleModule simpleModule = new SimpleModule("skrstop-web-jackson-module");
         // 序列换成json时,将所有的long变成string
         if (globalResponseProperties == null || globalResponseProperties.isLongToString()) {
 //            simpleModule.addSerializer(PageData.class, new JsonSerializer<PageData>() {

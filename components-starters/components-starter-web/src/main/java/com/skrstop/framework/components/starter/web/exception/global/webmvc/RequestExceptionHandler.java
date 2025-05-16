@@ -97,9 +97,9 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             // json格式转换错误
             Throwable cause = ex.getCause();
             if (ObjectUtil.isNotNull(cause) && cause instanceof JsonMappingException && ObjectUtil.isNotNull(cause.getCause())) {
-                IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
-                iResult.setMessage(cause.getCause().getMessage());
-                return new ResponseEntity(iResult, HttpStatus.BAD_REQUEST);
+//                IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
+//                iResult.setMessage(cause.getCause().getMessage());
+                return new ResponseEntity(Result.Builder.result(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
         }
