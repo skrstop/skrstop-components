@@ -80,19 +80,19 @@ public class JacksonAutoConfiguration {
             simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         }
         // LocalDateTime, 格式化
-        if (StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(globalResponseProperties.getDateTimeFormat()));
         }
-        if (StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(Date.class, new DateSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(Date.class, new DateDeserializer(globalResponseProperties.getDateTimeFormat()));
         }
-        if (StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
             simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(globalResponseProperties.getDateFormat()));
             simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(globalResponseProperties.getDateFormat()));
         }
-        if (StrUtil.isNotBlank(globalResponseProperties.getTimeFormat())) {
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getTimeFormat())) {
             simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(globalResponseProperties.getTimeFormat()));
             simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(globalResponseProperties.getTimeFormat()));
         }
