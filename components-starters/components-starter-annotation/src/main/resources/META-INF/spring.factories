@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.skrstop.framework.components.starter.annotation.configuration.AnnotationAutoConfiguration
+    com.skrstop.framework.components.starter.annotation.configuration.AnnotationAutoConfiguration,\
+    com.skrstop.framework.components.starter.annotation.configuration.JacksonAliasAnnotationAutoConfiguration

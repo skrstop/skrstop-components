@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-        <!-- Module Version -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>

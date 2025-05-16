@@ -1,5 +1,7 @@
 package com.skrstop.framework.components.example.starters.simple.entity.request;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.skrstop.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -33,6 +35,8 @@ public class ExampleRequestParam {
     private Long valLong;
 
     @NotNull(message = "1##valBool不能为空")
+    @RequestParamAlias("valBool1")
+    @JsonAlias("valBool2")
     private Boolean valBool;
 
     private LocalDateTime valDateTime;
