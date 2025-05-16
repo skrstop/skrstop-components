@@ -97,7 +97,7 @@ public class JacksonAutoConfiguration {
             simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(globalResponseProperties.getTimeFormat()));
         }
         // 设置过滤掉null值得属性
-        if (!globalResponseProperties.isShowNullValue()) {
+        if (globalResponseProperties == null || !globalResponseProperties.isShowNullValue()) {
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         }
         globalObjectMapper = objectMapper.registerModule(simpleModule);
