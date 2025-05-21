@@ -2,6 +2,7 @@ package com.skrstop.framework.components.starter.annotation.handle.function;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.skrstop.framework.components.starter.annotation.anno.function.PrivacyInfo;
 import com.skrstop.framework.components.starter.annotation.anno.function.PrivacyInfoValue;
@@ -27,7 +28,11 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,6 +72,33 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
     }
 
     private void setInfo(Object returnVal, boolean innerIp) {
+        if (returnVal instanceof Collection) {
+            Collection collection = (Collection) returnVal;
+            if (collection.isEmpty()) {
+                return;
+            }
+            for (Object item : collection) {
+                this.setInfo(item, innerIp);
+            }
+        } else if (returnVal instanceof Map) {
+            Map map = (Map) returnVal;
+            if (map.isEmpty()) {
+                return;
+            }
+            map.keySet().forEach(item -> {
+                try {
+                    this.setInfo(map.get(item), innerIp);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            });
+        } else {
+            // 是个对象
+            this.setObjectInfo(returnVal, innerIp);
+        }
+    }
+
+    private void setObjectInfo(Object returnVal, boolean innerIp) {
         if (ObjectUtil.isNull(returnVal)) {
             return;
         }
@@ -77,32 +109,15 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                 continue;
             }
             if (!this.isPrimitive(descriptor)) {
-                if (returnVal instanceof Collection) {
-                    Collection collection = (Collection) returnVal;
-                    collection.forEach(item -> {
-                        try {
-                            this.setInfo(item, innerIp);
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
-                    });
-                } else if (returnVal instanceof Map) {
-                    Map map = (Map) returnVal;
-                    map.keySet().forEach(item -> {
-                        try {
-                            this.setInfo(map.get(item), innerIp);
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
-                    });
-                } else {
-                    Object property = BeanUtil.getProperty(returnVal, descriptor.getName());
-                    this.setInfo(property, innerIp);
-                }
+                Object property = BeanUtil.getProperty(returnVal, descriptor.getName());
+                this.setInfo(property, innerIp);
             } else {
                 // 将隐私信息置null
                 Field field = ReflectUtil.getField(returnVal.getClass(), descriptor.getName());
                 if (ObjectUtil.isNull(field)) {
+                    continue;
+                }
+                if (!field.getType().equals(String.class)) {
                     continue;
                 }
                 PrivacyInfoValue privacyInfoValue = field.getAnnotation(PrivacyInfoValue.class);
@@ -116,9 +131,6 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                 if (PrivacyInfoType.SET_NULL.equals(privacyInfoValue.type())) {
                     // 属性设置为null
                     BeanUtil.setProperty(returnVal, descriptor.getName(), null);
-                    continue;
-                }
-                if (!field.getType().equals(String.class)) {
                     continue;
                 }
                 // 字符串处理
@@ -157,7 +169,7 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
 
     private boolean isPrimitive(PropertyDescriptor field) {
         Class<?> type = field.getPropertyType();
-        boolean primitive = type.isPrimitive();
+        boolean primitive = ClassUtil.isBasicType(type);
         if (!primitive) {
             return type.getName().equals(Integer.class.getName()) ||
                     type.getName().equals(Byte.class.getName()) ||
@@ -168,6 +180,11 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                     type.getName().equals(String.class.getName()) ||
                     type.getName().equals(Short.class.getName()) ||
                     type.getName().equals(Timestamp.class.getName()) ||
+                    type.getName().equals(Time.class.getName()) ||
+                    type.getName().equals(Date.class.getName()) ||
+                    type.getName().equals(LocalDateTime.class.getName()) ||
+                    type.getName().equals(LocalDate.class.getName()) ||
+                    type.getName().equals(LocalTime.class.getName()) ||
                     type.getName().equals(Time.class.getName()) ||
                     type.getName().equals(BigDecimal.class.getName()) ||
                     type.getName().equals(Boolean.class.getName());
