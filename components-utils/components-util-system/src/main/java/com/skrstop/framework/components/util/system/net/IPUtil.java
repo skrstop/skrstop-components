@@ -123,6 +123,9 @@ public class IPUtil {
         if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
             XFor = request.getRemoteAddr();
         }
+        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+            return "127.0.0.1";
+        }
         return XFor;
     }
 
