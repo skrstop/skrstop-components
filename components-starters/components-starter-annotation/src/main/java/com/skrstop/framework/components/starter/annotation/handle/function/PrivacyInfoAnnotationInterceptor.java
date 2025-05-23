@@ -202,7 +202,11 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
             return true;
         }
         try {
-            return NetUtil.isInnerIP(IPUtil.getIpAddress(request));
+            String ipAddress = IPUtil.getIpAddress(request);
+            if (StrUtil.isBlank(ipAddress)) {
+                return false;
+            }
+            return NetUtil.isInnerIP(ipAddress);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
