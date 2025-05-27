@@ -5,15 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.skrstop.framework.components.core.common.response.CollectionResult;
 import com.skrstop.framework.components.core.common.response.DefaultPageResult;
 import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.Result;
 import lombok.experimental.UtilityClass;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,24 +70,6 @@ public class FastJsonUtil {
                 , cls
                 , JSONReader.Feature.IgnoreAutoTypeNotMatch
         );
-    }
-
-    /**
-     * 将下划线转换为驼峰的形式，例如：user_name-->userName
-     *
-     * @param json
-     * @param clazz
-     * @return
-     * @throws IOException
-     */
-    public static <T> T toBeanBySnakeCase(String json, Class<T> clazz) throws IOException {
-        if (StrUtil.isBlank(json) || ObjectUtil.isNull(clazz)) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.readValue(json, clazz);
     }
 
     /**

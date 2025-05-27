@@ -1,10 +1,13 @@
 package com.skrstop.framework.components.util.serialization.json;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+
+import java.io.IOException;
 
 /**
  * @author 蒋时华
@@ -33,6 +36,21 @@ public class JacksonUtil {
             return null;
         }
         return JACKSON_MAPPER.writeValueAsString(object);
+    }
+
+    /**
+     * 将下划线转换为驼峰的形式，例如：user_name-->userName
+     *
+     * @param json
+     * @param clazz
+     * @return
+     * @throws IOException
+     */
+    public static <T> T toBeanBySnakeCase(String json, Class<T> clazz) throws IOException {
+        if (StrUtil.isBlank(json) || ObjectUtil.isNull(clazz)) {
+            return null;
+        }
+        return JACKSON_MAPPER.readValue(json, clazz);
     }
 
 }
