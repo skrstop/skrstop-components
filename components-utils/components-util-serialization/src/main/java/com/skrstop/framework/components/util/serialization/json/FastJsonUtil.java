@@ -5,7 +5,6 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.TypeReference;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.skrstop.framework.components.core.common.response.CollectionResult;
@@ -56,23 +55,6 @@ public class FastJsonUtil {
         }
         // 禁用循环引用检测
         return JSON.toJSONString(object, dateFormat);
-    }
-
-    /**
-     * 驼峰转下划线，例如：userName-->user_name
-     *
-     * @param object
-     * @return
-     * @throws JsonProcessingException
-     */
-    public static String toJsonBySnakeCase(Object object) throws JsonProcessingException {
-        if (ObjectUtil.isNull(object)) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.writeValueAsString(object);
     }
 
     /**
