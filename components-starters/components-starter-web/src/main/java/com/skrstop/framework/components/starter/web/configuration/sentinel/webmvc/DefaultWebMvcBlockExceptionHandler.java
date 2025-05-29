@@ -33,7 +33,7 @@ public class DefaultWebMvcBlockExceptionHandler implements BlockExceptionHandler
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
         // 限流异常
-        ResponseOutUtil.out(response, CommonResultCode.BUSY, CommonResultCode.class);
+        ResponseOutUtil.out(response, CommonResultCode.BUSY);
     }
 
 }
