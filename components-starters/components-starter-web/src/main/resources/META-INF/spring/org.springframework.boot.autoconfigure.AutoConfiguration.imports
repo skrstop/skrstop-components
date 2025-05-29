@@ -8,7 +8,8 @@ com.skrstop.framework.components.starter.web.response.webflux.ReturnResponseAuto
 com.skrstop.framework.components.starter.web.exception.global.webmvc.ErrorMvcAutoConfiguration
 com.skrstop.framework.components.starter.web.exception.global.webmvc.RequestExceptionHandler
 com.skrstop.framework.components.starter.web.exception.global.webflux.ExceptionAutoConfiguration
-com.skrstop.framework.components.starter.web.configuration.sentinel.SentinelDefaultResponseAutoConfiguration
+com.skrstop.framework.components.starter.web.configuration.sentinel.SentinelDefaultResponseMvcAutoConfiguration
+com.skrstop.framework.components.starter.web.configuration.sentinel.SentinelDefaultResponseReactiveAutoConfiguration
 com.skrstop.framework.components.starter.web.configuration.DateTimeFormatAutoConfiguration
 com.skrstop.framework.components.starter.web.configuration.FeignResponseAuthConfiguration
 com.skrstop.framework.components.starter.web.event.ShutdownEventController
