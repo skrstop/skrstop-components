@@ -2,7 +2,7 @@ package com.skrstop.framework.components.starter.web.configuration.sentinel;
 
 import com.alibaba.csp.sentinel.adapter.spring.webflux.callback.BlockRequestHandler;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.ynw.framework.components.starter.web.configuration.sentinel.webflux.DefaultWebFluxBlockRequestHandler;
+import com.skrstop.framework.components.starter.web.configuration.sentinel.webflux.DefaultWebFluxBlockRequestHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
