@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.web.configuration;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
  * @date 2018/11/22
  */
 @Configuration
+@ConditionalOnClass(WebMvcConfigurer.class)
 @EnableConfigurationProperties({GlobalResponseProperties.class})
 public class DateTimeFormatAutoConfiguration implements WebMvcConfigurer {
 
