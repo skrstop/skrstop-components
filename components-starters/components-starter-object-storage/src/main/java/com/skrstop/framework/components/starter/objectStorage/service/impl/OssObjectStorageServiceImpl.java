@@ -373,6 +373,7 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
             String encodedPolicy = BinaryUtil.toBase64String(policy.getBytes(CharSetEnum.UTF8.getCharSet()));
             String signature = ossClient.calculatePostSignature(policy);
 
+            sign.setAccessKeyId(ossClient.getCredentialsProvider().getCredentials().getAccessKeyId());
             sign.setPolicy(encodedPolicy);
             sign.setSignature(signature);
             sign.setExpireSecondTime(uploadLimit.getExpireSecondTime());

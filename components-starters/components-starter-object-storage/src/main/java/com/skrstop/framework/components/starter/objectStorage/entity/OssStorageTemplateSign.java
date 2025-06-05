@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OssStorageTemplateSign extends StorageTemplateSign {
+    private String accessKeyId;
     private String policy;
     private String signature;
     private String bucketName;
