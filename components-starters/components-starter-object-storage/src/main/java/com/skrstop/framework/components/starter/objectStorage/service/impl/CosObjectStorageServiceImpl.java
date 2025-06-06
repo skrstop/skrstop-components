@@ -5,7 +5,6 @@ import cn.hutool.core.util.URLUtil;
 import com.alibaba.fastjson2.JSON;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
-import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.http.HttpMethodName;
 import com.qcloud.cos.http.HttpProtocol;
@@ -18,6 +17,7 @@ import com.qcloud.cos.transfer.Upload;
 import com.qcloud.cos.utils.UrlEncoderUtils;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
+import com.skrstop.framework.components.starter.objectStorage.credential.DynamicBasicCOSCredentials;
 import com.skrstop.framework.components.starter.objectStorage.entity.CosStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
@@ -73,7 +73,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         }
         try {
             // 构建client
-            COSCredentials cred = new BasicCOSCredentials(cosProperties.getSecretId(), cosProperties.getSecretKey());
+            COSCredentials cred = new DynamicBasicCOSCredentials(cosProperties);
             Region region = new Region(cosProperties.getRegion());
             ClientConfig clientConfig = new ClientConfig(region);
             clientConfig.setHttpProtocol(cosProperties.isUseHttpSsl() ? HttpProtocol.https : HttpProtocol.http);

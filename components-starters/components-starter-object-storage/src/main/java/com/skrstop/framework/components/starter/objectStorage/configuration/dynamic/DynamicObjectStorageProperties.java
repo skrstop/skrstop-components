@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -25,6 +26,7 @@ import java.util.LinkedHashMap;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.DYNAMIC_OBJECT_STORAGE_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@RefreshScope
 public class DynamicObjectStorageProperties {
 
     /*** 是否开启动态数据源 */
