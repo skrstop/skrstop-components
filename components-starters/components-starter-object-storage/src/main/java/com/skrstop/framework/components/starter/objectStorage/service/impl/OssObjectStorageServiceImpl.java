@@ -6,10 +6,10 @@ import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.auth.CredentialsProvider;
-import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.*;
 import com.skrstop.framework.components.starter.objectStorage.configuration.OssProperties;
+import com.skrstop.framework.components.starter.objectStorage.credential.DynamicOssCredentialProvider;
 import com.skrstop.framework.components.starter.objectStorage.entity.OssStorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
 import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
@@ -65,7 +65,7 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
         try {
             // 构建client
             // credentials
-            CredentialsProvider credentialsProvider = new DefaultCredentialProvider(ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
+            CredentialsProvider credentialsProvider = new DynamicOssCredentialProvider(ossProperties);
             // config
             ClientConfiguration config = new ClientConfiguration();
             config.setRequestTimeout(ossProperties.getRequestTimeout());
