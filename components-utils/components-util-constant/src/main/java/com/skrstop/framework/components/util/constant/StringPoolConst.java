@@ -23,6 +23,7 @@ public interface StringPoolConst {
     String DOT = ".";
     String EMPTY = "";
     String EMPTY_JSON = "{}";
+    String EMPTY_JSON_ARRAY = "[]";
     String EQUALS = "=";
     String FALSE = "false";
     String HASH = "#";
