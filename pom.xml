@@ -181,7 +181,7 @@
         <!-- reflections -->
         <reflections.version>0.10.2</reflections.version>
         <!-- hutool -->
-        <hutool.version>5.8.26</hutool.version>
+        <hutool.version>5.8.39</hutool.version>
         <!-- concurrentlinkedhashmap-lru -->
         <concurrentlinkedhashmap-lru.version>1.4.2</concurrentlinkedhashmap-lru.version>
         <!-- json -->
