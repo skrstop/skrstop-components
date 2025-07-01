@@ -51,10 +51,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -102,6 +104,11 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
                 return new ResponseEntity(Result.Builder.result(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
+        } else if (ex instanceof NoResourceFoundException) {
+            if (request instanceof ServletWebRequest) {
+                log.error("404请求，源请求地址 -- {}", ((ServletWebRequest) request).getRequest().getRequestURI());
+            }
+            return new ResponseEntity(Result.Builder.result(CommonResultCode.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.INTERNAL_SERVER_ERROR);
     }

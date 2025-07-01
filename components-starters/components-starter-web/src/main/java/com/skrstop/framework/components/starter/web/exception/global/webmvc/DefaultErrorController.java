@@ -1,7 +1,6 @@
 package com.skrstop.framework.components.starter.web.exception.global.webmvc;
 
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
-import com.skrstop.framework.components.core.exception.SkrstopBusinessException;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
 import com.skrstop.framework.components.core.exception.core.SkrstopThrowable;
@@ -18,12 +17,14 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolve
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
@@ -89,9 +90,8 @@ public class DefaultErrorController extends AbstractErrorController {
         }
         int status = response.getStatus();
         if (HttpStatusConst.HTTP_NOT_FOUND == status) {
-            SkrstopRuntimeException skrstopRuntimeException = new SkrstopBusinessException(CommonResultCode.NOT_FOUND, ex);
-            skrstopRuntimeException.setExceptionMessage("源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
-            throw skrstopRuntimeException;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                    , "404请求，源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
         } else {
             if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
