@@ -91,7 +91,7 @@ public class DefaultErrorController extends AbstractErrorController {
         int status = response.getStatus();
         if (HttpStatusConst.HTTP_NOT_FOUND == status) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
-                    , "源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
+                    , "404请求，源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
         } else {
             if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
