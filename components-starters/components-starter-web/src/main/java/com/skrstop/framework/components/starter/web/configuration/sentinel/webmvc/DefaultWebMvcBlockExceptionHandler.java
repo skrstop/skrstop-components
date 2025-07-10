@@ -34,6 +34,6 @@ public class DefaultWebMvcBlockExceptionHandler implements BlockExceptionHandler
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, String s, BlockException e) throws Exception {
         log.error("Sentinel block exception: {}", s, e);
-        ResponseOutUtil.out(response, CommonResultCode.BUSY, CommonResultCode.class);
+        ResponseOutUtil.out(response, CommonResultCode.BUSY);
     }
 }

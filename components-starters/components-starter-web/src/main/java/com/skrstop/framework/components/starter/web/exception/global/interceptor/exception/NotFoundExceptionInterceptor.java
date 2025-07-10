@@ -4,6 +4,7 @@ import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -39,11 +40,13 @@ public class NotFoundExceptionInterceptor implements ExceptionHandlerInterceptor
             return InterceptorResult.builder()
                     .next(false)
                     .result(DefaultResult.Builder.result(CommonResultCode.NOT_FOUND))
+                    .responseStatus(HttpStatusConst.HTTP_NOT_FOUND)
                     .build();
         }
         return InterceptorResult.builder()
                 .next(true)
                 .result(null)
+                .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                 .build();
     }
 

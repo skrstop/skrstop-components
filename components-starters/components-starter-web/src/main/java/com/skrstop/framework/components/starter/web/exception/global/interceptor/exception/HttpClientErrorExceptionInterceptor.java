@@ -6,6 +6,7 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,11 +49,13 @@ public class HttpClientErrorExceptionInterceptor implements ExceptionHandlerInte
             return InterceptorResult.builder()
                     .next(false)
                     .result(Result.Builder.result(error))
+                    .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                     .build();
         } catch (UnsupportedEncodingException ex) {
             return InterceptorResult.builder()
                     .next(false)
                     .result(Result.Builder.result(CommonResultCode.FAIL, ex))
+                    .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                     .build();
         }
     }

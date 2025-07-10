@@ -3,7 +3,7 @@ package com.skrstop.framework.components.starter.annotation.handle.paramAlias;
 import com.skrstop.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
 import jakarta.servlet.ServletRequest;
 import org.springframework.beans.MutablePropertyValues;
-import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
 
 import java.lang.reflect.Field;
 
@@ -12,9 +12,9 @@ import java.lang.reflect.Field;
  * @date: 2021/3/11 19:44
  * @description: desc...
  */
-public class AliasDataBinder extends ServletRequestDataBinder {
+public class AliasExtendedServletRequestDataBinder extends ExtendedServletRequestDataBinder {
 
-    public AliasDataBinder(Object target, String objectName) {
+    public AliasExtendedServletRequestDataBinder(Object target, String objectName) {
         super(target, objectName);
     }
 

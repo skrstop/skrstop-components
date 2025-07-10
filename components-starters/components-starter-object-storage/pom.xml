@@ -20,6 +20,10 @@
             <artifactId>components-starter-common</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-extra</artifactId>
         </dependency>
@@ -51,6 +55,11 @@
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos-sts_api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>

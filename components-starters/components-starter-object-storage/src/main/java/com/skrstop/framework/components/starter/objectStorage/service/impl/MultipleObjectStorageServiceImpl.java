@@ -2,9 +2,12 @@ package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
 import com.skrstop.framework.components.starter.objectStorage.configuration.CosProperties;
 import com.skrstop.framework.components.starter.objectStorage.configuration.FtpProperties;
+import com.skrstop.framework.components.starter.objectStorage.configuration.OssProperties;
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicDatasourceContextHolder;
 import com.skrstop.framework.components.starter.objectStorage.configuration.dynamic.DynamicObjectStorageProperties;
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
+import com.skrstop.framework.components.starter.objectStorage.entity.UploadLimit;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,22 +36,29 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
         // 初始化工作
         LinkedHashMap<String, FtpProperties> ftpDataSources = dynamicObjectStorageProperties.getFtpDataSources();
         LinkedHashMap<String, CosProperties> cosDataSources = dynamicObjectStorageProperties.getCosDataSources();
-        int totalDatasourceSize = ftpDataSources.size() + cosDataSources.size();
+        LinkedHashMap<String, OssProperties> ossDataSources = dynamicObjectStorageProperties.getOssDataSources();
+        int totalDatasourceSize = ftpDataSources.size() + cosDataSources.size() + ossDataSources.size();
         if (totalDatasourceSize <= 0) {
             throw new IllegalArgumentException("动态数据源为空, 请检查配置文件");
         }
         this.objectStorageDatasourceMap = new HashMap<>(totalDatasourceSize, 1);
         ftpDataSources.forEach((key, value) -> {
             if (objectStorageDatasourceMap.containsKey(key)) {
-                throw new IllegalArgumentException("数据源名称重复: " + key + ", 请检查配置文件");
+                throw new IllegalArgumentException("ftp数据源名称重复: " + key + ", 请检查配置文件");
             }
             this.objectStorageDatasourceMap.put(key, new FtpObjectStorageServiceImpl(value));
         });
         cosDataSources.forEach((key, value) -> {
             if (objectStorageDatasourceMap.containsKey(key)) {
-                throw new IllegalArgumentException("数据源名称重复: " + key + ", 请检查配置文件");
+                throw new IllegalArgumentException("cos数据源名称重复: " + key + ", 请检查配置文件");
             }
             this.objectStorageDatasourceMap.put(key, new CosObjectStorageServiceImpl(value));
+        });
+        ossDataSources.forEach((key, value) -> {
+            if (objectStorageDatasourceMap.containsKey(key)) {
+                throw new IllegalArgumentException("oss数据源名称重复: " + key + ", 请检查配置文件");
+            }
+            this.objectStorageDatasourceMap.put(key, new OssObjectStorageServiceImpl(value));
         });
     }
 
@@ -145,8 +155,13 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public String getTemporaryAccessUrl(String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
+    public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, extraParam);
+    }
+
+    @Override
+    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, TemporaryAccessExtraParam extraParam) {
+        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, extraParam);
     }
 
     @Override
@@ -160,13 +175,13 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
-        return this.getObjectStorageService().getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, UploadLimit uploadLimit) {
+        return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, uploadLimit);
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
-        return this.getObjectStorageService().getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
+    public boolean createSymlink(String bucketName, String linkPath, String targetPath) {
+        return this.getObjectStorageService().createSymlink(bucketName, linkPath, targetPath);
     }
 
     @Override

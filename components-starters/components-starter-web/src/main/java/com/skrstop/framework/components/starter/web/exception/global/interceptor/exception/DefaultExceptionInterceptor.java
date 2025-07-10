@@ -4,6 +4,7 @@ import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -30,6 +31,7 @@ public class DefaultExceptionInterceptor implements ExceptionHandlerInterceptor 
         return InterceptorResult.builder()
                 .next(false)
                 .result(Result.Builder.result(CommonResultCode.FAIL))
+                .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
                 .build();
     }
 }

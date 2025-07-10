@@ -5,6 +5,7 @@ import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.validate.ErrorMessageUtil;
 import jakarta.validation.ConstraintViolation;
@@ -45,6 +46,7 @@ public class ConstraintViolationExceptionInterceptor implements ExceptionHandler
             return InterceptorResult.builder()
                     .next(false)
                     .result(paramError)
+                    .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                     .build();
         }
         List<String> errors = constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -52,12 +54,14 @@ public class ConstraintViolationExceptionInterceptor implements ExceptionHandler
             return InterceptorResult.builder()
                     .next(false)
                     .result(paramError)
+                    .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                     .build();
         }
         paramError.setMessage(ErrorMessageUtil.getFirstErrorMessage(errors));
         return InterceptorResult.builder()
                 .next(false)
                 .result(paramError)
+                .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                 .build();
     }
 

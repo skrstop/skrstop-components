@@ -1,31 +1,31 @@
 package com.skrstop.framework.components.starter.annotation.handle.function;
 
-import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
-import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
+import cn.hutool.core.util.ReflectUtil;
 import com.skrstop.framework.components.starter.annotation.anno.function.ServiceLock;
 import com.skrstop.framework.components.starter.annotation.configuration.AnnotationProperties;
+import com.skrstop.framework.components.starter.annotation.handle.function.accessLimit.AccessLimitRule;
+import com.skrstop.framework.components.starter.annotation.handle.function.serviceLock.ServiceLockRule;
 import com.skrstop.framework.components.starter.common.util.AnnoFindUtil;
-import com.skrstop.framework.components.util.enums.CharSetEnum;
+import com.skrstop.framework.components.starter.spring.support.bean.SpringUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.util.DigestUtils;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 public class ServiceLockAnnotationInterceptor implements MethodInterceptor {
 
     private final AnnotationProperties annotationProperties;
-    private ConcurrentHashMap<String, Lock> lockMap = new ConcurrentHashMap<>();
+    private final Map<Object, ServiceLockRule> ruleMap;
 
     public ServiceLockAnnotationInterceptor(AnnotationProperties annotationProperties) {
         this.annotationProperties = annotationProperties;
+        ruleMap = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -34,42 +34,61 @@ public class ServiceLockAnnotationInterceptor implements MethodInterceptor {
         if (ObjectUtil.isNull(serviceLock)) {
             return invocation.proceed();
         }
-        String methodStr = invocation.getMethod().toString();
-        String functionName = DigestUtils.md5DigestAsHex(methodStr.getBytes(CharSetEnum.UTF8.getCharSet()));
-        //获取注解信息
-        // 获取注解每秒加入桶中的token
-        String lockKey = serviceLock.lockId();
-        boolean fastFail = serviceLock.fastFail();
-        if (StrUtil.isBlank(lockKey)) {
-            lockKey = functionName;
-        }
-        log.debug("function:{}, lockId:{}, 开启同步锁", methodStr, serviceLock.lockId());
-        Object obj;
-        Lock lock;
-        if (!lockMap.containsKey(lockKey)) {
-            lockMap.put(lockKey, new ReentrantLock(true));
-        }
-        lock = lockMap.get(lockKey);
-        if (lock.tryLock(serviceLock.timeoutMs(), TimeUnit.MILLISECONDS)) {
-            try {
-                obj = invocation.proceed();
-            } finally {
-                lock.unlock();
+        ServiceLockRule rule = null;
+        if (StrUtil.isNotBlank(serviceLock.beanName())) {
+            // beanName
+            rule = ruleMap.get(serviceLock.beanName());
+            if (ObjectUtil.isNull(rule)) {
+                try {
+                    Object bean = SpringUtil.getBean(serviceLock.beanName());
+                    if (!(bean instanceof AccessLimitRule)) {
+                        throw new RuntimeException("beanName: " + serviceLock.beanName() + "未实现锁规则接口AccessLimitRule");
+                    }
+                    rule = (ServiceLockRule) bean;
+                    if (ObjectUtil.isNull(rule)) {
+                        throw new RuntimeException("未找到锁规则, beanName: " + serviceLock.beanName());
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    throw new RuntimeException("未找到锁规则, beanName: " + serviceLock.beanName());
+                }
+                ruleMap.put(serviceLock.beanName(), rule);
             }
-            return obj;
+        } else if (ObjectUtil.isNotNull(serviceLock.beanClass())
+                && serviceLock.beanClass() != void.class
+                && serviceLock.beanClass() != Void.class) {
+            // beanClass
+            rule = ruleMap.get(serviceLock.beanClass());
+            if (ObjectUtil.isNull(rule)) {
+                if (!AccessLimitRule.class.isAssignableFrom(serviceLock.beanClass())) {
+                    throw new RuntimeException("beanClass: " + serviceLock.beanClass().getName() + "未实现锁规则接口AccessLimitRule");
+                }
+                try {
+                    rule = (ServiceLockRule) SpringUtil.getBean(serviceLock.beanClass());
+                    if (ObjectUtil.isNull(rule)) {
+                        throw new RuntimeException("未找到锁规则, beanClass: " + serviceLock.beanClass().getName());
+                    }
+                } catch (NoUniqueBeanDefinitionException e) {
+                    log.error(e.getMessage(), e);
+                    throw new RuntimeException("找到多个锁规则, beanClass: " + serviceLock.beanClass().getName());
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    throw new RuntimeException("未找到锁规则, beanClass: " + serviceLock.beanClass().getName());
+                }
+                ruleMap.put(serviceLock.beanClass(), rule);
+            }
+        } else if (ObjectUtil.isNotNull(serviceLock.defaultRule())) {
+            // defaultRule
+            rule = ruleMap.get(serviceLock.defaultRule());
+            if (ObjectUtil.isNull(rule)) {
+                rule = ReflectUtil.newInstance(serviceLock.defaultRule());
+                ruleMap.put(serviceLock.defaultRule(), rule);
+            }
         }
-        if (fastFail) {
-            // 获取锁失败
-            throw new SkrstopRuntimeException(CommonResultCode.BUSY);
+        if (ObjectUtil.isNull(rule)) {
+            throw new RuntimeException("未设置任何锁规则");
         }
-        try {
-            // wait
-            lock.lock();
-            obj = invocation.proceed();
-        } finally {
-            lock.unlock();
-        }
-        return obj;
+        return rule.handle(invocation, serviceLock);
     }
 
 }

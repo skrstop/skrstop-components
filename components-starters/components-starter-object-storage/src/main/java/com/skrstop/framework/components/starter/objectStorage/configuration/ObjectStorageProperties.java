@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -20,6 +21,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.OBJECT_STORAGE_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@RefreshScope
 public class ObjectStorageProperties {
 
     @NestedConfigurationProperty
@@ -27,5 +29,8 @@ public class ObjectStorageProperties {
 
     @NestedConfigurationProperty
     private CosProperties cos = new CosProperties();
+
+    @NestedConfigurationProperty
+    private OssProperties oss = new OssProperties();
 
 }

@@ -19,7 +19,7 @@ public class CosProperties {
     /*** secretKey */
     private String secretKey;
     /*** 前缀路径 */
-    private String basePath = "/";
+    private String basePath = "";
     /*** 访问域名 */
     private String accessUrlProtocol = "https";
     private String accessUrlHost;

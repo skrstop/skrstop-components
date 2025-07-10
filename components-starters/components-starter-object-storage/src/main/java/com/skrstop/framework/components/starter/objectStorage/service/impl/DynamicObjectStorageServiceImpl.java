@@ -1,6 +1,8 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
 import com.skrstop.framework.components.starter.objectStorage.entity.StorageTemplateSign;
+import com.skrstop.framework.components.starter.objectStorage.entity.TemporaryAccessExtraParam;
+import com.skrstop.framework.components.starter.objectStorage.entity.UploadLimit;
 import com.skrstop.framework.components.starter.objectStorage.service.DynamicObjectStorageService;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 
@@ -22,7 +24,6 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     public DynamicObjectStorageServiceImpl(ObjectStorageService objectStorageService) {
         this.objectStorageService = objectStorageService;
     }
-
 
     @Override
     public String getBasePath(String dsKey) {
@@ -95,8 +96,8 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
-    public String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
-        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
+    public String getTemporaryAccessUrl(String dsKey, String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
+        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, extraParam);
     }
 
     @Override
@@ -110,13 +111,18 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
-    public Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, long expireTime, Map<String, Object> params, boolean useOriginHost) {
-        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, expireTime, params, useOriginHost);
+    public Map<String, String> getTemporaryAccessUrl(String dsKey, String bucketName, List<String> targetPath, TemporaryAccessExtraParam extraParam) {
+        return this.objectStorageService.getTemporaryAccessUrl(bucketName, targetPath, extraParam);
     }
 
     @Override
-    public <T extends StorageTemplateSign> T getTemporaryAccessSign(String dsKey, String bucketName, String targetPath, long expireSecondTime, Long minSize, Long maxSize, List<String> contentType) {
-        return this.objectStorageService.getTemporaryUploadSign(bucketName, targetPath, expireSecondTime, minSize, maxSize, contentType);
+    public <T extends StorageTemplateSign> T getTemporaryUploadSign(String dsKey, String bucketName, String targetPath, UploadLimit uploadLimit) {
+        return this.objectStorageService.getTemporaryUploadSign(bucketName, targetPath, uploadLimit);
+    }
+
+    @Override
+    public boolean createSymlink(String dsKey, String bucketName, String linkPath, String targetPath) {
+        return this.objectStorageService.createSymlink(bucketName, linkPath, targetPath);
     }
 
     @Override

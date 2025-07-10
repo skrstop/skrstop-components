@@ -2,12 +2,13 @@ package com.skrstop.framework.components.starter.web.exception.global.webmvc;
 
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
+import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
 import com.skrstop.framework.components.core.exception.core.SkrstopThrowable;
+import com.skrstop.framework.components.core.exception.defined.illegal.ParameterException;
 import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowHtmlMessageException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowJsonMessageException;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
-import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -23,11 +24,11 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
@@ -71,25 +72,9 @@ public class DefaultErrorController extends AbstractErrorController {
                                      HttpServletResponse response,
                                      final Exception ex,
                                      final WebRequest req) throws Throwable {
-        HttpStatus status = getStatus(request);
-        Map<String, Object> model = Collections
-                .unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.TEXT_HTML)));
-        Throwable error = this.errorAttributes.getError(req);
-        if (ObjectUtil.isNotNull(error)) {
-            model.put("message", error.getMessage());
-        }
-        if (error instanceof ShowJsonMessageException && !(error instanceof ShowHtmlMessageException)) {
-            response.setHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
-//            return Result.Builder.error(this.error(request, response, ex, req));
-//            model = BeanUtil.beanToMap(Result.Builder.error(this.error(request, response, ex, req)));
-            this.error(request, response, ex, req);
-        } else if (error instanceof NotShowHttpStatusException) {
-            response.setStatus(HttpStatusConst.HTTP_OK);
-        } else {
-            response.setStatus(status.value());
-        }
-        ModelAndView modelAndView = resolveErrorView(request, response, status, model);
-        return (modelAndView != null) ? modelAndView : new ModelAndView("error", model);
+        response.setHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        this.error(request, response, ex, req);
+        return null;
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -105,16 +90,19 @@ public class DefaultErrorController extends AbstractErrorController {
         }
         int status = response.getStatus();
         if (HttpStatusConst.HTTP_NOT_FOUND == status) {
-            SkrstopRuntimeException skrstopRuntimeException = new SkrstopRuntimeException(CommonResultCode.NOT_FOUND, ex);
-            skrstopRuntimeException.setExceptionMessage("源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
-            throw skrstopRuntimeException;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                    , "404请求，源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
         } else {
-            if (error instanceof NotShowHttpStatusException) {
+            if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
+            } else if (error instanceof ParameterException) {
+                response.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);
+            } else {
+                response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
             if (error instanceof SkrstopThrowable) {
-//                SkrstopThrowable skrstopThrowable = (SkrstopThrowable) error;
-//                throw new SkrstopRuntimeException(skrstopThrowable.getIResult());
+//                YnwThrowable ynwThrowable = (YnwThrowable) error;
+//                throw new YnwRuntimeException(ynwThrowable.getIResult());
                 throw error;
             }
         }

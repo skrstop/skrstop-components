@@ -88,7 +88,7 @@ public class ExampleAnnotationController {
     /**
      * 同步锁注解2
      */
-    @ServiceLock(lockId = "serviceLock", fastFail = true, timeoutMs = 11000)
+    @ServiceLock(lockId = "serviceLock", fastFail = true, timeoutMs = 1000)
     @GetMapping("/exampleAnnotationServiceLock2")
     public void exampleAnnotationServiceLock2() {
         System.out.println("aaa");
@@ -107,6 +107,7 @@ public class ExampleAnnotationController {
                 .valueEmail("123456789@gmail.com")
                 .valueIdCard("321123199911112222")
                 .valuePhone("18844446666")
+                .custom("test")
                 .other1(100)
                 .other2(100L)
                 .other3(false)

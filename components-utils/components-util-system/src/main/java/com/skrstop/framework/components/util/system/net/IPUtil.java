@@ -69,7 +69,7 @@ public class IPUtil {
         }
         BufferedReader sc = null;
         try {
-            URL url = new URL("http://bot.whatismyipaddress.com");
+            URL url = new URL("https://ip.3322.net/");
             sc = new BufferedReader(new InputStreamReader(url.openStream()));
             INTERNET_IP = sc.readLine().trim();
             return INTERNET_IP;
@@ -95,6 +95,9 @@ public class IPUtil {
     public static String getIpAddress(HttpServletRequest request) {
         Assert.notNull(request, "HttpServletRequest must not null");
         String XFor = request.getHeader("X-Forwarded-For");
+        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+            return "127.0.0.1";
+        }
         if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
             int index = XFor.indexOf(",");
@@ -105,6 +108,9 @@ public class IPUtil {
             }
         }
         XFor = request.getHeader("X-Real-IP");
+        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+            return "127.0.0.1";
+        }
         if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
             return XFor;
         }
@@ -123,6 +129,9 @@ public class IPUtil {
         if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
             XFor = request.getRemoteAddr();
         }
+        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+            return "127.0.0.1";
+        }
         return XFor;
     }
 
@@ -135,11 +144,17 @@ public class IPUtil {
     public static String getIpAddress(ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();
         String XFor = headers.getFirst("X-Forwarded-For");
-        if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
+        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+            return "127.0.0.1";
+        }
+        if (StrUtil.isNotBlank(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
             int index = XFor.indexOf(",");
             return index != -1 ? XFor.substring(0, index) : XFor;
         } else {
             XFor = headers.getFirst("X-Real-IP");
+            if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+                return "127.0.0.1";
+            }
             if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
                 return XFor;
             } else {
@@ -155,9 +170,11 @@ public class IPUtil {
                 if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
                     XFor = headers.getFirst("HTTP_X_FORWARDED_FOR");
                 }
-
                 if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
                     XFor = request.getRemoteAddress().getAddress().getHostAddress();
+                }
+                if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+                    return "127.0.0.1";
                 }
                 return XFor;
             }

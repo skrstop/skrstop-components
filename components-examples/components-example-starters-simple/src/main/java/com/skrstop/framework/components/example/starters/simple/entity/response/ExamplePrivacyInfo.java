@@ -19,23 +19,26 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class ExamplePrivacyInfo {
 
-    @PrivacyInfoValue
+    @PrivacyInfoValue(limitIntranet = true)
     private String valueDefault;
 
-    @PrivacyInfoValue(type = PrivacyInfoType.SET_NULL)
+    @PrivacyInfoValue(type = PrivacyInfoType.SET_NULL, limitIntranet = true)
     private String valueSetNull;
 
-    @PrivacyInfoValue(type = PrivacyInfoType.BANK_CARD)
+    @PrivacyInfoValue(type = PrivacyInfoType.DEFAULT_BANK_CARD, limitIntranet = true)
     private String valueBankCard;
 
-    @PrivacyInfoValue(type = PrivacyInfoType.ID_CARD)
+    @PrivacyInfoValue(type = PrivacyInfoType.DEFAULT_ID_CARD, limitIntranet = true)
     private String valueIdCard;
 
-    @PrivacyInfoValue(type = PrivacyInfoType.PHONE)
+    @PrivacyInfoValue(type = PrivacyInfoType.DEFAULT_PHONE, limitIntranet = true)
     private String valuePhone;
 
-    @PrivacyInfoValue(type = PrivacyInfoType.EMAIL)
+    @PrivacyInfoValue(type = PrivacyInfoType.DEFAULT_EMAIL)
     private String valueEmail;
+
+    @PrivacyInfoValue(type = "test", limitIntranet = true)
+    private String custom;
 
     private Integer other1;
     private Long other2;

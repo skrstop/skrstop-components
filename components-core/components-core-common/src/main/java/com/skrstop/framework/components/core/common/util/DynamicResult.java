@@ -111,6 +111,8 @@ public class DynamicResult {
             return SetResult.Builder.result((ISetResult) val);
         } else if (val instanceof ICollectionResult) {
             return CollectionResult.Builder.result((ICollectionResult) val);
+        } else if (val instanceof IDataResult) {
+            return Result.Builder.result((IDataResult) val);
         } else if (val instanceof IResult) {
             return Result.Builder.result((IResult) val);
         }

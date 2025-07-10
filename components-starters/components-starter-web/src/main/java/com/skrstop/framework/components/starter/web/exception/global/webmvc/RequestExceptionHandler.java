@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.exception.global.webmvc;
 
+import cn.hutool.core.lang.Pair;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
@@ -50,10 +51,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -91,18 +94,23 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         if (ex instanceof BindException) {
             BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
-            return new ResponseEntity(bindExceptionInterceptor.execute(ex), HttpStatus.OK);
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
         } else if (ex instanceof HttpMessageNotReadableException) {
             // json格式转换错误
             Throwable cause = ex.getCause();
             if (ObjectUtil.isNotNull(cause) && cause instanceof JsonMappingException && ObjectUtil.isNotNull(cause.getCause())) {
-                IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
-                iResult.setMessage(cause.getCause().getMessage());
-                return new ResponseEntity(iResult, HttpStatus.OK);
+//                IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
+//                iResult.setMessage(cause.getCause().getMessage());
+                return new ResponseEntity(Result.Builder.result(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.OK);
+            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
+        } else if (ex instanceof NoResourceFoundException) {
+            if (request instanceof ServletWebRequest) {
+                log.error("404请求，源请求地址 -- {}", ((ServletWebRequest) request).getRequest().getRequestURI());
+            }
+            return new ResponseEntity(Result.Builder.result(CommonResultCode.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.OK);
+        return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -222,13 +230,17 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
 //        errors.stream().forEach(x -> errorMsg.append(x.getDefaultMessage()).append(";"));
 //        ParameterException.ParameterErrorCode.PARAMETER_VALID_ERROR_CODE.setMessage(errorMsg.toString());
 //        String defaultMessage = errors.get(0).getDefaultMessage();
+        if (ex instanceof BindException) {
+            BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
+        }
         String defaultMessage = null;
         IResult paramError = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
         if (CollectionUtil.isNotEmpty(errors)) {
             defaultMessage = ErrorMessageUtil.getFirstErrorMessage(errors.stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
         }
         paramError.setMessage(defaultMessage);
-        return new ResponseEntity(paramError, HttpStatus.OK);
+        return new ResponseEntity(paramError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -308,13 +320,13 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         } else {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));
         }
-
-        if (ObjectUtil.isNotNull(response)
-                && (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
+        this.setResponseContentType(request, response);
+        Pair<IResult, Integer> execute = exceptionHandleChainPattern.execute(e);
+        response.setStatus(execute.getValue());
+        if ((e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
             response.setStatus(HttpStatusConst.HTTP_OK);
         }
-        this.setResponseContentType(request, response);
-        return exceptionHandleChainPattern.execute(e);
+        return execute.getKey();
     }
 
     /**
@@ -328,6 +340,8 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     @SuppressWarnings("unchecked")
     public IResult handleError(HttpServletRequest request, HttpServletResponse response, Error e) {
+        log.error(ThrowableStackTraceUtil.getStackTraceStr(e));
+        response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
         this.setResponseContentType(request, response);
         return errorHandleChainPattern.execute(e);
     }

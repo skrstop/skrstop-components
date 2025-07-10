@@ -5,7 +5,9 @@ import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
+import com.skrstop.framework.components.util.value.data.StrUtil;
 import com.skrstop.framework.components.util.value.validate.ErrorMessageUtil;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +52,11 @@ public class BindExceptionInterceptor implements ExceptionHandlerInterceptor {
                     .collect(Collectors.toList())
             );
         }
-        error.setMessage(defaultMessage);
+        error.setMessage(StrUtil.blankToDefault(defaultMessage, CommonExceptionCode.PARAMETER.getMessage()));
         return InterceptorResult.builder()
                 .next(false)
                 .result(error)
+                .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                 .build();
     }
 

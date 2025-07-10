@@ -6,6 +6,7 @@ import com.skrstop.framework.components.core.common.util.EnumCodeUtil;
 import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.code.WebStarterExceptionCode;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandlerInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
@@ -45,11 +46,13 @@ public class ServerWebInputExceptionInterceptor implements ExceptionHandlerInter
             return InterceptorResult.builder()
                     .next(false)
                     .result(DefaultResult.Builder.result(iResult))
+                    .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                     .build();
         }
         return InterceptorResult.builder()
                 .next(true)
                 .result(null)
+                .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.objectStorage.configuration;
 import com.skrstop.framework.components.starter.objectStorage.service.ObjectStorageService;
 import com.skrstop.framework.components.starter.objectStorage.service.impl.CosObjectStorageServiceImpl;
 import com.skrstop.framework.components.starter.objectStorage.service.impl.FtpObjectStorageServiceImpl;
+import com.skrstop.framework.components.starter.objectStorage.service.impl.OssObjectStorageServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -42,6 +43,13 @@ public class ObjectStorageServiceAutoConfiguration {
     @ConditionalOnProperty(value = "skrstop.object-storage.cos.enable", havingValue = "true", matchIfMissing = false)
     public ObjectStorageService cosObjectStorage(ObjectStorageProperties objectStorageProperties) {
         return new CosObjectStorageServiceImpl(objectStorageProperties.getCos());
+    }
+
+    @Bean(destroyMethod = "close")
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(value = "ynw.object-storage.oss.enable", havingValue = "true", matchIfMissing = false)
+    public ObjectStorageService ossObjectStorage(ObjectStorageProperties objectStorageProperties) {
+        return new OssObjectStorageServiceImpl(objectStorageProperties.getOss());
     }
 
 }

@@ -1,11 +1,15 @@
 package com.skrstop.framework.components.example.starters.simple.entity.request;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.skrstop.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * @author 蒋时华
@@ -31,6 +35,10 @@ public class ExampleRequestParam {
     private Long valLong;
 
     @NotNull(message = "1##valBool不能为空")
+    @RequestParamAlias("valBool1")
+    @JsonAlias("valBool2")
     private Boolean valBool;
+
+    private LocalDateTime valDateTime;
 
 }
