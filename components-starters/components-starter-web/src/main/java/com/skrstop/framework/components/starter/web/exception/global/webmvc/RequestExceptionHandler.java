@@ -58,10 +58,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -106,7 +103,13 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
         } else if (ex instanceof NoResourceFoundException) {
             if (request instanceof ServletWebRequest) {
-                log.error("404请求，源请求地址 -- {}", ((ServletWebRequest) request).getRequest().getRequestURI());
+                // 打印header
+                List<String> headerInfo = new ArrayList<>();
+                request.getHeaderNames().forEachRemaining(headerName -> {
+                    String headerValue = request.getHeader(headerName);
+                    headerInfo.add(StrUtil.format("{}: {}", headerName, headerValue));
+                });
+                log.error("404请求，源请求地址 -- {}, header: {}", ((ServletWebRequest) request).getRequest().getRequestURI(), CollectionUtil.join(headerInfo, ", "));
             }
             return new ResponseEntity(Result.Builder.result(CommonResultCode.NOT_FOUND), HttpStatus.NOT_FOUND);
         }

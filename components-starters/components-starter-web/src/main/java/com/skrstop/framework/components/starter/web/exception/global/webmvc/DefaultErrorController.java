@@ -9,6 +9,8 @@ import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpSt
 import com.skrstop.framework.components.starter.web.exception.core.ShowHtmlMessageException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowJsonMessageException;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
+import com.skrstop.framework.components.util.value.data.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -27,6 +29,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,8 +93,16 @@ public class DefaultErrorController extends AbstractErrorController {
         }
         int status = response.getStatus();
         if (HttpStatusConst.HTTP_NOT_FOUND == status) {
+            // 打印header
+            List<String> headerInfo = new ArrayList<>();
+            request.getHeaderNames().asIterator().forEachRemaining(headerName -> {
+                String headerValue = request.getHeader(headerName);
+                headerInfo.add(StrUtil.format("{}: {}", headerName, headerValue));
+            });
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
-                    , "404请求，源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
+                    , StrUtil.format("404请求，源请求地址 -- {}, header: {}"
+                    , request.getAttribute(FORWARD_REQUEST_URL)
+                    , CollectionUtil.join(headerInfo, ", ")));
         } else {
             if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
