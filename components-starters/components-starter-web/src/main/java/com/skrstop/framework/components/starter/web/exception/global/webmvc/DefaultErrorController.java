@@ -9,6 +9,8 @@ import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpSt
 import com.skrstop.framework.components.starter.web.exception.core.ShowHtmlMessageException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowJsonMessageException;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
+import com.skrstop.framework.components.util.value.data.StrUtil;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
@@ -27,7 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 @Controller
@@ -90,8 +94,18 @@ public class DefaultErrorController extends AbstractErrorController {
         }
         int status = response.getStatus();
         if (HttpStatusConst.HTTP_NOT_FOUND == status) {
+            // 打印header
+            List<String> headerInfo = new ArrayList<>();
+            Enumeration<String> headerNames = request.getHeaderNames();
+            while (headerNames.hasMoreElements()) {
+                String headerName = headerNames.nextElement();
+                String headerValue = request.getHeader(headerName);
+                headerInfo.add(StrUtil.format("{}: {}", headerName, headerValue));
+            }
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
-                    , "404请求，源请求地址 -- " + request.getAttribute(FORWARD_REQUEST_URL));
+                    , StrUtil.format("404请求，源请求地址 -- {}, header: {}"
+                    , request.getAttribute(FORWARD_REQUEST_URL)
+                    , CollectionUtil.join(headerInfo, ", ")));
         } else {
             if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
