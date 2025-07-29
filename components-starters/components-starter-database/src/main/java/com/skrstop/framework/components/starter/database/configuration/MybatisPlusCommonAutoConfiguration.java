@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.database.configuration;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -59,6 +60,7 @@ public class MybatisPlusCommonAutoConfiguration {
             , IdentifierGenerator identifierGenerator
             , MybatisPlusInterceptor mybatisPlusInterceptor
             , GlobalDatabaseProperties globalDataBaseProperties
+            , MybatisPlusProperties mybatisPlusProperties
     ) throws Exception {
         // 不显示mp banner
         GlobalConfig globalConfig = new GlobalConfig();
@@ -89,6 +91,8 @@ public class MybatisPlusCommonAutoConfiguration {
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(globalDataBaseProperties.isMapUnderscoreToCamelCase());
         // 懒加载
         sqlSessionFactoryBean.getObject().getConfiguration().setLazyLoadingEnabled(globalDataBaseProperties.isLazyLoadingEnabled());
+        // null空值处理
+        sqlSessionFactoryBean.getObject().getConfiguration().setCallSettersOnNulls(mybatisPlusProperties.getConfiguration().getCallSettersOnNulls());
     }
 
     /**

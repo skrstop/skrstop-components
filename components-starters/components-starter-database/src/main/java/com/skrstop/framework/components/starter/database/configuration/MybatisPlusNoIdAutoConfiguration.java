@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.database.configuration;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -41,11 +42,12 @@ public class MybatisPlusNoIdAutoConfiguration extends MybatisPlusCommonAutoConfi
             DataSource dataSource
             , MybatisPlusInterceptor mybatisPlusInterceptor
             , GlobalDatabaseProperties globalDataBaseProperties
+            , MybatisPlusProperties mybatisPlusProperties
     ) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         DefaultIdentifierGenerator defaultIdentifierGenerator = new DefaultIdentifierGenerator(1, 1);
-        this.initSqlSessionFactory(sqlSessionFactoryBean, defaultIdentifierGenerator, mybatisPlusInterceptor, globalDataBaseProperties);
+        this.initSqlSessionFactory(sqlSessionFactoryBean, defaultIdentifierGenerator, mybatisPlusInterceptor, globalDataBaseProperties, mybatisPlusProperties);
         return sqlSessionFactoryBean.getObject();
     }
 
