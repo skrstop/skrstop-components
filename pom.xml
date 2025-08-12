@@ -361,7 +361,7 @@
         <docx4j.version>11.5.1</docx4j.version>
         <!-- poi -->
         <poi.version>5.4.0</poi.version>
-        <easyexcel.version>4.0.3</easyexcel.version>
+        <fastexcel.version>1.2.0</fastexcel.version>
         <!-- mock -->
         <testale-mock.version>0.7.9</testale-mock.version>
 
@@ -1812,9 +1812,9 @@
                 <version>${poi.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easyexcel.version}</version>
+                <groupId>cn.idev.excel</groupId>
+                <artifactId>fastexcel</artifactId>
+                <version>${fastexcel.version}</version>
             </dependency>
 
             <!-- script engine -->
