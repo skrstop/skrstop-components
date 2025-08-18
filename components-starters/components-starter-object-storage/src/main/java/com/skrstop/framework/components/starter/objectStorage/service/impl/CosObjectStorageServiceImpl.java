@@ -8,6 +8,7 @@ import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.http.HttpMethodName;
 import com.qcloud.cos.http.HttpProtocol;
+import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.DeleteObjectsRequest;
 import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.region.Region;
@@ -168,7 +169,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean download(String bucketName, String targetPath, String localPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        targetPath = basePath + targetPath;
+//        targetPath = basePath + targetPath;
         return this.download(bucketName, targetPath, new File(localPath));
     }
 
@@ -183,6 +184,19 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
             return false;
+        }
+    }
+
+    @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        targetPath = basePath + targetPath;
+        try {
+            COSObject cosObject = this.cosClient.getObject(bucketName, targetPath);
+            return cosObject.getObjectContent();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
         }
     }
 

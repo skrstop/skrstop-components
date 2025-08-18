@@ -61,6 +61,11 @@ public class DynamicObjectStorageServiceImpl implements DynamicObjectStorageServ
     }
 
     @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        return this.objectStorageService.downloadInputStream(bucketName, targetPath);
+    }
+
+    @Override
     public boolean exists(String dsKey, String bucketName, String targetPath) {
         return this.objectStorageService.exists(bucketName, targetPath);
     }

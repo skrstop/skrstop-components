@@ -162,7 +162,7 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean download(String bucketName, String targetPath, String localPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-        targetPath = basePath + targetPath;
+//        targetPath = basePath + targetPath;
         return this.download(bucketName, targetPath, new File(localPath));
     }
 
@@ -176,6 +176,19 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;
+        }
+    }
+
+    @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        targetPath = basePath + targetPath;
+        try {
+            OSSObject ossObject = this.ossClient.getObject(new GetObjectRequest(bucketName, targetPath));
+            return ossObject.getObjectContent();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
         }
     }
 

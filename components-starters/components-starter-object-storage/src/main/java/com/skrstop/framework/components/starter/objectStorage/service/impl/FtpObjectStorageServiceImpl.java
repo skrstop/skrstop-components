@@ -117,6 +117,11 @@ public class FtpObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        throw new NotSupportedException("FTP不支持该操作");
+    }
+
+    @Override
     public boolean exists(String bucketName, String targetPath) {
         targetPath = basePath + targetPath;
         return this.ftpClient.exist(targetPath);
