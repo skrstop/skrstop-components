@@ -338,6 +338,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
         OssStorageTemplateSign sign = new OssStorageTemplateSign();
         try {
             PolicyConditions policyConditions = new PolicyConditions();
+            if (StrUtil.isNotBlank(this.basePath)) {
+                targetPath = this.basePath + targetPath;
+            }
             if (uploadLimit.getExactMatchTarget()) {
                 policyConditions.addConditionItem(MatchMode.Exact, PolicyConditions.COND_KEY, targetPath);
             } else {
