@@ -162,7 +162,7 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean download(String bucketName, String targetPath, String localPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
-//        targetPath = basePath + targetPath;
+        targetPath = basePath + targetPath;
         return this.download(bucketName, targetPath, new File(localPath));
     }
 
@@ -239,7 +239,10 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean copy(String sourceBucketName, String sourcePath, String targetBucketName, String targetPath) {
         try {
-            this.ossClient.copyObject(sourceBucketName, sourcePath, targetBucketName, targetPath);
+            this.ossClient.copyObject(sourceBucketName
+                    , basePath + sourcePath
+                    , targetBucketName
+                    , basePath + targetPath);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -269,6 +272,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(this.basePath)) {
+            targetPath = this.basePath + targetPath;
+        }
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(extraParam.getExpireSecondTime());
         HashMap<String, String> requestParams = new HashMap<>();
         HashMap<String, String> requestHeaderParams = new HashMap<>();
@@ -314,6 +320,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(this.basePath)) {
+            targetPath = this.basePath + targetPath;
+        }
         if (StrUtil.isNotBlank(ossProperties.getAccessUrlHost()) && !useOriginHost) {
             if (!targetPath.startsWith("/")) {
                 targetPath = "/" + targetPath;
