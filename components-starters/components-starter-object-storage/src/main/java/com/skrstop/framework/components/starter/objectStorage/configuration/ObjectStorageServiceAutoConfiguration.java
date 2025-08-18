@@ -47,7 +47,7 @@ public class ObjectStorageServiceAutoConfiguration {
 
     @Bean(destroyMethod = "close")
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = "ynw.object-storage.oss.enable", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(value = "skrstop.object-storage.oss.enable", havingValue = "true", matchIfMissing = false)
     public ObjectStorageService ossObjectStorage(ObjectStorageProperties objectStorageProperties) {
         return new OssObjectStorageServiceImpl(objectStorageProperties.getOss());
     }
