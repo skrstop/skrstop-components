@@ -92,7 +92,8 @@ public class MybatisPlusCommonAutoConfiguration {
         // 懒加载
         sqlSessionFactoryBean.getObject().getConfiguration().setLazyLoadingEnabled(globalDataBaseProperties.isLazyLoadingEnabled());
         // null空值处理
-        if (ObjectUtil.isNotNull(mybatisPlusProperties.getConfiguration().getCallSettersOnNulls())) {
+        if (ObjectUtil.isNotNull(mybatisPlusProperties.getConfiguration())
+                && ObjectUtil.isNotNull(mybatisPlusProperties.getConfiguration().getCallSettersOnNulls())) {
             sqlSessionFactoryBean.getObject().getConfiguration().setCallSettersOnNulls(mybatisPlusProperties.getConfiguration().getCallSettersOnNulls());
         }
     }
