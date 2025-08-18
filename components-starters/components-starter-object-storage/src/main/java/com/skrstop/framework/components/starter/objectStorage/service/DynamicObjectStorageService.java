@@ -91,6 +91,18 @@ public interface DynamicObjectStorageService extends Closeable {
     }
 
     /**
+     * 下载文件
+     *
+     * @param bucketName 存储桶名字，ftp不需要此参数，传空即可
+     * @param targetPath
+     */
+    InputStream downloadInputStream(String bucketName, String targetPath);
+
+    default InputStream downloadInputStream(String targetPath) {
+        return downloadInputStream(null, targetPath);
+    }
+
+    /**
      * 检查文件是否存在
      *
      * @param bucketName 存储桶名字，ftp不需要此参数，传空即可

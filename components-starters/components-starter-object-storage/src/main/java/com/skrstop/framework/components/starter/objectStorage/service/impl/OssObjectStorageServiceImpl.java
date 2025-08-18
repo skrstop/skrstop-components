@@ -180,6 +180,19 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        targetPath = basePath + targetPath;
+        try {
+            OSSObject ossObject = this.ossClient.getObject(new GetObjectRequest(bucketName, targetPath));
+            return ossObject.getObjectContent();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
     public boolean exists(String bucketName, String targetPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
