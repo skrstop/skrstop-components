@@ -309,7 +309,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
             String result = newUrl.toString();
             result = result.replace(":80", "");
             result = result.replace(":443", "");
-            return result;
+            return URLUtil.decode(result);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

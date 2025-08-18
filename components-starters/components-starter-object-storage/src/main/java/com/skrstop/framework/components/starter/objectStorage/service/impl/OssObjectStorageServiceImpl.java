@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.URLUtil;
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
@@ -301,7 +302,7 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
             String result = newUrl.toString();
             result = result.replace(":80", "");
             result = result.replace(":443", "");
-            return result;
+            return URLUtil.decode(result);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
