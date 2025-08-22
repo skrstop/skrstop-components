@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  * @date 2019/4/3
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public @interface AccessControl {

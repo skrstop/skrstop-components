@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  *
  * @author 蒋时华
  */
-@Target({ElementType.PARAMETER, ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)
