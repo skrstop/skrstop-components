@@ -1,9 +1,10 @@
 package com.skrstop.framework.components.util.event.entity;
 
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.*;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @author 蒋时华
@@ -15,7 +16,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class ShutdownTaskEventCommand extends SerializableBean {
+public class ShutdownTaskEventCommand implements Serializable {
     private static final long serialVersionUID = 1655869834939632281L;
 
     private String param;

@@ -1,11 +1,11 @@
 package com.skrstop.framework.components.starter.database.entity;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import com.skrstop.framework.components.util.value.lambda.LambdaUtil;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.beans.Transient;
+import java.io.Serializable;
 
 /**
  * DO base entity by snow_flake id
@@ -15,7 +15,7 @@ import java.beans.Transient;
  */
 @Getter
 @Setter
-public abstract class AbstractBaseEntity extends SerializableBean {
+public abstract class AbstractBaseEntity implements Serializable {
 
     private static final long serialVersionUID = -3062937558431776826L;
 

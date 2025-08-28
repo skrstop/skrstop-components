@@ -1,9 +1,10 @@
 package com.skrstop.framework.components.core.exception;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import com.skrstop.framework.components.core.exception.core.data.ThrowableData;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author 蒋时华
@@ -11,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class DefaultThrowableData extends SerializableBean implements ThrowableData<Object> {
+public class DefaultThrowableData implements Serializable, ThrowableData<Object> {
 
     private static final long serialVersionUID = 1372837245824421920L;
 

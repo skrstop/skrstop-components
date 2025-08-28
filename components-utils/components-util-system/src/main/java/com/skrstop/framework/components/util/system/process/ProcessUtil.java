@@ -2,7 +2,6 @@ package com.skrstop.framework.components.util.system.process;
 
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.system.SystemUtil;
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.event.core.Callback;
@@ -19,10 +18,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -574,7 +570,7 @@ public class ProcessUtil extends RuntimeUtil {
     @AllArgsConstructor
     @Builder
     @Accessors(chain = true)
-    public static class ClearStreamResult extends SerializableBean implements Closeable {
+    public static class ClearStreamResult implements Serializable, Closeable {
         private static final long serialVersionUID = 2240060032300338391L;
         private Future<?> input;
         private Future<?> error;
@@ -596,7 +592,7 @@ public class ProcessUtil extends RuntimeUtil {
     @AllArgsConstructor
     @Builder
     @Accessors(chain = true)
-    public static class ProcessResult extends SerializableBean {
+    public static class ProcessResult implements Serializable {
         private static final long serialVersionUID = 2240060032300338391L;
         private Boolean success;
         private String result;
@@ -608,7 +604,7 @@ public class ProcessUtil extends RuntimeUtil {
     @AllArgsConstructor
     @Builder
     @Accessors(chain = true)
-    public static class ProcessResultText extends SerializableBean {
+    public static class ProcessResultText implements Serializable {
         private static final long serialVersionUID = 2240060032300338391L;
         private String key;
         private String result;

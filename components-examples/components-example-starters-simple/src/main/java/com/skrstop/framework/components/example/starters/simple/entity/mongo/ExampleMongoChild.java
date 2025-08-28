@@ -1,10 +1,10 @@
 package com.skrstop.framework.components.example.starters.simple.entity.mongo;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import dev.morphia.annotations.Entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @Accessors(chain = true)
 @Entity(useDiscriminator = false)
-public class ExampleMongoChild extends SerializableBean {
+public class ExampleMongoChild implements Serializable {
 
     private String valStr;
     private Integer valInt;
