@@ -90,7 +90,7 @@
 * redisson 3.25.0
 * druid 1.2.20
 * hutool 5.8.23
-* fastjson 2.0.42
+* fastjson 2.0.58
 * dubbo 3.2.9
 * protostuff 1.8.0
 * lettuce 6.3.0.RELEASE

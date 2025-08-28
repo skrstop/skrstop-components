@@ -1,9 +1,9 @@
 package com.skrstop.framework.components.example.starters.simple.entity.request;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class ExampleRequestRedis extends SerializableBean {
+public class ExampleRequestRedis implements Serializable {
 
     private String valStr;
     private Integer valInt;

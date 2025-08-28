@@ -1,6 +1,5 @@
 package com.skrstop.framework.components.starter.metrics.configuration;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import com.skrstop.framework.components.starter.metrics.constant.GlobalConfigConst;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import java.io.Serializable;
 
 /**
  * @author 蒋时华
@@ -18,7 +19,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @ConfigurationProperties(GlobalConfigConst.METRICS_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class MetricsProperties extends SerializableBean {
+public class MetricsProperties implements Serializable {
     private static final long serialVersionUID = 8497996001371661542L;
 
     private boolean enabled = true;
