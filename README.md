@@ -88,7 +88,7 @@
 * redisson 3.43.0
 * druid 1.2.24
 * hutool 5.8.35
-* fastjson 2.0.54
+* fastjson 2.0.58
 * morphia 2.4.14
 * ...
 
