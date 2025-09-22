@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.mongodb.service.impl;
+package com.skrstop.framework.components.starter.mongodb.repository.impl;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -8,7 +8,7 @@ import com.skrstop.framework.components.starter.mongodb.annotation.property.*;
 import com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties;
 import com.skrstop.framework.components.starter.mongodb.configuration.generator.IdentifierGenerator;
 import com.skrstop.framework.components.starter.mongodb.entity.AbstractBaseEntity;
-import com.skrstop.framework.components.starter.mongodb.service.SuperRepository;
+import com.skrstop.framework.components.starter.mongodb.repository.SuperRepository;
 import com.skrstop.framework.components.starter.mongodb.utils.EntityPropertiesUtil;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.value.data.ArrayUtil;

@@ -3,7 +3,7 @@ package com.skrstop.framework.components.example.starters.simple.service;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example1Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
 import com.skrstop.framework.components.starter.mongodb.annotation.DSMongo;
-import com.skrstop.framework.components.starter.mongodb.service.impl.SuperRepositoryImpl;
+import com.skrstop.framework.components.starter.mongodb.repository.impl.SuperRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

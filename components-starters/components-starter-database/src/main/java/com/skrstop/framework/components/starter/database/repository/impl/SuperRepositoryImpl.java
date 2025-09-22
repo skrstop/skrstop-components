@@ -1,5 +1,5 @@
 
-package com.skrstop.framework.components.starter.database.service.impl;
+package com.skrstop.framework.components.starter.database.repository.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -17,7 +17,7 @@ import com.skrstop.framework.components.starter.database.configuration.GlobalDat
 import com.skrstop.framework.components.starter.database.constant.DatabaseConst;
 import com.skrstop.framework.components.starter.database.entity.AbstractBaseEntity;
 import com.skrstop.framework.components.starter.database.mapper.SuperMapper;
-import com.skrstop.framework.components.starter.database.service.SuperRepository;
+import com.skrstop.framework.components.starter.database.repository.SuperRepository;
 import com.skrstop.framework.components.starter.database.utils.EntityPropertiesUtil;
 import com.skrstop.framework.components.starter.database.utils.SuperParamsUtil;
 import com.skrstop.framework.components.util.constant.StringPoolConst;

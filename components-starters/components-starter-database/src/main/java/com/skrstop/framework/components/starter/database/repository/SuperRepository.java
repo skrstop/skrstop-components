@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.database.service;
+package com.skrstop.framework.components.starter.database.repository;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.github.yulichang.base.MPJBaseService;

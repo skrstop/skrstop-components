@@ -3,7 +3,7 @@ package com.skrstop.framework.components.example.starters.simple.service;
 import com.skrstop.framework.components.example.starters.simple.entity.msyql.Example1;
 import com.skrstop.framework.components.example.starters.simple.mapper.mysql.Example1Mapper;
 import com.skrstop.framework.components.starter.database.annotation.DSDatabase;
-import com.skrstop.framework.components.starter.database.service.impl.SuperRepositoryImpl;
+import com.skrstop.framework.components.starter.database.repository.impl.SuperRepositoryImpl;
 import com.skrstop.framework.components.starter.id.service.IdService;
 import com.skrstop.framework.components.util.value.data.RandomValueUtil;
 import org.springframework.beans.factory.annotation.Autowired;

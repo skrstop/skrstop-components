@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.mongodb.service;
+package com.skrstop.framework.components.starter.mongodb.repository;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
