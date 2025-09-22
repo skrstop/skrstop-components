@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.mongodb.service.impl;
+package com.skrstop.framework.components.starter.mongodb.repository.impl;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -8,7 +8,7 @@ import com.skrstop.framework.components.starter.mongodb.annotation.property.*;
 import com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties;
 import com.skrstop.framework.components.starter.mongodb.configuration.generator.IdentifierGenerator;
 import com.skrstop.framework.components.starter.mongodb.entity.AbstractBaseEntity;
-import com.skrstop.framework.components.starter.mongodb.service.SuperService;
+import com.skrstop.framework.components.starter.mongodb.repository.SuperRepository;
 import com.skrstop.framework.components.starter.mongodb.utils.EntityPropertiesUtil;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.value.data.ArrayUtil;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  * @author 蒋时华
  */
 @SuppressWarnings("all")
-public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends Serializable> implements SuperService<T> {
+public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY extends Serializable> implements SuperRepository<T> {
 
     public static final int ASC = 1;
     public static final int DESC = -1;

@@ -1,4 +1,4 @@
-package com.skrstop.framework.components.starter.mongodb.service;
+package com.skrstop.framework.components.starter.mongodb.repository;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -24,7 +24,7 @@ import java.util.List;
  * @param <T>
  * @author 蒋时华
  */
-public interface SuperService<T> {
+public interface SuperRepository<T> {
 
     /**
      * 获取操作人id

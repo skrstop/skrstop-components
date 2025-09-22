@@ -3,7 +3,7 @@ package com.skrstop.framework.components.example.starters.simple.service;
 import com.skrstop.framework.components.example.starters.simple.entity.msyql.Example1;
 import com.skrstop.framework.components.example.starters.simple.mapper.mysql.Example1Mapper;
 import com.skrstop.framework.components.starter.database.annotation.DSDatabase;
-import com.skrstop.framework.components.starter.database.service.impl.SuperServiceImpl;
+import com.skrstop.framework.components.starter.database.repository.impl.SuperRepositoryImpl;
 import com.skrstop.framework.components.starter.id.service.IdService;
 import com.skrstop.framework.components.util.value.data.RandomValueUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2023-12-01 09:52:25
  */
 @Service
-public class Example1MysqlService extends SuperServiceImpl<Example1Mapper, Example1> {
+public class Example1MysqlService extends SuperRepositoryImpl<Example1Mapper, Example1> {
 
     @Autowired
     private IdService idService;

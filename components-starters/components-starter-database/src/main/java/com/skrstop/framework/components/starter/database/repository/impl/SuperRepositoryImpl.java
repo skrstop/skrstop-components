@@ -1,5 +1,5 @@
 
-package com.skrstop.framework.components.starter.database.service.impl;
+package com.skrstop.framework.components.starter.database.repository.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -17,7 +17,7 @@ import com.skrstop.framework.components.starter.database.configuration.GlobalDat
 import com.skrstop.framework.components.starter.database.constant.DatabaseConst;
 import com.skrstop.framework.components.starter.database.entity.AbstractBaseEntity;
 import com.skrstop.framework.components.starter.database.mapper.SuperMapper;
-import com.skrstop.framework.components.starter.database.service.SuperService;
+import com.skrstop.framework.components.starter.database.repository.SuperRepository;
 import com.skrstop.framework.components.starter.database.utils.EntityPropertiesUtil;
 import com.skrstop.framework.components.starter.database.utils.SuperParamsUtil;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
@@ -45,7 +45,7 @@ import java.util.Set;
  * @param <T> model
  * @author 蒋时华
  */
-public abstract class SuperServiceImpl<M extends SuperMapper<T>, T extends AbstractBaseEntity> extends MPJBaseServiceImpl<M, T> implements SuperService<T> {
+public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends AbstractBaseEntity> extends MPJBaseServiceImpl<M, T> implements SuperRepository<T> {
 
     private Map<Class<?>, Map<String, Class<?>>> propertyFieldCache = null;
     private TableInfo tableInfo = null;

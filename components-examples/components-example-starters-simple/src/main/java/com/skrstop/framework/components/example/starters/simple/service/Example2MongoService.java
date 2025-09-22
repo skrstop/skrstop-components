@@ -3,7 +3,7 @@ package com.skrstop.framework.components.example.starters.simple.service;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
 import com.skrstop.framework.components.starter.mongodb.annotation.DSMongo;
-import com.skrstop.framework.components.starter.mongodb.service.impl.SuperServiceImpl;
+import com.skrstop.framework.components.starter.mongodb.repository.impl.SuperRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @date 2023-12-01 09:52:25
  */
 @Service
-public class Example2MongoService extends SuperServiceImpl<Example2Mongo, Long> {
+public class Example2MongoService extends SuperRepositoryImpl<Example2Mongo, Long> {
 
     @DSMongo
     public void saveMaster(Long id) {
