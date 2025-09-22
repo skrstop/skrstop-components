@@ -14,7 +14,7 @@ import java.util.Map;
  * @param <T>
  * @author 蒋时华
  */
-public interface SuperService<T> extends MPJBaseService<T> {
+public interface SuperRepository<T> extends MPJBaseService<T> {
 
     /**
      * 获取操作人id

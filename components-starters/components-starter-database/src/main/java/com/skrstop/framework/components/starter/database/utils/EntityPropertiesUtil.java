@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.skrstop.framework.components.starter.database.annotation.property.*;
-import com.skrstop.framework.components.starter.database.service.SuperService;
+import com.skrstop.framework.components.starter.database.service.SuperRepository;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
@@ -26,7 +26,7 @@ import java.util.*;
  */
 public class EntityPropertiesUtil {
 
-    public static void setFieldValue(SuperService superService
+    public static void setFieldValue(SuperRepository superRepository
             , TableInfo tableInfo
             , Object entity
             , Set<String> fieldNames
@@ -35,18 +35,18 @@ public class EntityPropertiesUtil {
             return;
         }
         for (String key : fieldNames) {
-            if (superService.onlySetUpdateInfoWhenNull()) {
+            if (superRepository.onlySetUpdateInfoWhenNull()) {
                 Object propertyValue = tableInfo.getPropertyValue(entity, key);
                 if (ObjectUtil.isNull(propertyValue)) {
                     tableInfo.setPropertyValue(entity, key, value);
                 }
-            } else if (!superService.onlySetUpdateInfoWhenNull()) {
+            } else if (!superRepository.onlySetUpdateInfoWhenNull()) {
                 tableInfo.setPropertyValue(entity, key, value);
             }
         }
     }
 
-    public static void setFieldValue(SuperService superService
+    public static void setFieldValue(SuperRepository superRepository
             , UpdateWrapper updateWrapper
             , Map<String, Object> paramNameValueMap
             , Map<String, String> paramMap
@@ -56,18 +56,18 @@ public class EntityPropertiesUtil {
             return;
         }
         fieldNames.forEach(property -> {
-            if (superService.onlySetUpdateInfoWhenNull()
+            if (superRepository.onlySetUpdateInfoWhenNull()
                     && (!paramMap.containsKey(property) || ObjectUtil.isNull(paramNameValueMap.get(paramMap.get(property))))) {
                 updateWrapper.set(property, value);
             }
             // 无论如何都覆盖则直接修改
-            if (!superService.onlySetUpdateInfoWhenNull()) {
+            if (!superRepository.onlySetUpdateInfoWhenNull()) {
                 updateWrapper.set(property, value);
             }
         });
     }
 
-    public static void setFieldValue(SuperService superService
+    public static void setFieldValue(SuperRepository superRepository
             , LambdaUpdateWrapper lambdaUpdateWrapper
             , Map<String, Object> paramNameValueMap
             , Map<String, String> paramMap
@@ -77,7 +77,7 @@ public class EntityPropertiesUtil {
             return;
         }
         fieldNames.forEach(property -> {
-            if (superService.onlySetUpdateInfoWhenNull()
+            if (superRepository.onlySetUpdateInfoWhenNull()
                     && (!paramMap.containsKey(property) || ObjectUtil.isNull(paramNameValueMap.get(paramMap.get(property))))) {
                 if (ObjectUtil.isNotNull(paramMap.get(property))) {
                     paramNameValueMap.put(paramMap.get(property), value);
@@ -85,7 +85,7 @@ public class EntityPropertiesUtil {
                     lambdaUpdateWrapper.setSql(property + StringPoolConst.EQUALS + value);
                 }
             }
-            if (!superService.onlySetUpdateInfoWhenNull()) {
+            if (!superRepository.onlySetUpdateInfoWhenNull()) {
                 if (ObjectUtil.isNotNull(paramMap.get(property))) {
                     paramNameValueMap.put(paramMap.get(property), value);
                 } else {

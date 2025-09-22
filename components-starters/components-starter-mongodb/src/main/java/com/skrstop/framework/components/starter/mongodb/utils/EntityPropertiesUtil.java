@@ -4,7 +4,7 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.skrstop.framework.components.starter.mongodb.annotation.property.*;
 import com.skrstop.framework.components.starter.mongodb.constant.MongodbConst;
-import com.skrstop.framework.components.starter.mongodb.service.SuperService;
+import com.skrstop.framework.components.starter.mongodb.service.SuperRepository;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
@@ -28,7 +28,7 @@ public class EntityPropertiesUtil {
         return ReflectUtil.getFieldValue(entity, fieldName);
     }
 
-    public static void setFieldValue(SuperService superService
+    public static void setFieldValue(SuperRepository superRepository
             , Object entity
             , Set<String> fieldNames
             , Object value) {
@@ -36,18 +36,18 @@ public class EntityPropertiesUtil {
             return;
         }
         for (String fieldName : fieldNames) {
-            if (superService.onlySetCreateInfoWhenNull()) {
+            if (superRepository.onlySetCreateInfoWhenNull()) {
                 Object fieldValue = getFieldValue(entity, fieldName);
                 if (ObjectUtil.isNull(fieldValue)) {
                     ReflectUtil.setFieldValue(entity, fieldName, value);
                 }
-            } else if (!superService.onlySetCreateInfoWhenNull()) {
+            } else if (!superRepository.onlySetCreateInfoWhenNull()) {
                 ReflectUtil.setFieldValue(entity, fieldName, value);
             }
         }
     }
 
-    public static void setFieldValue(SuperService superService
+    public static void setFieldValue(SuperRepository superRepository
             , List<UpdateOperator> updates
             , Set<String> fieldCollect
             , Set<String> fieldNames
@@ -56,10 +56,10 @@ public class EntityPropertiesUtil {
             return;
         }
         for (String fieldName : fieldNames) {
-            if (superService.onlySetUpdateInfoWhenNull()
+            if (superRepository.onlySetUpdateInfoWhenNull()
                     && !fieldCollect.contains(fieldName)) {
                 updates.add(UpdateOperators.set(fieldName, value));
-            } else if (!superService.onlySetUpdateInfoWhenNull()) {
+            } else if (!superRepository.onlySetUpdateInfoWhenNull()) {
                 updates.add(UpdateOperators.set(fieldName, value));
             }
         }

@@ -4,8 +4,8 @@ import com.skrstop.framework.components.core.common.response.page.ListSimplePage
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example1Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
-import com.skrstop.framework.components.example.starters.simple.service.Example1MongoService;
-import com.skrstop.framework.components.example.starters.simple.service.Example2MongoService;
+import com.skrstop.framework.components.example.starters.simple.service.Example1MongoRepository;
+import com.skrstop.framework.components.example.starters.simple.service.Example2MongoRepository;
 import com.skrstop.framework.components.starter.mongodb.configuration.dynamic.DynamicMongoContextHolder;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
@@ -32,9 +32,9 @@ import java.util.List;
 public class ExampleMongodbController {
 
     @Autowired
-    private Example1MongoService example1MongoService;
+    private Example1MongoRepository example1MongoService;
     @Autowired
-    private Example2MongoService example2MongoService;
+    private Example2MongoRepository example2MongoService;
 
     /**
      * mongo 样例1

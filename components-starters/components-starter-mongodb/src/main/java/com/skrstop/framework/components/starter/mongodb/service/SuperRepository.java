@@ -24,7 +24,7 @@ import java.util.List;
  * @param <T>
  * @author 蒋时华
  */
-public interface SuperService<T> {
+public interface SuperRepository<T> {
 
     /**
      * 获取操作人id
