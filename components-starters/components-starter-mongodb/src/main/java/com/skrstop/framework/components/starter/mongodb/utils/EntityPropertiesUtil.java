@@ -15,6 +15,7 @@ import dev.morphia.query.updates.UpdateOperator;
 import dev.morphia.query.updates.UpdateOperators;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
@@ -103,6 +104,9 @@ public class EntityPropertiesUtil {
         // 通用字段信息
         Field[] allFields = ReflectUtil.getFields(entityClass);
         for (Field field : allFields) {
+            if (Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
             Property mongoProperty = AnnotationUtil.getAnnotation(field, Property.class);
             String tagetColumnName = null;
             if (ObjectUtil.isNotNull(mongoProperty)) {
