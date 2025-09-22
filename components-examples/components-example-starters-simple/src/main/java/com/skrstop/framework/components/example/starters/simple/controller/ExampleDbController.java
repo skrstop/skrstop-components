@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.skrstop.framework.components.core.exception.SkrstopBusinessException;
 import com.skrstop.framework.components.example.starters.simple.entity.msyql.Example1;
-import com.skrstop.framework.components.example.starters.simple.service.Example1MysqlRepository;
+import com.skrstop.framework.components.example.starters.simple.service.Example1MysqlService;
 import com.skrstop.framework.components.starter.database.annotation.DSDatabaseTransactional;
 import com.skrstop.framework.components.starter.database.constant.DatabaseConst;
 import com.skrstop.framework.components.starter.database.wrapper.PageQuery;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class ExampleDbController {
 
     @Autowired
-    private Example1MysqlRepository example1MysqlService;
+    private Example1MysqlService example1MysqlService;
     @Autowired
     private IdService idService;
 

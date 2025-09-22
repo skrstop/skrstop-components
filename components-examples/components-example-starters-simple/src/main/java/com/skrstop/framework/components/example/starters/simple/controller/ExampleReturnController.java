@@ -6,7 +6,7 @@ import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.core.common.response.page.SimplePageData;
-import com.skrstop.framework.components.example.starters.simple.service.Example1MysqlRepository;
+import com.skrstop.framework.components.example.starters.simple.service.Example1MysqlService;
 import com.skrstop.framework.components.starter.id.service.IdService;
 import com.skrstop.framework.components.starter.web.response.DisableGlobalResponse;
 import com.skrstop.framework.components.starter.web.response.DisableTransResultTypeResponse;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class ExampleReturnController {
 
     @Autowired
-    private Example1MysqlRepository example1MysqlService;
+    private Example1MysqlService example1MysqlService;
     @Autowired
     private IdService idService;
 

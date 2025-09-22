@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2023-12-01 09:52:25
  */
 @Service
-public class Example1MysqlRepository extends SuperRepositoryImpl<Example1Mapper, Example1> {
+public class Example1MysqlService extends SuperRepositoryImpl<Example1Mapper, Example1> {
 
     @Autowired
     private IdService idService;

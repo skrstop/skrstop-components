@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.service;
 
-import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example1Mongo;
+import com.skrstop.framework.components.example.starters.simple.entity.mongo.Example2Mongo;
 import com.skrstop.framework.components.example.starters.simple.entity.mongo.ExampleMongoChild;
 import com.skrstop.framework.components.starter.mongodb.annotation.DSMongo;
 import com.skrstop.framework.components.starter.mongodb.service.impl.SuperRepositoryImpl;
@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
  * @date 2023-12-01 09:52:25
  */
 @Service
-public class Example1MongoRepository extends SuperRepositoryImpl<Example1Mongo> {
+public class Example2MongoService extends SuperRepositoryImpl<Example2Mongo> {
 
     @DSMongo
-    public void saveMaster(String id) {
-        Example1Mongo example1 = Example1Mongo.builder()
-                .id(id.toString())
+    public void saveMaster(Long id) {
+        Example2Mongo example1 = Example2Mongo.builder()
+                .id(id)
                 .valStr("aaaaaa")
                 .valBol(false)
                 .valData(LocalDateTime.now())
@@ -36,9 +36,9 @@ public class Example1MongoRepository extends SuperRepositoryImpl<Example1Mongo> 
     }
 
     @DSMongo("slave")
-    public void saveSlave(String id) {
-        Example1Mongo example1 = Example1Mongo.builder()
-                .id(id.toString())
+    public void saveSlave(Long id) {
+        Example2Mongo example1 = Example2Mongo.builder()
+                .id(id)
                 .valStr("aaaaaa")
                 .valBol(false)
                 .valData(LocalDateTime.now())
