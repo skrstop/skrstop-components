@@ -91,7 +91,7 @@
 
     <properties>
         <!-- 项目版本 -->
-        <framework.components.revision>1.3.4.20250930-RELEASE</framework.components.revision>
+        <framework.components.revision>1.2.4.20250930-RELEASE</framework.components.revision>
         <java.version>1.8</java.version>
         <release.id>sonatype</release.id>
 

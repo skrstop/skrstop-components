@@ -1,6 +1,6 @@
 # 组件
 
-##### 1.3.4.20250930-RELEASE
+##### 1.2.4.20250930-RELEASE
 
 * refactor: 重构database、mongodb组件重构
 
