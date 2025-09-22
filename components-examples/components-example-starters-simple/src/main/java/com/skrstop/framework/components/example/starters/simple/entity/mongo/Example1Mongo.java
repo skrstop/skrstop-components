@@ -1,6 +1,6 @@
 package com.skrstop.framework.components.example.starters.simple.entity.mongo;
 
-import com.skrstop.framework.components.starter.mongodb.entity.version.AbstractTimeDeletedVersionBaseEntity;
+import com.skrstop.framework.components.starter.mongodb.entity.deletedVersion.AbstractUpdateByTimeDeletedVersionBaseEntity;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import lombok.*;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 //@Indexes({
 //        @Index(fields = @Field(value = "val_int", type = IndexType.DESC)),
 //})
-public class Example1Mongo extends AbstractTimeDeletedVersionBaseEntity<String> {
+public class Example1Mongo extends AbstractUpdateByTimeDeletedVersionBaseEntity {
     private static final long serialVersionUID = 2219449530545654221L;
 
 

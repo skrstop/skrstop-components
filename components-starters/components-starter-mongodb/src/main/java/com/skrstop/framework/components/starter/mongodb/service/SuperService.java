@@ -24,7 +24,7 @@ import java.util.List;
  * @param <T>
  * @author 蒋时华
  */
-public interface SuperService<T, KEY extends Serializable> {
+public interface SuperService<T> {
 
     /**
      * 获取操作人id
@@ -141,7 +141,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param id
      * @return
      */
-    T findById(KEY id);
+    T findById(Serializable id);
 
     /**
      * ids查询
@@ -149,7 +149,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param ids
      * @return
      */
-    List<T> findByIds(List<KEY> ids);
+    List<T> findByIds(List<Serializable> ids);
 
     /**
      * 保存
@@ -209,7 +209,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param id
      * @return
      */
-    DeleteResult removeById(KEY id);
+    DeleteResult removeById(Serializable id);
 
     /**
      * 删除
@@ -217,7 +217,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param ids
      * @return
      */
-    DeleteResult removeByIds(Collection<KEY> ids);
+    DeleteResult removeByIds(Collection<Serializable> ids);
 
     /**
      * 删除
@@ -233,7 +233,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param ids
      * @return
      */
-    UpdateResult removeLogicByIds(Collection<KEY> ids);
+    UpdateResult removeLogicByIds(Collection<Serializable> ids);
 
     /**
      * 逻辑删除
@@ -241,7 +241,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param id
      * @return
      */
-    UpdateResult removeLogicById(KEY id);
+    UpdateResult removeLogicById(Serializable id);
 
     /**
      * 逻辑删除
@@ -257,7 +257,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param ids
      * @return
      */
-    UpdateResult undoRemoveLogicByIds(Collection<KEY> ids);
+    UpdateResult undoRemoveLogicByIds(Collection<Serializable> ids);
 
     /**
      * 删除回滚
@@ -265,7 +265,7 @@ public interface SuperService<T, KEY extends Serializable> {
      * @param id
      * @return
      */
-    UpdateResult undoRemoveLogicById(KEY id);
+    UpdateResult undoRemoveLogicById(Serializable id);
 
     /**
      * 删除回滚

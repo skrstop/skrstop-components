@@ -21,7 +21,7 @@ public interface SuperService<T> extends MPJBaseService<T> {
      *
      * @return
      */
-    default long getOptionUserId() {
+    default Object getOptionUserId() {
         return 0L;
     }
 

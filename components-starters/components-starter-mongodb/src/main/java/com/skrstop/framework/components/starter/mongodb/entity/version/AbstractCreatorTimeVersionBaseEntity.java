@@ -1,8 +1,11 @@
 package com.skrstop.framework.components.starter.mongodb.entity.version;
 
-import com.skrstop.framework.components.starter.mongodb.entity.expand.CreatorExpand;
+import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyVersion;
+import com.skrstop.framework.components.starter.mongodb.entity.AbstractCreatorTimeBaseEntity;
+import dev.morphia.annotations.Version;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * DO base entity by snow_flake id
@@ -12,18 +15,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractCreatorTimeVersionBaseEntity<T> extends AbstractCreateTimeVersionBaseEntity<T> implements CreatorExpand {
+public abstract class AbstractCreatorTimeVersionBaseEntity extends AbstractCreatorTimeBaseEntity {
+
 
     private static final long serialVersionUID = -4024689623085796268L;
 
-//    @JsonFormat(shape = JsonFormat.Shape.STRING)
-//    @TableId(type = IdType.ASSIGN_ID)
-//    @TableId(type = IdType.AUTO)
-//    public Long id;
-
-    /**
-     * 更新人名字
-     */
-    private String creator;
+    @PropertyVersion
+    @Version
+    private Long version;
 
 }

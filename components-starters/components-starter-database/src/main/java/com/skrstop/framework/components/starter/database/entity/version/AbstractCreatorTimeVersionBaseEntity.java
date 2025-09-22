@@ -1,8 +1,11 @@
 package com.skrstop.framework.components.starter.database.entity.version;
 
-import com.skrstop.framework.components.starter.database.entity.expand.CreatorExpand;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.skrstop.framework.components.starter.database.annotation.property.PropertyVersion;
+import com.skrstop.framework.components.starter.database.entity.AbstractCreatorTimeBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
+
 
 /**
  * DO base entity by snow_flake id
@@ -12,18 +15,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractCreatorTimeVersionBaseEntity extends AbstractCreateTimeVersionBaseEntity implements CreatorExpand {
+public abstract class AbstractCreatorTimeVersionBaseEntity extends AbstractCreatorTimeBaseEntity {
+
 
     private static final long serialVersionUID = -4024689623085796268L;
 
-//    @JsonFormat(shape = JsonFormat.Shape.STRING)
-//    @TableId(type = IdType.ASSIGN_ID)
-//    @TableId(type = IdType.AUTO)
-//    public Long id;
-
-    /**
-     * 更新人名字
-     */
-    private String creator;
+    @PropertyVersion
+    @Version
+    private Long version;
 
 }

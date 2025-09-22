@@ -1,5 +1,9 @@
 # 组件
 
+##### 1.3.4.20250930-RELEASE
+
+* refactor: 重构database、mongodb组件重构
+
 ##### 1.2.3.20241112-RELEASE
 
 * fix: 修复@SProcessor注解无法扫描到自身bean的问题

@@ -3,9 +3,7 @@ package com.skrstop.framework.components.starter.database.wrapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.skrstop.framework.components.core.common.request.ClientPageQuery;
-import com.skrstop.framework.components.starter.database.entity.AbstractTimeBaseEntity;
 import com.skrstop.framework.components.util.value.data.ArrayUtil;
-import com.skrstop.framework.components.util.value.lambda.LambdaUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,26 +28,6 @@ import java.util.List;
 public class PageQuery extends ClientPageQuery {
 
     private static final long serialVersionUID = -4290844828041972684L;
-
-    public PageQuery descUpdateTime() {
-        this.getDescs().add(LambdaUtil.convertToFieldName(AbstractTimeBaseEntity::getUpdateTime));
-        return this;
-    }
-
-    public PageQuery descCreateTime() {
-        this.getDescs().add(LambdaUtil.convertToFieldName(AbstractTimeBaseEntity::getCreateTime));
-        return this;
-    }
-
-    public PageQuery ascUpdateTime() {
-        this.getAscs().add(LambdaUtil.convertToFieldName(AbstractTimeBaseEntity::getUpdateTime));
-        return this;
-    }
-
-    public PageQuery ascCreateTime() {
-        this.getAscs().add(LambdaUtil.convertToFieldName(AbstractTimeBaseEntity::getCreateTime));
-        return this;
-    }
 
     public <T> Page<T> toPage(Class<T> clazz) {
         Page<T> page = new Page<T>(this.getPageNumber(), this.getPageSize());
