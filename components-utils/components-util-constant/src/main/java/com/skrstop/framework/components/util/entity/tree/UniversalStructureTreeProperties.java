@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class UniversalStructureTreeProperties extends UniversalStructureProperties {
+    @Serial
     private static final long serialVersionUID = -3070343277336335706L;
 
     /*** 是否有自子节点 */

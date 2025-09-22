@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @ConfigurationProperties(GlobalConfigConst.METRICS_PREFIX)
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MetricsProperties implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8497996001371661542L;
 
     private boolean enabled = true;

@@ -1,8 +1,12 @@
 package com.skrstop.framework.components.starter.mongodb.entity.version;
 
+import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyVersion;
 import com.skrstop.framework.components.starter.mongodb.entity.AbstractBaseEntity;
+import dev.morphia.annotations.Version;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serial;
 
 /**
  * DO base entity by snow_flake id
@@ -12,11 +16,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractVersionBaseEntity<T> extends AbstractBaseEntity<T> {
+public abstract class AbstractVersionBaseEntity extends AbstractBaseEntity {
 
+    @Serial
     private static final long serialVersionUID = -3062937558431776826L;
 
-    private Long version = 0L;
-
+    @PropertyVersion
+    @Version
+    private Long version;
 
 }

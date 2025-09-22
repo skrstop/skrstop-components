@@ -8,6 +8,7 @@ import com.skrstop.framework.components.core.common.response.core.ISetResult;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.util.LinkedHashSet;
 
 /**
@@ -20,6 +21,7 @@ import java.util.LinkedHashSet;
 @Setter
 public class LinkedSetResult<T> extends AbstractResult implements ILinkedSetResult<T> {
 
+    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private LinkedHashSet<T> data;
 

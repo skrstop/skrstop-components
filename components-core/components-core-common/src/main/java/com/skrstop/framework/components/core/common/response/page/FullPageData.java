@@ -4,6 +4,8 @@ import com.skrstop.framework.components.core.common.response.abstracts.AbstractP
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 /**
  * @author 蒋时华
  * @date 2020-05-02 15:12:37
@@ -12,6 +14,7 @@ import lombok.Setter;
 @Setter
 public class FullPageData<T> extends AbstractPageInfo<T> implements PageData<T> {
 
+    @Serial
     private static final long serialVersionUID = 8898361203910360871L;
     /*** 总页数 */
     private long totalPage;

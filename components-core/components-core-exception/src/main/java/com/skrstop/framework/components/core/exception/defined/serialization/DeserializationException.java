@@ -3,6 +3,8 @@ package com.skrstop.framework.components.core.exception.defined.serialization;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * 反序列化异常
  *
@@ -10,6 +12,7 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
  */
 public class DeserializationException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -211821078080239182L;
 
     public DeserializationException() {

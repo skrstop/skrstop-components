@@ -3,7 +3,7 @@ package com.skrstop.framework.components.starter.mongodb.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.beans.Transient;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,22 +14,12 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public abstract class AbstractBaseEntity<T> implements Serializable {
+public abstract class AbstractBaseEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -3062937558431776826L;
 
-    /**
-     * 获取id 唯一标识
-     *
-     * @return
-     */
-    public abstract T getId();
-
-    public abstract void setId(T id);
-
-    @Transient
-    public String getIdName() {
-        return "_id";
-    }
+//    @Id
+//    public T id;
 
 }

@@ -11,12 +11,15 @@ import com.skrstop.framework.components.core.exception.defined.illegal.NotSuppor
 import com.skrstop.framework.components.starter.annotation.anno.trim.Trim;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * @author 蒋时华
  * @date 2021-02-24 16:50:44
  */
 public class TrimJacksonFormatterDeserializer extends StdDeserializer<Object> implements ContextualDeserializer {
+
+    @Serial
     private static final long serialVersionUID = 6361739963166916386L;
 
     private Trim annotation;

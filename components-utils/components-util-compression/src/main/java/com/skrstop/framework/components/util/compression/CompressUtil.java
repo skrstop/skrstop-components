@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -139,6 +140,7 @@ public final class CompressUtil {
     @Getter
     @Setter
     public static class ZipFileParams implements Serializable {
+        @Serial
         private static final long serialVersionUID = -4509945208814944712L;
 
         /**

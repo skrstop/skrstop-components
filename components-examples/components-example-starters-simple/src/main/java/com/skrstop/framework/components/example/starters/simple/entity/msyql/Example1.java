@@ -2,7 +2,7 @@ package com.skrstop.framework.components.example.starters.simple.entity.msyql;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.skrstop.framework.components.starter.database.entity.AbstractTimeDeletedBaseEntity;
+import com.skrstop.framework.components.starter.database.entity.deleted.AbstractUpdateByTimeDeletedBaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class Example1 extends AbstractTimeDeletedBaseEntity {
+public class Example1 extends AbstractUpdateByTimeDeletedBaseEntity {
 
     @TableId(type = IdType.AUTO)
     public Long id;
@@ -32,10 +32,5 @@ public class Example1 extends AbstractTimeDeletedBaseEntity {
     private Boolean die;
 
     private Boolean status;
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
 
 }

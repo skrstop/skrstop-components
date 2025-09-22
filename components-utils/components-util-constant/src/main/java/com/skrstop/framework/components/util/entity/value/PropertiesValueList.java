@@ -3,6 +3,7 @@ package com.skrstop.framework.components.util.entity.value;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Builder
 @Accessors(chain = true)
 public class PropertiesValueList implements Serializable, PropertiesValue {
+    @Serial
     private static final long serialVersionUID = 7509071702432520408L;
 
     private List<ValueItem> value;

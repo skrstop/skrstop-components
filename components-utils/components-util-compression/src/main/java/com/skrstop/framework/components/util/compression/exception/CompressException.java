@@ -6,11 +6,14 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import lombok.Getter;
 
+import java.io.Serial;
+
 /**
  * @author 蒋时华
  */
 public class CompressException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -1025089131707609566L;
 
     public CompressException() {

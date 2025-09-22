@@ -1,23 +1,19 @@
 package com.skrstop.framework.components.starter.mongodb.service.impl;
 
-import cn.hutool.core.util.ReflectUtil;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
 import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
-import com.skrstop.framework.components.starter.id.service.IdService;
+import com.skrstop.framework.components.starter.mongodb.annotation.property.*;
 import com.skrstop.framework.components.starter.mongodb.configuration.GlobalMongodbProperties;
-import com.skrstop.framework.components.starter.mongodb.constant.MongodbConst;
-import com.skrstop.framework.components.starter.mongodb.entity.*;
-import com.skrstop.framework.components.starter.mongodb.entity.expand.CreatorExpand;
-import com.skrstop.framework.components.starter.mongodb.entity.expand.UpdaterExpand;
-import com.skrstop.framework.components.starter.mongodb.entity.version.*;
+import com.skrstop.framework.components.starter.mongodb.configuration.generator.IdentifierGenerator;
+import com.skrstop.framework.components.starter.mongodb.entity.AbstractBaseEntity;
 import com.skrstop.framework.components.starter.mongodb.service.SuperService;
+import com.skrstop.framework.components.starter.mongodb.utils.EntityPropertiesUtil;
 import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.value.data.ArrayUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
-import com.skrstop.framework.components.util.value.data.StrUtil;
 import com.skrstop.framework.components.util.value.format.TextFormatUtil;
 import dev.morphia.*;
 import dev.morphia.query.FindOptions;
@@ -45,178 +41,29 @@ import java.util.stream.Collectors;
  * @author 蒋时华
  */
 @SuppressWarnings("all")
-public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends Serializable> implements SuperService<T, KEY> {
+public abstract class SuperServiceImpl<T extends AbstractBaseEntity> implements SuperService<T> {
 
-    public static String UPDATE_BY = "updateBy";
-    public static String UPDATE_TIME = "updateTime";
-    public static String CREATE_BY = "createBy";
-    public static String CREATE_TIME = "createTime";
-    public static final String UPDATER = "updater";
-    public static final String CREATOR = "creator";
-    public static final String VERSION = "version";
-    public static final String DELETED = "deleted";
     public static final int ASC = 1;
     public static final int DESC = -1;
 
+    private Map<Class<?>, Map<String, Class<?>>> propertyFieldCache = null;
     @Autowired
     protected Datastore datastore;
-    @Autowired(required = false)
-    protected IdService idService;
+    @Autowired
+    protected IdentifierGenerator identifierGenerator;
     @Autowired
     private GlobalMongodbProperties globalMongodbProperties;
 
     protected Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     //    protected Class<T> entityIdClass = (Class<T>) ((ParameterizedType) entityClass.getGenericSuperclass()).getActualTypeArguments()[0];
-    protected Class<T> entityIdClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-    protected String idColumnName = ReflectUtil.newInstance(entityClass).getIdName();
+//    protected Class<T> entityIdClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
 
     @PostConstruct
     private void initPropertiesFormat() {
-        switch (globalMongodbProperties.getPropertyNaming()) {
-            case MongodbConst.NAME_RULE_IDENTITY:
-            case MongodbConst.NAME_RULE_CAMEL_CASE:
-                idColumnName = ReflectUtil.newInstance(entityClass).getIdName();
-                break;
-            case MongodbConst.NAME_RULE_SNAKE_CASE:
-                UPDATE_BY = StrUtil.toUnderlineCase(UPDATE_BY);
-                UPDATE_TIME = StrUtil.toUnderlineCase(UPDATE_TIME);
-                CREATE_BY = StrUtil.toUnderlineCase(CREATE_BY);
-                CREATE_TIME = StrUtil.toUnderlineCase(CREATE_TIME);
-                idColumnName = StrUtil.toUnderlineCase(ReflectUtil.newInstance(entityClass).getIdName());
-                break;
-            case MongodbConst.NAME_RULE_LOWER_CASE:
-                UPDATE_BY = UPDATE_BY.toLowerCase();
-                UPDATE_TIME = UPDATE_TIME.toLowerCase();
-                CREATE_BY = CREATE_BY.toLowerCase();
-                CREATE_TIME = CREATE_TIME.toLowerCase();
-                idColumnName = ReflectUtil.newInstance(entityClass).getIdName().toLowerCase();
-                break;
-            case MongodbConst.NAME_RULE_KEBAB_CASE:
-                UPDATE_BY = StrUtil.toSymbolCase(UPDATE_BY, '-');
-                UPDATE_TIME = StrUtil.toSymbolCase(UPDATE_TIME, '-');
-                CREATE_BY = StrUtil.toSymbolCase(CREATE_BY, '-');
-                CREATE_TIME = StrUtil.toSymbolCase(CREATE_TIME, '-');
-                idColumnName = StrUtil.toSymbolCase(ReflectUtil.newInstance(entityClass).getIdName(), '-');
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void setCreateInfo(T entity) {
-        if (!this.isAutoSetCreateExtraInfo()) {
-            return;
-        }
-        if (entity instanceof AbstractCreateTimeBaseEntity) {
-            AbstractCreateTimeBaseEntity abstractCreateTimeBaseEntity = (AbstractCreateTimeBaseEntity) entity;
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractCreateTimeBaseEntity.getCreateTime())) {
-                abstractCreateTimeBaseEntity.setCreateTime(LocalDateTime.now());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                abstractCreateTimeBaseEntity.setCreateTime(LocalDateTime.now());
-            }
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractCreateTimeBaseEntity.getCreateBy())) {
-                abstractCreateTimeBaseEntity.setCreateBy(this.getOptionUserId());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                abstractCreateTimeBaseEntity.setCreateBy(this.getOptionUserId());
-            }
-        } else if (entity instanceof AbstractTimeVersionBaseEntity) {
-            AbstractTimeVersionBaseEntity abstractTimeVersionBaseEntity = (AbstractTimeVersionBaseEntity) entity;
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractTimeVersionBaseEntity.getCreateTime())) {
-                abstractTimeVersionBaseEntity.setCreateTime(LocalDateTime.now());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                abstractTimeVersionBaseEntity.setCreateTime(LocalDateTime.now());
-            }
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractTimeVersionBaseEntity.getCreateBy())) {
-                abstractTimeVersionBaseEntity.setCreateBy(this.getOptionUserId());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                abstractTimeVersionBaseEntity.setCreateBy(this.getOptionUserId());
-            }
-        } else if (entity instanceof AbstractCreateTimeVersionBaseEntity) {
-            AbstractCreateTimeVersionBaseEntity abstractCreateTimeVersionBaseEntity = (AbstractCreateTimeVersionBaseEntity) entity;
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractCreateTimeVersionBaseEntity.getCreateTime())) {
-                abstractCreateTimeVersionBaseEntity.setCreateTime(LocalDateTime.now());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                abstractCreateTimeVersionBaseEntity.setCreateTime(LocalDateTime.now());
-            }
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractCreateTimeVersionBaseEntity.getCreateBy())) {
-                abstractCreateTimeVersionBaseEntity.setCreateBy(this.getOptionUserId());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                abstractCreateTimeVersionBaseEntity.setCreateBy(this.getOptionUserId());
-            }
-        }
-        if (entity instanceof CreatorExpand) {
-            CreatorExpand creatorExpand = (CreatorExpand) entity;
-            if (this.onlySetCreateInfoWhenNull()
-                    && ObjectUtil.isNull(creatorExpand.getCreator())) {
-                creatorExpand.setCreator(this.getOperator());
-            } else if (!this.onlySetCreateInfoWhenNull()) {
-                creatorExpand.setCreator(this.getOperator());
-            }
-        }
-        this.setUpdateInfo(entity);
-    }
-
-    private void setUpdateInfo(T entity) {
-        if (!this.isAutoSetUpdateExtraInfo()) {
-            return;
-        }
-        if (entity instanceof AbstractTimeBaseEntity) {
-            AbstractTimeBaseEntity abstractTimeBaseEntity = (AbstractTimeBaseEntity) entity;
-            if (this.onlySetUpdateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractTimeBaseEntity.getUpdateTime())) {
-                abstractTimeBaseEntity.setUpdateTime(LocalDateTime.now());
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                abstractTimeBaseEntity.setUpdateTime(LocalDateTime.now());
-            }
-            if (this.onlySetUpdateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractTimeBaseEntity.getUpdateBy())) {
-                abstractTimeBaseEntity.setUpdateBy(this.getOptionUserId());
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                abstractTimeBaseEntity.setUpdateBy(this.getOptionUserId());
-            }
-        } else if (entity instanceof AbstractTimeVersionBaseEntity) {
-            AbstractTimeVersionBaseEntity abstractTimeVersionBaseEntity = (AbstractTimeVersionBaseEntity) entity;
-            if (this.onlySetUpdateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractTimeVersionBaseEntity.getUpdateTime())) {
-                abstractTimeVersionBaseEntity.setUpdateTime(LocalDateTime.now());
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                abstractTimeVersionBaseEntity.setUpdateTime(LocalDateTime.now());
-            }
-            if (this.onlySetUpdateInfoWhenNull()
-                    && ObjectUtil.isNull(abstractTimeVersionBaseEntity.getUpdateBy())) {
-                abstractTimeVersionBaseEntity.setUpdateBy(this.getOptionUserId());
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                abstractTimeVersionBaseEntity.setUpdateBy(this.getOptionUserId());
-            }
-        }
-        if (entity instanceof UpdaterExpand) {
-            UpdaterExpand updaterExpand = (UpdaterExpand) entity;
-            if (this.onlySetUpdateInfoWhenNull()
-                    && ObjectUtil.isNull(updaterExpand.getUpdater())) {
-                updaterExpand.setUpdater(this.getOperator());
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                updaterExpand.setUpdater(this.getOperator());
-            }
-        }
-    }
-
-    private void setId(T entity) {
-        if (!this.isAutoSetId()) {
-            return;
-        }
-        if (ObjectUtil.isNotNull(idService)
-                && Long.class.isAssignableFrom(entityIdClass)
-                && ObjectUtil.isNull(entity.getId())) {
-            entity.setId(idService.getId());
-        } else if (String.class.isAssignableFrom(entityIdClass)
-                && StrUtil.isBlank((String) entity.getId())) {
-            entity.setId(idService.getObjectId());
+        this.propertyFieldCache = EntityPropertiesUtil.tableProperties(globalMongodbProperties.getPropertyNaming(), entityClass);
+        Map<String, Class<?>> columnIds = propertyFieldCache.get(PropertyId.class);
+        if (ObjectUtil.isEmpty(columnIds)) {
+            throw new NotSupportedException("实体类" + entityClass.getName() + "必须且只能有一个主键字段");
         }
     }
 
@@ -287,14 +134,16 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     }
 
     @Override
-    public T findById(KEY id) {
-        return this.find(Arrays.asList(Filters.eq(idColumnName, id)))
+    public T findById(Serializable id) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        return this.find(Arrays.asList(Filters.eq(columnNameId, id)))
                 .iterator().tryNext();
     }
 
     @Override
-    public List<T> findByIds(List<KEY> ids) {
-        return this.find(Arrays.asList(Filters.in(idColumnName, ids)))
+    public List<T> findByIds(List<Serializable> ids) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        return this.find(Arrays.asList(Filters.in(columnNameId, ids)))
                 .iterator().toList();
     }
 
@@ -337,12 +186,17 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
         }
         updates.addAll(this.setUpdateTimeUpdateInfo(updates));
         UpdateOperator[] updatesArray;
-        if (AbstractVersionBaseEntity.class.isAssignableFrom(this.entityClass)) {
+        Set<String> columnNameVersion = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyVersion.class);
+        if (CollectionUtil.isNotEmpty(columnNameVersion)) {
             // 有版本校验
-            updatesArray = new UpdateOperator[updates.size() + 1];
-            updatesArray[0] = UpdateOperators.inc(VERSION);
+            updatesArray = new UpdateOperator[updates.size() + columnNameVersion.size()];
+            int index = 0;
+            for (String columnName : columnNameVersion) {
+                updatesArray[index] = UpdateOperators.inc(columnName);
+                index++;
+            }
             for (int i = 0; i < updates.size(); i++) {
-                updatesArray[i + 1] = updates.get(i);
+                updatesArray[i + columnNameVersion.size()] = updates.get(i);
             }
         } else {
             updatesArray = new UpdateOperator[updates.size()];
@@ -358,12 +212,17 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     @Override
     public UpdateResult updateWithVersion(Long currentVersion, List<Filter> filters, List<UpdateOperator> updates) {
         Filter[] filterArray;
-        if (AbstractVersionBaseEntity.class.isAssignableFrom(this.entityClass)) {
+        Set<String> columnNameVersion = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyVersion.class);
+        if (CollectionUtil.isNotEmpty(columnNameVersion)) {
             // 有版本校验
-            filterArray = new Filter[filters.size() + 1];
-            filterArray[0] = Filters.eq(VERSION, currentVersion);
+            filterArray = new Filter[filters.size() + columnNameVersion.size()];
+            int index = 0;
+            for (String columnName : columnNameVersion) {
+                filterArray[index] = Filters.eq(columnName, currentVersion);
+                index++;
+            }
             for (int i = 0; i < filters.size(); i++) {
-                filterArray[i + 1] = filters.get(i);
+                filterArray[i + columnNameVersion.size()] = filters.get(i);
             }
         } else {
             filterArray = new Filter[filters.size()];
@@ -376,16 +235,18 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     }
 
     @Override
-    public DeleteResult removeById(KEY id) {
-        return this.find(Arrays.asList(Filters.eq(idColumnName, id)))
+    public DeleteResult removeById(Serializable id) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        return this.find(Arrays.asList(Filters.eq(columnNameId, id)))
                 .delete();
     }
 
     @Override
-    public DeleteResult removeByIds(Collection<KEY> ids) {
+    public DeleteResult removeByIds(Collection<Serializable> ids) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
         DeleteOptions deleteOptions = new DeleteOptions();
         deleteOptions.multi(true);
-        return this.find(Arrays.asList(Filters.in(idColumnName, ids)))
+        return this.find(Arrays.asList(Filters.in(columnNameId, ids)))
                 .delete(deleteOptions);
     }
 
@@ -398,14 +259,16 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     }
 
     @Override
-    public UpdateResult removeLogicByIds(Collection<KEY> ids) {
-        Query<T> query = this.find(Arrays.asList(Filters.in(idColumnName, ids)));
+    public UpdateResult removeLogicByIds(Collection<Serializable> ids) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        Query<T> query = this.find(Arrays.asList(Filters.in(columnNameId, ids)));
         return this.update(query, this.setRemoveUpdateInfo(false));
     }
 
     @Override
-    public UpdateResult removeLogicById(KEY id) {
-        Query<T> query = this.find(Arrays.asList(Filters.eq(idColumnName, id)));
+    public UpdateResult removeLogicById(Serializable id) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        Query<T> query = this.find(Arrays.asList(Filters.eq(columnNameId, id)));
         return this.update(query, this.setRemoveUpdateInfo(false));
     }
 
@@ -416,14 +279,16 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
     }
 
     @Override
-    public UpdateResult undoRemoveLogicByIds(Collection<KEY> ids) {
-        Query<T> query = this.find(Arrays.asList(Filters.in(idColumnName, ids)));
+    public UpdateResult undoRemoveLogicByIds(Collection<Serializable> ids) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        Query<T> query = this.find(Arrays.asList(Filters.in(columnNameId, ids)));
         return this.update(query, this.setRemoveUpdateInfo(true));
     }
 
     @Override
-    public UpdateResult undoRemoveLogicById(KEY id) {
-        Query<T> query = this.find(Arrays.asList(Filters.eq(idColumnName, id)));
+    public UpdateResult undoRemoveLogicById(Serializable id) {
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        Query<T> query = this.find(Arrays.asList(Filters.eq(columnNameId, id)));
         return this.update(query, this.setRemoveUpdateInfo(true));
     }
 
@@ -433,17 +298,61 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
         return this.update(query, this.setRemoveUpdateInfo(true));
     }
 
+    private void setId(T entity) {
+        if (!this.isAutoSetId()) {
+            return;
+        }
+        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        Object idValue = EntityPropertiesUtil.getFieldValue(entity, columnNameId);
+        if (ObjectUtil.isNotNull(idValue)) {
+            return;
+        }
+        Set<String> columnNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyId.class);
+        Class<?> columnTypeId = EntityPropertiesUtil.getColumnTypeId(propertyFieldCache);
+        if (Number.class.isAssignableFrom(columnTypeId)) {
+            EntityPropertiesUtil.setFieldValue(this, entity, columnNames, identifierGenerator.nextId());
+        } else if (String.class.isAssignableFrom(columnTypeId)) {
+            EntityPropertiesUtil.setFieldValue(this, entity, columnNames, identifierGenerator.nextUUID());
+        }
+    }
+
+    private void setCreateInfo(T entity) {
+        if (!this.isAutoSetCreateExtraInfo()) {
+            return;
+        }
+        Set<String> createByPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyCreateBy.class);
+        EntityPropertiesUtil.setFieldValue(this, entity, createByPropertyNames, this.getOptionUserId());
+
+        Set<String> createTimePropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyCreateTime.class);
+        EntityPropertiesUtil.setFieldValue(this, entity, createTimePropertyNames, LocalDateTime.now());
+
+        Set<String> creatorPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyCreator.class);
+        EntityPropertiesUtil.setFieldValue(this, entity, creatorPropertyNames, this.getOperator());
+
+        this.setUpdateInfo(entity);
+    }
+
+    private void setUpdateInfo(T entity) {
+        if (!this.isAutoSetUpdateExtraInfo()) {
+            return;
+        }
+        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateBy.class);
+        EntityPropertiesUtil.setFieldValue(this, entity, updateByPropertyNames, this.getOptionUserId());
+
+        Set<String> UpdateTimePropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateTime.class);
+        EntityPropertiesUtil.setFieldValue(this, entity, UpdateTimePropertyNames, LocalDateTime.now());
+
+        Set<String> UpdaterPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdater.class);
+        EntityPropertiesUtil.setFieldValue(this, entity, UpdaterPropertyNames, this.getOperator());
+    }
+
     private List<UpdateOperator> setRemoveUpdateInfo(boolean undo) {
-        if (AbstractDeletedBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractTimeDeletedBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractOperatorTimeDeletedBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractCreatorTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractCreateTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractOperatorTimeDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractDeletedVersionBaseEntity.class.isAssignableFrom(entityClass)) {
+        Set<String> deletedPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyDeleted.class);
+        if (CollectionUtil.isNotEmpty(deletedPropertyNames)) {
             List<UpdateOperator> updates = this.setUpdateTimeUpdateInfo(CollectionUtil.newArrayList());
-            updates.add(UpdateOperators.set(DELETED, !undo));
+            for (String deletedPropertyName : deletedPropertyNames) {
+                updates.add(UpdateOperators.set(deletedPropertyName, !undo));
+            }
             return updates;
         } else {
             throw new NotSupportedException("不支持逻辑删除操作，请确认Entity是否有错");
@@ -457,31 +366,18 @@ public abstract class SuperServiceImpl<T extends AbstractBaseEntity, KEY extends
         if (!this.isAutoSetUpdateExtraInfo()) {
             return updates;
         }
-        if (AbstractTimeBaseEntity.class.isAssignableFrom(entityClass)
-                || AbstractTimeVersionBaseEntity.class.isAssignableFrom(entityClass)) {
-            final Set<String> collect = updates.stream().map(UpdateOperator::field).collect(Collectors.toSet());
-            if (this.onlySetUpdateInfoWhenNull()
-                    && !collect.contains(UPDATE_TIME)) {
-                updates.add(UpdateOperators.set(UPDATE_TIME, LocalDateTime.now()));
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                updates.add(UpdateOperators.set(UPDATE_TIME, LocalDateTime.now()));
-            }
-            if (this.onlySetUpdateInfoWhenNull()
-                    && !collect.contains(UPDATE_BY)) {
-                updates.add(UpdateOperators.set(UPDATE_BY, this.getOptionUserId()));
-            } else if (!this.onlySetUpdateInfoWhenNull()) {
-                updates.add(UpdateOperators.set(UPDATE_BY, this.getOptionUserId()));
-            }
-
-            if (AbstractOperatorTimeVersionBaseEntity.class.isAssignableFrom(entityClass)) {
-                if (this.onlySetUpdateInfoWhenNull()
-                        && !collect.contains(UPDATER)) {
-                    updates.add(UpdateOperators.set(UPDATER, this.getOperator()));
-                } else if (!this.onlySetUpdateInfoWhenNull()) {
-                    updates.add(UpdateOperators.set(UPDATER, this.getOperator()));
-                }
-            }
+        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateBy.class);
+        Set<String> updateTimePropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateTime.class);
+        Set<String> updatorPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdater.class);
+        if (CollectionUtil.isEmpty(updateByPropertyNames)
+                && CollectionUtil.isEmpty(updateTimePropertyNames)
+                && CollectionUtil.isEmpty(updatorPropertyNames)) {
+            return updates;
         }
+        final Set<String> fieldCollect = updates.stream().map(UpdateOperator::field).collect(Collectors.toSet());
+        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updateByPropertyNames, this.getOptionUserId());
+        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updateTimePropertyNames, LocalDateTime.now());
+        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updatorPropertyNames, this.getOperator());
         return updates;
     }
 

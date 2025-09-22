@@ -6,6 +6,8 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 /**
  * response code with data result entity
  *
@@ -16,6 +18,7 @@ import lombok.Setter;
 @Setter
 public class DefaultResult extends AbstractResult implements IResult {
 
+    @Serial
     private static final long serialVersionUID = -6429956305851375791L;
 
     public DefaultResult() {

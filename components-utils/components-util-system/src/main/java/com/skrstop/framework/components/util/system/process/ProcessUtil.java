@@ -571,6 +571,7 @@ public class ProcessUtil extends RuntimeUtil {
     @Builder
     @Accessors(chain = true)
     public static class ClearStreamResult implements Serializable, Closeable {
+        @Serial
         private static final long serialVersionUID = 2240060032300338391L;
         private Future<?> input;
         private Future<?> error;
@@ -593,6 +594,7 @@ public class ProcessUtil extends RuntimeUtil {
     @Builder
     @Accessors(chain = true)
     public static class ProcessResult implements Serializable {
+        @Serial
         private static final long serialVersionUID = 2240060032300338391L;
         private Boolean success;
         private String result;
@@ -605,6 +607,7 @@ public class ProcessUtil extends RuntimeUtil {
     @Builder
     @Accessors(chain = true)
     public static class ProcessResultText implements Serializable {
+        @Serial
         private static final long serialVersionUID = 2240060032300338391L;
         private String key;
         private String result;

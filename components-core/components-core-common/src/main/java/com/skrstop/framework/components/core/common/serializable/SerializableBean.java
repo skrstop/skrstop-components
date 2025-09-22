@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.PropertyNamingStrategy;
 import com.alibaba.fastjson2.writer.ObjectWriterProvider;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SerializableBean implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8005755850249027709L;
     private static final ConcurrentHashMap<Boolean, ConcurrentHashMap<Object, JSONWriter.Context>> CONFIG_PROVIDER = new ConcurrentHashMap<>();
     private static final JSONWriter.Feature[] IGNORE_NULL_FEATURES = new JSONWriter.Feature[2];

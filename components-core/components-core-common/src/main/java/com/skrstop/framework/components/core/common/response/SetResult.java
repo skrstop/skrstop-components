@@ -7,6 +7,7 @@ import com.skrstop.framework.components.core.common.response.core.ISetResult;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ import java.util.Set;
 @Setter
 public class SetResult<T> extends AbstractResult implements ISetResult<T> {
 
+    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private Set<T> data;
 

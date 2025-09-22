@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +26,9 @@ import java.util.Map;
 @Getter
 @Setter
 public class FileCompressor implements Serializable {
-    public static final Logger LOGGER = LoggerFactory.getLogger(FileCompressor.class);
+    @Serial
     private static final long serialVersionUID = 1L;
+    public static final Logger LOGGER = LoggerFactory.getLogger(FileCompressor.class);
     private Map<String, BinaryFile> mapBinaryFile = new HashMap<String, BinaryFile>();
     private CompressionType type = null;
     private CompressionLevel level = null;

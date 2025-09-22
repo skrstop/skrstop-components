@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @date 2023-12-01 09:52:25
  */
 @Service
-public class Example2MongoService extends SuperServiceImpl<Example2Mongo, Long> {
+public class Example2MongoService extends SuperServiceImpl<Example2Mongo> {
 
     @DSMongo
     public void saveMaster(Long id) {

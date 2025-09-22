@@ -4,6 +4,7 @@ import com.skrstop.framework.components.util.entity.IUniversalStructure;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @Builder
 @Accessors(chain = true)
 public class UniversalStructureTree implements Serializable, IUniversalStructure {
+    @Serial
     private static final long serialVersionUID = -8217251831849377757L;
 
     private String type;

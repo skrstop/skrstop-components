@@ -6,6 +6,7 @@ import com.skrstop.framework.components.util.entity.value.PropertiesValueStr;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 @Builder
 @Accessors(chain = true)
 public class UniversalStructureProperties implements Serializable {
+    @Serial
     private static final long serialVersionUID = 7509071702432520408L;
 
     private String key;

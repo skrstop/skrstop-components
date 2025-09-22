@@ -7,6 +7,7 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.util.LinkedHashMap;
 
 /**
@@ -19,6 +20,7 @@ import java.util.LinkedHashMap;
 @Setter
 public class LinkedMapResult<T, R> extends AbstractResult implements ILinkedMapResult<T, R> {
 
+    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private LinkedHashMap<T, R> data;
 

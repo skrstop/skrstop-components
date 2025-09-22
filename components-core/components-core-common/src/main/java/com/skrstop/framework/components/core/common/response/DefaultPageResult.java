@@ -9,6 +9,8 @@ import com.skrstop.framework.components.core.common.response.page.SimplePageData
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 /**
  * @author 蒋时华
  * @date 2020-05-02 16:36:09
@@ -18,6 +20,7 @@ import lombok.Setter;
 @SuppressWarnings("all")
 public class DefaultPageResult extends AbstractPageResult implements IPageResult {
 
+    @Serial
     private static final long serialVersionUID = 9019006933206591705L;
 
     public DefaultPageResult() {
