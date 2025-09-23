@@ -2,7 +2,6 @@ package com.skrstop.framework.components.starter.database.utils;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.Version;
@@ -114,11 +113,10 @@ public class EntityPropertiesUtil {
     /**
      * 表实体字段解析
      *
-     * @param mapUnderscoreToCamelCase
      * @param entityClass
      * @return
      */
-    public static Map<Class<?>, Map<String, Class<?>>> tableProperties(boolean mapUnderscoreToCamelCase, Class<?> entityClass) {
+    public static Map<Class<?>, Map<String, Class<?>>> tableProperties(Class<?> entityClass) {
         Map<Class<?>, Map<String, Class<?>>> propertyFieldCache = new HashMap<>();
         // 通用字段信息
         Field[] allFields = ReflectUtil.getFields(entityClass);
@@ -136,16 +134,10 @@ public class EntityPropertiesUtil {
                     continue;
                 }
                 propertyFieldCache.computeIfAbsent(PropertyId.class, k -> new HashMap<>())
-                        .put(mapUnderscoreToCamelCase ? StrUtil.toUnderlineCase(field.getName()) : field.getName(), field.getType());
+                        .put(field.getName(), field.getType());
                 continue;
             }
-            TableField tableField = AnnotationUtil.getAnnotation(field, TableField.class);
-            String targetFieldName = null;
-            if (ObjectUtil.isNotNull(tableField) && StrUtil.isNotBlank(tableField.value())) {
-                targetFieldName = tableField.value();
-            } else {
-                targetFieldName = mapUnderscoreToCamelCase ? StrUtil.toUnderlineCase(field.getName()) : field.getName();
-            }
+            String targetFieldName = field.getName();
             if (StrUtil.isBlank(targetFieldName)) {
                 continue;
             }
