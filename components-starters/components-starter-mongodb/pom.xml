@@ -15,7 +15,7 @@
     <description>skrstop starter mongodb</description>
 
     <properties>
-        <morphia.version>2.4.9</morphia.version>
+        <morphia.version>2.5.0</morphia.version>
         <smallrye-config.version>2.13.3</smallrye-config.version>
     </properties>
 
@@ -62,8 +62,8 @@
             <artifactId>jsonassert</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zafarkhaja</groupId>
-            <artifactId>java-semver</artifactId>
+            <groupId>org.semver4j</groupId>
+            <artifactId>semver4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.awaitility</groupId>

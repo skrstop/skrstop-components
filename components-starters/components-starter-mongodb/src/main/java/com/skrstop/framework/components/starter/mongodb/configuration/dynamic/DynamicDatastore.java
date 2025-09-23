@@ -113,6 +113,11 @@ public class DynamicDatastore implements Datastore {
     }
 
     @Override
+    public <T> Query<T> find(Class<T> type, FindOptions options) {
+        return this.getDatastore().find(type, options);
+    }
+
+    @Override
     public <T> Query<T> find(Class<T> type, Document nativeQuery) {
         return this.getDatastore().find(type, nativeQuery);
     }

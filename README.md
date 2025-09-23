@@ -95,7 +95,7 @@
 * protostuff 1.8.0
 * lettuce 6.3.0.RELEASE
 * jedis 5.1.0
-* morphia 2.4.8
+* morphia 2.5.0
 * javacv 1.5.9
 * ...
 
