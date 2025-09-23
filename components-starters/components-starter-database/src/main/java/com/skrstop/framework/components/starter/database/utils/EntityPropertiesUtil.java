@@ -96,13 +96,13 @@ public class EntityPropertiesUtil {
     }
 
     public static Set<String> getColumnNames(Map<Class<?>, Map<String, Class<?>>> propertyFieldCache, Class<?> propertyClass) {
-        return Optional.of(propertyFieldCache.get(propertyClass))
+        return Optional.ofNullable(propertyFieldCache.get(propertyClass))
                 .orElse(Collections.emptyMap())
                 .keySet();
     }
 
     public static String getColumnNameId(Map<Class<?>, Map<String, Class<?>>> propertyFieldCache) {
-        return Optional.of(propertyFieldCache.get(PropertyId.class))
+        return Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
                 .orElse(Collections.emptyMap())
                 .keySet()
                 .stream()

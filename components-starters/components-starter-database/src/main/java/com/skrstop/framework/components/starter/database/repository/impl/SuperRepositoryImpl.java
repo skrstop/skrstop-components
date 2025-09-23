@@ -20,6 +20,7 @@ import com.skrstop.framework.components.starter.database.mapper.SuperMapper;
 import com.skrstop.framework.components.starter.database.repository.SuperRepository;
 import com.skrstop.framework.components.starter.database.utils.EntityPropertiesUtil;
 import com.skrstop.framework.components.starter.database.utils.SuperParamsUtil;
+import com.skrstop.framework.components.util.constant.DateFormatConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
@@ -339,7 +340,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
             Map<String, Object> paramNameValueMap = ((LambdaUpdateWrapper<T>) wrapper).getParamNameValuePairs();
             Map<String, String> paramMap = SuperParamsUtil.getParamMap(lambdaUpdateWrapper.getSqlSet());
             EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updateByPropertyNames, this.getOptionUserId());
-            EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updateTimePropertyNames, LocalDateTimeUtil.formatNormal(LocalDateTime.now()));
+            EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updateTimePropertyNames, LocalDateTimeUtil.format(LocalDateTime.now(), DateFormatConst.NORM_DATETIME_NS_PATTERN));
             EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updatorPropertyNames, this.getOperator());
             return lambdaUpdateWrapper;
         }
