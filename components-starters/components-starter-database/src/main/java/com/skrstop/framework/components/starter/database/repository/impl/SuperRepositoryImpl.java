@@ -56,7 +56,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
 
     @PostConstruct
     private void init() {
-        this.propertyFieldCache = EntityPropertiesUtil.tableProperties(globalDatabaseProperties.isMapUnderscoreToCamelCase(), super.getEntityClass());
+        this.propertyFieldCache = EntityPropertiesUtil.tableProperties(super.getEntityClass());
         this.tableInfo = TableInfoHelper.getTableInfo(super.getEntityClass());
         Map<String, Class<?>> columnIds = propertyFieldCache.get(PropertyId.class);
         if (ObjectUtil.isEmpty(columnIds)) {

@@ -134,8 +134,13 @@ public class EntityPropertiesUtil {
             PropertyId propertyId = AnnotationUtil.getAnnotation(field, PropertyId.class);
             Id id = AnnotationUtil.getAnnotation(field, Id.class);
             if (ObjectUtil.isNotNull(propertyId) || ObjectUtil.isNotNull(id)) {
-                propertyFieldCache.computeIfAbsent(PropertyId.class, k -> new HashMap<>())
-                        .put(tagetColumnName, field.getType());
+                if (ObjectUtil.isNotNull(id)) {
+                    propertyFieldCache.computeIfAbsent(PropertyId.class, k -> new HashMap<>())
+                            .put(MongodbConst.DEFAULT_ID_NAME, field.getType());
+                } else {
+                    propertyFieldCache.computeIfAbsent(PropertyId.class, k -> new HashMap<>())
+                            .put(tagetColumnName, field.getType());
+                }
                 continue;
             }
             // 创建人

@@ -10,6 +10,10 @@ public interface MongodbConst {
     String TRANSACTION_REACTIVE_NAME_MONGO = "DefaultReactiveMongoTransactionManager";
 
     /**
+     * 默认id命名
+     */
+    String DEFAULT_ID_NAME = "_id";
+    /**
      * 驼峰
      */
     String NAME_RULE_CAMEL_CASE = "camelCase";
