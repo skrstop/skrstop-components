@@ -1,8 +1,8 @@
 package com.skrstop.framework.components.starter.mongodb.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyUpdateBy;
 import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyUpdateTime;
-import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyUpdater;
 import com.skrstop.framework.components.util.constant.DateFormatConst;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +26,7 @@ public abstract class AbstractUpdateByTimeBaseEntity extends AbstractCreateByTim
     /**
      * 更新人
      */
-    @PropertyUpdater
+    @PropertyUpdateBy
     public Long updateBy;
     /**
      * 更新时间

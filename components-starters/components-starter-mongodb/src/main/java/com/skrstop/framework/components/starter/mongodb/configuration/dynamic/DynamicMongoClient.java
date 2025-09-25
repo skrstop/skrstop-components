@@ -1,8 +1,11 @@
 package com.skrstop.framework.components.starter.mongodb.configuration.dynamic;
 
-import com.mongodb.ClientSessionOptions;
-import com.mongodb.MongoClientSettings;
+import com.mongodb.*;
 import com.mongodb.client.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.model.bulk.ClientBulkWriteOptions;
+import com.mongodb.client.model.bulk.ClientBulkWriteResult;
+import com.mongodb.client.model.bulk.ClientNamespacedWriteModel;
 import com.mongodb.connection.ClusterDescription;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
@@ -10,6 +13,7 @@ import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.conversions.Bson;
 import org.springframework.boot.autoconfigure.mongo.MongoClientFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
@@ -20,6 +24,7 @@ import org.springframework.core.env.Environment;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 蒋时华
@@ -57,6 +62,62 @@ public class DynamicMongoClient implements MongoClient {
         return mongoClient;
     }
 
+    @Override
+    public void close() {
+        dynamicMongoClientMap.forEach((key, value) -> {
+            value.close();
+        });
+    }
+
+    @Override
+    public CodecRegistry getCodecRegistry() {
+        return this.getMongoClient().getCodecRegistry();
+    }
+
+    @Override
+    public ReadPreference getReadPreference() {
+        return this.getMongoClient().getReadPreference();
+    }
+
+    @Override
+    public WriteConcern getWriteConcern() {
+        return this.getMongoClient().getWriteConcern();
+    }
+
+    @Override
+    public ReadConcern getReadConcern() {
+        return this.getMongoClient().getReadConcern();
+    }
+
+    @Override
+    public Long getTimeout(TimeUnit timeUnit) {
+        return this.getMongoClient().getTimeout(timeUnit);
+    }
+
+    @Override
+    public MongoCluster withCodecRegistry(CodecRegistry codecRegistry) {
+        return this.getMongoClient().withCodecRegistry(codecRegistry);
+    }
+
+    @Override
+    public MongoCluster withReadPreference(ReadPreference readPreference) {
+        return this.getMongoClient().withReadPreference(readPreference);
+    }
+
+    @Override
+    public MongoCluster withWriteConcern(WriteConcern writeConcern) {
+        return this.getMongoClient().withWriteConcern(writeConcern);
+    }
+
+    @Override
+    public MongoCluster withReadConcern(ReadConcern readConcern) {
+        return this.getMongoClient().withReadConcern(readConcern);
+    }
+
+    @Override
+    public MongoCluster withTimeout(long timeout, TimeUnit timeUnit) {
+        return this.getMongoClient().withTimeout(timeout, timeUnit);
+    }
 
     @Override
     public MongoDatabase getDatabase(String databaseName) {
@@ -71,13 +132,6 @@ public class DynamicMongoClient implements MongoClient {
     @Override
     public ClientSession startSession(ClientSessionOptions options) {
         return this.getMongoClient().startSession(options);
-    }
-
-    @Override
-    public void close() {
-        dynamicMongoClientMap.forEach((key, value) -> {
-            value.close();
-        });
     }
 
     @Override
@@ -148,6 +202,26 @@ public class DynamicMongoClient implements MongoClient {
     @Override
     public <TResult> ChangeStreamIterable<TResult> watch(ClientSession clientSession, List<? extends Bson> pipeline, Class<TResult> tResultClass) {
         return this.getMongoClient().watch(clientSession, pipeline, tResultClass);
+    }
+
+    @Override
+    public ClientBulkWriteResult bulkWrite(List<? extends ClientNamespacedWriteModel> models) throws ClientBulkWriteException {
+        return this.getMongoClient().bulkWrite(models);
+    }
+
+    @Override
+    public ClientBulkWriteResult bulkWrite(List<? extends ClientNamespacedWriteModel> models, ClientBulkWriteOptions options) throws ClientBulkWriteException {
+        return this.getMongoClient().bulkWrite(models, options);
+    }
+
+    @Override
+    public ClientBulkWriteResult bulkWrite(ClientSession clientSession, List<? extends ClientNamespacedWriteModel> models) throws ClientBulkWriteException {
+        return this.getMongoClient().bulkWrite(clientSession, models);
+    }
+
+    @Override
+    public ClientBulkWriteResult bulkWrite(ClientSession clientSession, List<? extends ClientNamespacedWriteModel> models, ClientBulkWriteOptions options) throws ClientBulkWriteException {
+        return this.getMongoClient().bulkWrite(clientSession, models, options);
     }
 
     @Override

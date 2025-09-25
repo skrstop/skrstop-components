@@ -11,6 +11,7 @@ import com.skrstop.framework.components.starter.mongodb.wrapper.PageQuery;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.lambda.LambdaUtil;
 import dev.morphia.query.Query;
+import dev.morphia.query.filters.Filter;
 import dev.morphia.query.filters.Filters;
 import dev.morphia.query.updates.UpdateOperators;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +83,21 @@ public class ExampleMongodbController {
      */
     @GetMapping("/exampleMongodb2")
     public Example2Mongo exampleMongodb2() {
-        return example2MongoService.findById(1734451410227040256L);
+        Long id = 1971122348874665984L;
+        Filter idFilter = Filters.eq("id", id);
+//        example2MongoService.update(example2MongoService.find(Arrays.asList(idFilter)), CollectionUtil.newArrayList(
+//                UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValStr), "cccccc")
+//                , UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValInt), 8888)
+//        ));
+        example2MongoService.updateWithVersion(14L
+                , CollectionUtil.newArrayList(
+                        Filters.eq(LambdaUtil.convertToFieldName(Example2Mongo::getId), 1734451410227040256L)
+                )
+                , CollectionUtil.newArrayList(
+                        UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValStr), "ddddd")
+                        , UpdateOperators.set(LambdaUtil.convertToFieldName(Example2Mongo::getValInt), 9999)
+                ));
+        return example2MongoService.findById(id);
     }
 
     /**

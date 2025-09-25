@@ -221,8 +221,8 @@
         <jedis.version>5.1.0</jedis.version>
         <redisson.version>3.25.0</redisson.version>
         <!-- mongodb -->
-        <mongo-driver.version>3.12.14</mongo-driver.version>
-        <mongo-driver-sync.version>4.11.1</mongo-driver-sync.version>
+        <mongo-driver-old.version>3.12.14</mongo-driver-old.version>
+        <mongo-driver.version>5.4.0</mongo-driver.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -1032,37 +1032,37 @@
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongo-java-driver</artifactId>
-                <version>${mongo-driver.version}</version>
+                <version>${mongo-driver-old.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongodb-driver</artifactId>
-                <version>${mongo-driver.version}</version>
+                <version>${mongo-driver-old.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongodb-driver-core</artifactId>
-                <version>${mongo-driver-sync.version}</version>
+                <version>${mongo-driver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongodb-driver-sync</artifactId>
-                <version>${mongo-driver-sync.version}</version>
+                <version>${mongo-driver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>bson</artifactId>
-                <version>${mongo-driver-sync.version}</version>
+                <version>${mongo-driver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongodb-driver-legacy</artifactId>
-                <version>${mongo-driver-sync.version}</version>
+                <version>${mongo-driver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongodb-driver-async</artifactId>
-                <version>${mongo-driver.version}</version>
+                <version>${mongo-driver-old.version}</version>
             </dependency>
             <!-- lz4 -->
             <dependency>

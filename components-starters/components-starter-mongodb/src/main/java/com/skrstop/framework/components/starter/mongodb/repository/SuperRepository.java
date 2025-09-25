@@ -31,8 +31,8 @@ public interface SuperRepository<T> {
      *
      * @return
      */
-    default long getOptionUserId() {
-        return 0L;
+    default Object getOptionUserId() {
+        return null;
     }
 
     /**

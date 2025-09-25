@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.mongodb.repository.impl;
 
+import cn.hutool.core.lang.Pair;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import com.skrstop.framework.components.core.common.response.page.ListSimplePageData;
@@ -46,7 +47,7 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
     public static final int ASC = 1;
     public static final int DESC = -1;
 
-    private Map<Class<?>, Map<String, Class<?>>> propertyFieldCache = null;
+    private Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache = null;
     @Autowired
     protected Datastore datastore;
     @Autowired
@@ -61,7 +62,7 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
     @PostConstruct
     private void initPropertiesFormat() {
         this.propertyFieldCache = EntityPropertiesUtil.tableProperties(globalMongodbProperties.getPropertyNaming(), entityClass);
-        Map<String, Class<?>> columnIds = propertyFieldCache.get(PropertyId.class);
+        Map<String, Pair<String, Class<?>>> columnIds = this.propertyFieldCache.get(PropertyId.class);
         if (ObjectUtil.isEmpty(columnIds)) {
             throw new NotSupportedException("实体类" + entityClass.getName() + "必须且只能有一个主键字段");
         }
@@ -135,14 +136,14 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
 
     @Override
     public T findById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         return this.find(Arrays.asList(Filters.eq(columnNameId, id)))
                 .iterator().tryNext();
     }
 
     @Override
     public List<T> findByIds(List<Serializable> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         return this.find(Arrays.asList(Filters.in(columnNameId, ids)))
                 .iterator().toList();
     }
@@ -186,7 +187,7 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
         }
         updates.addAll(this.setUpdateTimeUpdateInfo(updates));
         UpdateOperator[] updatesArray;
-        Set<String> columnNameVersion = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyVersion.class);
+        Set<String> columnNameVersion = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyVersion.class);
         if (CollectionUtil.isNotEmpty(columnNameVersion)) {
             // 有版本校验
             updatesArray = new UpdateOperator[updates.size() + columnNameVersion.size()];
@@ -212,7 +213,7 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
     @Override
     public UpdateResult updateWithVersion(Long currentVersion, List<Filter> filters, List<UpdateOperator> updates) {
         Filter[] filterArray;
-        Set<String> columnNameVersion = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyVersion.class);
+        Set<String> columnNameVersion = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyVersion.class);
         if (CollectionUtil.isNotEmpty(columnNameVersion)) {
             // 有版本校验
             filterArray = new Filter[filters.size() + columnNameVersion.size()];
@@ -236,14 +237,14 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
 
     @Override
     public DeleteResult removeById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         return this.find(Arrays.asList(Filters.eq(columnNameId, id)))
                 .delete();
     }
 
     @Override
     public DeleteResult removeByIds(Collection<Serializable> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         DeleteOptions deleteOptions = new DeleteOptions();
         deleteOptions.multi(true);
         return this.find(Arrays.asList(Filters.in(columnNameId, ids)))
@@ -260,14 +261,14 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
 
     @Override
     public UpdateResult removeLogicByIds(Collection<Serializable> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         Query<T> query = this.find(Arrays.asList(Filters.in(columnNameId, ids)));
         return this.update(query, this.setRemoveUpdateInfo(false));
     }
 
     @Override
     public UpdateResult removeLogicById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         Query<T> query = this.find(Arrays.asList(Filters.eq(columnNameId, id)));
         return this.update(query, this.setRemoveUpdateInfo(false));
     }
@@ -280,14 +281,14 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
 
     @Override
     public UpdateResult undoRemoveLogicByIds(Collection<Serializable> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         Query<T> query = this.find(Arrays.asList(Filters.in(columnNameId, ids)));
         return this.update(query, this.setRemoveUpdateInfo(true));
     }
 
     @Override
     public UpdateResult undoRemoveLogicById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         Query<T> query = this.find(Arrays.asList(Filters.eq(columnNameId, id)));
         return this.update(query, this.setRemoveUpdateInfo(true));
     }
@@ -302,12 +303,12 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
         if (!this.isAutoSetId()) {
             return;
         }
-        String columnNameId = EntityPropertiesUtil.getColumnNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
         Object idValue = EntityPropertiesUtil.getFieldValue(entity, columnNameId);
         if (ObjectUtil.isNotNull(idValue)) {
             return;
         }
-        Set<String> columnNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyId.class);
+        Set<String> columnNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyId.class);
         Class<?> columnTypeId = EntityPropertiesUtil.getColumnTypeId(propertyFieldCache);
         if (Number.class.isAssignableFrom(columnTypeId)) {
             EntityPropertiesUtil.setFieldValue(this, entity, columnNames, identifierGenerator.nextId());
@@ -320,13 +321,13 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
         if (!this.isAutoSetCreateExtraInfo()) {
             return;
         }
-        Set<String> createByPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyCreateBy.class);
+        Set<String> createByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreateBy.class);
         EntityPropertiesUtil.setFieldValue(this, entity, createByPropertyNames, this.getOptionUserId());
 
-        Set<String> createTimePropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyCreateTime.class);
+        Set<String> createTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreateTime.class);
         EntityPropertiesUtil.setFieldValue(this, entity, createTimePropertyNames, LocalDateTime.now());
 
-        Set<String> creatorPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyCreator.class);
+        Set<String> creatorPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreator.class);
         EntityPropertiesUtil.setFieldValue(this, entity, creatorPropertyNames, this.getOperator());
 
         this.setUpdateInfo(entity);
@@ -336,18 +337,18 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
         if (!this.isAutoSetUpdateExtraInfo()) {
             return;
         }
-        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateBy.class);
+        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateBy.class);
         EntityPropertiesUtil.setFieldValue(this, entity, updateByPropertyNames, this.getOptionUserId());
 
-        Set<String> UpdateTimePropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateTime.class);
+        Set<String> UpdateTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateTime.class);
         EntityPropertiesUtil.setFieldValue(this, entity, UpdateTimePropertyNames, LocalDateTime.now());
 
-        Set<String> UpdaterPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdater.class);
+        Set<String> UpdaterPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdater.class);
         EntityPropertiesUtil.setFieldValue(this, entity, UpdaterPropertyNames, this.getOperator());
     }
 
     private List<UpdateOperator> setRemoveUpdateInfo(boolean undo) {
-        Set<String> deletedPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyDeleted.class);
+        Set<String> deletedPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyDeleted.class);
         if (CollectionUtil.isNotEmpty(deletedPropertyNames)) {
             List<UpdateOperator> updates = this.setUpdateTimeUpdateInfo(CollectionUtil.newArrayList());
             for (String deletedPropertyName : deletedPropertyNames) {
@@ -366,9 +367,9 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
         if (!this.isAutoSetUpdateExtraInfo()) {
             return updates;
         }
-        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateBy.class);
-        Set<String> updateTimePropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdateTime.class);
-        Set<String> updatorPropertyNames = EntityPropertiesUtil.getColumnNames(propertyFieldCache, PropertyUpdater.class);
+        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateBy.class);
+        Set<String> updateTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateTime.class);
+        Set<String> updatorPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdater.class);
         if (CollectionUtil.isEmpty(updateByPropertyNames)
                 && CollectionUtil.isEmpty(updateTimePropertyNames)
                 && CollectionUtil.isEmpty(updatorPropertyNames)) {
