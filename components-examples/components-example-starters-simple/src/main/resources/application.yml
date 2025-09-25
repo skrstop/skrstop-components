@@ -296,8 +296,8 @@ skrstop:
       collection-naming: snakeCase
       property-naming: snakeCase
       ## 中划线
-      #      collection-naming: kebabCase
-      #      property-naming: kebabCase
+    #      collection-naming: kebabCase
+    #      property-naming: kebabCase
     dynamic:
       enabled: false
       data-sources:
