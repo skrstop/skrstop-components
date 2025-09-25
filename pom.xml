@@ -220,7 +220,7 @@
         <redisson.version>3.43.0</redisson.version>
         <!-- mongodb -->
         <mongo-driver-old.version>3.12.14</mongo-driver-old.version>
-        <mongo-driver.version>4.11.5</mongo-driver.version>
+        <mongo-driver.version>5.4.0</mongo-driver.version>
         <morphia-core.version>2.5.0</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
