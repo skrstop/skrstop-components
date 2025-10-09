@@ -286,13 +286,13 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
             return;
         }
         Set<String> createByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreateBy.class);
-        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, createByPropertyNames, this.getOptionUserId());
+        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, createByPropertyNames, this.getOperatorId());
 
         Set<String> createTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreateTime.class);
         EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, createTimePropertyNames, LocalDateTime.now());
 
         Set<String> creatorPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreator.class);
-        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, creatorPropertyNames, this.getOperator());
+        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, creatorPropertyNames, this.getOperatorName());
 
         this.setUpdateInfo(entity);
     }
@@ -302,13 +302,13 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
             return;
         }
         Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateBy.class);
-        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, updateByPropertyNames, this.getOptionUserId());
+        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, updateByPropertyNames, this.getOperatorId());
 
         Set<String> UpdateTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateTime.class);
         EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, UpdateTimePropertyNames, LocalDateTime.now());
 
         Set<String> UpdaterPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdater.class);
-        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, UpdaterPropertyNames, this.getOperator());
+        EntityPropertiesUtil.setFieldValue(this, tableInfo, entity, UpdaterPropertyNames, this.getOperatorName());
     }
 
     private Wrapper<T> setUpdateTimeUpdateInfo(@NotNull Wrapper<T> wrapper) {
@@ -330,18 +330,18 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
             UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) wrapper;
             Map<String, Object> paramNameValueMap = ((UpdateWrapper<T>) wrapper).getParamNameValuePairs();
             Map<String, String> paramMap = SuperParamsUtil.getParamMap(updateWrapper.getSqlSet());
-            EntityPropertiesUtil.setFieldValue(this, updateWrapper, paramNameValueMap, paramMap, updateByPropertyNames, this.getOptionUserId());
+            EntityPropertiesUtil.setFieldValue(this, updateWrapper, paramNameValueMap, paramMap, updateByPropertyNames, this.getOperatorId());
             EntityPropertiesUtil.setFieldValue(this, updateWrapper, paramNameValueMap, paramMap, updateTimePropertyNames, LocalDateTime.now());
-            EntityPropertiesUtil.setFieldValue(this, updateWrapper, paramNameValueMap, paramMap, updatorPropertyNames, this.getOperator());
+            EntityPropertiesUtil.setFieldValue(this, updateWrapper, paramNameValueMap, paramMap, updatorPropertyNames, this.getOperatorName());
             return updateWrapper;
         } else if (wrapper instanceof LambdaUpdateWrapper) {
             LambdaUpdateWrapper<T> lambdaUpdateWrapper = (LambdaUpdateWrapper<T>) wrapper;
             // origin
             Map<String, Object> paramNameValueMap = ((LambdaUpdateWrapper<T>) wrapper).getParamNameValuePairs();
             Map<String, String> paramMap = SuperParamsUtil.getParamMap(lambdaUpdateWrapper.getSqlSet());
-            EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updateByPropertyNames, this.getOptionUserId());
+            EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updateByPropertyNames, this.getOperatorId());
             EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updateTimePropertyNames, LocalDateTimeUtil.format(LocalDateTime.now(), DateFormatConst.NORM_DATETIME_NS_PATTERN));
-            EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updatorPropertyNames, this.getOperator());
+            EntityPropertiesUtil.setFieldValue(this, lambdaUpdateWrapper, paramNameValueMap, paramMap, updatorPropertyNames, this.getOperatorName());
             return lambdaUpdateWrapper;
         }
         return wrapper;
