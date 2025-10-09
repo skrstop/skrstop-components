@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  * @date 2025-09-22 20:40:59
  * @since 1.0.0
  */
+@SuppressWarnings("all")
 public class EntityPropertiesUtil {
 
     private static final Pair<String, Class<?>> DEFAULT_EMPTY = Pair.of(null, null);
