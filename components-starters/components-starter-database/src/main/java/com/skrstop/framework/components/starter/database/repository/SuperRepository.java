@@ -21,7 +21,7 @@ public interface SuperRepository<T> extends MPJBaseService<T> {
      *
      * @return
      */
-    default Object getOptionUserId() {
+    default Object getOperatorId() {
         return 0L;
     }
 
@@ -30,7 +30,7 @@ public interface SuperRepository<T> extends MPJBaseService<T> {
      *
      * @return
      */
-    default String getOperator() {
+    default String getOperatorName() {
         return StringPoolConst.EMPTY;
     }
 

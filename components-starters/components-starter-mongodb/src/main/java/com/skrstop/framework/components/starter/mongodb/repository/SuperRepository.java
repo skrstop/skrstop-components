@@ -31,7 +31,7 @@ public interface SuperRepository<T> {
      *
      * @return
      */
-    default Object getOptionUserId() {
+    default Object getOperatorId() {
         return null;
     }
 
@@ -40,7 +40,7 @@ public interface SuperRepository<T> {
      *
      * @return
      */
-    default String getOperator() {
+    default String getOperatorName() {
         return StringPoolConst.EMPTY;
     }
 

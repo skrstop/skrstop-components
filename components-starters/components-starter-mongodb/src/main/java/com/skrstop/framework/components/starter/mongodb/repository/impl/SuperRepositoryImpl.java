@@ -322,13 +322,13 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
             return;
         }
         Set<String> createByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreateBy.class);
-        EntityPropertiesUtil.setFieldValue(this, entity, createByPropertyNames, this.getOptionUserId());
+        EntityPropertiesUtil.setFieldValue(this, entity, createByPropertyNames, this.getOperatorId());
 
         Set<String> createTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreateTime.class);
         EntityPropertiesUtil.setFieldValue(this, entity, createTimePropertyNames, LocalDateTime.now());
 
         Set<String> creatorPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyCreator.class);
-        EntityPropertiesUtil.setFieldValue(this, entity, creatorPropertyNames, this.getOperator());
+        EntityPropertiesUtil.setFieldValue(this, entity, creatorPropertyNames, this.getOperatorName());
 
         this.setUpdateInfo(entity);
     }
@@ -338,13 +338,13 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
             return;
         }
         Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateBy.class);
-        EntityPropertiesUtil.setFieldValue(this, entity, updateByPropertyNames, this.getOptionUserId());
+        EntityPropertiesUtil.setFieldValue(this, entity, updateByPropertyNames, this.getOperatorId());
 
         Set<String> UpdateTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateTime.class);
         EntityPropertiesUtil.setFieldValue(this, entity, UpdateTimePropertyNames, LocalDateTime.now());
 
         Set<String> UpdaterPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdater.class);
-        EntityPropertiesUtil.setFieldValue(this, entity, UpdaterPropertyNames, this.getOperator());
+        EntityPropertiesUtil.setFieldValue(this, entity, UpdaterPropertyNames, this.getOperatorName());
     }
 
     private List<UpdateOperator> setRemoveUpdateInfo(boolean undo) {
@@ -376,9 +376,9 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity, KEY exte
             return updates;
         }
         final Set<String> fieldCollect = updates.stream().map(UpdateOperator::field).collect(Collectors.toSet());
-        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updateByPropertyNames, this.getOptionUserId());
+        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updateByPropertyNames, this.getOperatorId());
         EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updateTimePropertyNames, LocalDateTime.now());
-        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updatorPropertyNames, this.getOperator());
+        EntityPropertiesUtil.setFieldValue(this, updates, fieldCollect, updatorPropertyNames, this.getOperatorName());
         return updates;
     }
 
