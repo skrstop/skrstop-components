@@ -21,15 +21,15 @@ public abstract class AbstractUpdatorTimeBaseEntity extends AbstractUpdateByTime
     private static final long serialVersionUID = -4024689623085796268L;
 
     /**
-     * 更新人名字
+     * 新增人名字
      */
     @PropertyCreator
-    private String updater;
+    private String creator;
 
     /**
      * 更新人名字
      */
     @PropertyUpdater
-    private String creator;
+    private String updater;
 
 }
