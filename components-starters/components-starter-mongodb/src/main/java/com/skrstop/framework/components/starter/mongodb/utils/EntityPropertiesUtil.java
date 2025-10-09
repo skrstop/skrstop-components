@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  * @date 2025-09-22 20:40:59
  * @since 1.0.0
  */
+@SuppressWarnings("all")
 public class EntityPropertiesUtil {
 
     private static final Pair<String, Class<?>> DEFAULT_EMPTY = Pair.of(null, null);
@@ -126,10 +127,10 @@ public class EntityPropertiesUtil {
      * @return Map<Class<?>, Map<String, Pair<String, Class<?>>>>
      * key: Property注解类型
      * value: Map<String, Pair<String, Class<?>>>
-     *      key: java字段名
-     *      value: Pair<String, Class<?>>
-     *          key: db字段名
-     *          value: 字段类型
+     * key: java字段名
+     * value: Pair<String, Class<?>>
+     * key: db字段名
+     * value: 字段类型
      */
     public static Map<Class<?>, Map<String, Pair<String, Class<?>>>> tableProperties(String propertyNaming, Class<?> entityClass) {
         Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache = new HashMap<>();
