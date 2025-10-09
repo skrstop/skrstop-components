@@ -158,7 +158,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeById(Serializable id) {
         String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
-        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
         int result = this.getBaseMapper().removePhysicalById(id, tableName, columnNameId);
         return result > 0;
     }
@@ -183,7 +183,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByIds(Collection<?> ids) {
         String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
-        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
         int result = this.getBaseMapper().removePhysicalByIds(ids, tableName, columnNameId);
         return result > 0;
     }
@@ -191,7 +191,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicByIds(Collection<?> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.in(columnNameId, ids);
         return super.update(updateWrapper);
@@ -200,7 +200,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.eq(columnNameId, id);
         return super.update(updateWrapper);
@@ -224,7 +224,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicByIds(Collection<?> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.in(columnNameId, ids);
         return super.update(updateWrapper);
@@ -233,7 +233,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnPropertyNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.eq(columnNameId, id);
         return super.update(updateWrapper);
@@ -263,12 +263,12 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
         }
         if (updateWrapper instanceof UpdateWrapper) {
             UpdateWrapper<T> update = (UpdateWrapper<T>) updateWrapper;
-            EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyDeleted.class)
+            EntityPropertiesUtil.getColumnDbNames(propertyFieldCache, PropertyDeleted.class)
                     .forEach(property -> update.set(property, !undo));
         } else if (updateWrapper instanceof LambdaUpdateWrapper) {
             LambdaUpdateWrapper<T> lambdaUpdateWrapper = (LambdaUpdateWrapper<T>) updateWrapper;
             Map<String, String> paramMap = SuperParamsUtil.getParamMap(lambdaUpdateWrapper.getSqlSet());
-            EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyDeleted.class)
+            EntityPropertiesUtil.getColumnDbNames(propertyFieldCache, PropertyDeleted.class)
                     .forEach(property -> {
                         if (ObjectUtil.isNotNull(paramMap.get(property))) {
                             Map<String, Object> paramNameValuePairs = lambdaUpdateWrapper.getParamNameValuePairs();
@@ -319,9 +319,9 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
         if (!this.isAutoSetUpdateExtraInfo()) {
             return wrapper;
         }
-        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateBy.class);
-        Set<String> updateTimePropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdateTime.class);
-        Set<String> updatorPropertyNames = EntityPropertiesUtil.getColumnPropertyNames(propertyFieldCache, PropertyUpdater.class);
+        Set<String> updateByPropertyNames = EntityPropertiesUtil.getColumnDbNames(propertyFieldCache, PropertyUpdateBy.class);
+        Set<String> updateTimePropertyNames = EntityPropertiesUtil.getColumnDbNames(propertyFieldCache, PropertyUpdateTime.class);
+        Set<String> updatorPropertyNames = EntityPropertiesUtil.getColumnDbNames(propertyFieldCache, PropertyUpdater.class);
         if (CollectionUtil.isEmpty(updateByPropertyNames)
                 && CollectionUtil.isEmpty(updateTimePropertyNames)
                 && CollectionUtil.isEmpty(updatorPropertyNames)) {

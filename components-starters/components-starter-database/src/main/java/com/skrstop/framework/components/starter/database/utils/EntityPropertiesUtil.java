@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.database.utils;
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.ReflectUtil;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.Version;
@@ -19,6 +20,7 @@ import com.skrstop.framework.components.util.value.data.StrUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -81,20 +83,23 @@ public class EntityPropertiesUtil {
         if (CollectionUtil.isEmpty(fieldNames)) {
             return;
         }
+        AtomicInteger index = new AtomicInteger();
         fieldNames.forEach(property -> {
             if (superRepository.onlySetUpdateInfoWhenNull()
                     && (!paramMap.containsKey(property) || ObjectUtil.isNull(paramNameValueMap.get(paramMap.get(property))))) {
                 if (ObjectUtil.isNotNull(paramMap.get(property))) {
                     paramNameValueMap.put(paramMap.get(property), value);
                 } else {
-                    lambdaUpdateWrapper.setSql(property + StringPoolConst.EQUALS + value);
+                    lambdaUpdateWrapper.setSql(property + StringPoolConst.EQUALS + "{" + index + "}", value);
+                    index.getAndIncrement();
                 }
             }
             if (!superRepository.onlySetUpdateInfoWhenNull()) {
                 if (ObjectUtil.isNotNull(paramMap.get(property))) {
                     paramNameValueMap.put(paramMap.get(property), value);
                 } else {
-                    lambdaUpdateWrapper.setSql(property + StringPoolConst.EQUALS + value);
+                    lambdaUpdateWrapper.setSql(property + StringPoolConst.EQUALS + "{" + index + "}", value);
+                    index.getAndIncrement();
                 }
             }
         });
@@ -165,7 +170,10 @@ public class EntityPropertiesUtil {
             if (StrUtil.isBlank(targetFieldName)) {
                 continue;
             }
-            if (mapUnderscoreToCamelCase) {
+            TableField tableField = AnnotationUtil.getAnnotation(field, TableField.class);
+            if (ObjectUtil.isNotNull(tableField) && StrUtil.isNotBlank(tableField.value())) {
+                targetFieldName = tableField.value();
+            } else if (mapUnderscoreToCamelCase) {
                 targetFieldName = StrUtil.toUnderlineCase(targetFieldName);
             }
             // 创建人
