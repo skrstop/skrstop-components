@@ -32,6 +32,9 @@ public class GlobalResponseProperties {
     /*** 是否显示null字段节点 */
     private boolean showNullValue = false;
 
+    /*** 使用feign, 是否统一处理 */
+    private boolean supportFeign = true;
+
     /*** long 类型转换成string */
     private boolean longToString = true;
 
