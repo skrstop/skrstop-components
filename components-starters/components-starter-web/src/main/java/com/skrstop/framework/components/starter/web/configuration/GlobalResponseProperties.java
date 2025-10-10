@@ -32,9 +32,6 @@ public class GlobalResponseProperties {
     /*** 是否显示null字段节点 */
     private boolean showNullValue = false;
 
-    /*** 使用feign, 是否统一处理 */
-    private boolean supportFeign = true;
-
     /*** long 类型转换成string */
     private boolean longToString = true;
 
@@ -42,6 +39,9 @@ public class GlobalResponseProperties {
     private String dateTimeFormat = DateFormatConst.NORM_DATETIME_PATTERN;
     private String dateFormat = DateFormatConst.NORM_DATE_PATTERN;
     private String timeFormat = DateFormatConst.NORM_TIME_PATTERN;
+    private String yearFormat = DateFormatConst.NORM_YEAR_PATTERN;
+    private String monthDayFormat = DateFormatConst.NORM_MONTH_DAY_PATTERN;
+    private String yearMonthFormat = DateFormatConst.NORM_YEAR_MONTH_PATTERN;
 
     /*** 全局关闭IResult返回值自适应处理 */
     private boolean disableGlobalTransResultTypeResponse = false;

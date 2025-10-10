@@ -4,14 +4,14 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * @author 蒋时华
- * @date 2025-03-28 09:43:51
+ * @date 2025-03-28 09:44:06
  * @since 1.0.0
  */
-public class LocalDateTimeSerializer extends com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer {
+public class YearMonthSerializer extends com.fasterxml.jackson.datatype.jsr310.ser.YearMonthSerializer {
 
     private final String format;
 
-    public LocalDateTimeSerializer(String format) {
+    public YearMonthSerializer(String format) {
         super(DateTimeFormatter.ofPattern(format));
         this.format = format;
     }
