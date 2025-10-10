@@ -9,12 +9,12 @@ import java.text.SimpleDateFormat;
  * @date 2025-03-28 09:46:29
  * @since 1.0.0
  */
-public class DateDeserializer extends DateDeserializers.DateDeserializer {
+public class CalendarDeserializer extends DateDeserializers.CalendarDeserializer {
 
     private final String format;
 
-    public DateDeserializer(String format) {
-        super(new DateDeserializers.DateDeserializer(), new SimpleDateFormat(format), format);
+    public CalendarDeserializer(String format) {
+        super(new DateDeserializers.CalendarDeserializer(), new SimpleDateFormat(format), format);
         this.format = format;
     }
 

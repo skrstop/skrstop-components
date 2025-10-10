@@ -7,11 +7,11 @@ import java.text.SimpleDateFormat;
  * @date 2025-03-28 09:43:31
  * @since 1.0.0
  */
-public class DateSerializer extends com.fasterxml.jackson.databind.ser.std.DateSerializer {
+public class CalendarSerializer extends com.fasterxml.jackson.databind.ser.std.CalendarSerializer {
 
     private final String format;
 
-    public DateSerializer(String format) {
+    public CalendarSerializer(String format) {
         super(null, new SimpleDateFormat(format));
         this.format = format;
     }

@@ -5,10 +5,21 @@ package com.skrstop.framework.components.util.constant;
  * @date 2020-05-20 14:07:08
  */
 public interface DateFormatConst {
+
+    /**
+     * 年日期格式：yyyy
+     */
+    String NORM_YEAR_PATTERN = "yyyy";
+
     /**
      * 年月日期格式：yyyy-MM
      */
     String NORM_YEAR_MONTH_PATTERN = "yyyy-MM";
+
+    /**
+     * 月日日期格式：yyyy-MM
+     */
+    String NORM_MONTH_DAY_PATTERN = "MM-dd";
 
     /**
      * 标准日期格式：yyyy-MM-dd
