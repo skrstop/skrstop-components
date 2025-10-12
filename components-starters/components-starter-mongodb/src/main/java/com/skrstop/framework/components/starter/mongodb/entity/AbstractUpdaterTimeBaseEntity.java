@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractUpdatorTimeBaseEntity extends AbstractUpdateByTimeBaseEntity {
+public abstract class AbstractUpdaterTimeBaseEntity extends AbstractUpdateByTimeBaseEntity {
 
 
     private static final long serialVersionUID = -4024689623085796268L;

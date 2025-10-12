@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.mongodb.entity.deletedVersion;
 
 import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyDeleted;
-import com.skrstop.framework.components.starter.mongodb.entity.version.AbstractUpdatorTimeVersionBaseEntity;
+import com.skrstop.framework.components.starter.mongodb.entity.version.AbstractUpdaterTimeVersionBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractUpdatorTimeDeletedVersionBaseEntity extends AbstractUpdatorTimeVersionBaseEntity {
+public abstract class AbstractUpdaterTimeDeletedVersionBaseEntity extends AbstractUpdaterTimeVersionBaseEntity {
 
 
     private static final long serialVersionUID = -4024689623085796268L;
