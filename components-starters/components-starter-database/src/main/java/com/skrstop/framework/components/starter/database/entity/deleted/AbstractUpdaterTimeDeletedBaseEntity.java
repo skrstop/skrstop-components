@@ -1,8 +1,8 @@
-package com.skrstop.framework.components.starter.database.entity.deletedVersion;
+package com.skrstop.framework.components.starter.database.entity.deleted;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.skrstop.framework.components.starter.database.annotation.property.PropertyDeleted;
-import com.skrstop.framework.components.starter.database.entity.version.AbstractUpdatorTimeVersionBaseEntity;
+import com.skrstop.framework.components.starter.database.entity.AbstractUpdaterTimeBaseEntity;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import java.io.Serial;
  */
 @Getter
 @Setter
-public abstract class AbstractUpdatorTimeDeletedVersionBaseEntity extends AbstractUpdatorTimeVersionBaseEntity {
+public abstract class AbstractUpdaterTimeDeletedBaseEntity extends AbstractUpdaterTimeBaseEntity {
 
     @Serial
     private static final long serialVersionUID = -4024689623085796268L;

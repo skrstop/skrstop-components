@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.mongodb.entity.version;
 
 import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyVersion;
-import com.skrstop.framework.components.starter.mongodb.entity.AbstractUpdatorTimeBaseEntity;
+import com.skrstop.framework.components.starter.mongodb.entity.AbstractUpdaterTimeBaseEntity;
 import dev.morphia.annotations.Version;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.io.Serial;
  */
 @Getter
 @Setter
-public abstract class AbstractUpdatorTimeVersionBaseEntity extends AbstractUpdatorTimeBaseEntity {
+public abstract class AbstractUpdaterTimeVersionBaseEntity extends AbstractUpdaterTimeBaseEntity {
 
     @Serial
     private static final long serialVersionUID = -4024689623085796268L;

@@ -1,7 +1,7 @@
-package com.skrstop.framework.components.starter.database.entity;
+package com.skrstop.framework.components.starter.mongodb.entity;
 
-import com.skrstop.framework.components.starter.database.annotation.property.PropertyCreator;
-import com.skrstop.framework.components.starter.database.annotation.property.PropertyUpdater;
+import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyCreator;
+import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyUpdater;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import java.io.Serial;
  */
 @Getter
 @Setter
-public abstract class AbstractUpdatorTimeBaseEntity extends AbstractUpdateByTimeBaseEntity {
+public abstract class AbstractUpdaterTimeBaseEntity extends AbstractUpdateByTimeBaseEntity {
 
     @Serial
     private static final long serialVersionUID = -4024689623085796268L;

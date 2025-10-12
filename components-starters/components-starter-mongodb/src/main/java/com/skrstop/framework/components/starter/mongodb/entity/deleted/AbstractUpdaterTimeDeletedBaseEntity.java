@@ -1,7 +1,7 @@
 package com.skrstop.framework.components.starter.mongodb.entity.deleted;
 
 import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyDeleted;
-import com.skrstop.framework.components.starter.mongodb.entity.AbstractUpdatorTimeBaseEntity;
+import com.skrstop.framework.components.starter.mongodb.entity.AbstractUpdaterTimeBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import java.io.Serial;
  */
 @Getter
 @Setter
-public abstract class AbstractUpdatorTimeDeletedBaseEntity extends AbstractUpdatorTimeBaseEntity {
+public abstract class AbstractUpdaterTimeDeletedBaseEntity extends AbstractUpdaterTimeBaseEntity {
 
     @Serial
     private static final long serialVersionUID = -4024689623085796268L;
