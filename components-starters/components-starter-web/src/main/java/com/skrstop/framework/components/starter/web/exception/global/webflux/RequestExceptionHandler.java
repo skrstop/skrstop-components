@@ -162,13 +162,16 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
             result = execute.getKey();
             response.setRawStatusCode(execute.getValue());
         } else if (e instanceof Error) {
-            result = errorHandleChainPattern.execute((Error) e);
-            response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
+            Pair<IResult, Integer> execute = errorHandleChainPattern.execute((Error) e);
+            result = execute.getKey();
+            response.setRawStatusCode(execute.getValue());
         } else {
             result = DefaultResult.Builder.error();
             response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
-        if (e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable) {
+        if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
+                || e instanceof NotShowHttpStatusException
+                || e instanceof BusinessThrowable) {
             response.setRawStatusCode(HttpStatusConst.HTTP_OK);
         }
         // 参考AbstractErrorWebExceptionHandler

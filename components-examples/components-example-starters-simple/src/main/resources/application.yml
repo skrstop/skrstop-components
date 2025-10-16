@@ -129,6 +129,12 @@ skrstop:
   response:
     config:
       enable-feign-trans-result-type-response: true
+      default-exception-code:
+        success: "200"
+        fail: "500"
+  exception:
+    config:
+      always-return-http-ok: true
   redis:
     redisson:
       enabled: true

@@ -27,5 +27,7 @@ public class GlobalExceptionProperties {
     private boolean hasHtmlError = false;
     /*** 日志是否打印业务业务异常 */
     private boolean logBusinessServiceException = false;
+    /*** 是否总是返回200的httpStatus, 默认：false  */
+    private boolean alwaysReturnHttpOk = false;
 
 }

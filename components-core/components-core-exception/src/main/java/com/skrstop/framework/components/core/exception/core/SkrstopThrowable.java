@@ -24,9 +24,9 @@ public interface SkrstopThrowable extends Serializable {
     /**
      * 获取异常码
      *
-     * @return Integer
+     * @return Object
      */
-    default String getCode() {
+    default Object getCode() {
         return this.getIResult().getCode();
     }
 

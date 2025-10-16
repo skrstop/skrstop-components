@@ -14,3 +14,4 @@ com.skrstop.framework.components.starter.web.configuration.DateTimeFormatAutoCon
 com.skrstop.framework.components.starter.web.configuration.FeignResponseAuthConfiguration
 com.skrstop.framework.components.starter.web.event.ShutdownEventController
 com.skrstop.framework.components.starter.web.event.StatusEventController
+com.skrstop.framework.components.starter.web.configuration.DefaultExceptionCodeAutoConfiguration

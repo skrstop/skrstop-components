@@ -91,16 +91,16 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
         if (ex instanceof BindException) {
             BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
-            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), this.getFinalStatusCode(HttpStatus.BAD_REQUEST, ex));
         } else if (ex instanceof HttpMessageNotReadableException) {
             // json格式转换错误
             Throwable cause = ex.getCause();
             if (ObjectUtil.isNotNull(cause) && cause instanceof JsonMappingException && ObjectUtil.isNotNull(cause.getCause())) {
 //                IResult iResult = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
 //                iResult.setMessage(cause.getCause().getMessage());
-                return new ResponseEntity(Result.Builder.result(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(Result.Builder.result(CommonExceptionCode.PARAMETER), this.getFinalStatusCode(HttpStatus.BAD_REQUEST, ex));
             }
-            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER), this.getFinalStatusCode(HttpStatus.BAD_REQUEST, ex));
         } else if (ex instanceof NoResourceFoundException) {
             if (request instanceof ServletWebRequest) {
                 // 打印header
@@ -111,9 +111,9 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
                 });
                 log.error("404请求，源请求地址 -- {}, header: {}", ((ServletWebRequest) request).getRequest().getRequestURI(), CollectionUtil.join(headerInfo, ", "));
             }
-            return new ResponseEntity(Result.Builder.result(CommonResultCode.NOT_FOUND), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(Result.Builder.result(CommonResultCode.NOT_FOUND), this.getFinalStatusCode(HttpStatus.NOT_FOUND, ex));
         }
-        return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(Result.Builder.result(CommonResultCode.FAIL), this.getFinalStatusCode(HttpStatus.INTERNAL_SERVER_ERROR, ex));
     }
 
     /**
@@ -123,7 +123,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.MISS_PARAMETER), status);
+        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.MISS_PARAMETER), this.getFinalStatusCode(status, ex));
     }
 
     /**
@@ -133,7 +133,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.MISS_PARAMETER), status);
+        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.MISS_PARAMETER), this.getFinalStatusCode(status, ex));
     }
 
     /**
@@ -153,7 +153,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
                 .append(ex.getValue())
                 .toString();
         iResult.setMessage(message);
-        return new ResponseEntity(iResult, status);
+        return new ResponseEntity(iResult, this.getFinalStatusCode(status, ex));
     }
 
     /**
@@ -169,7 +169,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.NOT_SUPPORT_MEDIA_TYPE), status);
+        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.NOT_SUPPORT_MEDIA_TYPE), this.getFinalStatusCode(status, ex));
     }
 
     /**
@@ -185,7 +185,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.NOT_ACCEPTED_MEDIA_TYPE), status);
+        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.NOT_ACCEPTED_MEDIA_TYPE), this.getFinalStatusCode(status, ex));
     }
 
     /**
@@ -197,7 +197,7 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.REQUEST_TIMEOUT), status);
+        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.REQUEST_TIMEOUT), this.getFinalStatusCode(status, ex));
     }
 
     /**
@@ -213,7 +213,23 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.REQUEST_METHOD_NOT_ALLOWED), status);
+        return new ResponseEntity(Result.Builder.result(WebStarterExceptionCode.REQUEST_METHOD_NOT_ALLOWED), this.getFinalStatusCode(status, ex));
+    }
+
+    /**
+     * 获取最终的状态码
+     *
+     * @param status
+     * @param ex
+     * @return
+     */
+    private HttpStatusCode getFinalStatusCode(HttpStatusCode status, Throwable ex) {
+        if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
+                || ex instanceof NotShowHttpStatusException
+                || ex instanceof BusinessThrowable) {
+            return HttpStatus.OK;
+        }
+        return status;
     }
 
     /**
@@ -326,7 +342,9 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         this.setResponseContentType(request, response);
         Pair<IResult, Integer> execute = exceptionHandleChainPattern.execute(e);
         response.setStatus(execute.getValue());
-        if ((e instanceof NotShowHttpStatusException || e instanceof BusinessThrowable)) {
+        if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
+                || e instanceof NotShowHttpStatusException
+                || e instanceof BusinessThrowable) {
             response.setStatus(HttpStatusConst.HTTP_OK);
         }
         return execute.getKey();
@@ -346,7 +364,13 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ThrowableStackTraceUtil.getStackTraceStr(e));
         response.setStatus(HttpStatusConst.HTTP_INTERNAL_ERROR);
         this.setResponseContentType(request, response);
-        return errorHandleChainPattern.execute(e);
+        Pair<IResult, Integer> execute = errorHandleChainPattern.execute(e);
+        if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
+                || e instanceof NotShowHttpStatusException
+                || e instanceof BusinessThrowable) {
+            response.setStatus(HttpStatusConst.HTTP_OK);
+        }
+        return execute.getKey();
     }
 
     public void setResponseContentType(HttpServletRequest request, HttpServletResponse response) {

@@ -2,6 +2,7 @@ package com.skrstop.framework.components.starter.web.exception.global.webmvc;
 
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
+import com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowHtmlMessageException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowJsonMessageException;
@@ -32,8 +33,17 @@ public class DefaultErrorHtmlController extends DefaultErrorController {
         super(errorAttributes, errorProperties);
     }
 
-    public DefaultErrorHtmlController(ErrorAttributes errorAttributes, ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
-        super(errorAttributes, errorProperties, errorViewResolvers);
+    public DefaultErrorHtmlController(ErrorAttributes errorAttributes
+            , ErrorProperties errorProperties
+            , List<ErrorViewResolver> errorViewResolvers) {
+        super(errorAttributes, errorProperties, errorViewResolvers, null);
+    }
+
+    public DefaultErrorHtmlController(ErrorAttributes errorAttributes
+            , ErrorProperties errorProperties
+            , List<ErrorViewResolver> errorViewResolvers
+            , GlobalExceptionProperties globalExceptionProperties) {
+        super(errorAttributes, errorProperties, errorViewResolvers, globalExceptionProperties);
     }
 
     @Override
@@ -44,7 +54,9 @@ public class DefaultErrorHtmlController extends DefaultErrorController {
                                   final WebRequest req) throws Throwable {
         HttpStatus status = getStatus(request);
         Throwable error = this.errorAttributes.getError(req);
-        if (error instanceof NotShowHttpStatusException) {
+        if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
+                || error instanceof NotShowHttpStatusException
+                || error instanceof BusinessThrowable) {
             response.setStatus(HttpStatusConst.HTTP_OK);
         } else {
             response.setStatus(status.value());
