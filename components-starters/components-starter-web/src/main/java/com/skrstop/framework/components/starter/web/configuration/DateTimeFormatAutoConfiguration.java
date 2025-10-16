@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.configuration;
 
+import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.DateUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
@@ -99,7 +100,7 @@ public class DateTimeFormatAutoConfiguration implements WebMvcConfigurer {
 
         @Override
         public Set<Class<?>> getFieldTypes() {
-            return Set.of(Date.class);
+            return CollectionUtil.newHashSet(Date.class);
         }
 
         protected Formatter<Date> getFormatter(DateTimeFormat annotation, Class<?> fieldType) {
