@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.web.configuration;
 
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
+import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 import com.skrstop.framework.components.starter.web.exception.code.WebStarterExceptionCode;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,45 @@ public class DefaultExceptionCodeAutoConfiguration {
         }
         if (ObjectUtil.isNotNull(defaultExceptionCode.getBusy())) {
             CommonResultCode.BUSY.setCode(defaultExceptionCode.getBusy());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getNotSupported())) {
+            CommonExceptionCode.NOT_SUPPORTED.setCode(defaultExceptionCode.getNotSupported());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getDecoding())) {
+            CommonExceptionCode.DECODING.setCode(defaultExceptionCode.getDecoding());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getEncoding())) {
+            CommonExceptionCode.ENCODING.setCode(defaultExceptionCode.getEncoding());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getDeserialization())) {
+            CommonExceptionCode.DESERIALIZATION.setCode(defaultExceptionCode.getDeserialization());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getSerialization())) {
+            CommonExceptionCode.SERIALIZATION.setCode(defaultExceptionCode.getSerialization());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getIllegalArgument())) {
+            CommonExceptionCode.ILLEGAL_ARGUMENT.setCode(defaultExceptionCode.getIllegalArgument());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getIllegalAccess())) {
+            CommonExceptionCode.ILLEGAL_ACCESS.setCode(defaultExceptionCode.getIllegalAccess());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getHttpHandle())) {
+            CommonExceptionCode.HTTP_HANDLE.setCode(defaultExceptionCode.getHttpHandle());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getRpcHandle())) {
+            CommonExceptionCode.RPC_HANDLE.setCode(defaultExceptionCode.getRpcHandle());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getParameter())) {
+            CommonExceptionCode.PARAMETER.setCode(defaultExceptionCode.getParameter());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getNullPointer())) {
+            CommonExceptionCode.NULL_POINTER.setCode(defaultExceptionCode.getNullPointer());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getIndexOutOfBounds())) {
+            CommonExceptionCode.INDEX_OUT_OF_BOUNDS.setCode(defaultExceptionCode.getIndexOutOfBounds());
+        }
+        if (ObjectUtil.isNotNull(defaultExceptionCode.getIoStreaming())) {
+            CommonExceptionCode.IO_STREAMING.setCode(defaultExceptionCode.getIoStreaming());
         }
         if (ObjectUtil.isNotNull(defaultExceptionCode.getMatchParameter())) {
             WebStarterExceptionCode.MATCH_PARAMETER.setCode(defaultExceptionCode.getMatchParameter());

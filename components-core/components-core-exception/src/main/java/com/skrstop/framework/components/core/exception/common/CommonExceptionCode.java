@@ -16,9 +16,9 @@ public enum CommonExceptionCode implements IResult {
 
     /*** 保留异常码 */
     NOT_SUPPORTED("server.notSupport", "not supported"),
-    DE_CODING("server.decoding", "解码异常"),
-    EN_CODING("server.encoding", "编码异常"),
-    DE_SERIALIZATION("server.deserializable", "反序列化异常"),
+    DECODING("server.decoding", "解码异常"),
+    ENCODING("server.encoding", "编码异常"),
+    DESERIALIZATION("server.deserializable", "反序列化异常"),
     SERIALIZATION("server.serializable", "序列化异常"),
     ILLEGAL_ARGUMENT("server.parameter.illegal", "非法参数异常"),
     ILLEGAL_ACCESS("server.access.illegal", "非法访问异常"),

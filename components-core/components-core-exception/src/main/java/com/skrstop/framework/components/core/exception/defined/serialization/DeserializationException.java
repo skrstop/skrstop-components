@@ -13,18 +13,18 @@ public class DeserializationException extends SkrstopRuntimeException {
     private static final long serialVersionUID = -211821078080239182L;
 
     public DeserializationException() {
-        super(CommonExceptionCode.DE_SERIALIZATION);
+        super(CommonExceptionCode.DESERIALIZATION);
     }
 
     public DeserializationException(Throwable throwable) {
-        super(CommonExceptionCode.DE_SERIALIZATION, throwable);
+        super(CommonExceptionCode.DESERIALIZATION, throwable);
     }
 
     public DeserializationException(String message) {
-        super(CommonExceptionCode.DE_SERIALIZATION, message);
+        super(CommonExceptionCode.DESERIALIZATION, message);
     }
 
     public DeserializationException(String message, Throwable throwable) {
-        super(CommonExceptionCode.DE_SERIALIZATION, message, throwable);
+        super(CommonExceptionCode.DESERIALIZATION, message, throwable);
     }
 }
