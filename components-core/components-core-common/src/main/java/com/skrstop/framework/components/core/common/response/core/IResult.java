@@ -16,16 +16,16 @@ public interface IResult extends Serializable {
     /**
      * get response code
      *
-     * @return int
+     * @return Object
      */
-    String getCode();
+    Object getCode();
 
     /**
      * set response code
      *
      * @param code
      */
-    void setCode(String code);
+    void setCode(Object code);
 
     /**
      * get response message

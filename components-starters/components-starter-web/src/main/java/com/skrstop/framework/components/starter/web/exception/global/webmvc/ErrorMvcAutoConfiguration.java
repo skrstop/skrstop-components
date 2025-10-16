@@ -70,8 +70,11 @@ public class ErrorMvcAutoConfiguration {
             search = SearchStrategy.CURRENT)
     @ConditionalOnProperty(value = "skrstop.exception.config.has-html-error", havingValue = "false", matchIfMissing = true)
     public DefaultErrorController basicErrorController(ErrorAttributes errorAttributes) {
-        return new DefaultErrorController(errorAttributes, this.serverProperties.getError(),
-                this.errorViewResolvers);
+        return new DefaultErrorController(errorAttributes
+                , this.serverProperties.getError()
+                , this.errorViewResolvers
+                , this.globalExceptionProperties
+        );
     }
 
     @Bean
@@ -80,8 +83,11 @@ public class ErrorMvcAutoConfiguration {
             search = SearchStrategy.CURRENT)
     @ConditionalOnProperty(value = "skrstop.exception.config.has-html-error", havingValue = "true", matchIfMissing = false)
     public DefaultErrorController basicErrorHtmlController(ErrorAttributes errorAttributes) {
-        return new DefaultErrorHtmlController(errorAttributes, this.serverProperties.getError(),
-                this.errorViewResolvers);
+        return new DefaultErrorHtmlController(errorAttributes
+                , this.serverProperties.getError()
+                , this.errorViewResolvers
+                , this.globalExceptionProperties
+        );
     }
 
 }

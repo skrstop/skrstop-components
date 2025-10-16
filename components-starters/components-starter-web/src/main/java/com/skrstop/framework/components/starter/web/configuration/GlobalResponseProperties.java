@@ -3,8 +3,8 @@ package com.skrstop.framework.components.starter.web.configuration;
 import com.skrstop.framework.components.starter.web.constant.GlobalConfigConst;
 import com.skrstop.framework.components.starter.web.constant.RequestPathConst;
 import com.skrstop.framework.components.util.constant.DateFormatConst;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -54,5 +54,25 @@ public class GlobalResponseProperties {
 
     /*** 是否开启feign调用的自动去除包装结构，用户controller直接集成feignClient的情况，默认：false */
     private boolean enableFeignTransResultTypeResponse = false;
+
+    /*** 默认错误码code */
+    private DefaultExceptionCode defaultExceptionCode = new DefaultExceptionCode();
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @Accessors(chain = true)
+    public static class DefaultExceptionCode {
+        /**
+         * 默认成功
+         */
+        private Object success;
+        /**
+         * 默认失败
+         */
+        private Object fail;
+    }
 
 }

@@ -1,7 +1,9 @@
 package com.skrstop.framework.components.core.exception.common;
 
 import com.skrstop.framework.components.core.common.response.core.IResult;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 自定义业务异常
@@ -9,6 +11,7 @@ import lombok.Getter;
  * @author 蒋时华
  * @date 2020-05-02 23:19:21
  */
+@AllArgsConstructor
 public enum CommonExceptionCode implements IResult {
 
     /*** 保留异常码 */
@@ -29,23 +32,10 @@ public enum CommonExceptionCode implements IResult {
     ;
 
     @Getter
-    private final String code;
+    @Setter
+    private Object code;
     @Getter
-    private final String message;
+    @Setter
+    private String message;
 
-    CommonExceptionCode(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-
-    @Override
-    public void setCode(String code) {
-        throw new IllegalArgumentException("not support this method");
-    }
-
-    @Override
-    public void setMessage(String message) {
-        throw new IllegalArgumentException("not support this method");
-    }
 }

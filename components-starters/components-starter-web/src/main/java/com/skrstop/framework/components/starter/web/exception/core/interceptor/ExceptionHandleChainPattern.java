@@ -59,7 +59,7 @@ public class ExceptionHandleChainPattern {
             }
             return Pair.of(execute.getResult(), ObjectUtil.defaultIfNull(execute.getResponseStatus(), HttpStatusConst.HTTP_INTERNAL_ERROR));
         }
-        return null;
+        return Pair.of(Result.Builder.result(CommonResultCode.FAIL), HttpStatusConst.HTTP_INTERNAL_ERROR);
     }
 
 }

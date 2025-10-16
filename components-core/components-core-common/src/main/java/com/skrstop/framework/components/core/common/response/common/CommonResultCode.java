@@ -2,7 +2,9 @@ package com.skrstop.framework.components.core.common.response.common;
 
 
 import com.skrstop.framework.components.core.common.response.core.IResult;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 通用错误码
@@ -10,6 +12,7 @@ import lombok.Getter;
  * @author 蒋时华
  * @date 2019/5/30
  */
+@AllArgsConstructor
 public enum CommonResultCode implements IResult {
 
     /*** 通用错误码 */
@@ -22,22 +25,10 @@ public enum CommonResultCode implements IResult {
     ;
 
     @Getter
-    private final String code;
+    @Setter
+    private Object code;
     @Getter
-    private final String message;
+    @Setter
+    private String message;
 
-    CommonResultCode(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    @Override
-    public void setCode(String code) throws IllegalArgumentException {
-        throw new IllegalArgumentException("not support this method");
-    }
-
-    @Override
-    public void setMessage(String message) {
-        throw new IllegalArgumentException("not support this method");
-    }
 }

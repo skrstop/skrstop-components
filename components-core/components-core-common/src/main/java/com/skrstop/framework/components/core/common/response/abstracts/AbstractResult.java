@@ -14,7 +14,7 @@ import lombok.Setter;
 public abstract class AbstractResult extends SerializableBean {
 
     /*** response code */
-    protected String code;
+    protected Object code;
     /*** response simple message */
     protected String message;
     /*** timestamp */

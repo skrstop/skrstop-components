@@ -14,4 +14,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.skrstop.framework.components.starter.web.configuration.DateTimeFormatAutoConfiguration,\
     com.skrstop.framework.components.starter.web.configuration.FeignResponseAuthConfiguration,\
     com.skrstop.framework.components.starter.web.event.ShutdownEventController,\
-    com.skrstop.framework.components.starter.web.event.StatusEventController
+    com.skrstop.framework.components.starter.web.event.StatusEventController,\
+    com.skrstop.framework.components.starter.web.configuration.DefaultExceptionCodeAutoConfiguration
