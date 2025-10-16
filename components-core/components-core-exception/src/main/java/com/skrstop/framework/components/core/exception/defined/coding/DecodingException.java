@@ -16,18 +16,18 @@ public class DecodingException extends SkrstopRuntimeException {
     private static final long serialVersionUID = -7076726091856995091L;
 
     public DecodingException() {
-        super(CommonExceptionCode.DE_CODING);
+        super(CommonExceptionCode.DECODING);
     }
 
     public DecodingException(Throwable throwable) {
-        super(CommonExceptionCode.DE_CODING, throwable);
+        super(CommonExceptionCode.DECODING, throwable);
     }
 
     public DecodingException(String message) {
-        super(CommonExceptionCode.DE_CODING, message);
+        super(CommonExceptionCode.DECODING, message);
     }
 
     public DecodingException(String message, Throwable throwable) {
-        super(CommonExceptionCode.DE_CODING, message, throwable);
+        super(CommonExceptionCode.DECODING, message, throwable);
     }
 }

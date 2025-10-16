@@ -118,6 +118,79 @@ public class GlobalResponseProperties {
          */
         private Object fileNotPoint;
 
+        /**
+         * not supported
+         */
+        private Object notSupported;
+        /**
+         * 解码异常
+         */
+        private Object decoding;
+        /**
+         * 编码异常
+         */
+        private Object encoding;
+        /**
+         * 反序列化异常
+         */
+        private Object deserialization;
+        /**
+         * 序列化异常
+         */
+        private Object serialization;
+        /**
+         * 非法参数异常
+         */
+        private Object illegalArgument;
+        /**
+         * 非法访问异常
+         */
+        private Object illegalAccess;
+        /**
+         * HTTP访问异常
+         */
+        private Object httpHandle;
+        /**
+         * RPC访问异常
+         */
+        private Object rpcHandle;
+        /**
+         * 参数异常
+         */
+        private Object parameter;
+        /**
+         * 空指针异常
+         */
+        private Object nullPointer;
+        /**
+         * 指针越界异常
+         */
+        private Object indexOutOfBounds;
+        /**
+         * io流异常
+         */
+        private Object ioStreaming;
+
+        /**
+         * 访问过于频繁，请稍后重试
+         */
+        private Object accessLimit;
+        /**
+         * 该接口已失效
+         */
+        private Object controllerDeprecated;
+        /**
+         * 内网访问限制
+         */
+        private Object intranetLimit;
+        /**
+         * 隐私信息，不可访问
+         */
+        private Object privacyInfo;
+        /**
+         * 未找到相关处理器
+         */
+        private Object noProcessor;
     }
 
 }
