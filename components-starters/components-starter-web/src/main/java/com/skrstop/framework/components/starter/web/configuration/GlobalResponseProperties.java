@@ -66,13 +66,57 @@ public class GlobalResponseProperties {
     @Accessors(chain = true)
     public static class DefaultExceptionCode {
         /**
-         * 默认成功
+         * 成功
          */
         private Object success;
         /**
-         * 默认失败
+         * 失败
          */
         private Object fail;
+        /**
+         * 无资源
+         */
+        private Object notFound;
+        /**
+         * 禁止访问
+         */
+        private Object forbidden;
+        /**
+         * 系统繁忙
+         */
+        private Object busy;
+        /**
+         * 参数类型错误
+         */
+        private Object matchParameter;
+        /**
+         * 不支持该媒体类型
+         */
+        private Object notSupportMediaType;
+        /**
+         * 不可接受该媒体类型
+         */
+        private Object notAcceptedMediaType;
+        /**
+         * 请求超时
+         */
+        private Object requestTimeout;
+        /**
+         * 不支持该请求方法
+         */
+        private Object requestMethodNotAllowed;
+        /**
+         * 缺少参数
+         */
+        private Object missParameter;
+        /**
+         * 文件上传错误
+         */
+        private Object fileUpload;
+        /**
+         * 未指定上传文件
+         */
+        private Object fileNotPoint;
     }
 
 }
