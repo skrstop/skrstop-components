@@ -129,10 +129,10 @@
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-cloud.version>2021.0.9</spring-cloud.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2021.0.6.2</spring-cloud-alibaba.version>
         <!-- cache -->
         <cache-caffeine.version>3.1.8</cache-caffeine.version>
         <!-- mybatis -->
