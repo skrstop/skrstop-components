@@ -101,8 +101,8 @@
         <!-- base properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <resource.delimiter>@</resource.delimiter>
 
         <!-- metrics -->
@@ -131,7 +131,7 @@
         <!-- spring's version -->
         <spring-cloud.version>2023.0.6</spring-cloud.version>
         <openfeign.version>4.2.0</openfeign.version>
-        <spring-boot.version>3.2.12</spring-boot.version>
+        <spring-boot.version>3.3.13</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
         <spring-cloud-alibaba.version>2023.0.3.4</spring-cloud-alibaba.version>
         <!-- cache -->
@@ -179,7 +179,7 @@
         <!-- reflections -->
         <reflections.version>0.10.2</reflections.version>
         <!-- hutool -->
-        <hutool.version>5.8.39</hutool.version>
+        <hutool.version>5.8.41</hutool.version>
         <!-- concurrentlinkedhashmap-lru -->
         <concurrentlinkedhashmap-lru.version>1.4.2</concurrentlinkedhashmap-lru.version>
         <!-- json -->
