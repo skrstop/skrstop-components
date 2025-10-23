@@ -80,17 +80,17 @@
 # 常用可用类库版本
 
 * springBoot 2.7.18
-* springCloud 2022.0.4
-* springCloudAlibaba 2022.0.0.0
+* springCloud 2021.0.9
+* springCloudAlibaba 2021.0.6.2
 * log4j 2.22.0
-* lombok 1.8.30
+* lombok 1.8.42
 * mybatis 3.5.14
 * mybatis-plus 3.5.4.1
 * mybatis-fluent 1.9.9
 * redisson 3.25.0
 * druid 1.2.20
-* hutool 5.8.23
-* fastjson 2.0.58
+* hutool 5.8.41
+* fastjson 2.0.59
 * dubbo 3.2.9
 * protostuff 1.8.0
 * lettuce 6.3.0.RELEASE
