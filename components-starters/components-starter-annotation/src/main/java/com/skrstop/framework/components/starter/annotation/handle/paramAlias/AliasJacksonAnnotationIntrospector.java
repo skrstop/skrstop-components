@@ -1,17 +1,13 @@
 package com.skrstop.framework.components.starter.annotation.handle.paramAlias;
 
 import com.fasterxml.jackson.databind.PropertyName;
-import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.introspect.Annotated;
-import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
-import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.skrstop.framework.components.starter.annotation.anno.paramAlias.RequestParamAlias;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,23 +35,6 @@ public class AliasJacksonAnnotationIntrospector extends JacksonAnnotationIntrosp
                     }
                 }
             }
-        }
-    }
-
-    @Override
-    public void findEnumAliases(MapperConfig<?> config, AnnotatedClass annotatedClass,
-                                Enum<?>[] enumValues, String[][] aliasList) {
-        HashMap<String, String[]> enumToAliasMap = new HashMap<>();
-        for (AnnotatedField field : annotatedClass.fields()) {
-            RequestParamAlias alias = field.getAnnotation(RequestParamAlias.class);
-            if (alias != null) {
-                enumToAliasMap.putIfAbsent(field.getName(), alias.value());
-            }
-        }
-
-        for (int i = 0, end = enumValues.length; i < end; ++i) {
-            Enum<?> enumValue = enumValues[i];
-            aliasList[i] = enumToAliasMap.getOrDefault(enumValue.name(), new String[]{});
         }
     }
 

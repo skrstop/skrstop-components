@@ -120,7 +120,6 @@
 
         <!-- dependencies  -->
         <lombok.version>1.18.42</lombok.version>
-        <slf4j-api.version>1.7.36</slf4j-api.version>
         <log4j.version>2.22.0</log4j.version>
         <checker.version>3.40.0</checker.version>
 
@@ -187,7 +186,6 @@
         <!-- json -->
         <fastjson.version>2.0.59</fastjson.version>
         <gson.version>2.10.1</gson.version>
-        <jackson.version>2.14.3</jackson.version>
         <!-- bouncy castle -->
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <bcprov-jdk16.version>1.46</bcprov-jdk16.version>
@@ -325,8 +323,6 @@
         <email.version>1.4.7</email.version>
         <!-- jsonp -->
         <jsonp.version>1.17.1</jsonp.version>
-        <!-- netty -->
-        <netty.version>4.1.101.Final</netty.version>
         <!-- vert.x -->
         <vertx.version>4.5.0</vertx.version>
         <!-- findbugs-jsr305 -->
@@ -427,7 +423,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j-api.version}</version>
         </dependency>
 
     </dependencies>
@@ -867,14 +862,6 @@
                 <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
                 <artifactId>concurrentlinkedhashmap-lru</artifactId>
                 <version>${concurrentlinkedhashmap-lru.version}</version>
-            </dependency>
-            <!-- jackson -->
-            <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>${jackson.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
             <!-- bouncy castle -->
             <dependency>
@@ -1546,12 +1533,6 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsonp.version}</version>
-            </dependency>
-            <!-- netty -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
             </dependency>
             <!-- vert.x -->
             <dependency>
