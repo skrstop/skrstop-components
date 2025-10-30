@@ -137,7 +137,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
         Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
-        return SqlHelper.saveOrUpdateBatch(this.entityClass, this.mapperClass, this.log, entityList, entityList.size()
+        return SqlHelper.saveOrUpdateBatch(super.getEntityClass(), this.currentMapperClass(), this.log, entityList, entityList.size()
                 , (sqlSession, entity) -> {
                     Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
                     boolean save = StringUtils.checkValNull(idVal)
