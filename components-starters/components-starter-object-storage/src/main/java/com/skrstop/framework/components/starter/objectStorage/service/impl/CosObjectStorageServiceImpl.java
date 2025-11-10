@@ -303,7 +303,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     , extraParam.isUseOriginHost() ? url.getHost() : StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
-                    , URLUtil.decode(url.getQuery())
+                    , url.getQuery()
                     , null
             );
             String result = newUrl.toString();
