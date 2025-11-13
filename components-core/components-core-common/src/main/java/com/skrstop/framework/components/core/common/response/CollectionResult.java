@@ -7,6 +7,7 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,6 +21,7 @@ import java.util.Collection;
 @Setter
 public class CollectionResult<T> extends AbstractResult implements ICollectionResult<T> {
 
+    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private Collection<T> data;
 

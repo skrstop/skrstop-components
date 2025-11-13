@@ -4,6 +4,8 @@ package com.skrstop.framework.components.core.exception.defined.rpc;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * http处理异常
  *
@@ -12,6 +14,7 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
  */
 public class HttpHandleException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -8981982891496434191L;
 
     public HttpHandleException() {

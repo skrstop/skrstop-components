@@ -5,11 +5,13 @@ import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
 import com.skrstop.framework.components.core.exception.core.SkrstopThrowable;
 import com.skrstop.framework.components.core.exception.defined.illegal.ParameterException;
+import com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowHtmlMessageException;
 import com.skrstop.framework.components.starter.web.exception.core.ShowJsonMessageException;
 import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
+import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,6 +41,7 @@ public class DefaultErrorController extends AbstractErrorController {
 
     protected ErrorProperties errorProperties;
     protected ErrorAttributes errorAttributes;
+    protected GlobalExceptionProperties globalExceptionProperties;
 
     private final String FORWARD_REQUEST_URL = "jakarta.servlet.forward.request_uri";
 
@@ -50,7 +53,7 @@ public class DefaultErrorController extends AbstractErrorController {
      */
     public DefaultErrorController(ErrorAttributes errorAttributes,
                                   ErrorProperties errorProperties) {
-        this(errorAttributes, errorProperties, Collections.emptyList());
+        this(errorAttributes, errorProperties, Collections.emptyList(), null);
     }
 
     /**
@@ -62,11 +65,13 @@ public class DefaultErrorController extends AbstractErrorController {
      */
     public DefaultErrorController(ErrorAttributes errorAttributes,
                                   ErrorProperties errorProperties
-            , List<ErrorViewResolver> errorViewResolvers) {
+            , List<ErrorViewResolver> errorViewResolvers
+            , GlobalExceptionProperties globalExceptionProperties) {
         super(errorAttributes, errorViewResolvers);
         Assert.notNull(errorProperties, "ErrorProperties must not be null");
         this.errorProperties = errorProperties;
         this.errorAttributes = errorAttributes;
+        this.globalExceptionProperties = globalExceptionProperties;
     }
 
 
@@ -104,7 +109,9 @@ public class DefaultErrorController extends AbstractErrorController {
                     , request.getAttribute(FORWARD_REQUEST_URL)
                     , CollectionUtil.join(headerInfo, ", ")));
         } else {
-            if (error instanceof NotShowHttpStatusException || error instanceof BusinessThrowable) {
+            if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
+                    || error instanceof NotShowHttpStatusException
+                    || error instanceof BusinessThrowable) {
                 response.setStatus(HttpStatusConst.HTTP_OK);
             } else if (error instanceof ParameterException) {
                 response.setStatus(HttpStatusConst.HTTP_BAD_REQUEST);

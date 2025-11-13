@@ -14,7 +14,7 @@ import java.lang.annotation.*;
  * @author 蒋时华
  * @date 2019/4/3
  */
-@Target({ElementType.PARAMETER, ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)

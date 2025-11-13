@@ -1,8 +1,9 @@
 package com.skrstop.framework.components.starter.web.exception.code;
 
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 自定义业务异常，外部不可用，异常区域：5500 - 5600
@@ -10,6 +11,7 @@ import lombok.Getter;
  * @author 蒋时华
  * @date 2020-05-02 23:19:21
  */
+@AllArgsConstructor
 public enum WebStarterExceptionCode implements IResult {
 
     /*** 保留异常码 */
@@ -26,23 +28,10 @@ public enum WebStarterExceptionCode implements IResult {
     ;
 
     @Getter
-    private final String code;
+    @Setter
+    private Object code;
     @Getter
-    private final String message;
+    @Setter
+    private String message;
 
-    WebStarterExceptionCode(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-
-    @Override
-    public void setCode(String code) {
-        throw new NotSupportedException("not support this method");
-    }
-
-    @Override
-    public void setMessage(String message) {
-        throw new NotSupportedException("not support this method");
-    }
 }

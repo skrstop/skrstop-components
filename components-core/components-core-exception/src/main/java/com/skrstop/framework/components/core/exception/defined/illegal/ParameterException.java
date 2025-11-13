@@ -3,6 +3,8 @@ package com.skrstop.framework.components.core.exception.defined.illegal;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * 参数异常
  *
@@ -11,6 +13,7 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
  */
 public class ParameterException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -7255813596600201785L;
 
     public ParameterException() {

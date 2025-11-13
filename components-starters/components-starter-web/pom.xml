@@ -89,6 +89,11 @@
             <groupId>com.skrstop.framework</groupId>
             <artifactId>components-starter-spring-support</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-starter-annotation</artifactId>
+            <optional>true</optional>
+        </dependency>
 
     </dependencies>
 

@@ -30,22 +30,22 @@ public class GlobalMongodbProperties {
     /**
      * 自动创建caps
      */
-    private boolean applyCaps = true;
+    private boolean applyCaps = false;
 
     /**
      * 自动创建校验
      */
-    private boolean applyDocumentValidations = true;
+    private boolean applyDocumentValidations = false;
 
     /**
      * 自动创建索引
      */
-    private boolean applyIndexes = true;
+    private boolean applyIndexes = false;
 
     /**
      * 自动引入实体
      */
-    private boolean autoImportModels = true;
+    private boolean autoImportModels = false;
 
     /**
      * 自定义编码器

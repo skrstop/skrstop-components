@@ -8,6 +8,7 @@ import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.http.HttpMethodName;
 import com.qcloud.cos.http.HttpProtocol;
+import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.DeleteObjectsRequest;
 import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.region.Region;
@@ -187,6 +188,19 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        targetPath = basePath + targetPath;
+        try {
+            COSObject cosObject = this.cosClient.getObject(bucketName, targetPath);
+            return cosObject.getObjectContent();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
     public boolean exists(String bucketName, String targetPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
@@ -234,7 +248,11 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean copy(String sourceBucketName, String sourcePath, String targetBucketName, String targetPath) {
         try {
-            this.transferManager.copy(sourceBucketName, sourcePath, targetBucketName, targetPath).waitForCopyResult();
+            this.transferManager.copy(sourceBucketName
+                    , basePath + sourcePath
+                    , targetBucketName
+                    , basePath + targetPath
+            ).waitForCopyResult();
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -264,6 +282,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(this.basePath)) {
+            targetPath = this.basePath + targetPath;
+        }
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(extraParam.getExpireSecondTime());
         HashMap<String, String> requestParams = new HashMap<>();
         HashMap<String, String> requestHeaderParams = new HashMap<>();
@@ -282,13 +303,13 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
                     , extraParam.isUseOriginHost() ? url.getHost() : StrUtil.blankToDefault(cosProperties.getAccessUrlHost(), url.getHost())
                     , url.getPort()
                     , url.getPath()
-                    , URLUtil.decode(url.getQuery())
+                    , url.getQuery()
                     , null
             );
             String result = newUrl.toString();
             result = result.replace(":80", "");
             result = result.replace(":443", "");
-            return result;
+            return URLUtil.decode(result);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -307,6 +328,9 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(this.basePath)) {
+            targetPath = this.basePath + targetPath;
+        }
         if (StrUtil.isNotBlank(cosProperties.getAccessUrlHost()) && !useOriginHost) {
             if (!targetPath.startsWith("/")) {
                 targetPath = "/" + targetPath;

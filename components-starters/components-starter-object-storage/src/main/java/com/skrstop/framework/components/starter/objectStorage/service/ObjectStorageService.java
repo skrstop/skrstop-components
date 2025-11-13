@@ -93,8 +93,20 @@ public interface ObjectStorageService extends Closeable {
      */
     boolean download(String bucketName, String targetPath, File localFile);
 
-    default void download(String targetPath, File localFile) {
-        download(null, targetPath, localFile);
+    default boolean download(String targetPath, File localFile) {
+        return download(null, targetPath, localFile);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param bucketName 存储桶名字，ftp不需要此参数，传空即可
+     * @param targetPath
+     */
+    InputStream downloadInputStream(String bucketName, String targetPath);
+
+    default InputStream downloadInputStream(String targetPath) {
+        return downloadInputStream(null, targetPath);
     }
 
     /**

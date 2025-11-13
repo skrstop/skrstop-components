@@ -1,27 +1,19 @@
 package com.skrstop.framework.components.util.serialization.format.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.skrstop.framework.components.util.value.data.DateUtil;
-import lombok.AllArgsConstructor;
-
-import java.io.IOException;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * @author 蒋时华
  * @date 2025-03-28 09:43:31
  * @since 1.0.0
  */
-@AllArgsConstructor
-public class DateSerializer extends JsonSerializer<Date> {
+public class DateSerializer extends com.fasterxml.jackson.databind.ser.std.DateSerializer {
 
     private final String format;
 
-    @Override
-    public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException {
-        gen.writeString(DateUtil.format(value, format));
+    public DateSerializer(String format) {
+        super(null, new SimpleDateFormat(format));
+        this.format = format;
     }
+
 }

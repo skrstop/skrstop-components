@@ -3,6 +3,8 @@ package com.skrstop.framework.components.core.exception.defined.coding;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * 编码异常
  *
@@ -11,21 +13,22 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
  */
 public class EncodingException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 6011792890916712679L;
 
     public EncodingException() {
-        super(CommonExceptionCode.EN_CODING);
+        super(CommonExceptionCode.ENCODING);
     }
 
     public EncodingException(Throwable throwable) {
-        super(CommonExceptionCode.EN_CODING, throwable);
+        super(CommonExceptionCode.ENCODING, throwable);
     }
 
     public EncodingException(String message) {
-        super(CommonExceptionCode.EN_CODING, message);
+        super(CommonExceptionCode.ENCODING, message);
     }
 
     public EncodingException(String message, Throwable throwable) {
-        super(CommonExceptionCode.EN_CODING, message, throwable);
+        super(CommonExceptionCode.ENCODING, message, throwable);
     }
 }

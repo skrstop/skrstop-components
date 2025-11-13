@@ -3,6 +3,8 @@ package com.skrstop.framework.components.starter.annotation.exception.aspect;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.starter.annotation.exception.code.WebAnnotationExceptionCode;
 
+import java.io.Serial;
+
 /**
  * ControllerDeprecatedException class
  *
@@ -10,6 +12,7 @@ import com.skrstop.framework.components.starter.annotation.exception.code.WebAnn
  * @date 2019/6/3
  */
 public class ControllerDeprecatedException extends SkrstopRuntimeException {
+    @Serial
     private static final long serialVersionUID = 8431106099116011149L;
 
     public ControllerDeprecatedException() {

@@ -1,8 +1,10 @@
 package com.skrstop.framework.components.util.entity.value;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.*;
 import lombok.experimental.Accessors;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * @author 蒋时华
@@ -14,7 +16,8 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class PropertiesValueStr extends SerializableBean implements PropertiesValue {
+public class PropertiesValueStr implements Serializable, PropertiesValue {
+    @Serial
     private static final long serialVersionUID = 7509071702432520408L;
 
     private String value;

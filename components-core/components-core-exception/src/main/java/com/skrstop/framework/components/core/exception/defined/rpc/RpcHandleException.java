@@ -3,6 +3,8 @@ package com.skrstop.framework.components.core.exception.defined.rpc;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * rpc异常
  *
@@ -11,6 +13,7 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
  */
 public class RpcHandleException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 798284573877750017L;
 
     public RpcHandleException() {

@@ -120,6 +120,11 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        return this.getObjectStorageService().downloadInputStream(bucketName, targetPath);
+    }
+
+    @Override
     public boolean exists(String bucketName, String targetPath) {
         return this.getObjectStorageService().exists(bucketName, targetPath);
     }

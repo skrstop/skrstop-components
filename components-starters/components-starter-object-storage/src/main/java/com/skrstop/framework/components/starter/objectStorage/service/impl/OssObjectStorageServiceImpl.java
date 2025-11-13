@@ -1,6 +1,7 @@
 package com.skrstop.framework.components.starter.objectStorage.service.impl;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.URLUtil;
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
@@ -180,6 +181,19 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
+    public InputStream downloadInputStream(String bucketName, String targetPath) {
+        bucketName = this.getOrDefaultBucketName(bucketName);
+        targetPath = basePath + targetPath;
+        try {
+            OSSObject ossObject = this.ossClient.getObject(new GetObjectRequest(bucketName, targetPath));
+            return ossObject.getObjectContent();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @Override
     public boolean exists(String bucketName, String targetPath) {
         bucketName = this.getOrDefaultBucketName(bucketName);
         targetPath = basePath + targetPath;
@@ -226,7 +240,10 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public boolean copy(String sourceBucketName, String sourcePath, String targetBucketName, String targetPath) {
         try {
-            this.ossClient.copyObject(sourceBucketName, sourcePath, targetBucketName, targetPath);
+            this.ossClient.copyObject(sourceBucketName
+                    , basePath + sourcePath
+                    , targetBucketName
+                    , basePath + targetPath);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -256,6 +273,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getTemporaryAccessUrl(String bucketName, String targetPath, TemporaryAccessExtraParam extraParam) {
         bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(this.basePath)) {
+            targetPath = this.basePath + targetPath;
+        }
         LocalDateTime endTime = LocalDateTime.now().plusSeconds(extraParam.getExpireSecondTime());
         HashMap<String, String> requestParams = new HashMap<>();
         HashMap<String, String> requestHeaderParams = new HashMap<>();
@@ -282,7 +302,7 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
             String result = newUrl.toString();
             result = result.replace(":80", "");
             result = result.replace(":443", "");
-            return result;
+            return URLUtil.decode(result);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -301,6 +321,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
     @Override
     public String getPublicAccessUrl(String bucketName, String targetPath, boolean useOriginHost) {
         bucketName = this.getOrDefaultBucketName(bucketName);
+        if (StrUtil.isNotBlank(this.basePath)) {
+            targetPath = this.basePath + targetPath;
+        }
         if (StrUtil.isNotBlank(ossProperties.getAccessUrlHost()) && !useOriginHost) {
             if (!targetPath.startsWith("/")) {
                 targetPath = "/" + targetPath;
@@ -338,6 +361,9 @@ public class OssObjectStorageServiceImpl implements ObjectStorageService {
         OssStorageTemplateSign sign = new OssStorageTemplateSign();
         try {
             PolicyConditions policyConditions = new PolicyConditions();
+            if (StrUtil.isNotBlank(this.basePath)) {
+                targetPath = this.basePath + targetPath;
+            }
             if (uploadLimit.getExactMatchTarget()) {
                 policyConditions.addConditionItem(MatchMode.Exact, PolicyConditions.COND_KEY, targetPath);
             } else {

@@ -3,6 +3,8 @@ package com.skrstop.framework.components.core.exception.defined.illegal;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.core.exception.common.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * 非法访问异常
  *
@@ -11,6 +13,7 @@ import com.skrstop.framework.components.core.exception.common.CommonExceptionCod
  */
 public class IllegalAccessException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 6505419698572898175L;
 
     public IllegalAccessException() {

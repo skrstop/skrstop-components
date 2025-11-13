@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.exception.core.interceptor;
 
+import cn.hutool.core.lang.Pair;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.common.response.core.IResult;
@@ -7,6 +8,7 @@ import com.skrstop.framework.components.starter.web.entity.InterceptorResult;
 import com.skrstop.framework.components.starter.web.exception.global.interceptor.error.DefaultErrorInterceptor;
 import com.skrstop.framework.components.starter.web.exception.global.interceptor.error.SkrstopDataErrorInterceptor;
 import com.skrstop.framework.components.starter.web.exception.global.interceptor.error.SkrstopErrorInterceptor;
+import com.skrstop.framework.components.util.constant.HttpStatusConst;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -39,21 +41,21 @@ public class ErrorHandleChainPattern {
         errorHandleChainPatterns.sort(Comparator.comparingInt(ErrorHandlerInterceptor::order));
     }
 
-    public IResult execute(Error e) {
+    public Pair<IResult, Integer> execute(Error e) {
         for (ErrorHandlerInterceptor errorHandlerInterceptor : errorHandleChainPatterns) {
             if (!errorHandlerInterceptor.support(e)) {
                 continue;
             }
             InterceptorResult execute = errorHandlerInterceptor.execute(e);
             if (ObjectUtil.isNull(execute)) {
-                return Result.Builder.result(CommonResultCode.FAIL);
+                return Pair.of(Result.Builder.result(CommonResultCode.FAIL), HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
             if (ObjectUtil.isNull(execute.getResult()) && !execute.isNext()) {
-                return Result.Builder.result(CommonResultCode.FAIL);
+                return Pair.of(Result.Builder.result(CommonResultCode.FAIL), HttpStatusConst.HTTP_INTERNAL_ERROR);
             }
-            return execute.getResult();
+            return Pair.of(execute.getResult(), ObjectUtil.defaultIfNull(execute.getResponseStatus(), HttpStatusConst.HTTP_INTERNAL_ERROR));
         }
-        return null;
+        return Pair.of(Result.Builder.result(CommonResultCode.FAIL), HttpStatusConst.HTTP_INTERNAL_ERROR);
     }
 
 }

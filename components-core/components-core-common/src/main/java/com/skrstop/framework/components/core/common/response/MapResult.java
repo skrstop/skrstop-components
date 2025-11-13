@@ -7,6 +7,7 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 @Setter
 public class MapResult<T, R> extends AbstractResult implements IMapResult<T, R> {
 
+    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private Map<T, R> data;
 

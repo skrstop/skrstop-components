@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
@@ -18,6 +19,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class CopyOptions extends cn.hutool.core.bean.copier.CopyOptions {
+    @Serial
     private static final long serialVersionUID = 8250541988462117776L;
 
     /**

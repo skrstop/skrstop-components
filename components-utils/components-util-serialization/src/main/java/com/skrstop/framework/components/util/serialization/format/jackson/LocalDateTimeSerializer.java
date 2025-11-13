@@ -1,27 +1,19 @@
 package com.skrstop.framework.components.util.serialization.format.jackson;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import lombok.AllArgsConstructor;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author 蒋时华
  * @date 2025-03-28 09:43:51
  * @since 1.0.0
  */
-@AllArgsConstructor
-public class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
+public class LocalDateTimeSerializer extends com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer {
 
     private final String format;
 
-    @Override
-    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException {
-        gen.writeString(LocalDateTimeUtil.format(value, format));
+    public LocalDateTimeSerializer(String format) {
+        super(DateTimeFormatter.ofPattern(format));
+        this.format = format;
     }
+
 }

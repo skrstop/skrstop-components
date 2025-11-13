@@ -1,9 +1,9 @@
 package com.skrstop.framework.components.util.event.entity;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,7 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class ShutdownTaskEventResult extends SerializableBean {
+public class ShutdownTaskEventResult implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1655869834939632281L;
 
     /*** 是否已经结束 */
@@ -34,7 +35,8 @@ public class ShutdownTaskEventResult extends SerializableBean {
     @AllArgsConstructor
     @Builder
     @Accessors(chain = true)
-    public static class ShutdownTaskEventResultItem extends SerializableBean {
+    public static class ShutdownTaskEventResultItem implements Serializable {
+        @Serial
         private static final long serialVersionUID = 1458637651664376300L;
 
         /*** task名 */

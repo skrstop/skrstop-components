@@ -1,9 +1,10 @@
 package com.skrstop.framework.components.util.entity.value;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -16,7 +17,8 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class ValueItem extends SerializableBean {
+public class ValueItem implements Serializable {
+    @Serial
     private static final long serialVersionUID = 7509071702432520408L;
 
     private String key;

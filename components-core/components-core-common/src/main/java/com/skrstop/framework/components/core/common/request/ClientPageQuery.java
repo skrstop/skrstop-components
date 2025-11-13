@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class ClientPageQuery implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -4053239205088003342L;
 
     private static final int DEFAULT_PAGE_SIZE = 10;

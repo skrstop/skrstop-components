@@ -1,8 +1,10 @@
 package com.skrstop.framework.components.starter.mongodb.entity;
 
-import com.skrstop.framework.components.starter.mongodb.entity.expand.CreatorExpand;
+import com.skrstop.framework.components.starter.mongodb.annotation.property.PropertyCreator;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serial;
 
 /**
  * DO base entity by snow_flake id
@@ -12,13 +14,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractCreatorTimeBaseEntity<T> extends AbstractCreateTimeBaseEntity<T> implements CreatorExpand {
+public abstract class AbstractCreatorTimeBaseEntity extends AbstractCreateByTimeBaseEntity {
 
+    @Serial
     private static final long serialVersionUID = -4024689623085796268L;
 
     /**
      * 更新人名字
      */
+    @PropertyCreator
     private String creator;
 
 }

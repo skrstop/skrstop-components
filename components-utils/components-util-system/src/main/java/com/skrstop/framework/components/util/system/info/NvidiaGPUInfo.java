@@ -1,8 +1,10 @@
 package com.skrstop.framework.components.util.system.info;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.*;
 import lombok.experimental.Accessors;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * @author 蒋时华
@@ -14,7 +16,8 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class NvidiaGPUInfo extends SerializableBean {
+public class NvidiaGPUInfo implements Serializable {
+    @Serial
     private static final long serialVersionUID = -8328058147701190635L;
 
     private Integer number;

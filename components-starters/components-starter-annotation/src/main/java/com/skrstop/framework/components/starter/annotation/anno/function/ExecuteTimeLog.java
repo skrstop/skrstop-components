@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  * @date 2020-09-04 14:29:39
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public @interface ExecuteTimeLog {

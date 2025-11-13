@@ -3,6 +3,8 @@ package com.skrstop.framework.components.util.media.exception.image;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.util.media.exception.CommonExceptionCode;
 
+import java.io.Serial;
+
 /**
  * 图片处理异常
  *
@@ -11,6 +13,7 @@ import com.skrstop.framework.components.util.media.exception.CommonExceptionCode
  */
 public class ImageHandleException extends SkrstopRuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -1919727120140467060L;
 
     public ImageHandleException() {

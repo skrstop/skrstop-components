@@ -30,11 +30,11 @@
     <repositories>
         <repository>
             <id>com.e-iceblue</id>
-            <url>http://repo.e-iceblue.cn/repository/maven-public/</url>
+            <url>https://repo.e-iceblue.cn/repository/maven-public/</url>
         </repository>
         <repository>
             <id>maven-ali</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public//</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -91,7 +91,7 @@
 
     <properties>
         <!-- 项目版本 -->
-        <framework.components.revision>1.3.3.20241112-RELEASE</framework.components.revision>
+        <framework.components.revision>1.3.4.20250930-RELEASE</framework.components.revision>
         <java.version>17</java.version>
         <release.id>sonatype</release.id>
 
@@ -101,8 +101,8 @@
         <!-- base properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <resource.delimiter>@</resource.delimiter>
 
         <!-- metrics -->
@@ -119,8 +119,7 @@
         <jersey-client.version>1.19.4</jersey-client.version>
 
         <!-- dependencies  -->
-        <lombok.version>1.18.36</lombok.version>
-        <slf4j-api.version>2.0.16</slf4j-api.version>
+        <lombok.version>1.18.42</lombok.version>
         <log4j.version>2.24.3</log4j.version>
         <checker.version>3.48.4</checker.version>
 
@@ -129,19 +128,19 @@
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
-        <spring-cloud.version>2023.0.5</spring-cloud.version>
+        <spring-cloud.version>2023.0.6</spring-cloud.version>
         <openfeign.version>4.2.0</openfeign.version>
-        <spring-boot.version>3.2.12</spring-boot.version>
+        <spring-boot.version>3.3.13</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
-        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.3.4</spring-cloud-alibaba.version>
         <!-- cache -->
         <cache-caffeine.version>3.2.0</cache-caffeine.version>
         <!-- mybatis -->
         <mybatis.version>3.5.19</mybatis.version>
         <mybatis-spring.version>3.0.4</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
-        <mybatis-plus-join.version>1.5.2</mybatis-plus-join.version>
-        <mybatis-plus.version>3.5.10.1</mybatis-plus.version>
+        <mybatis-plus-join.version>1.5.4</mybatis-plus-join.version>
+        <mybatis-plus.version>3.5.14</mybatis-plus.version>
         <mybatis-fluent.version>1.9.10</mybatis-fluent.version>
         <dynamic-database.version>4.3.1</dynamic-database.version>
         <hikaricp7.version>2.4.13</hikaricp7.version>
@@ -179,13 +178,12 @@
         <!-- reflections -->
         <reflections.version>0.10.2</reflections.version>
         <!-- hutool -->
-        <hutool.version>5.8.39</hutool.version>
+        <hutool.version>5.8.41</hutool.version>
         <!-- concurrentlinkedhashmap-lru -->
         <concurrentlinkedhashmap-lru.version>1.4.2</concurrentlinkedhashmap-lru.version>
         <!-- json -->
-        <fastjson.version>2.0.54</fastjson.version>
+        <fastjson.version>2.0.59</fastjson.version>
         <gson.version>2.11.0</gson.version>
-        <jackson.version>2.18.2</jackson.version>
         <!-- bouncy castle -->
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <bcprov-jdk16.version>1.46</bcprov-jdk16.version>
@@ -220,8 +218,8 @@
         <redisson.version>3.43.0</redisson.version>
         <!-- mongodb -->
         <mongo-driver-old.version>3.12.14</mongo-driver-old.version>
-        <mongo-driver.version>4.11.5</mongo-driver.version>
-        <morphia-core.version>2.4.10</morphia-core.version>
+        <mongo-driver.version>5.4.0</mongo-driver.version>
+        <morphia-core.version>2.5.0</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -325,8 +323,6 @@
         <email.version>1.4.7</email.version>
         <!-- jsonp -->
         <jsonp.version>1.18.3</jsonp.version>
-        <!-- netty -->
-        <netty.version>4.1.117.Final</netty.version>
         <!-- vert.x -->
         <vertx.version>4.5.11</vertx.version>
         <!-- findbugs-jsr305 -->
@@ -393,6 +389,7 @@
         <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
         <maven-lombok-plugin.version>1.18.20.0</maven-lombok-plugin.version>
         <maven-versions-plugin.version>2.18.0</maven-versions-plugin.version>
         <maven-exec-plugin.version>3.5.0</maven-exec-plugin.version>
@@ -424,7 +421,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j-api.version}</version>
         </dependency>
 
     </dependencies>
@@ -886,27 +882,6 @@
                 <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
                 <artifactId>concurrentlinkedhashmap-lru</artifactId>
                 <version>${concurrentlinkedhashmap-lru.version}</version>
-            </dependency>
-            <!-- jackson -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
             </dependency>
             <!-- bouncy castle -->
             <dependency>
@@ -1588,14 +1563,6 @@
                 <artifactId>jsoup</artifactId>
                 <version>${jsonp.version}</version>
             </dependency>
-            <!-- netty -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-bom</artifactId>
-                <version>${netty.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <!-- vert.x -->
             <dependency>
                 <groupId>io.vertx</groupId>
@@ -2048,6 +2015,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven-antrun-plugin.version}</version>
                 </plugin>
 
                 <plugin>

@@ -17,9 +17,8 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -79,14 +78,14 @@ public class JacksonAutoConfiguration {
             simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
             simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         }
-        // LocalDateTime, 格式化
+        // 时间格式化
         if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(globalResponseProperties.getDateTimeFormat()));
-        }
-        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getDateTimeFormat())) {
             simpleModule.addSerializer(Date.class, new DateSerializer(globalResponseProperties.getDateTimeFormat()));
             simpleModule.addDeserializer(Date.class, new DateDeserializer(globalResponseProperties.getDateTimeFormat()));
+            simpleModule.addSerializer(Calendar.class, new CalendarSerializer(globalResponseProperties.getDateTimeFormat()));
+            simpleModule.addDeserializer(Calendar.class, new CalendarDeserializer(globalResponseProperties.getDateTimeFormat()));
         }
         if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getDateFormat())) {
             simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(globalResponseProperties.getDateFormat()));
@@ -95,6 +94,18 @@ public class JacksonAutoConfiguration {
         if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getTimeFormat())) {
             simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(globalResponseProperties.getTimeFormat()));
             simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(globalResponseProperties.getTimeFormat()));
+        }
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getYearFormat())) {
+            simpleModule.addSerializer(Year.class, new YearSerializer(globalResponseProperties.getYearFormat()));
+            simpleModule.addDeserializer(Year.class, new YearDeserializer(globalResponseProperties.getYearFormat()));
+        }
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getMonthDayFormat())) {
+            simpleModule.addSerializer(MonthDay.class, new MonthDaySerializer(globalResponseProperties.getMonthDayFormat()));
+            simpleModule.addDeserializer(MonthDay.class, new MonthDayDeserializer(globalResponseProperties.getMonthDayFormat()));
+        }
+        if (globalResponseProperties != null && StrUtil.isNotBlank(globalResponseProperties.getYearMonthFormat())) {
+            simpleModule.addSerializer(YearMonth.class, new YearMonthSerializer(globalResponseProperties.getYearMonthFormat()));
+            simpleModule.addDeserializer(YearMonth.class, new YearMonthDeserializer(globalResponseProperties.getYearMonthFormat()));
         }
         // 设置过滤掉null值得属性
         if (globalResponseProperties == null || !globalResponseProperties.isShowNullValue()) {

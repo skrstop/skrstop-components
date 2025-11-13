@@ -1,10 +1,11 @@
 package com.skrstop.framework.components.starter.annotation.handle.server.processor;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class ProcessorContainer extends SerializableBean {
+public class ProcessorContainer implements Serializable {
+    @Serial
     private static final long serialVersionUID = -3013768037305729417L;
 
     private final List<ProcessorEntity> processorEntities;

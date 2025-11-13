@@ -1,8 +1,9 @@
 package com.skrstop.framework.components.core.common.response.abstracts;
 
-import com.skrstop.framework.components.core.common.serializable.SerializableBean;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author 蒋时华
@@ -10,7 +11,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public abstract class AbstractPageInfo<T> extends SerializableBean {
+public abstract class AbstractPageInfo<T> implements Serializable {
 
     /*** 当前页数 */
     protected long pageNumber;

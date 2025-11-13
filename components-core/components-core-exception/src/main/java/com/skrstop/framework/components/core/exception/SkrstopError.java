@@ -9,6 +9,8 @@ import com.skrstop.framework.components.core.exception.core.SkrstopThrowable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 /**
  * SkrstopError class
  *
@@ -19,6 +21,7 @@ import lombok.Setter;
 @Setter
 public class SkrstopError extends Error implements SkrstopThrowable {
 
+    @Serial
     private static final long serialVersionUID = -1248879421143950687L;
     private Throwable throwable;
 
