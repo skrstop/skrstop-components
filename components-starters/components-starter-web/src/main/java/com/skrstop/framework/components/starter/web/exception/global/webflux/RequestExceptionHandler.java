@@ -171,11 +171,12 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
             response.setRawStatusCode(HttpStatusConst.HTTP_INTERNAL_ERROR);
         }
         if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
-                || e instanceof NotShowHttpStatusException
-                || e instanceof BusinessThrowable) {
+                || e instanceof NotShowHttpStatusException) {
             response.setRawStatusCode(HttpStatusConst.HTTP_OK);
         } else if (e instanceof CustomHttpStatusException) {
-            response.setRawStatusCode(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.INTERNAL_SERVER_ERROR).value());
+            response.setRawStatusCode(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.OK).value());
+        } else if (e instanceof BusinessThrowable) {
+            response.setRawStatusCode(HttpStatusConst.HTTP_OK);
         }
         // 参考AbstractErrorWebExceptionHandler
         if (exchange.getResponse().isCommitted()) {
