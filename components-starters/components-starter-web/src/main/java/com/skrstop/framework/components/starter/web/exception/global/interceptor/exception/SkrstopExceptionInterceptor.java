@@ -35,7 +35,7 @@ public class SkrstopExceptionInterceptor implements ExceptionHandlerInterceptor 
             return InterceptorResult.builder()
                     .next(false)
                     .result(Result.Builder.result(skrstopRuntimeException.getIResult()))
-                    .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
+                    .responseStatus(HttpStatusConst.HTTP_OK)
                     .build();
         }
         return InterceptorResult.builder()

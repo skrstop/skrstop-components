@@ -7,6 +7,7 @@ import com.skrstop.framework.components.core.exception.core.BusinessThrowable;
 import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceUtil;
 import com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.skrstop.framework.components.starter.web.constant.RequestConst;
+import com.skrstop.framework.components.starter.web.exception.core.CustomHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
@@ -173,6 +174,8 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
                 || e instanceof NotShowHttpStatusException
                 || e instanceof BusinessThrowable) {
             response.setRawStatusCode(HttpStatusConst.HTTP_OK);
+        } else if (e instanceof CustomHttpStatusException) {
+            response.setRawStatusCode(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.INTERNAL_SERVER_ERROR).value());
         }
         // 参考AbstractErrorWebExceptionHandler
         if (exchange.getResponse().isCommitted()) {
