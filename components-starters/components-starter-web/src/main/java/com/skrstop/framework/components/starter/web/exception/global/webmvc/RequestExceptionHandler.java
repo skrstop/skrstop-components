@@ -344,11 +344,12 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         Pair<IResult, Integer> execute = exceptionHandleChainPattern.execute(e);
         response.setStatus(execute.getValue());
         if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
-                || e instanceof NotShowHttpStatusException
-                || e instanceof BusinessThrowable) {
+                || e instanceof NotShowHttpStatusException) {
             response.setStatus(HttpStatusConst.HTTP_OK);
         } else if (e instanceof CustomHttpStatusException) {
-            response.setStatus(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.INTERNAL_SERVER_ERROR).value());
+            response.setStatus(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.OK).value());
+        } else if (e instanceof BusinessThrowable) {
+            response.setStatus(HttpStatusConst.HTTP_OK);
         }
         return execute.getKey();
     }
@@ -369,11 +370,12 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
         this.setResponseContentType(request, response);
         Pair<IResult, Integer> execute = errorHandleChainPattern.execute(e);
         if ((ObjectUtil.isNotNull(globalExceptionProperties) && globalExceptionProperties.isAlwaysReturnHttpOk())
-                || e instanceof NotShowHttpStatusException
-                || e instanceof BusinessThrowable) {
+                || e instanceof NotShowHttpStatusException) {
             response.setStatus(HttpStatusConst.HTTP_OK);
         } else if (e instanceof CustomHttpStatusException) {
-            response.setStatus(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.INTERNAL_SERVER_ERROR).value());
+            response.setStatus(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.OK).value());
+        } else if (e instanceof BusinessThrowable) {
+            response.setStatus(HttpStatusConst.HTTP_OK);
         }
         return execute.getKey();
     }
