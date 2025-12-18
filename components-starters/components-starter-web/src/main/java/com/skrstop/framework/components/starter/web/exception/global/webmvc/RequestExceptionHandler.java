@@ -12,6 +12,7 @@ import com.skrstop.framework.components.core.exception.util.ThrowableStackTraceU
 import com.skrstop.framework.components.starter.web.configuration.GlobalExceptionProperties;
 import com.skrstop.framework.components.starter.web.constant.RequestConst;
 import com.skrstop.framework.components.starter.web.exception.code.WebStarterExceptionCode;
+import com.skrstop.framework.components.starter.web.exception.core.CustomHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.NotShowHttpStatusException;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ErrorHandleChainPattern;
 import com.skrstop.framework.components.starter.web.exception.core.interceptor.ExceptionHandleChainPattern;
@@ -346,6 +347,8 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
                 || e instanceof NotShowHttpStatusException
                 || e instanceof BusinessThrowable) {
             response.setStatus(HttpStatusConst.HTTP_OK);
+        } else if (e instanceof CustomHttpStatusException) {
+            response.setStatus(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.INTERNAL_SERVER_ERROR).value());
         }
         return execute.getKey();
     }
@@ -369,6 +372,8 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
                 || e instanceof NotShowHttpStatusException
                 || e instanceof BusinessThrowable) {
             response.setStatus(HttpStatusConst.HTTP_OK);
+        } else if (e instanceof CustomHttpStatusException) {
+            response.setStatus(ObjectUtil.defaultIfNull(((CustomHttpStatusException) e).getHttpStatus(), HttpStatus.INTERNAL_SERVER_ERROR).value());
         }
         return execute.getKey();
     }
