@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.response.core;
 
+import cn.hutool.core.lang.Pair;
 import com.skrstop.framework.components.core.common.response.Result;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.common.response.core.IResult;
@@ -11,6 +12,7 @@ import com.skrstop.framework.components.starter.web.response.interceptor.Default
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.Getter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 
 import javax.annotation.PostConstruct;
 import java.util.Comparator;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ResponseHandleChainPattern {
 
     private final List<ResponseHandlerInterceptor> responseHandlerInterceptors;
+    private final int defaultCode = HttpStatus.OK.value();
 
     public ResponseHandleChainPattern(List<ResponseHandlerInterceptor> responseHandlerInterceptors) {
         this.responseHandlerInterceptors = responseHandlerInterceptors;
@@ -39,10 +42,10 @@ public class ResponseHandleChainPattern {
         responseHandlerInterceptors.sort(Comparator.comparingInt(ResponseHandlerInterceptor::order));
     }
 
-    public Object execute(Object returnValue, boolean disableTransResultTypeResponse) {
+    public Pair<Object, Integer> execute(Object returnValue, boolean disableTransResultTypeResponse) {
         if (disableTransResultTypeResponse && returnValue instanceof IResult) {
             // 禁用了IResult类型自动转换
-            return new Result<>(CommonResultCode.SUCCESS, returnValue);
+            return Pair.of(new Result<>(CommonResultCode.SUCCESS, returnValue), defaultCode);
         }
         for (ResponseHandlerInterceptor responseHandlerInterceptor : responseHandlerInterceptors) {
             if (!responseHandlerInterceptor.support(returnValue)) {
@@ -50,14 +53,14 @@ public class ResponseHandleChainPattern {
             }
             InterceptorResult execute = responseHandlerInterceptor.execute(returnValue);
             if (ObjectUtil.isNull(execute)) {
-                return DynamicResult.build(returnValue);
+                return Pair.of(DynamicResult.build(returnValue), ObjectUtil.defaultIfNull(execute.getResponseStatus(), defaultCode));
             }
             if (ObjectUtil.isNull(execute.getResult()) && !execute.isNext()) {
-                return DynamicResult.build(returnValue);
+                return Pair.of(DynamicResult.build(returnValue), ObjectUtil.defaultIfNull(execute.getResponseStatus(), defaultCode));
             }
-            return execute.getResult();
+            return Pair.of(execute.getResult(), ObjectUtil.defaultIfNull(execute.getResponseStatus(), defaultCode));
         }
-        return null;
+        return Pair.of(null, defaultCode);
     }
 
 }

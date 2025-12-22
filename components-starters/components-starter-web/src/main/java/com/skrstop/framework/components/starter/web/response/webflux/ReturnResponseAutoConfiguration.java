@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.response.webflux;
 
+import cn.hutool.core.lang.Pair;
 import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.starter.common.util.AnnoFindUtil;
@@ -112,15 +113,25 @@ public class ReturnResponseAutoConfiguration {
                     Mono returnValueMono = (Mono) returnValue;
                     returnValue = returnValueMono
                             .defaultIfEmpty(DefaultResult.Builder.success())
-                            .map(item -> responseHandleChainPattern.execute(item, disableTransResultTypeResponse));
+                            .map(item -> {
+                                Pair<Object, Integer> execute = responseHandleChainPattern.execute(item, disableTransResultTypeResponse);
+                                exchange.getResponse().setRawStatusCode(execute.getValue());
+                                return execute.getKey();
+                            });
                 } else if (returnValue instanceof Flux) {
                     Flux returnValueFlux = (Flux) returnValue;
                     returnValue = returnValueFlux
                             .defaultIfEmpty(DefaultResult.Builder.success())
-                            .map(item -> responseHandleChainPattern.execute(item, disableTransResultTypeResponse));
+                            .map(item -> {
+                                Pair<Object, Integer> execute = responseHandleChainPattern.execute(item, disableTransResultTypeResponse);
+                                exchange.getResponse().setRawStatusCode(execute.getValue());
+                                return execute.getKey();
+                            });
                 } else {
                     // other
-                    returnValue = responseHandleChainPattern.execute(returnValue, disableTransResultTypeResponse);
+                    Pair<Object, Integer> execute = responseHandleChainPattern.execute(returnValue, disableTransResultTypeResponse);
+                    exchange.getResponse().setRawStatusCode(execute.getValue());
+                    returnValue = execute.getKey();
                 }
                 return writeBody(returnValue, returnType, exchange);
             }
