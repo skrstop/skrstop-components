@@ -7,8 +7,6 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-
 /**
  * response code with data result entity
  *
@@ -19,7 +17,6 @@ import java.io.Serial;
 @Setter
 public class Result<T> extends AbstractResult implements IDataResult<T> {
 
-    @Serial
     private static final long serialVersionUID = 4192152776182936563L;
     private T data;
 
@@ -27,17 +24,17 @@ public class Result<T> extends AbstractResult implements IDataResult<T> {
 
     }
 
-    public Result(IResult IResult) {
-        super(IResult);
+    public Result(IResult iResult) {
+        super(iResult);
     }
 
-    public Result(IDataResult<T> IDataResult) {
-        super(IDataResult);
-        this.data = IDataResult.getData();
+    public Result(IDataResult<T> iDataResult) {
+        super(iDataResult);
+        this.data = iDataResult.getData();
     }
 
-    public Result(IResult IResult, T data) {
-        super(IResult);
+    public Result(IResult iResult, T data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -94,8 +91,8 @@ public class Result<T> extends AbstractResult implements IDataResult<T> {
          *
          * @return Result
          */
-        public static <T> Result<T> result(IResult IResult, T data) {
-            return new Result<T>(IResult, data);
+        public static <T> Result<T> result(IResult iResult, T data) {
+            return new Result<T>(iResult, data);
         }
 
         /**
@@ -103,8 +100,8 @@ public class Result<T> extends AbstractResult implements IDataResult<T> {
          *
          * @return Result
          */
-        public static <T> Result<T> result(IResult IResult) {
-            return new Result<T>(IResult);
+        public static <T> Result<T> result(IResult iResult) {
+            return new Result<T>(iResult);
         }
 
     }

@@ -7,7 +7,6 @@ import com.skrstop.framework.components.core.common.response.core.ISetResult;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,7 +20,6 @@ import java.util.Set;
 @Setter
 public class SetResult<T> extends AbstractResult implements ISetResult<T> {
 
-    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private Set<T> data;
 
@@ -29,8 +27,8 @@ public class SetResult<T> extends AbstractResult implements ISetResult<T> {
         this.data = new LinkedHashSet<>();
     }
 
-    public SetResult(IResult IResult) {
-        super(IResult);
+    public SetResult(IResult iResult) {
+        super(iResult);
     }
 
     public SetResult(ISetResult<T> iSetResult) {
@@ -38,8 +36,8 @@ public class SetResult<T> extends AbstractResult implements ISetResult<T> {
         this.data = iSetResult.getData();
     }
 
-    public SetResult(IResult IResult, Set<T> data) {
-        super(IResult);
+    public SetResult(IResult iResult, Set<T> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -96,8 +94,8 @@ public class SetResult<T> extends AbstractResult implements ISetResult<T> {
          *
          * @return Result
          */
-        public static <T> SetResult<T> result(IResult IResult, Set<T> data) {
-            return new SetResult<T>(IResult, data);
+        public static <T> SetResult<T> result(IResult iResult, Set<T> data) {
+            return new SetResult<T>(iResult, data);
         }
 
         /**
@@ -105,8 +103,8 @@ public class SetResult<T> extends AbstractResult implements ISetResult<T> {
          *
          * @return Result
          */
-        public static <T> SetResult<T> result(IResult IResult) {
-            return new SetResult<T>(IResult);
+        public static <T> SetResult<T> result(IResult iResult) {
+            return new SetResult<T>(iResult);
         }
 
     }

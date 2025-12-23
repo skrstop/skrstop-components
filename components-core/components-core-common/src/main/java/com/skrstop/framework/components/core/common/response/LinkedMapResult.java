@@ -7,7 +7,6 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
 import java.util.LinkedHashMap;
 
 /**
@@ -20,7 +19,6 @@ import java.util.LinkedHashMap;
 @Setter
 public class LinkedMapResult<T, R> extends AbstractResult implements ILinkedMapResult<T, R> {
 
-    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private LinkedHashMap<T, R> data;
 
@@ -28,8 +26,8 @@ public class LinkedMapResult<T, R> extends AbstractResult implements ILinkedMapR
         this.data = new LinkedHashMap<T, R>();
     }
 
-    public LinkedMapResult(IResult IResult) {
-        super(IResult);
+    public LinkedMapResult(IResult iResult) {
+        super(iResult);
     }
 
     public LinkedMapResult(ILinkedMapResult<T, R> iMapResult) {
@@ -37,8 +35,8 @@ public class LinkedMapResult<T, R> extends AbstractResult implements ILinkedMapR
         this.data = iMapResult.getData();
     }
 
-    public LinkedMapResult(IResult IResult, LinkedHashMap<T, R> data) {
-        super(IResult);
+    public LinkedMapResult(IResult iResult, LinkedHashMap<T, R> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -95,8 +93,8 @@ public class LinkedMapResult<T, R> extends AbstractResult implements ILinkedMapR
          *
          * @return Result
          */
-        public static <T, R> LinkedMapResult<T, R> result(IResult IResult, LinkedHashMap<T, R> data) {
-            return new LinkedMapResult<T, R>(IResult, data);
+        public static <T, R> LinkedMapResult<T, R> result(IResult iResult, LinkedHashMap<T, R> data) {
+            return new LinkedMapResult<T, R>(iResult, data);
         }
 
         /**
@@ -104,8 +102,8 @@ public class LinkedMapResult<T, R> extends AbstractResult implements ILinkedMapR
          *
          * @return Result
          */
-        public static <T, R> LinkedMapResult<T, R> result(IResult IResult) {
-            return new LinkedMapResult<T, R>(IResult);
+        public static <T, R> LinkedMapResult<T, R> result(IResult iResult) {
+            return new LinkedMapResult<T, R>(iResult);
         }
 
     }

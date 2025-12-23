@@ -4,8 +4,6 @@ import com.skrstop.framework.components.core.common.response.abstracts.AbstractP
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-
 /**
  * @author 蒋时华
  * @date 2020-05-02 16:13:29
@@ -14,18 +12,17 @@ import java.io.Serial;
 @Setter
 public class SimplePageData<T> extends AbstractPageInfo<T> implements PageData<T> {
 
-    @Serial
     private static final long serialVersionUID = -7653109079434897802L;
 
     public SimplePageData() {
     }
 
-    public SimplePageData(long pageNum, long pageSize) {
-        super(pageNum, pageSize);
+    public SimplePageData(long pageNumber, long pageSize) {
+        super(pageNumber, pageSize);
     }
 
-    public SimplePageData(long pageNum, long pageSize, long total) {
-        super(pageNum, pageSize, total);
+    public SimplePageData(long pageNumber, long pageSize, long total) {
+        super(pageNumber, pageSize, total);
     }
 
 }

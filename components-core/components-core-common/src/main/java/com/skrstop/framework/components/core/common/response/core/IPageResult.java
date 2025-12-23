@@ -8,11 +8,11 @@ import com.skrstop.framework.components.core.common.response.page.PageData;
  * @author 蒋时华
  * @date 2018/7/19
  */
-public interface IPageResult<T> extends IResult {
+public interface IPageResult<TS, P extends PageData<TS>> extends IResult {
 
     /*** get page data */
-    PageData<T> getData();
+    P getData();
 
-    void setData(PageData<T> data);
+    void setData(P data);
 
 }
