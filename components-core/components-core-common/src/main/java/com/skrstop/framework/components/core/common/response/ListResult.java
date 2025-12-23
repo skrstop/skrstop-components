@@ -27,8 +27,8 @@ public class ListResult<T> extends AbstractResult implements IListResult<T> {
         this.data = new ArrayList<>();
     }
 
-    public ListResult(IResult IResult) {
-        super(IResult);
+    public ListResult(IResult iResult) {
+        super(iResult);
     }
 
     public ListResult(IListResult<T> iListResult) {
@@ -36,8 +36,8 @@ public class ListResult<T> extends AbstractResult implements IListResult<T> {
         this.data = iListResult.getData();
     }
 
-    public ListResult(IResult IResult, List<T> data) {
-        super(IResult);
+    public ListResult(IResult iResult, List<T> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -94,8 +94,8 @@ public class ListResult<T> extends AbstractResult implements IListResult<T> {
          *
          * @return Result
          */
-        public static <T> ListResult<T> result(IResult IResult, List<T> data) {
-            return new ListResult<T>(IResult, data);
+        public static <T> ListResult<T> result(IResult iResult, List<T> data) {
+            return new ListResult<T>(iResult, data);
         }
 
         /**
@@ -103,8 +103,8 @@ public class ListResult<T> extends AbstractResult implements IListResult<T> {
          *
          * @return Result
          */
-        public static <T> ListResult<T> result(IResult IResult) {
-            return new ListResult<T>(IResult);
+        public static <T> ListResult<T> result(IResult iResult) {
+            return new ListResult<T>(iResult);
         }
 
     }

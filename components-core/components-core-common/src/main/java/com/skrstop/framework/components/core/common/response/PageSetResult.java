@@ -5,7 +5,7 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.core.common.response.core.IDataPageSetResult;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageData;
+import com.skrstop.framework.components.core.common.response.page.SimplePageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,45 +17,58 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDataPageSetResult<T> {
+public class PageSetResult<T> extends AbstractPageResult<Set<T>, SimplePageData<Set<T>>> implements IDataPageSetResult<T, SimplePageData<Set<T>>> {
 
     public PageSetResult() {
     }
 
-    public PageSetResult(IResult IResult) {
-        super(IResult);
+    public PageSetResult(IResult iResult) {
+        super(iResult);
     }
 
-    public PageSetResult(IResult IResult, PageData pageData) {
-        super(IResult, pageData);
+    public PageSetResult(IResult iResult, SimplePageData<Set<T>> pageData) {
+        super(iResult, pageData);
     }
 
-    public PageSetResult(IPageResult IPageResult) {
-        super(IPageResult);
+    public PageSetResult(IPageResult<Set<T>, SimplePageData<Set<T>>> iPageResult) {
+        super(iPageResult);
     }
 
-    public PageSetResult(IPageResult IPageResult, Set<T> list) {
-        super(IPageResult, list);
+    public PageSetResult(IPageResult<Set<T>, SimplePageData<Set<T>>> iPageResult, Set<T> list) {
+        super(iPageResult, list);
     }
 
-    public PageSetResult(IResult IResult, PageData pageData, Set<T> list) {
-        super(IResult, pageData, list);
+    public PageSetResult(IResult iResult, SimplePageData<Set<T>> pageData, Set<T> list) {
+        this(iResult, pageData);
+        if (this.data != null) {
+            this.data.setRows(list);
+        }
     }
 
-    public PageSetResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, pageNum, pageSize);
+    public PageSetResult(IResult iResult, long pageNumber, long pageSize) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize));
     }
 
-    public PageSetResult(IResult IResult, long pageNum, long pageSize, Set<T> list) {
-        super(IResult, pageNum, pageSize, list);
+    public PageSetResult(IResult iResult, long pageNumber, long pageSize, Set<T> list) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize));
+        this.data.setPageNumber(pageNumber);
+        this.data.setPageSize(pageSize);
+        this.data.setRows(list);
     }
 
-    public PageSetResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, pageNum, pageSize, total);
+    public PageSetResult(IResult iResult, long pageNumber, long pageSize, long total) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize, total));
+        this.data.setPageNumber(pageNumber);
+        this.data.setPageSize(pageSize);
+        this.data.setTotal(total);
     }
 
-    public PageSetResult(IResult IResult, long pageNum, long pageSize, long total, Set<T> list) {
-        super(IResult, pageNum, pageSize, total, list);
+    public PageSetResult(IResult iResult, long pageNumber, long pageSize, long total, Set<T> list) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize, total));
+        this.data.setPageNumber(pageNumber);
+        this.data.setPageSize(pageSize);
+        this.data.setTotal(total);
+        this.data.setRows(list);
     }
 
     public static class Builder {
@@ -74,8 +87,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult success(long pageNum, long pageSize) {
-            return new PageSetResult(CommonResultCode.SUCCESS, pageNum, pageSize);
+        public static PageSetResult success(long pageNumber, long pageSize) {
+            return new PageSetResult(CommonResultCode.SUCCESS, pageNumber, pageSize);
         }
 
         /**
@@ -83,8 +96,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> success(long pageNum, long pageSize, Set<T> set) {
-            return new PageSetResult<T>(CommonResultCode.SUCCESS, pageNum, pageSize, set);
+        public static <T> PageSetResult<T> success(long pageNumber, long pageSize, Set<T> set) {
+            return new PageSetResult<T>(CommonResultCode.SUCCESS, pageNumber, pageSize, set);
         }
 
         /**
@@ -92,8 +105,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> success(long pageNum, long pageSize, long total) {
-            return new PageSetResult<T>(CommonResultCode.SUCCESS, pageNum, pageSize, total);
+        public static <T> PageSetResult<T> success(long pageNumber, long pageSize, long total) {
+            return new PageSetResult<T>(CommonResultCode.SUCCESS, pageNumber, pageSize, total);
         }
 
         /**
@@ -101,8 +114,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> success(long pageNum, long pageSize, long total, Set<T> set) {
-            return new PageSetResult<T>(CommonResultCode.SUCCESS, pageNum, pageSize, total, set);
+        public static <T> PageSetResult<T> success(long pageNumber, long pageSize, long total, Set<T> set) {
+            return new PageSetResult<T>(CommonResultCode.SUCCESS, pageNumber, pageSize, total, set);
         }
 
         /**
@@ -110,7 +123,7 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult success(PageData pageData) {
+        public static <T> PageSetResult success(SimplePageData<Set<T>> pageData) {
             return new PageSetResult(CommonResultCode.SUCCESS, pageData);
         }
 
@@ -119,7 +132,7 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> success(PageData pageData, Set<T> set) {
+        public static <T> PageSetResult<T> success(SimplePageData<Set<T>> pageData, Set<T> set) {
             return new PageSetResult<T>(CommonResultCode.SUCCESS, pageData, set);
         }
 
@@ -137,8 +150,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult error(long pageNum, long pageSize) {
-            return new PageSetResult(CommonResultCode.FAIL, pageNum, pageSize);
+        public static PageSetResult error(long pageNumber, long pageSize) {
+            return new PageSetResult(CommonResultCode.FAIL, pageNumber, pageSize);
         }
 
         /**
@@ -146,8 +159,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> error(long pageNum, long pageSize, Set<T> set) {
-            return new PageSetResult<T>(CommonResultCode.FAIL, pageNum, pageSize, set);
+        public static <T> PageSetResult<T> error(long pageNumber, long pageSize, Set<T> set) {
+            return new PageSetResult<T>(CommonResultCode.FAIL, pageNumber, pageSize, set);
         }
 
         /**
@@ -155,8 +168,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult error(long pageNum, long pageSize, long total) {
-            return new PageSetResult(CommonResultCode.FAIL, pageNum, pageSize, total);
+        public static PageSetResult error(long pageNumber, long pageSize, long total) {
+            return new PageSetResult(CommonResultCode.FAIL, pageNumber, pageSize, total);
         }
 
         /**
@@ -164,8 +177,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> error(long pageNum, long pageSize, long total, Set<T> set) {
-            return new PageSetResult<T>(CommonResultCode.FAIL, pageNum, pageSize, total, set);
+        public static <T> PageSetResult<T> error(long pageNumber, long pageSize, long total, Set<T> set) {
+            return new PageSetResult<T>(CommonResultCode.FAIL, pageNumber, pageSize, total, set);
         }
 
         /**
@@ -173,7 +186,7 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult error(PageData pageData) {
+        public static <T> PageSetResult error(SimplePageData<Set<T>> pageData) {
             return new PageSetResult(CommonResultCode.FAIL, pageData);
         }
 
@@ -182,7 +195,7 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> error(PageData pageData, Set<T> set) {
+        public static <T> PageSetResult<T> error(SimplePageData<Set<T>> pageData, Set<T> set) {
             return new PageSetResult<T>(CommonResultCode.FAIL, pageData, set);
         }
 
@@ -191,8 +204,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult result(IPageResult IPageResult) {
-            return new PageSetResult(IPageResult);
+        public static <T> PageSetResult result(IPageResult<Set<T>, SimplePageData<Set<T>>> iPageResult) {
+            return new PageSetResult(iPageResult);
         }
 
         /**
@@ -200,8 +213,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> result(IPageResult IPageResult, Set<T> set) {
-            return new PageSetResult<T>(IPageResult, set);
+        public static <T> PageSetResult<T> result(IPageResult<Set<T>, SimplePageData<Set<T>>> iPageResult, Set<T> set) {
+            return new PageSetResult<T>(iPageResult, set);
         }
 
         /**
@@ -209,8 +222,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> result(IResult IResult, long pageNum, long pageSize, Set<T> set) {
-            return new PageSetResult<T>(IResult, pageNum, pageSize, set);
+        public static <T> PageSetResult<T> result(IResult iResult, long pageNumber, long pageSize, Set<T> set) {
+            return new PageSetResult<T>(iResult, pageNumber, pageSize, set);
         }
 
         /**
@@ -218,8 +231,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult result(IResult IResult, long pageNum, long pageSize, long total) {
-            return new PageSetResult(IResult, pageNum, pageSize, total);
+        public static PageSetResult result(IResult iResult, long pageNumber, long pageSize, long total) {
+            return new PageSetResult(iResult, pageNumber, pageSize, total);
         }
 
         /**
@@ -227,8 +240,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> result(IResult IResult, long pageNum, long pageSize, long total, Set<T> set) {
-            return new PageSetResult<T>(IResult, pageNum, pageSize, total, set);
+        public static <T> PageSetResult<T> result(IResult iResult, long pageNumber, long pageSize, long total, Set<T> set) {
+            return new PageSetResult<T>(iResult, pageNumber, pageSize, total, set);
         }
 
         /**
@@ -236,8 +249,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static PageSetResult result(IResult IResult, PageData pageData) {
-            return new PageSetResult(IResult, pageData);
+        public static <T> PageSetResult result(IResult iResult, SimplePageData<Set<T>> pageData) {
+            return new PageSetResult(iResult, pageData);
         }
 
         /**
@@ -245,8 +258,8 @@ public class PageSetResult<T> extends AbstractPageResult<Set<T>> implements IDat
          *
          * @return Result
          */
-        public static <T> PageSetResult<T> result(IResult IResult, PageData pageData, Set<T> set) {
-            return new PageSetResult<T>(IResult, pageData, set);
+        public static <T> PageSetResult<T> result(IResult iResult, SimplePageData<Set<T>> pageData, Set<T> set) {
+            return new PageSetResult<T>(iResult, pageData, set);
         }
 
     }

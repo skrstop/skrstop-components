@@ -27,8 +27,8 @@ public class LinkedSetResult<T> extends AbstractResult implements ILinkedSetResu
         this.data = new LinkedHashSet<>();
     }
 
-    public LinkedSetResult(IResult IResult) {
-        super(IResult);
+    public LinkedSetResult(IResult iResult) {
+        super(iResult);
     }
 
     public LinkedSetResult(ILinkedSetResult<T> iLinkedSetResult) {
@@ -36,8 +36,8 @@ public class LinkedSetResult<T> extends AbstractResult implements ILinkedSetResu
         this.data = iLinkedSetResult.getData();
     }
 
-    public LinkedSetResult(IResult IResult, LinkedHashSet<T> data) {
-        super(IResult);
+    public LinkedSetResult(IResult iResult, LinkedHashSet<T> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -94,8 +94,8 @@ public class LinkedSetResult<T> extends AbstractResult implements ILinkedSetResu
          *
          * @return Result
          */
-        public static <T> LinkedSetResult<T> result(IResult IResult, LinkedHashSet<T> data) {
-            return new LinkedSetResult<T>(IResult, data);
+        public static <T> LinkedSetResult<T> result(IResult iResult, LinkedHashSet<T> data) {
+            return new LinkedSetResult<T>(iResult, data);
         }
 
         /**
@@ -103,8 +103,8 @@ public class LinkedSetResult<T> extends AbstractResult implements ILinkedSetResu
          *
          * @return Result
          */
-        public static <T> LinkedSetResult<T> result(IResult IResult) {
-            return new LinkedSetResult<T>(IResult);
+        public static <T> LinkedSetResult<T> result(IResult iResult) {
+            return new LinkedSetResult<T>(iResult);
         }
 
     }

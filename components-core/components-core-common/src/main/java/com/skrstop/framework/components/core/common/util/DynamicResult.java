@@ -32,19 +32,30 @@ public class DynamicResult {
             return DefaultPageResult.Builder.success();
         }
         pageData = defaultIfNull(pageData, new SimplePageData());
+        long pageNumber = pageData.getPageNumber();
+        long pageSize = pageData.getPageSize();
+        long total = pageData.getTotal();
+        String lastPageInfo = pageData.getLastPageInfo();
+        SimplePageData newPageData = new SimplePageData<>(pageNumber, pageSize, total);
+        newPageData.setLastPageInfo(lastPageInfo);
+        newPageData.setRows(val);
         // object
-        if (val instanceof List) {
-            return PageListResult.Builder.success(pageData, (List) val);
+        if (val instanceof ArrayList) {
+            return PageArrayListResult.Builder.success(newPageData, (ArrayList) val);
+        } else if (val instanceof LinkedList<?>) {
+            return PageLinkedListResult.Builder.success(newPageData, (LinkedList) val);
+        } else if (val instanceof List) {
+            return PageListResult.Builder.success(newPageData, (List) val);
         } else if (val instanceof HashSet) {
-            return PageHashSetResult.Builder.success(pageData, (HashSet) val);
+            return PageHashSetResult.Builder.success(newPageData, (HashSet) val);
         } else if (val instanceof LinkedHashSet) {
-            return PageLinkedSetResult.Builder.success(pageData, (LinkedHashSet) val);
+            return PageLinkedSetResult.Builder.success(newPageData, (LinkedHashSet) val);
         } else if (val instanceof Set) {
-            return PageSetResult.Builder.success(pageData, (Set) val);
+            return PageSetResult.Builder.success(newPageData, (Set) val);
         } else if (val instanceof Collection) {
-            return PageCollectionResult.Builder.success(pageData, (Collection) val);
+            return PageCollectionResult.Builder.success(newPageData, (Collection) val);
         }
-        return PageCollectionResult.Builder.success(pageData, val);
+        return PageCollectionResult.Builder.success(newPageData, val);
     }
 
     public static IPageResult buildPage(PageData<?> pageData) {
@@ -53,18 +64,29 @@ public class DynamicResult {
         }
         pageData = defaultIfNull(pageData, new SimplePageData());
         Object rows = pageData.getRows();
-        if (rows instanceof List) {
-            return PageListResult.Builder.success(pageData);
+        long pageNumber = pageData.getPageNumber();
+        long pageSize = pageData.getPageSize();
+        long total = pageData.getTotal();
+        String lastPageInfo = pageData.getLastPageInfo();
+        SimplePageData newPageData = new SimplePageData<>(pageNumber, pageSize, total);
+        newPageData.setLastPageInfo(lastPageInfo);
+        newPageData.setRows(rows);
+        if (rows instanceof ArrayList) {
+            return PageArrayListResult.Builder.success(newPageData);
+        } else if (rows instanceof LinkedList<?>) {
+            return PageLinkedListResult.Builder.success(newPageData);
+        } else if (rows instanceof List) {
+            return PageListResult.Builder.success(newPageData);
         } else if (rows instanceof LinkedHashSet) {
-            return PageLinkedSetResult.Builder.success(pageData);
+            return PageLinkedSetResult.Builder.success(newPageData);
         } else if (rows instanceof HashSet) {
-            return PageHashSetResult.Builder.success(pageData);
+            return PageHashSetResult.Builder.success(newPageData);
         } else if (rows instanceof Set) {
-            return PageSetResult.Builder.success(pageData);
+            return PageSetResult.Builder.success(newPageData);
         } else if (rows instanceof Collection) {
-            return PageCollectionResult.Builder.success(pageData);
+            return PageCollectionResult.Builder.success(newPageData);
         }
-        return PageListResult.Builder.success(pageData, new ArrayList<>());
+        return PageListResult.Builder.success(newPageData, new ArrayList<>());
     }
 
     public static IPageResult buildPage(IPageResult result) {

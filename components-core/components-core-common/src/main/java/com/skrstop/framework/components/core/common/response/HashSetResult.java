@@ -27,8 +27,8 @@ public class HashSetResult<T> extends AbstractResult implements IHashSetResult<T
         this.data = new HashSet<>();
     }
 
-    public HashSetResult(IResult IResult) {
-        super(IResult);
+    public HashSetResult(IResult iResult) {
+        super(iResult);
     }
 
     public HashSetResult(IHashSetResult<T> iHashSetResult) {
@@ -36,8 +36,8 @@ public class HashSetResult<T> extends AbstractResult implements IHashSetResult<T
         this.data = iHashSetResult.getData();
     }
 
-    public HashSetResult(IResult IResult, HashSet<T> data) {
-        super(IResult);
+    public HashSetResult(IResult iResult, HashSet<T> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -94,8 +94,8 @@ public class HashSetResult<T> extends AbstractResult implements IHashSetResult<T
          *
          * @return Result
          */
-        public static <T> HashSetResult<T> result(IResult IResult, HashSet<T> data) {
-            return new HashSetResult<T>(IResult, data);
+        public static <T> HashSetResult<T> result(IResult iResult, HashSet<T> data) {
+            return new HashSetResult<T>(iResult, data);
         }
 
         /**
@@ -103,8 +103,8 @@ public class HashSetResult<T> extends AbstractResult implements IHashSetResult<T
          *
          * @return Result
          */
-        public static <T> HashSetResult<T> result(IResult IResult) {
-            return new HashSetResult<T>(IResult);
+        public static <T> HashSetResult<T> result(IResult iResult) {
+            return new HashSetResult<T>(iResult);
         }
 
     }

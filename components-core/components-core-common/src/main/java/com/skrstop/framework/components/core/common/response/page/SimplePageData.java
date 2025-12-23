@@ -17,12 +17,12 @@ public class SimplePageData<T> extends AbstractPageInfo<T> implements PageData<T
     public SimplePageData() {
     }
 
-    public SimplePageData(long pageNum, long pageSize) {
-        super(pageNum, pageSize);
+    public SimplePageData(long pageNumber, long pageSize) {
+        super(pageNumber, pageSize);
     }
 
-    public SimplePageData(long pageNum, long pageSize, long total) {
-        super(pageNum, pageSize, total);
+    public SimplePageData(long pageNumber, long pageSize, long total) {
+        super(pageNumber, pageSize, total);
     }
 
 }

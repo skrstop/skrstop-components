@@ -27,8 +27,8 @@ public class MapResult<T, R> extends AbstractResult implements IMapResult<T, R> 
         this.data = new HashMap<T, R>();
     }
 
-    public MapResult(IResult IResult) {
-        super(IResult);
+    public MapResult(IResult iResult) {
+        super(iResult);
     }
 
     public MapResult(IMapResult<T, R> iMapResult) {
@@ -36,8 +36,8 @@ public class MapResult<T, R> extends AbstractResult implements IMapResult<T, R> 
         this.data = iMapResult.getData();
     }
 
-    public MapResult(IResult IResult, Map<T, R> data) {
-        super(IResult);
+    public MapResult(IResult iResult, Map<T, R> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -94,8 +94,8 @@ public class MapResult<T, R> extends AbstractResult implements IMapResult<T, R> 
          *
          * @return Result
          */
-        public static <T, R> MapResult<T, R> result(IResult IResult, Map<T, R> data) {
-            return new MapResult<T, R>(IResult, data);
+        public static <T, R> MapResult<T, R> result(IResult iResult, Map<T, R> data) {
+            return new MapResult<T, R>(iResult, data);
         }
 
         /**
@@ -103,8 +103,8 @@ public class MapResult<T, R> extends AbstractResult implements IMapResult<T, R> 
          *
          * @return Result
          */
-        public static <T, R> MapResult<T, R> result(IResult IResult) {
-            return new MapResult<T, R>(IResult);
+        public static <T, R> MapResult<T, R> result(IResult iResult) {
+            return new MapResult<T, R>(iResult);
         }
 
     }

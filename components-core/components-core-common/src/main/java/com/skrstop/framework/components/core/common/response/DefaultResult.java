@@ -22,8 +22,8 @@ public class DefaultResult extends AbstractResult implements IResult {
 
     }
 
-    public DefaultResult(IResult IResult) {
-        super(IResult);
+    public DefaultResult(IResult iResult) {
+        super(iResult);
     }
 
     public static class Builder {
@@ -51,8 +51,8 @@ public class DefaultResult extends AbstractResult implements IResult {
          *
          * @return Result
          */
-        public static DefaultResult result(IResult IResult) {
-            return new DefaultResult(IResult);
+        public static DefaultResult result(IResult iResult) {
+            return new DefaultResult(iResult);
         }
 
 

@@ -24,20 +24,20 @@ import java.nio.charset.Charset;
  */
 public class ResponseOutFluxUtil {
 
-    public static Mono<Void> fluxOut(ServerHttpResponse response, IResult IResult, HttpStatus httpStatus) throws IOException {
+    public static Mono<Void> fluxOut(ServerHttpResponse response, IResult iResult, HttpStatus httpStatus) throws IOException {
         response.setStatusCode(httpStatus);
-        return fluxOut(response, IResult);
+        return fluxOut(response, iResult);
     }
 
-    public static Mono<Void> fluxOut(ServerHttpResponse response, IResult IResult) throws IOException {
-        return fluxOut(response, IResult, CharSetEnum.UTF8, ContentTypeEnum.APPLICATION_JSON_UTF8);
+    public static Mono<Void> fluxOut(ServerHttpResponse response, IResult iResult) throws IOException {
+        return fluxOut(response, iResult, CharSetEnum.UTF8, ContentTypeEnum.APPLICATION_JSON_UTF8);
     }
 
-    public static Mono<Void> fluxOut(ServerHttpResponse response, IResult IResult, CharSetEnum charSetEnum, ContentTypeEnum contentTypeEnum) throws IOException {
+    public static Mono<Void> fluxOut(ServerHttpResponse response, IResult iResult, CharSetEnum charSetEnum, ContentTypeEnum contentTypeEnum) throws IOException {
         response.getHeaders().setContentType(MediaType.parseMediaType(contentTypeEnum.getContentType()));
         response.getHeaders()
                 .setAcceptCharset(CollectionUtil.newArrayList(Charset.forName(charSetEnum.getCharSet())));
-        String body = FastJsonUtil.toJson(new Result<>(IResult));
+        String body = FastJsonUtil.toJson(new Result<>(iResult));
         DataBuffer wrap = response.bufferFactory().wrap(body.getBytes(charSetEnum.getCharSet()));
         return response.writeWith(Flux.just(wrap));
     }
