@@ -23,15 +23,17 @@ public class ApplicationContextInitializerAutoConfiguration implements Applicati
         if (druidInfoSet) {
             return;
         }
-        String property = System.getProperty(GlobalConfigConst.DATABASE_CONFIG_CHECK_DRUID_USE_PING_METHOD);
-        boolean usePingMethod = BooleanUtil.toBoolean(property, false);
+        String property = applicationContext.getEnvironment().getProperty(GlobalConfigConst.DATABASE_CONFIG_CHECK_DRUID_USE_PING_METHOD);
+        String druidProperty = applicationContext.getEnvironment().getProperty("spring.datasource.druid.use-ping-method");
+        boolean usePingMethodConfig = BooleanUtil.toBoolean(property, false);
+        boolean usePingMethodDruid = BooleanUtil.toBoolean(druidProperty, false);
+        boolean usePingMethod = usePingMethodConfig || usePingMethodDruid;
         if (usePingMethod) {
-            druidInfoSet = true;
-            return;
+            log.info("开启druid默认连接池检查[usePingMethod]，使用ping");
+        } else {
+            log.info("关闭druid默认连接池检查[usePingMethod]，使用validateQuery");
         }
-        // 关闭druid 默认连接池检查，使用select 1
-        log.info("关闭druid默认连接池检查[usePingMethod]，使用validateQuery");
-        System.setProperty("druid.mysql.usePingMethod", "false");
+        System.setProperty("druid.mysql.usePingMethod", String.valueOf(usePingMethod));
         druidInfoSet = true;
     }
 

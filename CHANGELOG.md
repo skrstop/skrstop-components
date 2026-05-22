@@ -1,5 +1,9 @@
 # 组件
 
+##### 1.3.5.20260520-RELEASE
+
+* feat: druid usePingMethod支持通过yml配置指定，默认为false
+
 ##### 1.3.4.20250930-RELEASE
 
 * refactor: 重构database、mongodb组件重构
