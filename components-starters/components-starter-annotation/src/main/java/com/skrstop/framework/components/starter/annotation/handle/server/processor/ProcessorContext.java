@@ -324,4 +324,72 @@ public class ProcessorContext {
         return getProcessorsDefault(null, assertParam);
     }
 
+    /**
+     * 获取所有处理器
+     *
+     * @param containerName
+     * @param assertParam
+     * @return
+     */
+    public static <T> List<T> getProcessorsAll(String containerName, Boolean filterDefault, Class<T> cls) {
+        if (StrUtil.isBlank(containerName)) {
+            containerName = ProcessorContext.DEFAULT_CONTAINERS_NAME;
+        }
+        ProcessorContainer processorContainer = constainers.get(containerName);
+        if (ObjectUtil.isNull(processorContainer)) {
+            throw new ProcessorException();
+        }
+        if (ObjectUtil.isNull(filterDefault)) {
+            List<Object> processors = processorContainer.getProcessorEntities()
+                    .stream()
+                    .map(ProcessorEntity::getProcessor)
+                    .collect(Collectors.toList());
+            List<Object> defaults = processorContainer.getProcessorEntitiesDefault()
+                    .stream()
+                    .map(ProcessorEntity::getProcessor)
+                    .collect(Collectors.toList());
+            processors.addAll(defaults);
+            return (List<T>) processors;
+        }
+        if (filterDefault) {
+            return (List<T>) processorContainer.getProcessorEntitiesDefault().stream().map(ProcessorEntity::getProcessor).collect(Collectors.toList());
+        }
+        return (List<T>) processorContainer.getProcessorEntities().stream().map(ProcessorEntity::getProcessor).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取所有处理器
+     *
+     * @param containerName
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> getProcessorsAll(boolean listDefault, Class<T> cls) {
+        return (List<T>) getProcessorsAll(null, listDefault, cls);
+    }
+
+    /**
+     * 获取所有处理器
+     *
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> getProcessorsAllWithDefault(String containerName, Class<T> cls) {
+        return (List<T>) getProcessorsAll(containerName, null, cls);
+    }
+
+    /**
+     * 获取所有处理器
+     *
+     * @param cls
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> getProcessorsAllWithDefault(Class<T> cls) {
+        return (List<T>) getProcessorsAll(null, null, cls);
+    }
+
+
 }
