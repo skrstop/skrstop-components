@@ -268,6 +268,11 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
+    public long listSize(String dsKey, String key) {
+        return this.redisService.listSize(key);
+    }
+
+    @Override
     public <T> List<T> listRange(String dsKey, String key, long start, long end, Class<T> cls) {
         return this.redisService.listRange(key, start, end, cls);
     }

@@ -417,6 +417,13 @@ public interface RedisService {
     long listLeftPushAll(String key, Collection<String> values);
 
     /**
+     * 列表大小
+     *
+     * @param key
+     */
+    long listSize(String key);
+
+    /**
      * 列表左添加
      *
      * @param key

@@ -425,6 +425,13 @@ public interface DynamicRedisService {
     long listLeftPushIfPresent(final String dsKey, String key, Object value);
 
     /**
+     * 列表大小
+     *
+     * @param key
+     */
+    long listSize(final String dsKey, String key);
+
+    /**
      * 列表获取
      *
      * @param key
