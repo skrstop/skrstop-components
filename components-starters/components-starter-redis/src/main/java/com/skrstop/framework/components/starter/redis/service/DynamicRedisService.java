@@ -307,7 +307,7 @@ public interface DynamicRedisService {
      * @param key
      * @return
      */
-    void hashPut(final String dsKey, String key, String hashKey, Object value);
+    Boolean hashPut(final String dsKey, String key, String hashKey, Object value);
 
     /**
      * 设置缓存
@@ -325,7 +325,7 @@ public interface DynamicRedisService {
      * @param key
      * @return
      */
-    void hashPutAll(final String dsKey, String key, Map<String, Object> values);
+    Boolean hashPutAll(final String dsKey, String key, Map<String, Object> values);
 
     /**
      * 哈希获取数据
@@ -583,7 +583,7 @@ public interface DynamicRedisService {
      * @param index
      */
     @Deprecated
-    void setDB(final String dsKey, Integer index);
+    Boolean setDB(final String dsKey, Integer index);
 
     /**
      * 判断redis连接是否存在

@@ -93,9 +93,14 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        operations.set(key, value);
-        return true;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.set(key, value);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -103,9 +108,14 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        operations.set(key, value, expireTime, timeUnit);
-        return true;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.set(key, value, expireTime, timeUnit);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -113,9 +123,14 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        operations.multiSet(map);
-        return true;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.multiSet(map);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -123,12 +138,17 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        operations.multiSet(map);
-        map.keySet().forEach(key -> {
-            this.expire(key, expireTime, timeUnit);
-        });
-        return true;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.multiSet(map);
+            map.keySet().forEach(key -> {
+                this.expire(key, expireTime, timeUnit);
+            });
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -194,9 +214,14 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        operations.set(key, value, expireTime, TimeUnit.SECONDS);
-        return true;
+        try {
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+            operations.set(key, value, expireTime, TimeUnit.SECONDS);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -365,12 +390,18 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public void hashPut(String key, String hashKey, Object value) {
+    public Boolean hashPut(String key, String hashKey, Object value) {
         if (this.isConnectionClose()) {
-            return;
+            return null;
         }
-        HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
-        hash.put(key, hashKey, value);
+        try {
+            HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
+            hash.put(key, hashKey, value);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -383,12 +414,18 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public void hashPutAll(String key, Map<String, Object> values) {
+    public Boolean hashPutAll(String key, Map<String, Object> values) {
         if (this.isConnectionClose()) {
-            return;
+            return null;
         }
-        HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
-        hash.putAll(key, values);
+        try {
+            HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
+            hash.putAll(key, values);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -958,12 +995,18 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public void setDB(Integer index) {
+    public Boolean setDB(Integer index) {
         if (this.isConnectionClose()) {
-            return;
+            return null;
         }
-        LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) redisTemplate.getConnectionFactory();
-        connectionFactory.setDatabase(index);
+        try {
+            LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) redisTemplate.getConnectionFactory();
+            connectionFactory.setDatabase(index);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override

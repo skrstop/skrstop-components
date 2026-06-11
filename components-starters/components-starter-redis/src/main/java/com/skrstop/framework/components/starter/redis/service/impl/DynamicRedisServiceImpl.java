@@ -196,8 +196,8 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public void hashPut(String dsKey, String key, String hashKey, Object value) {
-        this.redisService.hashPut(key, hashKey, value);
+    public Boolean hashPut(String dsKey, String key, String hashKey, Object value) {
+        return this.redisService.hashPut(key, hashKey, value);
     }
 
     @Override
@@ -206,8 +206,8 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public void hashPutAll(String dsKey, String key, Map<String, Object> values) {
-        this.redisService.hashPutAll(key, values);
+    public Boolean hashPutAll(String dsKey, String key, Map<String, Object> values) {
+        return this.redisService.hashPutAll(key, values);
     }
 
     @Override
@@ -481,8 +481,8 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public void setDB(String dsKey, Integer index) {
-        this.redisService.setDB(index);
+    public Boolean setDB(String dsKey, Integer index) {
+        return this.redisService.setDB(index);
     }
 
     @Override

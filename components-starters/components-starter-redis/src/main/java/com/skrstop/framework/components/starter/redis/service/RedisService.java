@@ -307,7 +307,7 @@ public interface RedisService {
      * @param key
      * @return
      */
-    void hashPut(String key, String hashKey, Object value);
+    Boolean hashPut(String key, String hashKey, Object value);
 
     /**
      * 设置缓存
@@ -325,7 +325,7 @@ public interface RedisService {
      * @param key
      * @return
      */
-    void hashPutAll(String key, Map<String, Object> values);
+    Boolean hashPutAll(String key, Map<String, Object> values);
 
     /**
      * 哈希获取数据
@@ -583,7 +583,7 @@ public interface RedisService {
      * @param index
      */
     @Deprecated
-    void setDB(Integer index);
+    Boolean setDB(Integer index);
 
     /**
      * 判断redis连接是否存在
