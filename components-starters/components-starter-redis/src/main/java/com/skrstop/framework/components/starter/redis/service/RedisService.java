@@ -78,7 +78,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean set(final String key, Object value);
+    Boolean set(final String key, Object value);
 
     /**
      * 写入缓存
@@ -87,7 +87,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean set(final String key, Object value, final long expireTime, final TimeUnit timeUnit);
+    Boolean set(final String key, Object value, final long expireTime, final TimeUnit timeUnit);
 
     /**
      * 批量写入
@@ -95,7 +95,7 @@ public interface RedisService {
      * @param map
      * @return
      */
-    boolean multiSet(final Map<String, Object> map);
+    Boolean multiSet(final Map<String, Object> map);
 
     /**
      * 批量写入
@@ -103,7 +103,7 @@ public interface RedisService {
      * @param map
      * @return
      */
-    boolean multiSet(final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
+    Boolean multiSet(final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
 
     /**
      * 批量写入
@@ -111,7 +111,7 @@ public interface RedisService {
      * @param map
      * @return
      */
-    boolean multiSetIfAbsent(final Map<String, Object> map);
+    Boolean multiSetIfAbsent(final Map<String, Object> map);
 
     /**
      * 批量写入
@@ -119,7 +119,7 @@ public interface RedisService {
      * @param map
      * @return
      */
-    boolean multiSetIfAbsent(final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
+    Boolean multiSetIfAbsent(final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
 
     /**
      * 写入缓存
@@ -128,7 +128,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String key, Object value);
+    Boolean setIfAbsent(final String key, Object value);
 
     /**
      * 写入缓存
@@ -137,7 +137,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String key, Object value, Duration duration);
+    Boolean setIfAbsent(final String key, Object value, Duration duration);
 
     /**
      * 写入缓存
@@ -146,7 +146,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String key, Object value);
+    Boolean setIfPresent(final String key, Object value);
 
     /**
      * 写入缓存
@@ -155,7 +155,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String key, Object value, Duration duration);
+    Boolean setIfPresent(final String key, Object value, Duration duration);
 
     /**
      * 写入缓存设置时效时间
@@ -164,7 +164,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean set(final String key, Object value, long expireTime);
+    Boolean set(final String key, Object value, long expireTime);
 
     /**
      * 写入缓存
@@ -173,7 +173,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String key, Object value, long expireTime);
+    Boolean setIfAbsent(final String key, Object value, long expireTime);
 
     /**
      * 写入缓存
@@ -182,7 +182,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String key, Object value, long expireTime, TimeUnit timeUnit);
+    Boolean setIfAbsent(final String key, Object value, long expireTime, TimeUnit timeUnit);
 
     /**
      * 写入缓存
@@ -191,7 +191,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String key, Object value, long expireTime);
+    Boolean setIfPresent(final String key, Object value, long expireTime);
 
     /**
      * 写入缓存
@@ -200,7 +200,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String key, Object value, long expireTime, TimeUnit timeUnit);
+    Boolean setIfPresent(final String key, Object value, long expireTime, TimeUnit timeUnit);
 
     /**
      * 批量删除对应的value
@@ -208,7 +208,7 @@ public interface RedisService {
      * @param keys
      * @return
      */
-    long remove(final String... keys);
+    Long remove(final String... keys);
 
     /**
      * 批量删除对应的value
@@ -216,7 +216,7 @@ public interface RedisService {
      * @param keys
      * @return
      */
-    long remove(final Collection<String> keys);
+    Long remove(final Collection<String> keys);
 
     /**
      * 批量删除key
@@ -224,7 +224,7 @@ public interface RedisService {
      * @param pattern
      * @return
      */
-    long removePattern(final String pattern);
+    Long removePattern(final String pattern);
 
     /**
      * 删除对应的value
@@ -232,7 +232,7 @@ public interface RedisService {
      * @param key
      * @return
      */
-    boolean remove(final String key);
+    Boolean remove(final String key);
 
     /**
      * 判断缓存中是否有对应的value
@@ -240,7 +240,7 @@ public interface RedisService {
      * @param key
      * @return
      */
-    boolean hasKey(final String key);
+    Boolean hasKey(final String key);
 
     /**
      * 读取缓存
@@ -299,7 +299,7 @@ public interface RedisService {
      * @param hashKey
      * @return
      */
-    boolean hashHasKey(String key, String hashKey);
+    Boolean hashHasKey(String key, String hashKey);
 
     /**
      * 设置缓存
@@ -317,7 +317,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    boolean hashPutIfAbsent(String key, String hashKey, Object value);
+    Boolean hashPutIfAbsent(String key, String hashKey, Object value);
 
     /**
      * 设置缓存
@@ -352,7 +352,7 @@ public interface RedisService {
      * @param hasKey
      * @return
      */
-    long hashDelete(String key, String... hasKey);
+    Long hashDelete(String key, String... hasKey);
 
     /**
      * 哈希删除数据
@@ -361,7 +361,7 @@ public interface RedisService {
      * @param hasKey
      * @return
      */
-    long hashDelete(String key, Collection<String> hasKey);
+    Long hashDelete(String key, Collection<String> hasKey);
 
     /**
      * 列表右添加
@@ -369,7 +369,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listRightPush(String key, Object value);
+    Long listRightPush(String key, Object value);
 
     /**
      * 列表右添加
@@ -377,7 +377,7 @@ public interface RedisService {
      * @param key
      * @param values
      */
-    long listRightPushAll(String key, Object... values);
+    Long listRightPushAll(String key, Object... values);
 
     /**
      * 列表右添加
@@ -385,7 +385,7 @@ public interface RedisService {
      * @param key
      * @param values
      */
-    long listRightPushAll(String key, Collection<String> values);
+    Long listRightPushAll(String key, Collection<String> values);
 
     /**
      * 列表右添加
@@ -393,7 +393,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listRightPushIfPresent(String key, Object value);
+    Long listRightPushIfPresent(String key, Object value);
 
     /**
      * 列表左添加
@@ -401,7 +401,7 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listLeftPush(String key, Object value);
+    Long listLeftPush(String key, Object value);
 
     /**
      * 列表左添加
@@ -409,7 +409,7 @@ public interface RedisService {
      * @param key
      * @param values
      */
-    long listLeftPushAll(String key, Object... values);
+    Long listLeftPushAll(String key, Object... values);
 
     /**
      * 列表左添加
@@ -417,7 +417,7 @@ public interface RedisService {
      * @param key
      * @param values
      */
-    long listLeftPushAll(String key, Collection<String> values);
+    Long listLeftPushAll(String key, Collection<String> values);
 
     /**
      * 列表左添加
@@ -425,14 +425,14 @@ public interface RedisService {
      * @param key
      * @param value
      */
-    long listLeftPushIfPresent(String key, Object value);
+    Long listLeftPushIfPresent(String key, Object value);
 
     /**
      * 列表大小
      *
      * @param key
      */
-    long listSize(String key);
+    Long listSize(String key);
 
     /**
      * 列表获取
@@ -472,7 +472,7 @@ public interface RedisService {
      * @param value
      * @return
      */
-    long setAdd(String key, Object value);
+    Long setAdd(String key, Object value);
 
     /**
      * 集合获取
@@ -482,11 +482,11 @@ public interface RedisService {
      */
     <T> Set<T> setMembers(String key, Class<T> cls);
 
-    long setRemove(String key, Object... value);
+    Long setRemove(String key, Object... value);
 
-    long setRemove(String key, Collection<String> values);
+    Long setRemove(String key, Collection<String> values);
 
-    boolean setIsMember(String key, Object value);
+    Boolean setIsMember(String key, Object value);
 
     <T> T setPop(String key, Class<T> cls);
 
@@ -499,15 +499,15 @@ public interface RedisService {
      * @param value
      * @param scoure
      */
-    boolean zsetAdd(String key, Object value, double scoure);
+    Boolean zsetAdd(String key, Object value, double scoure);
 
-    long zsetRemove(String key, Object... values);
+    Long zsetRemove(String key, Object... values);
 
-    long zsetRemove(String key, Collection<String> values);
+    Long zsetRemove(String key, Collection<String> values);
 
-    long zsetRemoveRangeByScore(String key, double min, double max);
+    Long zsetRemoveRangeByScore(String key, double min, double max);
 
-    long zsetRemoveRange(String key, long start, long end);
+    Long zsetRemoveRange(String key, long start, long end);
 
     /**
      * 有序集合获取
@@ -569,7 +569,7 @@ public interface RedisService {
 
     <T> Set<T> zsetRangeByLex(String key, Range<String> range, Limit limit, Class<T> cls);
 
-    long zsetCount(String key, double min, double max);
+    Long zsetCount(String key, double min, double max);
 
     Double zsetIncrementScore(String key, Object value, double delta);
 
@@ -582,6 +582,7 @@ public interface RedisService {
      *
      * @param index
      */
+    @Deprecated
     void setDB(Integer index);
 
     /**
@@ -598,7 +599,7 @@ public interface RedisService {
      * @param expireTime
      * @return
      */
-    boolean expire(String key, long expireTime);
+    Boolean expire(String key, long expireTime);
 
     /**
      * 通过key设置过期时间
@@ -607,7 +608,7 @@ public interface RedisService {
      * @param expireTime
      * @return
      */
-    boolean expire(String key, long expireTime, TimeUnit timeUnit);
+    Boolean expire(String key, long expireTime, TimeUnit timeUnit);
 
     /**
      * 获取过期时间
@@ -615,7 +616,7 @@ public interface RedisService {
      * @param key
      * @return
      */
-    long getExpire(String key);
+    Long getExpire(String key);
 
     /**
      * 获取过期时间
@@ -624,7 +625,7 @@ public interface RedisService {
      * @param timeUnit
      * @return
      */
-    long getExpire(String key, TimeUnit timeUnit);
+    Long getExpire(String key, TimeUnit timeUnit);
 
     /**
      * pipline执行

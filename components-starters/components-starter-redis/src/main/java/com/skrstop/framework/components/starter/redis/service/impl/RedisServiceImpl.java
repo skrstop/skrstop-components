@@ -118,7 +118,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean set(final String key, Object value) {
+    public Boolean set(final String key, Object value) {
         if (this.isConnection()) {
             return false;
         }
@@ -134,7 +134,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean set(final String key, Object value, long expireTime, TimeUnit timeUnit) {
+    public Boolean set(final String key, Object value, long expireTime, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return false;
         }
@@ -150,7 +150,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean multiSet(final Map<String, Object> map) {
+    public Boolean multiSet(final Map<String, Object> map) {
         if (this.isConnection()) {
             return false;
         }
@@ -166,7 +166,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean multiSet(final Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
+    public Boolean multiSet(final Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return false;
         }
@@ -185,7 +185,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean multiSetIfAbsent(final Map<String, Object> map) {
+    public Boolean multiSetIfAbsent(final Map<String, Object> map) {
         if (this.isConnection()) {
             return false;
         }
@@ -200,7 +200,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean multiSetIfAbsent(final Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
+    public Boolean multiSetIfAbsent(final Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return false;
         }
@@ -218,7 +218,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfAbsent(String key, Object value) {
+    public Boolean setIfAbsent(String key, Object value) {
         if (this.isConnection()) {
             return false;
         }
@@ -233,7 +233,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfAbsent(String key, Object value, Duration duration) {
+    public Boolean setIfAbsent(String key, Object value, Duration duration) {
         if (this.isConnection()) {
             return false;
         }
@@ -248,7 +248,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfPresent(String key, Object value) {
+    public Boolean setIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return false;
         }
@@ -263,7 +263,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfPresent(String key, Object value, Duration duration) {
+    public Boolean setIfPresent(String key, Object value, Duration duration) {
         if (this.isConnection()) {
             return false;
         }
@@ -278,7 +278,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean set(final String key, Object value, long expireTime) {
+    public Boolean set(final String key, Object value, long expireTime) {
         if (this.isConnection()) {
             return false;
         }
@@ -294,7 +294,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfAbsent(String key, Object value, long expireTime) {
+    public Boolean setIfAbsent(String key, Object value, long expireTime) {
         if (this.isConnection()) {
             return false;
         }
@@ -309,7 +309,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfAbsent(String key, Object value, long expireTime, TimeUnit timeUnit) {
+    public Boolean setIfAbsent(String key, Object value, long expireTime, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return false;
         }
@@ -324,7 +324,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfPresent(String key, Object value, long expireTime) {
+    public Boolean setIfPresent(String key, Object value, long expireTime) {
         if (this.isConnection()) {
             return false;
         }
@@ -339,7 +339,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean setIfPresent(String key, Object value, long expireTime, TimeUnit timeUnit) {
+    public Boolean setIfPresent(String key, Object value, long expireTime, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return false;
         }
@@ -354,7 +354,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long remove(final String... keys) {
+    public Long remove(final String... keys) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -362,7 +362,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long remove(Collection<String> keys) {
+    public Long remove(Collection<String> keys) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -370,7 +370,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long removePattern(final String pattern) {
+    public Long removePattern(final String pattern) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -382,7 +382,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean remove(final String key) {
+    public Boolean remove(final String key) {
         if (this.isConnection()) {
             return false;
         }
@@ -390,7 +390,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean hasKey(final String key) {
+    public Boolean hasKey(final String key) {
         if (this.isConnection()) {
             return false;
         }
@@ -474,7 +474,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean hashHasKey(String key, String hashKey) {
+    public Boolean hashHasKey(String key, String hashKey) {
         if (this.isConnection()) {
             return false;
         }
@@ -492,7 +492,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean hashPutIfAbsent(String key, String hashKey, Object value) {
+    public Boolean hashPutIfAbsent(String key, String hashKey, Object value) {
         if (this.isConnection()) {
             return false;
         }
@@ -536,7 +536,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long hashDelete(String key, String... hasKey) {
+    public Long hashDelete(String key, String... hasKey) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -544,7 +544,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long hashDelete(String key, Collection<String> hasKey) {
+    public Long hashDelete(String key, Collection<String> hasKey) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -552,7 +552,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listRightPush(String key, Object value) {
+    public Long listRightPush(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -561,7 +561,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listRightPushAll(String key, Object... values) {
+    public Long listRightPushAll(String key, Object... values) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -570,7 +570,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listRightPushAll(String key, Collection<String> values) {
+    public Long listRightPushAll(String key, Collection<String> values) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -579,7 +579,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listRightPushIfPresent(String key, Object value) {
+    public Long listRightPushIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -588,7 +588,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listLeftPush(String key, Object value) {
+    public Long listLeftPush(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -597,7 +597,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listLeftPushAll(String key, Object... values) {
+    public Long listLeftPushAll(String key, Object... values) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -606,7 +606,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listLeftPushAll(String key, Collection<String> values) {
+    public Long listLeftPushAll(String key, Collection<String> values) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -615,7 +615,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listLeftPushIfPresent(String key, Object value) {
+    public Long listLeftPushIfPresent(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -624,7 +624,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long listSize(String key) {
+    public Long listSize(String key) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -672,7 +672,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long setAdd(String key, Object value) {
+    public Long setAdd(String key, Object value) {
         if (this.isConnection()) {
             return 0L;
         }
@@ -694,23 +694,23 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long setRemove(String key, Object... values) {
+    public Long setRemove(String key, Object... values) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         return redisTemplate.opsForSet().remove(key, values);
     }
 
     @Override
-    public long setRemove(String key, Collection<String> values) {
+    public Long setRemove(String key, Collection<String> values) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         return redisTemplate.opsForSet().remove(key, values.toArray(new String[values.size()]));
     }
 
     @Override
-    public boolean setIsMember(String key, Object value) {
+    public Boolean setIsMember(String key, Object value) {
         if (this.isConnection()) {
             return false;
         }
@@ -745,7 +745,7 @@ public class RedisServiceImpl implements RedisService {
 
 
     @Override
-    public boolean zsetAdd(String key, Object value, double scoure) {
+    public Boolean zsetAdd(String key, Object value, double scoure) {
         if (this.isConnection()) {
             return false;
         }
@@ -754,36 +754,36 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long zsetRemove(String key, Object... values) {
+    public Long zsetRemove(String key, Object... values) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, values);
     }
 
     @Override
-    public long zsetRemove(String key, Collection<String> values) {
+    public Long zsetRemove(String key, Collection<String> values) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, values.toArray(new String[values.size()]));
     }
 
     @Override
-    public long zsetRemoveRangeByScore(String key, double min, double max) {
+    public Long zsetRemoveRangeByScore(String key, double min, double max) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, min, max);
     }
 
     @Override
-    public long zsetRemoveRange(String key, long start, long end) {
+    public Long zsetRemoveRange(String key, long start, long end) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, start, end);
@@ -1040,9 +1040,9 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long zsetCount(String key, double min, double max) {
+    public Long zsetCount(String key, double min, double max) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.count(key, min, max);
@@ -1098,7 +1098,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean expire(String key, long expireTime) {
+    public Boolean expire(String key, long expireTime) {
         if (this.isConnection()) {
             return false;
         }
@@ -1106,7 +1106,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean expire(String key, long expireTime, TimeUnit timeUnit) {
+    public Boolean expire(String key, long expireTime, TimeUnit timeUnit) {
         if (this.isConnection()) {
             return false;
         }
@@ -1114,17 +1114,17 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long getExpire(String key) {
+    public Long getExpire(String key) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         return redisTemplate.getExpire(key);
     }
 
     @Override
-    public long getExpire(String key, TimeUnit timeUnit) {
+    public Long getExpire(String key, TimeUnit timeUnit) {
         if (this.isConnection()) {
-            return 0;
+            return 0L;
         }
         return redisTemplate.getExpire(key, timeUnit);
     }
