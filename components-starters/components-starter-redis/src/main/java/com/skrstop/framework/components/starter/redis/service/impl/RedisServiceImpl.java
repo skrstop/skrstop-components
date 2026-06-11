@@ -35,7 +35,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long increment(String key) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         try {
@@ -49,7 +49,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long increment(String key, long delta) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         try {
@@ -63,7 +63,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Double increment(String key, double delta) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         try {
@@ -77,7 +77,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long decrement(String key) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         try {
@@ -91,7 +91,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long decrement(String key, long delta) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         try {
@@ -105,7 +105,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Integer append(String key, String value) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         try {
@@ -119,8 +119,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean set(final String key, Object value) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -135,8 +135,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean set(final String key, Object value, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -151,8 +151,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean multiSet(final Map<String, Object> map) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -167,8 +167,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean multiSet(final Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -186,8 +186,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean multiSetIfAbsent(final Map<String, Object> map) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -201,8 +201,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean multiSetIfAbsent(final Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -219,8 +219,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfAbsent(String key, Object value) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -234,8 +234,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfAbsent(String key, Object value, Duration duration) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -249,8 +249,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfPresent(String key, Object value) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -264,8 +264,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfPresent(String key, Object value, Duration duration) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -279,8 +279,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean set(final String key, Object value, long expireTime) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -295,8 +295,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfAbsent(String key, Object value, long expireTime) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -310,8 +310,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfAbsent(String key, Object value, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -325,8 +325,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfPresent(String key, Object value, long expireTime) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -340,8 +340,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean setIfPresent(String key, Object value, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         boolean result = false;
         try {
@@ -355,51 +355,51 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long remove(final String... keys) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.delete(CollectionUtil.newArrayList(keys));
     }
 
     @Override
     public Long remove(Collection<String> keys) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.delete(keys);
     }
 
     @Override
     public Long removePattern(final String pattern) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         Set<Serializable> keys = redisTemplate.keys(pattern);
         if (keys.size() > 0) {
             return redisTemplate.delete(keys);
         }
-        return 0L;
+        return null;
     }
 
     @Override
     public Boolean remove(final String key) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.delete(key);
     }
 
     @Override
     public Boolean hasKey(final String key) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.hasKey(key);
     }
 
     @Override
     public <T> T get(final String key, final Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ValueOperations<Serializable, T> operations = redisTemplate.opsForValue();
@@ -412,7 +412,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> List<T> multiGet(Collection<String> keys, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ValueOperations<String, T> operations = redisTemplate.opsForValue();
@@ -425,7 +425,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> T getAndSet(String key, Class<T> cls, T value) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ValueOperations<Serializable, T> operations = redisTemplate.opsForValue();
@@ -438,7 +438,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> T getAndSet(String key, Class<T> cls, T value, long expireTime) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ValueOperations<Serializable, T> operations = redisTemplate.opsForValue();
@@ -452,7 +452,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> T getAndSet(String key, Class<T> cls, T value, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ValueOperations<Serializable, T> operations = redisTemplate.opsForValue();
@@ -466,7 +466,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Set<String> hashKeys(String key) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
@@ -475,8 +475,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean hashHasKey(String key, String hashKey) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
         return hash.hasKey(key, hashKey);
@@ -484,7 +484,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void hashPut(String key, String hashKey, Object value) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return;
         }
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
@@ -493,8 +493,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean hashPutIfAbsent(String key, String hashKey, Object value) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
         return hash.putIfAbsent(key, hashKey, value);
@@ -502,7 +502,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void hashPutAll(String key, Map<String, Object> values) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return;
         }
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
@@ -511,7 +511,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> T hashGet(String key, String hashKey, final Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         HashOperations<String, String, T> hash = redisTemplate.opsForHash();
@@ -524,7 +524,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> List<T> hashGet(String key, List<String> hashKeys, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         HashOperations<String, String, T> hash = redisTemplate.opsForHash();
@@ -537,24 +537,24 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long hashDelete(String key, String... hasKey) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.opsForHash().delete(key, hasKey);
     }
 
     @Override
     public Long hashDelete(String key, Collection<String> hasKey) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.opsForHash().delete(key, hasKey.toArray(new String[hasKey.size()]));
     }
 
     @Override
     public Long listRightPush(String key, Object value) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.rightPush(key, value);
@@ -562,8 +562,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listRightPushAll(String key, Object... values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.rightPushAll(key, values);
@@ -571,8 +571,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listRightPushAll(String key, Collection<String> values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.rightPushAll(key, values.toArray(new String[values.size()]));
@@ -580,8 +580,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listRightPushIfPresent(String key, Object value) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.rightPushIfPresent(key, value);
@@ -589,8 +589,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listLeftPush(String key, Object value) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.leftPush(key, value);
@@ -598,8 +598,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listLeftPushAll(String key, Object... values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.leftPushAll(key, values);
@@ -607,8 +607,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listLeftPushAll(String key, Collection<String> values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.leftPushAll(key, values.toArray(new String[values.size()]));
@@ -616,8 +616,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listLeftPushIfPresent(String key, Object value) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.leftPushIfPresent(key, value);
@@ -625,8 +625,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long listSize(String key) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ListOperations<String, Object> list = redisTemplate.opsForList();
         return list.size(key);
@@ -634,7 +634,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> List<T> listRange(String key, long start, long end, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ListOperations<String, T> list = redisTemplate.opsForList();
@@ -647,7 +647,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> T listLeftPop(final String key, final Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ListOperations<String, T> list = redisTemplate.opsForList();
@@ -660,7 +660,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> T listRightPop(final String key, final Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ListOperations<String, T> list = redisTemplate.opsForList();
@@ -673,8 +673,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long setAdd(String key, Object value) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         SetOperations<String, Object> set = redisTemplate.opsForSet();
         return set.add(key, value);
@@ -682,7 +682,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> setMembers(String key, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         SetOperations<String, T> set = redisTemplate.opsForSet();
@@ -695,31 +695,31 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long setRemove(String key, Object... values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.opsForSet().remove(key, values);
     }
 
     @Override
     public Long setRemove(String key, Collection<String> values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.opsForSet().remove(key, values.toArray(new String[values.size()]));
     }
 
     @Override
     public Boolean setIsMember(String key, Object value) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.opsForSet().isMember(key, value);
     }
 
     @Override
     public <T> T setPop(String key, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         SetOperations<String, T> set = redisTemplate.opsForSet();
@@ -732,7 +732,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> List<T> setPop(String key, Class<T> cls, int count) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         SetOperations<String, T> set = redisTemplate.opsForSet();
@@ -746,8 +746,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean zsetAdd(String key, Object value, double scoure) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.add(key, value, scoure);
@@ -755,8 +755,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetRemove(String key, Object... values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, values);
@@ -764,8 +764,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetRemove(String key, Collection<String> values) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, values.toArray(new String[values.size()]));
@@ -773,8 +773,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetRemoveRangeByScore(String key, double min, double max) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, min, max);
@@ -782,8 +782,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetRemoveRange(String key, long start, long end) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.remove(key, start, end);
@@ -791,7 +791,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetRangeByScore(String key, double min, double max, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -804,7 +804,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetRange(String key, long start, long end, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -817,7 +817,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<ZSetOperations.TypedTuple<T>> zsetRangeWithScores(String key, long start, long end, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -830,7 +830,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<ZSetOperations.TypedTuple<T>> zsetRangeByScoreWithScores(String key, double min, double max, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -843,7 +843,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<ZSetOperations.TypedTuple<T>> zsetRangeByScoreWithScores(String key, double min, double max, long offset, long count, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -856,7 +856,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetReverseRange(String key, long start, long end, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -869,7 +869,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<ZSetOperations.TypedTuple<T>> zsetReverseRangeWithScores(String key, long start, long end, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -882,7 +882,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetReverseRangeByScore(String key, double min, double max, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -895,7 +895,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<ZSetOperations.TypedTuple<T>> zsetReverseRangeByScoreWithScores(String key, double min, double max, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -908,7 +908,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetReverseRangeByScore(String key, double min, double max, long offset, long count, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -921,7 +921,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<ZSetOperations.TypedTuple<T>> zsetReverseRangeByScoreWithScores(String key, double min, double max, long offset, long count, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -934,7 +934,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetSize(String key) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -943,7 +943,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetZCard(String key) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -952,7 +952,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Double zsetScore(String key, Object value) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -961,7 +961,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetUnionAndStore(String key, String otherKey, String destKey) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -970,7 +970,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -979,7 +979,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetUnionAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -988,7 +988,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetIntersectAndStore(String key, String otherKey, String destKey) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -997,7 +997,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -1006,7 +1006,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetIntersectAndStore(String key, Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -1015,7 +1015,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetRangeByLex(String key, Range<String> range, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -1028,7 +1028,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public <T> Set<T> zsetRangeByLex(String key, Range<String> range, Limit limit, Class<T> cls) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, T> zset = redisTemplate.opsForZSet();
@@ -1041,8 +1041,8 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetCount(String key, double min, double max) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.count(key, min, max);
@@ -1050,7 +1050,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Double zsetIncrementScore(String key, Object value, double delta) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -1059,7 +1059,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetRank(String key, Object value) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -1068,7 +1068,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Long zsetReverseRank(String key, Object value) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
@@ -1077,7 +1077,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void setDB(Integer index) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return;
         }
         LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) redisTemplate.getConnectionFactory();
@@ -1085,7 +1085,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public boolean isConnection() {
+    public boolean isConnectionClose() {
         if (redisTemplate == null) {
             return false;
         }
@@ -1099,39 +1099,39 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public Boolean expire(String key, long expireTime) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
     @Override
     public Boolean expire(String key, long expireTime, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return false;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.expire(key, expireTime, timeUnit);
     }
 
     @Override
     public Long getExpire(String key) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.getExpire(key);
     }
 
     @Override
     public Long getExpire(String key, TimeUnit timeUnit) {
-        if (this.isConnection()) {
-            return 0L;
+        if (this.isConnectionClose()) {
+            return null;
         }
         return redisTemplate.getExpire(key, timeUnit);
     }
 
     @Override
     public List<Object> executePipelined(SessionCallback<?> callback) {
-        if (this.isConnection()) {
+        if (this.isConnectionClose()) {
             return null;
         }
         return this.redisTemplate.executePipelined(callback);

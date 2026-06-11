@@ -590,7 +590,7 @@ public interface RedisService {
      *
      * @return
      */
-    boolean isConnection();
+    boolean isConnectionClose();
 
     /**
      * 通过key设置过期时间

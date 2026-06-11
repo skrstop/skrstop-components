@@ -486,8 +486,8 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public boolean isConnection(String dsKey) {
-        return this.redisService.isConnection();
+    public boolean isConnectionClose(String dsKey) {
+        return this.redisService.isConnectionClose();
     }
 
     @Override

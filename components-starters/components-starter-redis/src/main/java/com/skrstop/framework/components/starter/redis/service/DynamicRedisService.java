@@ -590,7 +590,7 @@ public interface DynamicRedisService {
      *
      * @return
      */
-    boolean isConnection(final String dsKey);
+    boolean isConnectionClose(final String dsKey);
 
     /**
      * 通过key设置过期时间
