@@ -624,6 +624,15 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public long listSize(String key) {
+        if (this.isConnection()) {
+            return 0L;
+        }
+        ListOperations<String, Object> list = redisTemplate.opsForList();
+        return list.size(key);
+    }
+
+    @Override
     public <T> List<T> listRange(String key, long start, long end, Class<T> cls) {
         if (this.isConnection()) {
             return null;

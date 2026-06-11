@@ -428,6 +428,13 @@ public interface RedisService {
     long listLeftPushIfPresent(String key, Object value);
 
     /**
+     * 列表大小
+     *
+     * @param key
+     */
+    long listSize(String key);
+
+    /**
      * 列表获取
      *
      * @param key
