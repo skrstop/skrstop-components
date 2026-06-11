@@ -579,6 +579,7 @@ public interface RedisService {
      *
      * @param index
      */
+    @Deprecated
     void setDB(Integer index);
 
     /**

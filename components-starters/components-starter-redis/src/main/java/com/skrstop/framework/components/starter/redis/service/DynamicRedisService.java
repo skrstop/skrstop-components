@@ -579,6 +579,7 @@ public interface DynamicRedisService {
      *
      * @param index
      */
+    @Deprecated
     void setDB(final String dsKey, Integer index);
 
     /**
