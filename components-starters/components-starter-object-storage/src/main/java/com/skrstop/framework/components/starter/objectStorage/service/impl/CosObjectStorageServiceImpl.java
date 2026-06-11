@@ -136,6 +136,7 @@ public class CosObjectStorageServiceImpl implements ObjectStorageService {
         targetPath = basePath + targetPath;
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes)) {
             ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(bytes.length);
             Upload upload = this.transferManager.upload(bucketName, targetPath, byteArrayInputStream, objectMetadata);
             upload.waitForUploadResult();
             return true;
