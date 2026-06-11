@@ -75,7 +75,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean set(final String dsKey, final String key, Object value);
+    Boolean set(final String dsKey, final String key, Object value);
 
     /**
      * 写入缓存
@@ -84,7 +84,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean set(final String dsKey, final String key, Object value, final long expireTime, final TimeUnit timeUnit);
+    Boolean set(final String dsKey, final String key, Object value, final long expireTime, final TimeUnit timeUnit);
 
     /**
      * 批量写入
@@ -92,7 +92,7 @@ public interface DynamicRedisService {
      * @param map
      * @return
      */
-    boolean multiSet(final String dsKey, final Map<String, Object> map);
+    Boolean multiSet(final String dsKey, final Map<String, Object> map);
 
     /**
      * 批量写入
@@ -100,7 +100,7 @@ public interface DynamicRedisService {
      * @param map
      * @return
      */
-    boolean multiSet(final String dsKey, final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
+    Boolean multiSet(final String dsKey, final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
 
     /**
      * 批量写入
@@ -108,7 +108,7 @@ public interface DynamicRedisService {
      * @param map
      * @return
      */
-    boolean multiSetIfAbsent(final String dsKey, final Map<String, Object> map);
+    Boolean multiSetIfAbsent(final String dsKey, final Map<String, Object> map);
 
     /**
      * 批量写入
@@ -116,7 +116,7 @@ public interface DynamicRedisService {
      * @param map
      * @return
      */
-    boolean multiSetIfAbsent(final String dsKey, final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
+    Boolean multiSetIfAbsent(final String dsKey, final Map<String, Object> map, final long expireTime, final TimeUnit timeUnit);
 
     /**
      * 写入缓存
@@ -125,7 +125,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String dsKey, final String key, Object value);
+    Boolean setIfAbsent(final String dsKey, final String key, Object value);
 
     /**
      * 写入缓存
@@ -134,7 +134,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String dsKey, final String key, Object value, Duration duration);
+    Boolean setIfAbsent(final String dsKey, final String key, Object value, Duration duration);
 
     /**
      * 写入缓存
@@ -143,7 +143,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String dsKey, final String key, Object value);
+    Boolean setIfPresent(final String dsKey, final String key, Object value);
 
     /**
      * 写入缓存
@@ -152,7 +152,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String dsKey, final String key, Object value, Duration duration);
+    Boolean setIfPresent(final String dsKey, final String key, Object value, Duration duration);
 
     /**
      * 写入缓存设置时效时间
@@ -161,7 +161,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean set(final String dsKey, final String key, Object value, long expireTime);
+    Boolean set(final String dsKey, final String key, Object value, long expireTime);
 
     /**
      * 写入缓存
@@ -170,7 +170,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String dsKey, final String key, Object value, long expireTime);
+    Boolean setIfAbsent(final String dsKey, final String key, Object value, long expireTime);
 
     /**
      * 写入缓存
@@ -179,7 +179,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfAbsent(final String dsKey, final String key, Object value, long expireTime, TimeUnit timeUnit);
+    Boolean setIfAbsent(final String dsKey, final String key, Object value, long expireTime, TimeUnit timeUnit);
 
     /**
      * 写入缓存
@@ -188,7 +188,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String dsKey, final String key, Object value, long expireTime);
+    Boolean setIfPresent(final String dsKey, final String key, Object value, long expireTime);
 
     /**
      * 写入缓存
@@ -197,7 +197,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean setIfPresent(final String dsKey, final String key, Object value, long expireTime, TimeUnit timeUnit);
+    Boolean setIfPresent(final String dsKey, final String key, Object value, long expireTime, TimeUnit timeUnit);
 
     /**
      * 批量删除对应的value
@@ -205,7 +205,7 @@ public interface DynamicRedisService {
      * @param keys
      * @return
      */
-    long remove(final String dsKey, final String... keys);
+    Long remove(final String dsKey, final String... keys);
 
     /**
      * 批量删除对应的value
@@ -213,7 +213,7 @@ public interface DynamicRedisService {
      * @param keys
      * @return
      */
-    long remove(final String dsKey, final Collection<String> keys);
+    Long remove(final String dsKey, final Collection<String> keys);
 
     /**
      * 批量删除key
@@ -221,7 +221,7 @@ public interface DynamicRedisService {
      * @param pattern
      * @return
      */
-    long removePattern(final String dsKey, final String pattern);
+    Long removePattern(final String dsKey, final String pattern);
 
     /**
      * 删除对应的value
@@ -229,7 +229,7 @@ public interface DynamicRedisService {
      * @param key
      * @return
      */
-    boolean remove(final String dsKey, final String key);
+    Boolean remove(final String dsKey, final String key);
 
     /**
      * 判断缓存中是否有对应的value
@@ -237,7 +237,7 @@ public interface DynamicRedisService {
      * @param key
      * @return
      */
-    boolean hasKey(final String dsKey, final String key);
+    Boolean hasKey(final String dsKey, final String key);
 
     /**
      * 读取缓存
@@ -296,7 +296,7 @@ public interface DynamicRedisService {
      * @param hashKey
      * @return
      */
-    boolean hashHasKey(final String dsKey, String key, String hashKey);
+    Boolean hashHasKey(final String dsKey, String key, String hashKey);
 
     /**
      * 设置缓存
@@ -314,7 +314,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    boolean hashPutIfAbsent(final String dsKey, String key, String hashKey, Object value);
+    Boolean hashPutIfAbsent(final String dsKey, String key, String hashKey, Object value);
 
     /**
      * 设置缓存
@@ -349,7 +349,7 @@ public interface DynamicRedisService {
      * @param hasKey
      * @return
      */
-    long hashDelete(final String dsKey, String key, String... hasKey);
+    Long hashDelete(final String dsKey, String key, String... hasKey);
 
     /**
      * 哈希删除数据
@@ -358,7 +358,7 @@ public interface DynamicRedisService {
      * @param hasKey
      * @return
      */
-    long hashDelete(final String dsKey, String key, Collection<String> hasKey);
+    Long hashDelete(final String dsKey, String key, Collection<String> hasKey);
 
     /**
      * 列表右添加
@@ -366,7 +366,7 @@ public interface DynamicRedisService {
      * @param key
      * @param value
      */
-    long listRightPush(final String dsKey, String key, Object value);
+    Long listRightPush(final String dsKey, String key, Object value);
 
     /**
      * 列表右添加
@@ -374,7 +374,7 @@ public interface DynamicRedisService {
      * @param key
      * @param values
      */
-    long listRightPushAll(final String dsKey, String key, Object... values);
+    Long listRightPushAll(final String dsKey, String key, Object... values);
 
     /**
      * 列表右添加
@@ -382,7 +382,7 @@ public interface DynamicRedisService {
      * @param key
      * @param values
      */
-    long listRightPushAll(final String dsKey, String key, Collection<String> values);
+    Long listRightPushAll(final String dsKey, String key, Collection<String> values);
 
     /**
      * 列表右添加
@@ -390,7 +390,7 @@ public interface DynamicRedisService {
      * @param key
      * @param value
      */
-    long listRightPushIfPresent(final String dsKey, String key, Object value);
+    Long listRightPushIfPresent(final String dsKey, String key, Object value);
 
     /**
      * 列表左添加
@@ -398,7 +398,7 @@ public interface DynamicRedisService {
      * @param key
      * @param value
      */
-    long listLeftPush(final String dsKey, String key, Object value);
+    Long listLeftPush(final String dsKey, String key, Object value);
 
     /**
      * 列表左添加
@@ -406,7 +406,7 @@ public interface DynamicRedisService {
      * @param key
      * @param values
      */
-    long listLeftPushAll(final String dsKey, String key, Object... values);
+    Long listLeftPushAll(final String dsKey, String key, Object... values);
 
     /**
      * 列表左添加
@@ -414,7 +414,7 @@ public interface DynamicRedisService {
      * @param key
      * @param values
      */
-    long listLeftPushAll(final String dsKey, String key, Collection<String> values);
+    Long listLeftPushAll(final String dsKey, String key, Collection<String> values);
 
     /**
      * 列表左添加
@@ -422,14 +422,14 @@ public interface DynamicRedisService {
      * @param key
      * @param value
      */
-    long listLeftPushIfPresent(final String dsKey, String key, Object value);
+    Long listLeftPushIfPresent(final String dsKey, String key, Object value);
 
     /**
      * 列表大小
      *
      * @param key
      */
-    long listSize(final String dsKey, String key);
+    Long listSize(final String dsKey, String key);
 
     /**
      * 列表获取
@@ -469,7 +469,7 @@ public interface DynamicRedisService {
      * @param value
      * @return
      */
-    long setAdd(final String dsKey, String key, Object value);
+    Long setAdd(final String dsKey, String key, Object value);
 
     /**
      * 集合获取
@@ -479,11 +479,11 @@ public interface DynamicRedisService {
      */
     <T> Set<T> setMembers(final String dsKey, String key, Class<T> cls);
 
-    long setRemove(final String dsKey, String key, Object... value);
+    Long setRemove(final String dsKey, String key, Object... value);
 
-    long setRemove(final String dsKey, String key, Collection<String> values);
+    Long setRemove(final String dsKey, String key, Collection<String> values);
 
-    boolean setIsMember(final String dsKey, String key, Object value);
+    Boolean setIsMember(final String dsKey, String key, Object value);
 
     <T> T setPop(final String dsKey, String key, Class<T> cls);
 
@@ -496,15 +496,15 @@ public interface DynamicRedisService {
      * @param value
      * @param scoure
      */
-    boolean zsetAdd(final String dsKey, String key, Object value, double scoure);
+    Boolean zsetAdd(final String dsKey, String key, Object value, double scoure);
 
-    long zsetRemove(final String dsKey, String key, Object... values);
+    Long zsetRemove(final String dsKey, String key, Object... values);
 
-    long zsetRemove(final String dsKey, String key, Collection<String> values);
+    Long zsetRemove(final String dsKey, String key, Collection<String> values);
 
-    long zsetRemoveRangeByScore(final String dsKey, String key, double min, double max);
+    Long zsetRemoveRangeByScore(final String dsKey, String key, double min, double max);
 
-    long zsetRemoveRange(final String dsKey, String key, long start, long end);
+    Long zsetRemoveRange(final String dsKey, String key, long start, long end);
 
     /**
      * 有序集合获取
@@ -566,7 +566,7 @@ public interface DynamicRedisService {
 
     <T> Set<T> zsetRangeByLex(final String dsKey, String key, RedisZSetCommands.Range range, RedisZSetCommands.Limit limit, Class<T> cls);
 
-    long zsetCount(final String dsKey, String key, double min, double max);
+    Long zsetCount(final String dsKey, String key, double min, double max);
 
     Double zsetIncrementScore(final String dsKey, String key, Object value, double delta);
 
@@ -586,7 +586,7 @@ public interface DynamicRedisService {
      *
      * @return
      */
-    boolean isConnection(final String dsKey);
+    boolean isConnectionClose(final String dsKey);
 
     /**
      * 通过key设置过期时间
@@ -595,7 +595,7 @@ public interface DynamicRedisService {
      * @param expireTime
      * @return
      */
-    boolean expire(final String dsKey, String key, long expireTime);
+    Boolean expire(final String dsKey, String key, long expireTime);
 
     /**
      * 通过key设置过期时间
@@ -604,7 +604,7 @@ public interface DynamicRedisService {
      * @param expireTime
      * @return
      */
-    boolean expire(final String dsKey, String key, long expireTime, TimeUnit timeUnit);
+    Boolean expire(final String dsKey, String key, long expireTime, TimeUnit timeUnit);
 
     /**
      * 获取过期时间
@@ -612,7 +612,7 @@ public interface DynamicRedisService {
      * @param key
      * @return
      */
-    long getExpire(final String dsKey, String key);
+    Long getExpire(final String dsKey, String key);
 
     /**
      * pipline执行
@@ -629,7 +629,7 @@ public interface DynamicRedisService {
      * @param timeUnit
      * @return
      */
-    long getExpire(final String dsKey, String key, TimeUnit timeUnit);
+    Long getExpire(final String dsKey, String key, TimeUnit timeUnit);
 
     Set<String> getPattern(final String dsKey, String pattern);
 }

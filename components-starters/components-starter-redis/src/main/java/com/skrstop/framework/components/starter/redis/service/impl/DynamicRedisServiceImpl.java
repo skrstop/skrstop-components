@@ -58,102 +58,102 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public boolean set(String dsKey, String key, Object value) {
+    public Boolean set(String dsKey, String key, Object value) {
         return this.redisService.set(key, value);
     }
 
     @Override
-    public boolean set(String dsKey, String key, Object value, long expireTime, TimeUnit timeUnit) {
+    public Boolean set(String dsKey, String key, Object value, long expireTime, TimeUnit timeUnit) {
         return this.redisService.set(key, value, expireTime, timeUnit);
     }
 
     @Override
-    public boolean multiSet(String dsKey, Map<String, Object> map) {
+    public Boolean multiSet(String dsKey, Map<String, Object> map) {
         return this.redisService.multiSet(map);
     }
 
     @Override
-    public boolean multiSet(String dsKey, Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
+    public Boolean multiSet(String dsKey, Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
         return this.redisService.multiSet(map, expireTime, timeUnit);
     }
 
     @Override
-    public boolean multiSetIfAbsent(String dsKey, Map<String, Object> map) {
+    public Boolean multiSetIfAbsent(String dsKey, Map<String, Object> map) {
         return this.redisService.multiSetIfAbsent(map);
     }
 
     @Override
-    public boolean multiSetIfAbsent(String dsKey, Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
+    public Boolean multiSetIfAbsent(String dsKey, Map<String, Object> map, long expireTime, TimeUnit timeUnit) {
         return this.redisService.multiSetIfAbsent(map, expireTime, timeUnit);
     }
 
     @Override
-    public boolean setIfAbsent(String dsKey, String key, Object value) {
+    public Boolean setIfAbsent(String dsKey, String key, Object value) {
         return this.redisService.setIfAbsent(key, value);
     }
 
     @Override
-    public boolean setIfAbsent(String dsKey, String key, Object value, Duration duration) {
+    public Boolean setIfAbsent(String dsKey, String key, Object value, Duration duration) {
         return this.redisService.setIfAbsent(key, value, duration);
     }
 
     @Override
-    public boolean setIfPresent(String dsKey, String key, Object value) {
+    public Boolean setIfPresent(String dsKey, String key, Object value) {
         return this.redisService.setIfPresent(key, value);
     }
 
     @Override
-    public boolean setIfPresent(String dsKey, String key, Object value, Duration duration) {
+    public Boolean setIfPresent(String dsKey, String key, Object value, Duration duration) {
         return this.redisService.setIfPresent(key, value, duration);
     }
 
     @Override
-    public boolean set(String dsKey, String key, Object value, long expireTime) {
+    public Boolean set(String dsKey, String key, Object value, long expireTime) {
         return this.redisService.set(key, value, expireTime);
     }
 
     @Override
-    public boolean setIfAbsent(String dsKey, String key, Object value, long expireTime) {
+    public Boolean setIfAbsent(String dsKey, String key, Object value, long expireTime) {
         return this.redisService.setIfAbsent(key, value, expireTime);
     }
 
     @Override
-    public boolean setIfAbsent(String dsKey, String key, Object value, long expireTime, TimeUnit timeUnit) {
+    public Boolean setIfAbsent(String dsKey, String key, Object value, long expireTime, TimeUnit timeUnit) {
         return this.redisService.setIfAbsent(key, value, expireTime, timeUnit);
     }
 
     @Override
-    public boolean setIfPresent(String dsKey, String key, Object value, long expireTime) {
+    public Boolean setIfPresent(String dsKey, String key, Object value, long expireTime) {
         return this.redisService.setIfPresent(key, value, expireTime);
     }
 
     @Override
-    public boolean setIfPresent(String dsKey, String key, Object value, long expireTime, TimeUnit timeUnit) {
+    public Boolean setIfPresent(String dsKey, String key, Object value, long expireTime, TimeUnit timeUnit) {
         return this.redisService.setIfPresent(key, value, expireTime, timeUnit);
     }
 
     @Override
-    public long remove(String dsKey, String... keys) {
+    public Long remove(String dsKey, String... keys) {
         return this.redisService.remove(keys);
     }
 
     @Override
-    public long remove(String dsKey, Collection<String> keys) {
+    public Long remove(String dsKey, Collection<String> keys) {
         return this.redisService.remove(keys);
     }
 
     @Override
-    public long removePattern(String dsKey, String pattern) {
+    public Long removePattern(String dsKey, String pattern) {
         return this.redisService.removePattern(pattern);
     }
 
     @Override
-    public boolean remove(String dsKey, String key) {
+    public Boolean remove(String dsKey, String key) {
         return this.redisService.remove(key);
     }
 
     @Override
-    public boolean hasKey(String dsKey, String key) {
+    public Boolean hasKey(String dsKey, String key) {
         return this.redisService.hasKey(key);
     }
 
@@ -188,7 +188,7 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public boolean hashHasKey(String dsKey, String key, String hashKey) {
+    public Boolean hashHasKey(String dsKey, String key, String hashKey) {
         return this.redisService.hashHasKey(key, hashKey);
     }
 
@@ -198,7 +198,7 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public boolean hashPutIfAbsent(String dsKey, String key, String hashKey, Object value) {
+    public Boolean hashPutIfAbsent(String dsKey, String key, String hashKey, Object value) {
         return this.redisService.hashPutIfAbsent(key, hashKey, value);
     }
 
@@ -218,57 +218,57 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public long hashDelete(String dsKey, String key, String... hasKey) {
+    public Long hashDelete(String dsKey, String key, String... hasKey) {
         return this.redisService.hashDelete(key, hasKey);
     }
 
     @Override
-    public long hashDelete(String dsKey, String key, Collection<String> hasKey) {
+    public Long hashDelete(String dsKey, String key, Collection<String> hasKey) {
         return this.redisService.hashDelete(key, hasKey);
     }
 
     @Override
-    public long listRightPush(String dsKey, String key, Object value) {
+    public Long listRightPush(String dsKey, String key, Object value) {
         return this.redisService.listRightPush(key, value);
     }
 
     @Override
-    public long listRightPushAll(String dsKey, String key, Object... values) {
+    public Long listRightPushAll(String dsKey, String key, Object... values) {
         return this.redisService.listRightPushAll(key, values);
     }
 
     @Override
-    public long listRightPushAll(String dsKey, String key, Collection<String> values) {
+    public Long listRightPushAll(String dsKey, String key, Collection<String> values) {
         return this.redisService.listRightPushAll(key, values);
     }
 
     @Override
-    public long listRightPushIfPresent(String dsKey, String key, Object value) {
+    public Long listRightPushIfPresent(String dsKey, String key, Object value) {
         return this.redisService.listRightPushIfPresent(key, value);
     }
 
     @Override
-    public long listLeftPush(String dsKey, String key, Object value) {
+    public Long listLeftPush(String dsKey, String key, Object value) {
         return this.redisService.listLeftPush(key, value);
     }
 
     @Override
-    public long listLeftPushAll(String dsKey, String key, Object... values) {
+    public Long listLeftPushAll(String dsKey, String key, Object... values) {
         return this.redisService.listLeftPushAll(key, values);
     }
 
     @Override
-    public long listLeftPushAll(String dsKey, String key, Collection<String> values) {
+    public Long listLeftPushAll(String dsKey, String key, Collection<String> values) {
         return this.redisService.listLeftPushAll(key, values);
     }
 
     @Override
-    public long listLeftPushIfPresent(String dsKey, String key, Object value) {
+    public Long listLeftPushIfPresent(String dsKey, String key, Object value) {
         return this.redisService.listLeftPushIfPresent(key, value);
     }
 
     @Override
-    public long listSize(String dsKey, String key) {
+    public Long listSize(String dsKey, String key) {
         return this.redisService.listSize(key);
     }
 
@@ -288,7 +288,7 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public long setAdd(String dsKey, String key, Object value) {
+    public Long setAdd(String dsKey, String key, Object value) {
         return this.redisService.setAdd(key, value);
     }
 
@@ -298,17 +298,17 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public long setRemove(String dsKey, String key, Object... value) {
+    public Long setRemove(String dsKey, String key, Object... value) {
         return this.redisService.setRemove(key, value);
     }
 
     @Override
-    public long setRemove(String dsKey, String key, Collection<String> values) {
+    public Long setRemove(String dsKey, String key, Collection<String> values) {
         return this.redisService.setRemove(key, values);
     }
 
     @Override
-    public boolean setIsMember(String dsKey, String key, Object value) {
+    public Boolean setIsMember(String dsKey, String key, Object value) {
         return this.redisService.setIsMember(key, value);
     }
 
@@ -323,27 +323,27 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public boolean zsetAdd(String dsKey, String key, Object value, double scoure) {
+    public Boolean zsetAdd(String dsKey, String key, Object value, double scoure) {
         return this.redisService.zsetAdd(key, value, scoure);
     }
 
     @Override
-    public long zsetRemove(String dsKey, String key, Object... values) {
+    public Long zsetRemove(String dsKey, String key, Object... values) {
         return this.redisService.zsetRemove(key, values);
     }
 
     @Override
-    public long zsetRemove(String dsKey, String key, Collection<String> values) {
+    public Long zsetRemove(String dsKey, String key, Collection<String> values) {
         return this.redisService.zsetRemove(key, values);
     }
 
     @Override
-    public long zsetRemoveRangeByScore(String dsKey, String key, double min, double max) {
+    public Long zsetRemoveRangeByScore(String dsKey, String key, double min, double max) {
         return this.redisService.zsetRemoveRangeByScore(key, min, max);
     }
 
     @Override
-    public long zsetRemoveRange(String dsKey, String key, long start, long end) {
+    public Long zsetRemoveRange(String dsKey, String key, long start, long end) {
         return this.redisService.zsetRemoveRange(key, start, end);
     }
 
@@ -458,7 +458,7 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public long zsetCount(String dsKey, String key, double min, double max) {
+    public Long zsetCount(String dsKey, String key, double min, double max) {
         return this.redisService.zsetCount(key, min, max);
     }
 
@@ -483,22 +483,22 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public boolean isConnection(String dsKey) {
-        return this.redisService.isConnection();
+    public boolean isConnectionClose(String dsKey) {
+        return this.redisService.isConnectionClose();
     }
 
     @Override
-    public boolean expire(String dsKey, String key, long expireTime) {
+    public Boolean expire(String dsKey, String key, long expireTime) {
         return this.redisService.expire(key, expireTime);
     }
 
     @Override
-    public boolean expire(String dsKey, String key, long expireTime, TimeUnit timeUnit) {
+    public Boolean expire(String dsKey, String key, long expireTime, TimeUnit timeUnit) {
         return this.redisService.expire(key, expireTime, timeUnit);
     }
 
     @Override
-    public long getExpire(String dsKey, String key) {
+    public Long getExpire(String dsKey, String key) {
         return this.redisService.getExpire(key);
     }
 
@@ -508,7 +508,7 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
-    public long getExpire(String dsKey, String key, TimeUnit timeUnit) {
+    public Long getExpire(String dsKey, String key, TimeUnit timeUnit) {
         return this.redisService.getExpire(key, timeUnit);
     }
 
