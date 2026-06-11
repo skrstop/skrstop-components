@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * Created by 蒋时华 on 2017/9/21.
  */
 @Slf4j
+@SuppressWarnings("all")
 public class RedisServiceImpl implements RedisService {
 
     @Getter
@@ -38,13 +39,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            return operations.increment(key);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.increment(key);
     }
 
     @Override
@@ -52,13 +48,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            return operations.increment(key, delta);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.increment(key, delta);
     }
 
     @Override
@@ -66,13 +57,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            return operations.increment(key, delta);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.increment(key, delta);
     }
 
     @Override
@@ -80,13 +66,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            return operations.decrement(key);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.decrement(key);
     }
 
     @Override
@@ -94,13 +75,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            return operations.decrement(key, delta);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.decrement(key, delta);
     }
 
     @Override
@@ -108,13 +84,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            return operations.append(key, value);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.append(key, value);
     }
 
     @Override
@@ -122,15 +93,9 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            result = true;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set(key, value);
+        return true;
     }
 
     @Override
@@ -138,15 +103,9 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value, expireTime, timeUnit);
-            result = true;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set(key, value, expireTime, timeUnit);
+        return true;
     }
 
     @Override
@@ -154,15 +113,9 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.multiSet(map);
-            result = true;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.multiSet(map);
+        return true;
     }
 
     @Override
@@ -170,18 +123,12 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.multiSet(map);
-            map.keySet().forEach(key -> {
-                this.expire(key, expireTime, timeUnit);
-            });
-            result = true;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.multiSet(map);
+        map.keySet().forEach(key -> {
+            this.expire(key, expireTime, timeUnit);
+        });
+        return true;
     }
 
     @Override
@@ -189,14 +136,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.multiSetIfAbsent(map);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.multiSetIfAbsent(map);
     }
 
     @Override
@@ -204,16 +145,11 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.multiSetIfAbsent(map);
-            map.keySet().forEach(key -> {
-                this.expire(key, expireTime, timeUnit);
-            });
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        Boolean result = operations.multiSetIfAbsent(map);
+        map.keySet().forEach(key -> {
+            this.expire(key, expireTime, timeUnit);
+        });
         return result;
     }
 
@@ -222,14 +158,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfAbsent(key, value);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfAbsent(key, value);
     }
 
     @Override
@@ -237,14 +167,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfAbsent(key, value, duration);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfAbsent(key, value, duration);
     }
 
     @Override
@@ -252,14 +176,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfPresent(key, value);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfPresent(key, value);
     }
 
     @Override
@@ -267,14 +185,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfPresent(key, value, duration);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfPresent(key, value, duration);
     }
 
     @Override
@@ -282,15 +194,9 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value, expireTime, TimeUnit.SECONDS);
-            result = true;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        operations.set(key, value, expireTime, TimeUnit.SECONDS);
+        return true;
     }
 
     @Override
@@ -298,14 +204,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfAbsent(key, value, expireTime, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfAbsent(key, value, expireTime, TimeUnit.SECONDS);
     }
 
     @Override
@@ -313,14 +213,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfAbsent(key, value, expireTime, timeUnit);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfAbsent(key, value, expireTime, timeUnit);
     }
 
     @Override
@@ -328,14 +222,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfPresent(key, value, expireTime, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfPresent(key, value, expireTime, TimeUnit.SECONDS);
     }
 
     @Override
@@ -343,14 +231,8 @@ public class RedisServiceImpl implements RedisService {
         if (this.isConnectionClose()) {
             return null;
         }
-        boolean result = false;
-        try {
-            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-            result = operations.setIfPresent(key, value, expireTime, timeUnit);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        return operations.setIfPresent(key, value, expireTime, timeUnit);
     }
 
     @Override
