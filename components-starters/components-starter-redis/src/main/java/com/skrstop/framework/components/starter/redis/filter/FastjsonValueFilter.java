@@ -1,6 +1,10 @@
 package com.skrstop.framework.components.starter.redis.filter;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONReader;
+import com.alibaba.fastjson2.TypeReference;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
+import com.skrstop.framework.components.util.serialization.json.JsonUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -35,6 +39,18 @@ public class FastjsonValueFilter implements ValueFilter {
             return FastJsonUtil.toBean(FastJsonUtil.toJson(obj), cls);
         }
         return (T) obj;
+    }
+
+    @Override
+    public <T> List<T> filterStr2List(String str, Class<T> cls) {
+        if (str == null || !JsonUtil.isTypeJSONArray(str)) {
+            return null;
+        }
+        return JSON.parseObject(str,
+                new TypeReference<List<T>>() {
+                }
+                , JSONReader.Feature.IgnoreAutoTypeNotMatch
+        );
     }
 
     @Override

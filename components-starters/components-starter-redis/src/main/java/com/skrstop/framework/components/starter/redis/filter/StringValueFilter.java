@@ -19,6 +19,11 @@ public class StringValueFilter implements ValueFilter {
     }
 
     @Override
+    public <T> List<T> filterStr2List(String str, Class<T> cls) {
+        throw new NotSupportedException("StringRedisTemplate不支持该方法");
+    }
+
+    @Override
     public <T> Set<T> filterSet(Set obj, Class<T> cls) {
         this.valid(cls);
         return obj;
