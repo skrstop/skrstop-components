@@ -2,6 +2,7 @@ package com.skrstop.framework.components.starter.redis.service.impl;
 
 import com.skrstop.framework.components.starter.redis.filter.ValueFilter;
 import com.skrstop.framework.components.starter.redis.service.RedisService;
+import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -315,6 +316,12 @@ public class RedisServiceImpl implements RedisService {
             return valueFilter.filter(result, cls);
         }
         return result;
+    }
+
+    @Override
+    public <T> List<T> getForList(String key, Class<T> cls) {
+        String val = this.get(key, String.class);
+        return FastJsonUtil.toBeanForList(val, cls);
     }
 
     @Override
