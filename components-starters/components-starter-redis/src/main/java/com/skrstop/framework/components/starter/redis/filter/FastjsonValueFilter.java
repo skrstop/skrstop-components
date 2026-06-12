@@ -1,8 +1,5 @@
 package com.skrstop.framework.components.starter.redis.filter;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONReader;
-import com.alibaba.fastjson2.TypeReference;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.serialization.json.JsonUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
@@ -46,11 +43,7 @@ public class FastjsonValueFilter implements ValueFilter {
         if (str == null || !JsonUtil.isTypeJSONArray(str)) {
             return null;
         }
-        return JSON.parseObject(str,
-                new TypeReference<List<T>>() {
-                }
-                , JSONReader.Feature.IgnoreAutoTypeNotMatch
-        );
+        return FastJsonUtil.toBeanForList(str, cls);
     }
 
     @Override
