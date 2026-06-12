@@ -248,6 +248,14 @@ public interface RedisService {
     <T> T get(final String key, final Class<T> cls);
 
     /**
+     * 读取缓存
+     *
+     * @param key
+     * @return
+     */
+    <T> List<T> getForList(final String key, final Class<T> cls);
+
+    /**
      * 批量读取
      *
      * @param keys

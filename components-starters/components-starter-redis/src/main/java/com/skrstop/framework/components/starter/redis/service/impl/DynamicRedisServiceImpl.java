@@ -163,6 +163,11 @@ public class DynamicRedisServiceImpl implements DynamicRedisService {
     }
 
     @Override
+    public <T> List<T> getForList(String dsKey, String key, Class<T> cls) {
+        return this.redisService.getForList(key, cls);
+    }
+
+    @Override
     public <T> List<T> multiGet(String dsKey, Collection<String> keys, Class<T> cls) {
         return this.redisService.multiGet(keys, cls);
     }
