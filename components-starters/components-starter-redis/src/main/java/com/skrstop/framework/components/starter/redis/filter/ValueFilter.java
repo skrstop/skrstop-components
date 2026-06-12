@@ -30,6 +30,16 @@ public interface ValueFilter {
      * @param <T>
      * @return
      */
+    <T> List<T> filterStr2List(String str, final Class<T> cls);
+
+    /**
+     * 过滤器处理
+     *
+     * @param obj
+     * @param cls
+     * @param <T>
+     * @return
+     */
     <T> Set<T> filterSet(Set obj, final Class<T> cls);
 
     <T> Set<ZSetOperations.TypedTuple<T>> filterSetScore(Set<ZSetOperations.TypedTuple<T>> obj, final Class<T> cls);
