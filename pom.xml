@@ -138,7 +138,7 @@
         <mybatis.version>3.5.13</mybatis.version>
         <mybatis-spring.version>2.1.1</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
-        <mybatis-starter.version>3.0.3</mybatis-starter.version>
+        <mybatis-starter.version>2.3.2</mybatis-starter.version>
         <mybatis-plus-starter.version>3.5.3.2</mybatis-plus-starter.version>
         <mybatis-plus-join.version>1.4.12</mybatis-plus-join.version>
         <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
