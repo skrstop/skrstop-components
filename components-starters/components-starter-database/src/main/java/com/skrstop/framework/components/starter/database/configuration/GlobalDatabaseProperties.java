@@ -24,6 +24,11 @@ public class GlobalDatabaseProperties {
     /*** 是否开启sql健康检查 */
     private boolean sqlHealthyCheck = false;
 
+    /**
+     * 是否使用ping检测
+     */
+    private boolean usePingMethod = false;
+
     /*** mapper class 路径, 为空则不扫描，多个用逗号分割，可以使用{@link org.mybatis.spring.annotation.MapperScan} */
     private String mapperClassLocation = "";
 

@@ -6,8 +6,6 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-
 /**
  * response code with data result entity
  *
@@ -18,15 +16,14 @@ import java.io.Serial;
 @Setter
 public class DefaultResult extends AbstractResult implements IResult {
 
-    @Serial
     private static final long serialVersionUID = -6429956305851375791L;
 
     public DefaultResult() {
 
     }
 
-    public DefaultResult(IResult IResult) {
-        super(IResult);
+    public DefaultResult(IResult iResult) {
+        super(iResult);
     }
 
     public static class Builder {
@@ -54,8 +51,8 @@ public class DefaultResult extends AbstractResult implements IResult {
          *
          * @return Result
          */
-        public static DefaultResult result(IResult IResult) {
-            return new DefaultResult(IResult);
+        public static DefaultResult result(IResult iResult) {
+            return new DefaultResult(iResult);
         }
 
 

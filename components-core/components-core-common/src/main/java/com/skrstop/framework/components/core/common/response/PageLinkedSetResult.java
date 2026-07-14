@@ -5,7 +5,7 @@ import com.skrstop.framework.components.core.common.response.common.CommonResult
 import com.skrstop.framework.components.core.common.response.core.IDataPageLinkedSetResult;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
-import com.skrstop.framework.components.core.common.response.page.PageData;
+import com.skrstop.framework.components.core.common.response.page.SimplePageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,45 +17,58 @@ import java.util.LinkedHashSet;
  */
 @Getter
 @Setter
-public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>> implements IDataPageLinkedSetResult<T> {
+public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>, SimplePageData<LinkedHashSet<T>>> implements IDataPageLinkedSetResult<T, SimplePageData<LinkedHashSet<T>>> {
 
     public PageLinkedSetResult() {
     }
 
-    public PageLinkedSetResult(IResult IResult) {
-        super(IResult);
+    public PageLinkedSetResult(IResult iResult) {
+        super(iResult);
     }
 
-    public PageLinkedSetResult(IResult IResult, PageData pageData) {
-        super(IResult, pageData);
+    public PageLinkedSetResult(IResult iResult, SimplePageData<LinkedHashSet<T>> pageData) {
+        super(iResult, pageData);
     }
 
-    public PageLinkedSetResult(IPageResult IPageResult) {
-        super(IPageResult);
+    public PageLinkedSetResult(IPageResult<LinkedHashSet<T>, SimplePageData<LinkedHashSet<T>>> iPageResult) {
+        super(iPageResult);
     }
 
-    public PageLinkedSetResult(IPageResult IPageResult, LinkedHashSet<T> list) {
-        super(IPageResult, list);
+    public PageLinkedSetResult(IPageResult<LinkedHashSet<T>, SimplePageData<LinkedHashSet<T>>> iPageResult, LinkedHashSet<T> list) {
+        super(iPageResult, list);
     }
 
-    public PageLinkedSetResult(IResult IResult, PageData pageData, LinkedHashSet<T> list) {
-        super(IResult, pageData, list);
+    public PageLinkedSetResult(IResult iResult, SimplePageData<LinkedHashSet<T>> pageData, LinkedHashSet<T> list) {
+        this(iResult, pageData);
+        if (this.data != null) {
+            this.data.setRows(list);
+        }
     }
 
-    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize) {
-        super(IResult, pageNum, pageSize);
+    public PageLinkedSetResult(IResult iResult, long pageNumber, long pageSize) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize));
     }
 
-    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, LinkedHashSet<T> list) {
-        super(IResult, pageNum, pageSize, list);
+    public PageLinkedSetResult(IResult iResult, long pageNumber, long pageSize, LinkedHashSet<T> list) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize));
+        this.data.setPageNumber(pageNumber);
+        this.data.setPageSize(pageSize);
+        this.data.setRows(list);
     }
 
-    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, long total) {
-        super(IResult, pageNum, pageSize, total);
+    public PageLinkedSetResult(IResult iResult, long pageNumber, long pageSize, long total) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize, total));
+        this.data.setPageNumber(pageNumber);
+        this.data.setPageSize(pageSize);
+        this.data.setTotal(total);
     }
 
-    public PageLinkedSetResult(IResult IResult, long pageNum, long pageSize, long total, LinkedHashSet<T> list) {
-        super(IResult, pageNum, pageSize, total, list);
+    public PageLinkedSetResult(IResult iResult, long pageNumber, long pageSize, long total, LinkedHashSet<T> list) {
+        this(iResult, new SimplePageData<>(pageNumber, pageSize, total));
+        this.data.setPageNumber(pageNumber);
+        this.data.setPageSize(pageSize);
+        this.data.setTotal(total);
+        this.data.setRows(list);
     }
 
     public static class Builder {
@@ -74,8 +87,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult success(long pageNum, long pageSize) {
-            return new PageLinkedSetResult(CommonResultCode.SUCCESS, pageNum, pageSize);
+        public static PageLinkedSetResult success(long pageNumber, long pageSize) {
+            return new PageLinkedSetResult(CommonResultCode.SUCCESS, pageNumber, pageSize);
         }
 
         /**
@@ -83,8 +96,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> success(long pageNum, long pageSize, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageNum, pageSize, set);
+        public static <T> PageLinkedSetResult<T> success(long pageNumber, long pageSize, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageNumber, pageSize, set);
         }
 
         /**
@@ -92,8 +105,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> success(long pageNum, long pageSize, long total) {
-            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageNum, pageSize, total);
+        public static <T> PageLinkedSetResult<T> success(long pageNumber, long pageSize, long total) {
+            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageNumber, pageSize, total);
         }
 
         /**
@@ -101,8 +114,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> success(long pageNum, long pageSize, long total, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageNum, pageSize, total, set);
+        public static <T> PageLinkedSetResult<T> success(long pageNumber, long pageSize, long total, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageNumber, pageSize, total, set);
         }
 
         /**
@@ -110,7 +123,7 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult success(PageData pageData) {
+        public static <T> PageLinkedSetResult success(SimplePageData<LinkedHashSet<T>> pageData) {
             return new PageLinkedSetResult(CommonResultCode.SUCCESS, pageData);
         }
 
@@ -119,7 +132,7 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> success(PageData pageData, LinkedHashSet<T> set) {
+        public static <T> PageLinkedSetResult<T> success(SimplePageData<LinkedHashSet<T>> pageData, LinkedHashSet<T> set) {
             return new PageLinkedSetResult<T>(CommonResultCode.SUCCESS, pageData, set);
         }
 
@@ -137,8 +150,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult error(long pageNum, long pageSize) {
-            return new PageLinkedSetResult(CommonResultCode.FAIL, pageNum, pageSize);
+        public static PageLinkedSetResult error(long pageNumber, long pageSize) {
+            return new PageLinkedSetResult(CommonResultCode.FAIL, pageNumber, pageSize);
         }
 
         /**
@@ -146,8 +159,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> error(long pageNum, long pageSize, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageNum, pageSize, set);
+        public static <T> PageLinkedSetResult<T> error(long pageNumber, long pageSize, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageNumber, pageSize, set);
         }
 
         /**
@@ -155,8 +168,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult error(long pageNum, long pageSize, long total) {
-            return new PageLinkedSetResult(CommonResultCode.FAIL, pageNum, pageSize, total);
+        public static PageLinkedSetResult error(long pageNumber, long pageSize, long total) {
+            return new PageLinkedSetResult(CommonResultCode.FAIL, pageNumber, pageSize, total);
         }
 
         /**
@@ -164,8 +177,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> error(long pageNum, long pageSize, long total, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageNum, pageSize, total, set);
+        public static <T> PageLinkedSetResult<T> error(long pageNumber, long pageSize, long total, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageNumber, pageSize, total, set);
         }
 
         /**
@@ -173,7 +186,7 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult error(PageData pageData) {
+        public static <T> PageLinkedSetResult error(SimplePageData<LinkedHashSet<T>> pageData) {
             return new PageLinkedSetResult(CommonResultCode.FAIL, pageData);
         }
 
@@ -182,7 +195,7 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> error(PageData pageData, LinkedHashSet<T> set) {
+        public static <T> PageLinkedSetResult<T> error(SimplePageData<LinkedHashSet<T>> pageData, LinkedHashSet<T> set) {
             return new PageLinkedSetResult<T>(CommonResultCode.FAIL, pageData, set);
         }
 
@@ -191,8 +204,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult result(IPageResult IPageResult) {
-            return new PageLinkedSetResult(IPageResult);
+        public static <T> PageLinkedSetResult result(IPageResult<LinkedHashSet<T>, SimplePageData<LinkedHashSet<T>>> iPageResult) {
+            return new PageLinkedSetResult(iPageResult);
         }
 
         /**
@@ -200,8 +213,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> result(IPageResult IPageResult, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(IPageResult, set);
+        public static <T> PageLinkedSetResult<T> result(IPageResult<LinkedHashSet<T>, SimplePageData<LinkedHashSet<T>>> iPageResult, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(iPageResult, set);
         }
 
         /**
@@ -209,8 +222,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> result(IResult IResult, long pageNum, long pageSize, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(IResult, pageNum, pageSize, set);
+        public static <T> PageLinkedSetResult<T> result(IResult iResult, long pageNumber, long pageSize, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(iResult, pageNumber, pageSize, set);
         }
 
         /**
@@ -218,8 +231,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult result(IResult IResult, long pageNum, long pageSize, long total) {
-            return new PageLinkedSetResult(IResult, pageNum, pageSize, total);
+        public static PageLinkedSetResult result(IResult iResult, long pageNumber, long pageSize, long total) {
+            return new PageLinkedSetResult(iResult, pageNumber, pageSize, total);
         }
 
         /**
@@ -227,8 +240,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> result(IResult IResult, long pageNum, long pageSize, long total, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(IResult, pageNum, pageSize, total, set);
+        public static <T> PageLinkedSetResult<T> result(IResult iResult, long pageNumber, long pageSize, long total, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(iResult, pageNumber, pageSize, total, set);
         }
 
         /**
@@ -236,8 +249,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static PageLinkedSetResult result(IResult IResult, PageData pageData) {
-            return new PageLinkedSetResult(IResult, pageData);
+        public static <T> PageLinkedSetResult result(IResult iResult, SimplePageData<LinkedHashSet<T>> pageData) {
+            return new PageLinkedSetResult(iResult, pageData);
         }
 
         /**
@@ -245,8 +258,8 @@ public class PageLinkedSetResult<T> extends AbstractPageResult<LinkedHashSet<T>>
          *
          * @return Result
          */
-        public static <T> PageLinkedSetResult<T> result(IResult IResult, PageData pageData, LinkedHashSet<T> set) {
-            return new PageLinkedSetResult<T>(IResult, pageData, set);
+        public static <T> PageLinkedSetResult<T> result(IResult iResult, SimplePageData<LinkedHashSet<T>> pageData, LinkedHashSet<T> set) {
+            return new PageLinkedSetResult<T>(iResult, pageData, set);
         }
 
     }

@@ -7,7 +7,6 @@ import com.skrstop.framework.components.core.common.response.core.IResult;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,7 +20,6 @@ import java.util.Collection;
 @Setter
 public class CollectionResult<T> extends AbstractResult implements ICollectionResult<T> {
 
-    @Serial
     private static final long serialVersionUID = 8864512560499081986L;
     private Collection<T> data;
 
@@ -29,8 +27,8 @@ public class CollectionResult<T> extends AbstractResult implements ICollectionRe
         this.data = new ArrayList<>();
     }
 
-    public CollectionResult(IResult IResult) {
-        super(IResult);
+    public CollectionResult(IResult iResult) {
+        super(iResult);
     }
 
     public CollectionResult(ICollectionResult<T> iCollectionResult) {
@@ -38,8 +36,8 @@ public class CollectionResult<T> extends AbstractResult implements ICollectionRe
         this.data = iCollectionResult.getData();
     }
 
-    public CollectionResult(IResult IResult, Collection<T> data) {
-        super(IResult);
+    public CollectionResult(IResult iResult, Collection<T> data) {
+        super(iResult);
         this.data = data;
     }
 
@@ -96,8 +94,8 @@ public class CollectionResult<T> extends AbstractResult implements ICollectionRe
          *
          * @return Result
          */
-        public static <T> CollectionResult<T> result(IResult IResult, Collection<T> data) {
-            return new CollectionResult<T>(IResult, data);
+        public static <T> CollectionResult<T> result(IResult iResult, Collection<T> data) {
+            return new CollectionResult<T>(iResult, data);
         }
 
         /**
@@ -105,8 +103,8 @@ public class CollectionResult<T> extends AbstractResult implements ICollectionRe
          *
          * @return Result
          */
-        public static <T> CollectionResult<T> result(IResult IResult) {
-            return new CollectionResult<T>(IResult);
+        public static <T> CollectionResult<T> result(IResult iResult) {
+            return new CollectionResult<T>(iResult);
         }
 
     }

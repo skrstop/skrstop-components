@@ -3,7 +3,6 @@ package com.skrstop.framework.components.core.common.response.abstracts;
 import com.skrstop.framework.components.core.common.response.core.IPageResult;
 import com.skrstop.framework.components.core.common.response.core.IResult;
 import com.skrstop.framework.components.core.common.response.page.PageData;
-import com.skrstop.framework.components.core.common.response.page.SimplePageData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,67 +14,34 @@ import java.io.Serial;
  */
 @Setter
 @Getter
-public abstract class AbstractPageResult<T> extends AbstractResult {
+public abstract class AbstractPageResult<TS, P extends PageData<TS>> extends AbstractResult {
     @Serial
     private static final long serialVersionUID = 8527871385636688648L;
 
-    protected PageData<T> data;
+    protected P data;
 
     public AbstractPageResult() {
 
     }
 
-    public AbstractPageResult(IResult IResult) {
-        super(IResult);
+    public AbstractPageResult(IResult iResult) {
+        super(iResult);
     }
 
-    public AbstractPageResult(IResult IResult, PageData<T> pageData) {
-        super(IResult);
+    public AbstractPageResult(IResult iResult, P pageData) {
+        super(iResult);
         this.data = pageData;
     }
 
-    public AbstractPageResult(IPageResult<T> IPageResult) {
-        this(IPageResult, IPageResult.getData());
+    public AbstractPageResult(IPageResult<TS, P> iPageResult) {
+        this(iPageResult, iPageResult.getData());
     }
 
-    public AbstractPageResult(IPageResult<T> IPageResult, T list) {
-        super(IPageResult);
+    public AbstractPageResult(IPageResult<TS, P> iPageResult, TS list) {
+        super(iPageResult);
         if (this.data != null) {
             this.data.setRows(list);
         }
-    }
-
-    public AbstractPageResult(IResult IResult, PageData<T> pageData, T list) {
-        this(IResult, pageData);
-        if (this.data != null) {
-            this.data.setRows(list);
-        }
-    }
-
-    public AbstractPageResult(IResult IResult, long pageNum, long pageSize) {
-        this(IResult, new SimplePageData<T>(pageNum, pageSize));
-    }
-
-    public AbstractPageResult(IResult IResult, long pageNum, long pageSize, T list) {
-        this(IResult, new SimplePageData<T>(pageNum, pageSize));
-        this.data.setPageNumber(pageNum);
-        this.data.setPageSize(pageSize);
-        this.data.setRows(list);
-    }
-
-    public AbstractPageResult(IResult IResult, long pageNum, long pageSize, long total) {
-        this(IResult, new SimplePageData<T>(pageNum, pageSize, total));
-        this.data.setPageNumber(pageNum);
-        this.data.setPageSize(pageSize);
-        this.data.setTotal(total);
-    }
-
-    public AbstractPageResult(IResult IResult, long pageNum, long pageSize, long total, T list) {
-        this(IResult, new SimplePageData<T>(pageNum, pageSize, total));
-        this.data.setPageNumber(pageNum);
-        this.data.setPageSize(pageSize);
-        this.data.setTotal(total);
-        this.data.setRows(list);
     }
 
 }

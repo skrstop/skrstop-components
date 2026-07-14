@@ -19,22 +19,22 @@ import java.io.PrintWriter;
  */
 public class ResponseOutUtil extends ServletUtil {
 
-    public static void out(HttpServletResponse response, IResult IResult, HttpStatus httpStatus) throws IOException {
-        out(response, IResult, CharSetEnum.UTF8, ContentTypeEnum.APPLICATION_JSON_UTF8, httpStatus);
+    public static void out(HttpServletResponse response, IResult iResult, HttpStatus httpStatus) throws IOException {
+        out(response, iResult, CharSetEnum.UTF8, ContentTypeEnum.APPLICATION_JSON_UTF8, httpStatus);
     }
 
-    public static void out(HttpServletResponse response, IResult IResult) throws IOException {
-        out(response, IResult, CharSetEnum.UTF8, ContentTypeEnum.APPLICATION_JSON_UTF8, HttpStatus.OK);
+    public static void out(HttpServletResponse response, IResult iResult) throws IOException {
+        out(response, iResult, CharSetEnum.UTF8, ContentTypeEnum.APPLICATION_JSON_UTF8, HttpStatus.OK);
     }
 
-    public static void out(HttpServletResponse response, IResult IResult, CharSetEnum charSetEnum, ContentTypeEnum contentTypeEnum, HttpStatus httpStatus)
+    public static void out(HttpServletResponse response, IResult iResult, CharSetEnum charSetEnum, ContentTypeEnum contentTypeEnum, HttpStatus httpStatus)
             throws IOException {
         response.setCharacterEncoding(charSetEnum.toString());
         response.setContentType(contentTypeEnum.toString());
         response.setStatus(httpStatus.value());
 
         try (PrintWriter writer = response.getWriter()) {
-            writer.print(FastJsonUtil.toJson(new Result<>(IResult)));
+            writer.print(FastJsonUtil.toJson(new Result<>(iResult)));
         }
     }
 }

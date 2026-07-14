@@ -23,9 +23,9 @@ public abstract class AbstractResult extends SerializableBean {
     public AbstractResult() {
     }
 
-    public AbstractResult(IResult IResult) {
-        this.code = IResult.getCode();
-        this.message = IResult.getMessage();
+    public AbstractResult(IResult iResult) {
+        this.code = iResult.getCode();
+        this.message = iResult.getMessage();
     }
 
 }

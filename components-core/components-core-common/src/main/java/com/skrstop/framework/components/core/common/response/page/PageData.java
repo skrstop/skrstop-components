@@ -4,13 +4,13 @@ package com.skrstop.framework.components.core.common.response.page;
  * @author 蒋时华
  * @date 2020-05-02 15:17:51
  */
-public interface PageData<T> {
+public interface PageData<TS> {
 
     /*** 获取int当前页数 */
     long getPageNumber();
 
     /*** 设置当前页数 */
-    void setPageNumber(long pageNum);
+    void setPageNumber(long pageNumber);
 
     /*** 获取页面显示数据大小 */
     long getPageSize();
@@ -24,9 +24,9 @@ public interface PageData<T> {
     /*** 设置总数量 */
     void setTotal(long total);
 
-    T getRows();
+    TS getRows();
 
-    void setRows(T rows);
+    void setRows(TS rows);
 
     /*** 上一个分页信息，用户深度分页 */
     default void setLastPageInfo(String lastPageInfo) {

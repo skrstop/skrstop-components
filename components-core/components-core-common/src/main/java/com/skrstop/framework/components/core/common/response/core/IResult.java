@@ -16,7 +16,7 @@ public interface IResult extends Serializable {
     /**
      * get response code
      *
-     * @return
+     * @return Object
      */
     Object getCode();
 

@@ -1,5 +1,6 @@
 package com.skrstop.framework.components.starter.web.response.webmvc;
 
+import cn.hutool.core.lang.Pair;
 import com.skrstop.framework.components.starter.common.util.AnnoFindUtil;
 import com.skrstop.framework.components.starter.web.configuration.GlobalResponseProperties;
 import com.skrstop.framework.components.starter.web.response.DisableGlobalResponse;
@@ -9,8 +10,10 @@ import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.url.UrlFilterUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
@@ -82,7 +85,12 @@ public class ReturnResponseHandler implements HandlerMethodReturnValueHandler {
         // 针对IResult返回类型，是否需要处理
         boolean disableTransResultTypeResponse = AnnoFindUtil.has(returnType.getMethod(), DisableTransResultTypeResponse.class);
         disableTransResultTypeResponse = disableTransResultTypeResponse || globalResponseProperties.isDisableGlobalTransResultTypeResponse();
-        returnValue = responseHandleChainPattern.execute(returnValue, disableTransResultTypeResponse);
+        Pair<Object, Integer> execute = responseHandleChainPattern.execute(returnValue, disableTransResultTypeResponse);
+        returnValue = execute.getKey();
+        HttpServletResponse nativeResponse = webRequest.getNativeResponse(HttpServletResponse.class);
+        if (ObjectUtil.isNotNull(nativeResponse)) {
+            nativeResponse.setStatus(ObjectUtil.defaultIfNull(execute.getValue(), HttpStatus.OK.value()));
+        }
         delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
     }
 }
