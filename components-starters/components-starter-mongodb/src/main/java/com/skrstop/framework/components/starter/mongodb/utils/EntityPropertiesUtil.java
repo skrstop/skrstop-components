@@ -159,9 +159,10 @@ public class EntityPropertiesUtil {
         Entity entityAnno = AnnotationUtil.getAnnotation(entityClass, Entity.class);
         PropertyCollectionName propertyCollectionName = AnnotationUtil.getAnnotation(entityClass, PropertyCollectionName.class);
         if (ObjectUtil.isNotNull(propertyCollectionName) || ObjectUtil.isNotNull(entityAnno)) {
-            collectionName = propertyCollectionName.value();
-            if (ObjectUtil.isNotNull(entityAnno) && StrUtil.isNotBlank(entityAnno.value())) {
+            if (ObjectUtil.isNotNull(entityAnno)) {
                 collectionName = entityAnno.value();
+            } else {
+                collectionName = propertyCollectionName.value();
             }
         }
         propertyFieldCache.computeIfAbsent(PropertyCollectionName.class, k -> new HashMap<>())
