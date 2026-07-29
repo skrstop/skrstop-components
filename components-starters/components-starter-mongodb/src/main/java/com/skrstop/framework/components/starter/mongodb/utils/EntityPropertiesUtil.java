@@ -3,12 +3,14 @@ package com.skrstop.framework.components.starter.mongodb.utils;
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.ReflectUtil;
+import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.mongodb.annotation.property.*;
 import com.skrstop.framework.components.starter.mongodb.constant.MongodbConst;
 import com.skrstop.framework.components.starter.mongodb.repository.SuperRepository;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
+import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Property;
 import dev.morphia.annotations.Version;
@@ -38,7 +40,7 @@ public class EntityPropertiesUtil {
             , Object entity
             , Set<String> fieldNames
             , Object value) {
-        if (CollectionUtil.isEmpty(fieldNames)) {
+        if (CollectionUtil.isEmpty(fieldNames) || ObjectUtil.isNull(entity)) {
             return;
         }
         for (String fieldName : fieldNames) {
@@ -87,22 +89,30 @@ public class EntityPropertiesUtil {
     }
 
     public static String getColumnPropertyNameId(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
-        return Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
+        String propertyName = Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
                 .orElse(Collections.emptyMap())
                 .keySet()
                 .stream()
                 .findFirst()
                 .orElse(null);
+        if (StrUtil.isBlank(propertyName)) {
+            throw new NotSupportedException("未配置ID字段");
+        }
+        return propertyName;
     }
 
-    public static String getColumnDbNameId(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
-        return Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
+    public static String getColumnDbNameIdAndValid(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
+        String propertyName = Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
                 .orElse(Collections.emptyMap())
                 .values()
                 .stream()
                 .findFirst()
                 .orElse(DEFAULT_EMPTY)
                 .getKey();
+        if (StrUtil.isBlank(propertyName)) {
+            throw new NotSupportedException("未配置ID字段");
+        }
+        return propertyName;
     }
 
     public static Class<?> getColumnTypeId(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
@@ -117,6 +127,16 @@ public class EntityPropertiesUtil {
                 .findFirst()
                 .orElse(DEFAULT_EMPTY)
                 .getValue();
+    }
+
+    public static String getCollectionDbName(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
+        return Optional.ofNullable(propertyFieldCache.get(PropertyCollectionName.class))
+                .orElse(Collections.emptyMap())
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(DEFAULT_EMPTY)
+                .getKey();
     }
 
     /**
@@ -134,6 +154,18 @@ public class EntityPropertiesUtil {
      */
     public static Map<Class<?>, Map<String, Pair<String, Class<?>>>> tableProperties(String propertyNaming, Class<?> entityClass) {
         Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache = new HashMap<>();
+        // tableName
+        String collectionName = entityClass.getSimpleName();
+        Entity entityAnno = AnnotationUtil.getAnnotation(entityClass, Entity.class);
+        PropertyCollectionName propertyCollectionName = AnnotationUtil.getAnnotation(entityClass, PropertyCollectionName.class);
+        if (ObjectUtil.isNotNull(propertyCollectionName) || ObjectUtil.isNotNull(entityAnno)) {
+            collectionName = propertyCollectionName.value();
+            if (ObjectUtil.isNotNull(entityAnno) && StrUtil.isNotBlank(entityAnno.value())) {
+                collectionName = entityAnno.value();
+            }
+        }
+        propertyFieldCache.computeIfAbsent(PropertyCollectionName.class, k -> new HashMap<>())
+                .put(entityClass.getSimpleName(), Pair.of(collectionName, entityClass));
         // 通用字段信息
         Field[] allFields = ReflectUtil.getFields(entityClass);
         for (Field field : allFields) {

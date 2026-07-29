@@ -25,7 +25,6 @@ import com.skrstop.framework.components.util.constant.DateFormatConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
-import com.skrstop.framework.components.util.value.data.StrUtil;
 import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,10 +58,10 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     private void init() {
         this.propertyFieldCache = EntityPropertiesUtil.tableProperties(globalDatabaseProperties.isMapUnderscoreToCamelCase(), super.getEntityClass());
         this.tableInfo = TableInfoHelper.getTableInfo(super.getEntityClass());
-        Map<String, Pair<String, Class<?>>> columnIds = propertyFieldCache.get(PropertyId.class);
-        if (ObjectUtil.isEmpty(columnIds)) {
-            throw new NotSupportedException("实体类" + super.getEntityClass().getName() + "必须且只能有一个主键字段");
-        }
+//        Map<String, Pair<String, Class<?>>> columnIds = propertyFieldCache.get(PropertyId.class);
+//        if (ObjectUtil.isEmpty(columnIds)) {
+//            throw new NotSupportedException("实体类" + super.getEntityClass().getName() + "必须且只能有一个主键字段");
+//        }
     }
 
     @Override
@@ -157,8 +156,8 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeById(Serializable id) {
-        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
-        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
+        String tableName = EntityPropertiesUtil.getTableDbName(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameIdAndValid(propertyFieldCache);
         int result = this.getBaseMapper().removePhysicalById(id, tableName, columnNameId);
         return result > 0;
     }
@@ -166,7 +165,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByMap(Map<String, Object> columnMap) {
-        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
+        String tableName = EntityPropertiesUtil.getTableDbName(propertyFieldCache);
         int result = this.getBaseMapper().removePhysicalByMap(columnMap, tableName);
         return result > 0;
     }
@@ -174,7 +173,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean remove(Wrapper<T> queryWrapper) {
-        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
+        String tableName = EntityPropertiesUtil.getTableDbName(propertyFieldCache);
         int result = this.getBaseMapper().removePhysicalByCustom(queryWrapper.getSqlSegment(), queryWrapper, tableName);
         return result > 0;
     }
@@ -182,8 +181,8 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeByIds(Collection<?> ids) {
-        String tableName = StrUtil.toUnderlineCase(super.getEntityClass().getSimpleName());
-        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
+        String tableName = EntityPropertiesUtil.getTableDbName(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameIdAndValid(propertyFieldCache);
         int result = this.getBaseMapper().removePhysicalByIds(ids, tableName, columnNameId);
         return result > 0;
     }
@@ -191,7 +190,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicByIds(Collection<?> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameIdAndValid(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.in(columnNameId, ids);
         return super.update(updateWrapper);
@@ -200,7 +199,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean removeLogicById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameIdAndValid(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), false);
         updateWrapper.eq(columnNameId, id);
         return super.update(updateWrapper);
@@ -224,7 +223,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicByIds(Collection<?> ids) {
-        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameIdAndValid(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.in(columnNameId, ids);
         return super.update(updateWrapper);
@@ -233,7 +232,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = DatabaseConst.TRANSACTION_NAME_DATABASE)
     public boolean undoRemoveLogicById(Serializable id) {
-        String columnNameId = EntityPropertiesUtil.getColumnDbNameId(propertyFieldCache);
+        String columnNameId = EntityPropertiesUtil.getColumnDbNameIdAndValid(propertyFieldCache);
         UpdateWrapper<T> updateWrapper = (UpdateWrapper<T>) this.setRemoveUpdateInfo(Wrappers.<T>update(), true);
         updateWrapper.eq(columnNameId, id);
         return super.update(updateWrapper);

@@ -257,3 +257,4 @@ hs_err_pid*
 
 /.tool-versions
 **/.tool-versions
+.agentbridge
