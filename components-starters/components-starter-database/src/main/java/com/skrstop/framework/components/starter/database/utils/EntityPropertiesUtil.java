@@ -3,13 +3,11 @@ package com.skrstop.framework.components.starter.database.utils;
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.ReflectUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.skrstop.framework.components.core.exception.defined.illegal.NotSupportedException;
 import com.skrstop.framework.components.starter.database.annotation.property.*;
 import com.skrstop.framework.components.starter.database.repository.SuperRepository;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
@@ -120,17 +118,35 @@ public class EntityPropertiesUtil {
                 .collect(Collectors.toSet());
     }
 
-    public static String getColumnPropertyNameId(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
-        return Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
+    public static String getColumnPropertyNameIdAndValid(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
+        String propertyName = Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
                 .orElse(Collections.emptyMap())
                 .keySet()
                 .stream()
                 .findFirst()
                 .orElse(null);
+        if (StrUtil.isBlank(propertyName)) {
+            throw new NotSupportedException("未配置ID字段");
+        }
+        return propertyName;
     }
 
-    public static String getColumnDbNameId(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
-        return Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
+    public static String getColumnDbNameIdAndValid(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
+        String propertyName = Optional.ofNullable(propertyFieldCache.get(PropertyId.class))
+                .orElse(Collections.emptyMap())
+                .values()
+                .stream()
+                .findFirst()
+                .orElse(DEFAULT_EMPTY)
+                .getKey();
+        if (StrUtil.isBlank(propertyName)) {
+            throw new NotSupportedException("未配置ID字段");
+        }
+        return propertyName;
+    }
+
+    public static String getTableDbName(Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache) {
+        return Optional.ofNullable(propertyFieldCache.get(PropertyTableName.class))
                 .orElse(Collections.emptyMap())
                 .values()
                 .stream()
@@ -148,6 +164,19 @@ public class EntityPropertiesUtil {
      */
     public static Map<Class<?>, Map<String, Pair<String, Class<?>>>> tableProperties(boolean mapUnderscoreToCamelCase, Class<?> entityClass) {
         Map<Class<?>, Map<String, Pair<String, Class<?>>>> propertyFieldCache = new HashMap<>();
+        // tableName
+        String tableName = StrUtil.toUnderlineCase(entityClass.getSimpleName());
+        TableName tableNameAnno = AnnotationUtil.getAnnotation(entityClass, TableName.class);
+        PropertyTableName propertyTableName = AnnotationUtil.getAnnotation(entityClass, PropertyTableName.class);
+        if (ObjectUtil.isNotNull(propertyTableName) || ObjectUtil.isNotNull(tableNameAnno)) {
+            if (ObjectUtil.isNotNull(tableNameAnno)) {
+                tableName = tableNameAnno.value();
+            } else {
+                tableName = propertyTableName.value();
+            }
+        }
+        propertyFieldCache.computeIfAbsent(PropertyTableName.class, k -> new HashMap<>())
+                .put(entityClass.getSimpleName(), Pair.of(tableName, entityClass));
         // 通用字段信息
         Field[] allFields = ReflectUtil.getFields(entityClass);
         for (Field field : allFields) {

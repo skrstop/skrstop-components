@@ -3,6 +3,7 @@
 ##### 1.3.5.20260520-RELEASE
 
 * feat: druid usePingMethod支持通过yml配置指定，默认为false
+* feat: 去除主键id检查
 
 ##### 1.3.4.20250930-RELEASE
 

@@ -62,10 +62,10 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity> implemen
     @PostConstruct
     private void initPropertiesFormat() {
         this.propertyFieldCache = EntityPropertiesUtil.tableProperties(globalMongodbProperties.getPropertyNaming(), entityClass);
-        Map<String, Pair<String, Class<?>>> columnIds = this.propertyFieldCache.get(PropertyId.class);
-        if (ObjectUtil.isEmpty(columnIds)) {
-            throw new NotSupportedException("实体类" + entityClass.getName() + "必须且只能有一个主键字段");
-        }
+//        Map<String, Pair<String, Class<?>>> columnIds = this.propertyFieldCache.get(PropertyId.class);
+//        if (ObjectUtil.isEmpty(columnIds)) {
+//            throw new NotSupportedException("实体类" + entityClass.getName() + "必须且只能有一个主键字段");
+//        }
     }
 
     @Override
