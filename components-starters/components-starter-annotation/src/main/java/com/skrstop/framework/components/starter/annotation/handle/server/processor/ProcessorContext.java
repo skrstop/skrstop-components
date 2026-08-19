@@ -85,8 +85,11 @@ public class ProcessorContext {
                 result.add(processorEntity);
             }
         }
-        if (CollectionUtil.isNotEmpty(result) && !containDefault) {
+        if (CollectionUtil.isNotEmpty(result)) {
             return result.stream().map(ProcessorEntity::getProcessor).collect(Collectors.toList());
+        }
+        if (!containDefault) {
+            throw new ProcessorException();
         }
         // 寻找默认处理器
         for (ProcessorEntity processorEntity : processorContainer.getProcessorEntitiesDefault()) {
@@ -161,8 +164,11 @@ public class ProcessorContext {
                 break;
             }
         }
-        if (ObjectUtil.isNotNull(result) && !containDefault) {
+        if (ObjectUtil.isNotNull(result)) {
             return result.getProcessor();
+        }
+        if (!containDefault) {
+            throw new ProcessorException();
         }
         // 寻找默认处理器
         for (ProcessorEntity processorEntity : processorContainer.getProcessorEntitiesDefault()) {
