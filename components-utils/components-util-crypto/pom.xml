@@ -21,4 +21,17 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- 本模块无 java 源码（仅聚合 hutool-crypto），关闭 javadoc 错误仍附带 javadoc jar 以满足 Central 发布要求 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

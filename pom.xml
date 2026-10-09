@@ -207,8 +207,8 @@
         <redisson.version>3.43.0</redisson.version>
         <!-- mongodb -->
         <mongo-driver-old.version>3.12.14</mongo-driver-old.version>
-        <mongo-driver.version>5.4.0</mongo-driver.version>
-        <morphia-core.version>2.5.0</morphia-core.version>
+        <mongo-driver.version>5.7.0</mongo-driver.version>
+        <morphia-core.version>2.5.3</morphia-core.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -1874,23 +1874,29 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <additionalJOptions>-->
-            <!--                        <additionalJOption>-Xdoclint:none</additionalJOption>-->
-            <!--                    </additionalJOptions>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>attach-javadocs</id>-->
-            <!--                        <goals>-->
-            <!--                            <goal>jar</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <!-- 关闭 doclint，避免 javadoc 格式校验错误导致构建失败 -->
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
+                    <failOnWarnings>false</failOnWarnings>
+                    <!-- 不联网获取 JDK api javadoc 链接 -->
+                    <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
