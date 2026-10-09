@@ -406,6 +406,7 @@
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.5.0</maven-flatten-plugin.version>
         <maven-nexus-staging-maven-plugin.version>1.6.13</maven-nexus-staging-maven-plugin.version>
+        <maven-central-publishing-maven-plugin.version>0.11.0</maven-central-publishing-maven-plugin.version>
 
     </properties>
 
@@ -1915,13 +1916,12 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>${release.id}</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    <publishingServerId>sonatype</publishingServerId>
+                    <autoPublish>false</autoPublish>
                 </configuration>
             </plugin>
         </plugins>
@@ -2003,6 +2003,12 @@
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>${maven-nexus-staging-maven-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${maven-central-publishing-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>

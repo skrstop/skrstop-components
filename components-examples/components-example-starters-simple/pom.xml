@@ -15,6 +15,7 @@
     <description>🏗 skrstop mix micro service example simple module</description>
 
     <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
