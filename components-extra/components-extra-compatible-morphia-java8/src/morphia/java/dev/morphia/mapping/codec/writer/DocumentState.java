@@ -1,0 +1,116 @@
+package dev.morphia.mapping.codec.writer;
+
+import com.mongodb.lang.Nullable;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.utils.CollectionUtil;
+import org.bson.Document;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
+
+
+/**
+ * @morphia.internal
+ * @hidden
+ */
+@MorphiaInternal
+public class DocumentState extends ValueState<Map<String, Object>> {
+    private final List<NameState> values = new ArrayList<>();
+    private Document finished;
+
+    DocumentState(DocumentWriter writer, WriteState previous) {
+        super(writer, previous);
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner joiner = new StringJoiner(", ", "{", finished != null ? "}" : "");
+        values.forEach(v -> joiner.add(String.valueOf(v)));
+        return joiner.toString();
+    }
+
+    @Override
+    public Map<String, Object> value() {
+        return finished;
+    }
+
+    @Override
+    protected String state() {
+        return "document";
+    }
+
+    @SuppressWarnings("unchecked")
+    private Document andTogether(Document doc, String key, @Nullable Object additional) {
+        if (additional != null) {
+            Document newSubdoc = new Document(key, additional);
+            Object extant = doc.remove(key);
+            List<Document> and = (List<Document>) doc.get("$and");
+            if (and != null) {
+                and.add(newSubdoc);
+            } else {
+                and = new ArrayList<>();
+                and.addAll(CollectionUtil.asList(new Document(key, extant), newSubdoc));
+                doc.put("$and", and);
+                return newSubdoc;
+            }
+        }
+        return doc;
+    }
+
+    @Override
+    void end() {
+        finished = new MergingDocument();
+        values.forEach(v -> {
+            finished.put(v.name(), v.value());
+        });
+        finished = new Document(finished);
+        super.end();
+    }
+
+    @Override
+    NameState name(String name) {
+        NameState state = new NameState(getWriter(), name, this);
+        values.add(state);
+        return state;
+    }
+
+    /**
+     * @morphia.internal
+     * @hidden
+     */
+    @MorphiaInternal
+    public static class MergingDocument extends Document {
+        public MergingDocument() {
+        }
+
+        public MergingDocument(String key, Object value) {
+            super(key, value);
+        }
+
+        @Override
+        @SuppressWarnings({"rawtypes", "unchecked"})
+        public Object put(String key, Object value) {
+            if (containsKey(key)) {
+                Object current = get(key);
+                if (current instanceof Document && value instanceof Document) {
+                    ((Document) current).putAll((Document) value);
+                    return current;
+                } else if ((key.equals("$and") || key.equals("$or")) && current instanceof List && value instanceof List) {
+                    List<MergingDocument> list = CollectionUtil.asList(new MergingDocument(key, current), new MergingDocument(key, value));
+                    remove(key);
+                    put("$and", list);
+                    return current;
+                }
+            }
+            return super.put(key, value);
+        }
+
+        @Override
+        public void putAll(Map<? extends String, ?> map) {
+            map.entrySet().forEach(entry -> put(entry.getKey(), entry.getValue()));
+            super.putAll(map);
+        }
+    }
+}

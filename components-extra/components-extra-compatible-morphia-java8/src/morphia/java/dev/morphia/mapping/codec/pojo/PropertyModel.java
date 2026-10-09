@@ -1,0 +1,426 @@
+/*
+ * Copyright 2008-present MongoDB, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package dev.morphia.mapping.codec.pojo;
+
+import com.mongodb.DBRef;
+import com.mongodb.lang.Nullable;
+import dev.morphia.Datastore;
+import dev.morphia.DatastoreImpl;
+import dev.morphia.Key;
+import dev.morphia.annotations.AlsoLoad;
+import dev.morphia.annotations.Handler;
+import dev.morphia.annotations.Reference;
+import dev.morphia.annotations.Transient;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.mapping.Mapper;
+import dev.morphia.mapping.MappingException;
+import dev.morphia.mapping.codec.Conversions;
+import dev.morphia.mapping.codec.MorphiaPropertySerialization;
+import dev.morphia.mapping.codec.references.MorphiaProxy;
+import dev.morphia.mapping.experimental.MorphiaReference;
+import dev.morphia.utils.CollectionUtil;
+import org.bson.Document;
+import org.bson.codecs.Codec;
+import org.bson.codecs.pojo.PropertyAccessor;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
+import java.util.*;
+
+/**
+ * Represents a field on a class and stores various metadata such as generic parameters.
+ *
+ * @morphia.internal
+ * @since 2.0
+ */
+@MorphiaInternal
+@SuppressWarnings("removal")
+public final class PropertyModel {
+    private final String name;
+    private final TypeData<?> typeData;
+    private final String mappedName;
+    private final PropertyAccessor<? super Object> accessor;
+    private final MorphiaPropertySerialization serialization;
+    private final Map<Class<? extends Annotation>, Annotation> annotationMap = new HashMap<>();
+    private final List<String> loadNames; // List of stored names in order of trying, contains nameToStore and potential aliases
+    private final EntityModel entityModel;
+    private final Conversions conversions;
+    private Codec<? super Object> codec;
+    private Class<?> normalizedType;
+
+    PropertyModel(PropertyModelBuilder builder) {
+        entityModel = builder.owner();
+        conversions = builder.conversions();
+        name = Objects.requireNonNull(builder.name(), "name can not be null.");
+        mappedName = Objects.requireNonNull(builder.mappedName(), "name can not be null.");
+        typeData = Objects.requireNonNull(builder.typeData(), "typeData can not be null.");
+        accessor = builder.accessor();
+        serialization = builder.serialization();
+        builder.annotations().forEach(ann -> annotationMap.put(ann.annotationType(), ann));
+
+        List<String> result;
+        final AlsoLoad al = getAnnotation(AlsoLoad.class);
+        if (al != null && al.value().length > 0) {
+            final List<String> names = new ArrayList<>();
+            names.add(getMappedName());
+            names.addAll(CollectionUtil.asList(al.value()));
+            result = names;
+        } else {
+            result = CollectionUtil.asList(getMappedName());
+        }
+        loadNames = result;
+    }
+
+    public PropertyModel(EntityModel owner, PropertyModel other) {
+        entityModel = owner;
+        conversions = other.conversions;
+
+        name = other.name;
+        typeData = other.typeData;
+        mappedName = other.mappedName;
+        accessor = other.accessor;
+        annotationMap.putAll(other.annotationMap);
+        loadNames = other.loadNames;
+        serialization = other.serialization;
+        normalizedType = other.normalizedType;
+    }
+
+    static PropertyModelBuilder builder(Mapper mapper) {
+        return new PropertyModelBuilder(mapper);
+    }
+
+    /**
+     * Gets the parameterized type of a TypeData
+     *
+     * @param typeData the type to normalize
+     * @return the unwrapped type
+     * @morphia.internal
+     */
+    @MorphiaInternal
+    public static Class<?> normalize(TypeData<?> typeData) {
+        while (!typeData.getTypeParameters().isEmpty()
+                && (Collection.class.isAssignableFrom(typeData.getType())
+                || Map.class.isAssignableFrom(typeData.getType())
+                || MorphiaReference.class.isAssignableFrom(typeData.getType()))) {
+            List<TypeData<?>> typeParameters = typeData.getTypeParameters();
+            typeData = typeParameters.get(typeParameters.size() - 1);
+        }
+        Class<?> type = typeData.getType();
+
+        while (type.isArray()) {
+            type = type.getComponentType();
+        }
+        return type;
+    }
+
+    /**
+     * @return the accessor to use when accessing this field
+     */
+    public PropertyAccessor<? super Object> getAccessor() {
+        return accessor;
+    }
+
+    /**
+     * Find an annotation of a specific type or null if not found.
+     *
+     * @param type the annotation type to find
+     * @param <A>  the class type
+     * @return the annotation instance or null
+     */
+    @Nullable
+    public <A extends Annotation> A getAnnotation(Class<A> type) {
+        return type.cast(annotationMap.get(type));
+    }
+
+    Codec<?> getCodec() {
+        return codec;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getTypeData(), getMappedName(), codec, getAccessor(), serialization,
+                annotationMap.values(), getNormalizedType());
+    }
+
+    /**
+     * @param document the Document get the value from
+     * @return the value from first mapping of this field
+     */
+    public Object getDocumentValue(Document document) {
+        return document.get(loadFromDocument(document));
+    }
+
+    /**
+     * @return the entity model owner of this field
+     * @since 2.1
+     */
+    public EntityModel getEntityModel() {
+        return entityModel;
+    }
+
+    /**
+     * @return the full name of the class plus java field name
+     */
+    public String getFullName() {
+        return String.format("%s#%s", entityModel.getType().getName(), name);
+    }
+
+    /**
+     * @return the name of the field's (key)name for mongodb, in order of loading.
+     */
+    public List<String> getLoadNames() {
+        return new ArrayList<>(loadNames);
+    }
+
+    /**
+     * @return the mapped name for the model
+     */
+    public String getMappedName() {
+        return mappedName;
+    }
+
+    /**
+     * @return the field name for the model
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gets the parameterized type of a List or the key type of a Map, e.g.
+     *
+     * @return the unwrapped type
+     */
+    public Class<?> getNormalizedType() {
+        if (normalizedType == null) {
+            normalizedType = normalize(getTypeData());
+        }
+
+        return normalizedType;
+    }
+
+    /**
+     * @return the type of this field
+     */
+    public Class<?> getType() {
+        return getTypeData().getType();
+    }
+
+    /**
+     * @return the type data for the field
+     */
+    public TypeData<?> getTypeData() {
+        return typeData;
+    }
+
+    /**
+     * Gets the value of the property mapped on the instance given.
+     *
+     * @param instance the instance to use
+     * @return the value stored in the property
+     */
+    @Nullable
+    public Object getValue(Object instance) {
+        Object target = instance;
+        if (target instanceof MorphiaProxy) {
+            target = ((MorphiaProxy) instance).unwrap();
+        }
+        return accessor.get(target);
+    }
+
+    /**
+     * Indicates whether the annotation is present in the mapping (does not check the java field annotations, just the ones discovered)
+     *
+     * @param type the annotation to search for
+     * @return true if the annotation was found
+     */
+    public boolean hasAnnotation(Class<? extends Annotation> type) {
+        return annotationMap.containsKey(type);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PropertyModel)) {
+            return false;
+        }
+        final PropertyModel that = (PropertyModel) o;
+        return getName().equals(that.getName())
+                && getTypeData().equals(that.getTypeData())
+                && getMappedName().equals(that.getMappedName())
+                && Objects.equals(codec, that.codec)
+                && getAccessor().equals(that.getAccessor())
+                && serialization.equals(that.serialization)
+                && Objects.equals(getNormalizedType(), that.getNormalizedType());
+    }
+
+    /**
+     * @param datastore
+     * @return the custom codec to use if set or null
+     */
+    @Nullable
+    public Codec<?> specializeCodec(Datastore datastore) {
+        if (codec == null) {
+            configureCodec(datastore);
+        }
+        return codec;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", PropertyModel.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("mappedName='" + mappedName + "'")
+                .add("typeData=" + typeData)
+                .add("annotations=" + annotationMap.values())
+                .toString();
+    }
+
+    /**
+     * @return true if the MappedField is an array
+     */
+    public boolean isArray() {
+        return getType().isArray();
+    }
+
+    /**
+     * @return true if the MappedField is a Map
+     */
+    public boolean isMap() {
+        return Map.class.isAssignableFrom(getTypeData().getType());
+    }
+
+    /**
+     * @return true if this field is a container type such as a List, Map, Set, or array
+     */
+    public boolean isMultipleValues() {
+        return !isScalarValue();
+    }
+
+    /**
+     * @return true if this field is a reference to a foreign document
+     * @see Reference
+     * @see Key
+     * @see DBRef
+     */
+    public boolean isReference() {
+        return hasAnnotation(Reference.class) || Key.class == getType() || DBRef.class == getType();
+    }
+
+    /**
+     * @return true if this field is not a container type such as a List, Map, Set, or array
+     */
+    public boolean isScalarValue() {
+        return !isMap() && !isArray() && !isCollection();
+    }
+
+    /**
+     * @return true if the MappedField is a Set
+     */
+    public boolean isSet() {
+        return Set.class.isAssignableFrom(getTypeData().getType());
+    }
+
+    /**
+     * @return true if this field is marked as transient
+     */
+    public boolean isTransient() {
+        return !hasAnnotation(Transient.class)
+                && !hasAnnotation(java.beans.Transient.class)
+                && Modifier.isTransient(getType().getModifiers());
+    }
+
+    /**
+     * Sets the value for the java field
+     *
+     * @param instance the instance to update
+     * @param value    the value to set
+     */
+    public void setValue(Object instance, @Nullable Object value) {
+        accessor.set(instance, conversions.convert(value, getType()));
+    }
+
+    /**
+     * Checks a value against the configured rules for serialization
+     *
+     * @param value the value to check
+     * @return true if the given value should be serialized
+     */
+    public boolean shouldSerialize(@Nullable Object value) {
+        return serialization.shouldSerialize(value);
+    }
+
+    private void configureCodec(Datastore datastore) {
+        Handler handler = getHandler();
+        if (handler != null) {
+            try {
+                codec = handler.value()
+                        .getDeclaredConstructor(DatastoreImpl.class, PropertyModel.class)
+                        .newInstance(datastore, this);
+            } catch (ReflectiveOperationException e) {
+                throw new MappingException(e.getMessage(), e);
+            }
+        } else if (typeData.getTypeParameters().isEmpty()) {
+            codec = (Codec<? super Object>) datastore.getCodecRegistry().get(getType());
+        }
+    }
+
+    @Nullable
+    private Handler getHandler() {
+        Handler handler = typeData.getType().getAnnotation(Handler.class);
+
+        if (handler == null) {
+            handler = (Handler) annotationMap.values()
+                    .stream().filter(a -> a.getClass().equals(Handler.class))
+                    .findFirst().orElse(null);
+            if (handler == null) {
+                Iterator<Annotation> iterator = annotationMap.values().iterator();
+                while (handler == null && iterator.hasNext()) {
+                    handler = iterator.next().annotationType().getAnnotation(Handler.class);
+                }
+            }
+        }
+
+        return handler;
+    }
+
+    private boolean isCollection() {
+        return Collection.class.isAssignableFrom(getTypeData().getType());
+    }
+
+    @Nullable
+    private String loadFromDocument(Document document) {
+        String propertyName = getMappedName();
+        if (document.containsKey(propertyName)) {
+            return propertyName;
+        }
+        for (String name : getLoadNames()) {
+            if (document.containsKey(name)) {
+                return name;
+            }
+        }
+
+        return null;
+    }
+
+    void codec(Codec<? super Object> codec) {
+        this.codec = codec;
+    }
+
+}

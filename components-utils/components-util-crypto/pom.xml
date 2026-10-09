@@ -21,4 +21,17 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- 无实质 Java 源码的占位模块：javadoc 报 "No public or protected classes" 时不阻断构建，仍附带 javadoc jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

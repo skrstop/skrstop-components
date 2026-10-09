@@ -1,0 +1,43 @@
+package dev.morphia.mapping.codec;
+
+import com.mongodb.client.model.geojson.Position;
+import org.bson.BsonReader;
+import org.bson.BsonWriter;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
+
+import static dev.morphia.aggregation.codecs.ExpressionHelper.document;
+
+@SuppressWarnings("removal")
+class CenterCodec implements Codec<dev.morphia.query.Shape.Center> {
+    @Override
+    public dev.morphia.query.Shape.Center decode(BsonReader reader, DecoderContext decoderContext) {
+        throw new UnsupportedOperationException("This codec is for encoding only.");
+    }
+
+    @Override
+    public void encode(BsonWriter writer, dev.morphia.query.Shape.Center value, EncoderContext encoderContext) {
+        document(writer, () -> {
+            document(writer, value.getGeometry(), () -> {
+                encodePosition(writer, value.getCenter().getPosition());
+                writer.writeDouble(value.getRadius());
+            });
+        });
+    }
+
+    private void encodePosition(BsonWriter writer, Position value) {
+        writer.writeStartArray();
+
+        for (double number : value.getValues()) {
+            writer.writeDouble(number);
+        }
+
+        writer.writeEndArray();
+    }
+
+    @Override
+    public Class<dev.morphia.query.Shape.Center> getEncoderClass() {
+        return dev.morphia.query.Shape.Center.class;
+    }
+}

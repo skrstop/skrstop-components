@@ -46,17 +46,6 @@
         </repository>
     </repositories>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>${release.id}</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>${release.id}</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
     <prerequisites>
         <!-- min version maven -->
         <maven>3.2.5</maven>
@@ -90,8 +79,8 @@
     </developers>
 
     <properties>
-        <!-- 项目版本 -->
-        <framework.components.revision>1.2.5.20260520-RELEASE</framework.components.revision>
+        <!-- 2.7.x -> springboot 2.7.x -->
+        <framework.components.revision>2.7.1.20260520-RELEASE</framework.components.revision>
         <java.version>1.8</java.version>
         <release.id>sonatype</release.id>
 
@@ -220,7 +209,7 @@
         <redisson.version>3.25.0</redisson.version>
         <!-- mongodb -->
         <mongo-driver-old.version>3.12.14</mongo-driver-old.version>
-        <mongo-driver.version>5.4.0</mongo-driver.version>
+        <mongo-driver.version>5.7.0</mongo-driver.version>
         <!-- lz4 -->
         <lz4.version>1.8.0</lz4.version>
         <!-- snappy -->
@@ -1861,23 +1850,28 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <additionalJOptions>-->
-            <!--                        <additionalJOption>-Xdoclint:none</additionalJOption>-->
-            <!--                    </additionalJOptions>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>attach-javadocs</id>-->
-            <!--                        <goals>-->
-            <!--                            <goal>jar</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <!-- 关闭 doclint 格式校验，避免历史 javadoc 格式问题导致打包失败 -->
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
+                    <failOnWarnings>false</failOnWarnings>
+                    <detectJavaApiLink>false</detectJavaApiLink>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>

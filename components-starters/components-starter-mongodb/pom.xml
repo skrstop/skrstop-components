@@ -15,18 +15,15 @@
     <description>skrstop starter mongodb</description>
 
     <properties>
-        <morphia.version>2.5.0</morphia.version>
         <smallrye-config.version>2.13.3</smallrye-config.version>
     </properties>
 
     <dependencies>
-        <!-- morphia -->
+        <!-- morphia-core 2.5.0 的 JDK8 重编译版本（官方构件为 Java 11 字节码） -->
         <dependency>
-            <groupId>dev.morphia.morphia</groupId>
-            <artifactId>morphia-core</artifactId>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/lib/morphia-core-${morphia.version}.jar</systemPath>
-            <version>${morphia.version}</version>
+            <groupId>com.skrstop.framework</groupId>
+            <artifactId>components-extra-compatible-morphia-java8</artifactId>
+            <version>${framework.components.revision}</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye.config</groupId>
@@ -36,54 +33,6 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-legacy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.classgraph</groupId>
-            <artifactId>classgraph</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.skyscreamer</groupId>
-            <artifactId>jsonassert</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.semver4j</groupId>
-            <artifactId>semver4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>mongodb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.zeroturnaround</groupId>
-            <artifactId>zt-exec</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
         </dependency>
         <!-- mongodb -->
         <dependency>
@@ -113,36 +62,5 @@
             <artifactId>components-util-constant</artifactId>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>dev.morphia.morphia</groupId>
-                <artifactId>morphia</artifactId>
-                <version>${morphia.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-
-    <!--    <build>-->
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-    <!--                <configuration>-->
-    <!--                    <source>${java.version}</source>-->
-    <!--                    <target>${java.version}</target>-->
-    <!--                    <encoding>UTF-8</encoding>-->
-    <!--                    <compilerArguments>-->
-    <!--                        &lt;!&ndash; 打包本地jar包 &ndash;&gt;-->
-    <!--                        <extdirs>${basedir}/src/main/resources/lib</extdirs>-->
-    <!--                    </compilerArguments>-->
-    <!--                </configuration>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--    </build>-->
 
 </project>

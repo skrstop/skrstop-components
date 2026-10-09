@@ -18,6 +18,7 @@
 
     <modules>
         <module>components-extra-compatible-ribbon-to-loadbalancer</module>
+        <module>components-extra-compatible-morphia-java8</module>
     </modules>
 
     <properties>
@@ -38,6 +39,11 @@
             <dependency>
                 <groupId>com.skrstop.framework</groupId>
                 <artifactId>components-extra-compatible-ribbon-to-loadbalancer</artifactId>
+                <version>${framework.components.revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.skrstop.framework</groupId>
+                <artifactId>components-extra-compatible-morphia-java8</artifactId>
                 <version>${framework.components.revision}</version>
             </dependency>
         </dependencies>

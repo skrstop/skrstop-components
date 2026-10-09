@@ -1,0 +1,123 @@
+package dev.morphia.mapping.codec;
+
+import com.mongodb.lang.Nullable;
+import dev.morphia.Datastore;
+import dev.morphia.annotations.PostLoad;
+import dev.morphia.annotations.PostPersist;
+import dev.morphia.annotations.PreLoad;
+import dev.morphia.annotations.PrePersist;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.mapping.Mapper;
+import dev.morphia.mapping.codec.pojo.*;
+import dev.morphia.utils.CollectionUtil;
+import org.bson.codecs.Codec;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PropertyCodecProvider;
+
+import java.util.*;
+
+/**
+ * Provider for codecs for Morphia entities
+ *
+ * @morphia.internal
+ */
+@MorphiaInternal
+public class MorphiaCodecProvider implements CodecProvider {
+    private final Map<Class<?>, Codec<?>> codecs = new HashMap<>();
+    private final Mapper mapper;
+    private final Conversions conversions;
+    private final List<PropertyCodecProvider> propertyCodecProviders = new ArrayList<>();
+    private Datastore datastore;
+
+    /**
+     * Creates a provider
+     *
+     * @param datastore
+     */
+    public MorphiaCodecProvider(Datastore datastore) {
+        this.datastore = datastore;
+        this.mapper = datastore.getMapper();
+        this.conversions = mapper.getConversions();
+
+        // Load user-provided custom codecs first, to prevent the defaults from overriding them.
+        ServiceLoader<MorphiaPropertyCodecProvider> providers = ServiceLoader.load(MorphiaPropertyCodecProvider.class);
+        providers.forEach(provider -> {
+            propertyCodecProviders.add(provider);
+        });
+
+        propertyCodecProviders.addAll(CollectionUtil.asList(new MorphiaMapPropertyCodecProvider(datastore, conversions),
+                new MorphiaCollectionPropertyCodecProvider()));
+    }
+
+    protected Map<Class<?>, Codec<?>> getCodecs() {
+        return codecs;
+    }
+
+    protected List<PropertyCodecProvider> getPropertyCodecProviders() {
+        return propertyCodecProviders;
+    }
+
+    @Nullable
+    @Override
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public <T> Codec<T> get(Class<T> type, CodecRegistry registry) {
+        MorphiaCodec<T> codec = (MorphiaCodec<T>) codecs.get(type);
+        if (codec == null && (mapper.isMapped(type) || mapper.isMappable(type))) {
+            EntityModel model = mapper.getEntityModel(type);
+            codec = new MorphiaCodec<>(datastore, model, propertyCodecProviders, mapper.getDiscriminatorLookup(), registry, conversions);
+            if (model.hasLifecycle(PostPersist.class) || model.hasLifecycle(PrePersist.class) || mapper.hasInterceptors()) {
+                codec.setEncoder(new LifecycleEncoder(codec));
+            }
+            if (model.hasLifecycle(PreLoad.class) || model.hasLifecycle(PostLoad.class) || mapper.hasInterceptors()) {
+                codec.setDecoder(new LifecycleDecoder(codec));
+            }
+            codecs.put(type, codec);
+        }
+
+        return codec;
+    }
+
+    /**
+     * Creates a codec that uses an existing entity for loading rather than creating a new instance.
+     *
+     * @param entity   the entity to refresh
+     * @param registry the codec registry
+     * @param <T>      the entity type
+     * @return the new codec
+     */
+    @Nullable
+    public <T> Codec<T> getRefreshCodec(T entity, CodecRegistry registry) {
+        EntityModel model = mapper.getEntityModel(entity.getClass());
+        return new MorphiaCodec<T>(datastore, model, propertyCodecProviders, mapper.getDiscriminatorLookup(), registry, conversions) {
+            @Override
+            protected EntityDecoder<T> getDecoder() {
+                return new EntityDecoder(this) {
+                    @Override
+                    protected MorphiaInstanceCreator getInstanceCreator() {
+                        return new MorphiaInstanceCreator() {
+                            @Override
+                            public T getInstance() {
+                                return entity;
+                            }
+
+                            @Override
+                            public void set(@Nullable Object value, PropertyModel model) {
+                                model.getAccessor().set(entity, value);
+                            }
+                        };
+                    }
+                };
+            }
+        };
+    }
+
+    protected Mapper getMapper() {
+        return mapper;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("MorphiaCodecProvider{propertyCodecProviders=%s}", propertyCodecProviders);
+    }
+}

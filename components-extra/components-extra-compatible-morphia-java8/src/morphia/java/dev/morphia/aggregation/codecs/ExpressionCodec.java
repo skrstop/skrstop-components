@@ -1,0 +1,37 @@
+package dev.morphia.aggregation.codecs;
+
+import dev.morphia.Datastore;
+import dev.morphia.aggregation.expressions.impls.Expression;
+import org.bson.BsonReader;
+import org.bson.BsonWriter;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
+
+public class ExpressionCodec<T extends Expression> implements Codec<T> {
+
+    private Datastore datastore;
+
+    public ExpressionCodec(Datastore datastore) {
+        this.datastore = datastore;
+    }
+
+    @Override
+    public final T decode(BsonReader reader, DecoderContext decoderContext) {
+        throw new UnsupportedOperationException("This codec is for encoding only.");
+    }
+
+    @Override
+    public void encode(BsonWriter writer, T expression, EncoderContext encoderContext) {
+        if (expression != null) {
+            expression.encode(datastore, writer, encoderContext);
+        } else {
+            writer.writeNull();
+        }
+    }
+
+    @Override
+    public final Class<T> getEncoderClass() {
+        return (Class<T>) Expression.class;
+    }
+}

@@ -1,0 +1,462 @@
+package dev.morphia.query;
+
+import com.mongodb.ExplainVerbosity;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.geojson.Point;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+import com.mongodb.lang.NonNull;
+import com.mongodb.lang.Nullable;
+import dev.morphia.*;
+import dev.morphia.aggregation.stages.Stage;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.mapping.Mapper;
+import dev.morphia.mapping.codec.writer.DocumentWriter;
+import dev.morphia.query.filters.Filter;
+import dev.morphia.query.filters.Filters;
+import dev.morphia.query.filters.NearFilter;
+import dev.morphia.query.internal.MorphiaCursor;
+import dev.morphia.query.internal.MorphiaKeyCursor;
+import dev.morphia.query.updates.UpdateOperator;
+import dev.morphia.utils.CollectionUtil;
+import org.bson.Document;
+import org.bson.codecs.EncoderContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+
+import static dev.morphia.aggregation.codecs.ExpressionHelper.document;
+import static dev.morphia.query.UpdateBase.coalesce;
+import static dev.morphia.query.filters.Filters.text;
+import static java.lang.String.format;
+
+/**
+ * @param <T> the type
+ * @hidden
+ * @morphia.internal
+ */
+@SuppressWarnings({"removal", "deprecation"})
+@MorphiaInternal
+public class MorphiaQuery<T> implements Query<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(MorphiaQuery.class);
+    private final DatastoreImpl datastore;
+
+    private final FindOptions options;
+
+    private final Class<T> type;
+    private final Mapper mapper;
+    private final List<Filter> filters = new ArrayList<>();
+    private final Document seedQuery;
+    private String collectionName;
+    private MongoCollection<T> collection;
+
+    private ValidationException invalid;
+
+    private boolean validate = true;
+    private FindOptions lastOptions;
+
+    protected MorphiaQuery(Datastore datastore, Class<T> type, FindOptions options, @Nullable Document query) {
+        this.type = type;
+        this.datastore = (DatastoreImpl) datastore;
+        this.seedQuery = query;
+        this.options = options;
+        mapper = this.datastore.getMapper();
+        if (options.collection() != null) {
+            collection = datastore.getDatabase().getCollection(options.collection())
+                    .withDocumentClass(type);
+            collectionName = options.collection();
+        } else {
+            collection = datastore.getCollection(type);
+            collectionName = collection.getNamespace().getCollectionName();
+        }
+    }
+
+    static <V> V legacyOperation() {
+        throw new UnsupportedOperationException("This is a legacy operation and is not supported on this version of the API.");
+    }
+
+    @Override
+    public Query<T> filter(Filter... additional) {
+        for (Filter filter : additional) {
+            filters.add(filter
+                    .entityType(getEntityClass())
+                    .isValidating(validate));
+        }
+        return this;
+    }
+
+    @Override
+    public long count() {
+        return count(new CountOptions());
+    }
+
+    @Override
+    public long count(CountOptions options) {
+        MongoCollection<T> collection = datastore.configureCollection(options, this.collection);
+        return datastore.operations().countDocuments(collection, getQueryDocument(), options);
+    }
+
+    @Override
+    public DeleteResult delete(DeleteOptions options) {
+        MongoCollection<T> collection = datastore.configureCollection(options, this.collection);
+        if (options.multi()) {
+            return datastore.operations().deleteMany(collection, getQueryDocument(), options);
+        } else {
+            return datastore.operations().deleteOne(collection, getQueryDocument(), options);
+        }
+    }
+
+    @Override
+    public Query<T> disableValidation() {
+        validate = false;
+        return this;
+    }
+
+    @Override
+    public Query<T> enableValidation() {
+        validate = true;
+        return this;
+    }
+
+    @Override
+    public Map<String, Object> explain() {
+        return explain(options, null);
+    }
+
+    @Override
+    public Map<String, Object> explain(FindOptions options, @Nullable ExplainVerbosity verbosity) {
+        return verbosity == null
+                ? iterable(options, collection).explain()
+                : iterable(options, collection).explain(verbosity);
+    }
+
+    @Override
+    public Map<String, Object> explain(ExplainVerbosity verbosity) {
+        return explain(options, verbosity);
+    }
+
+    @Override
+    @SuppressWarnings({"removal", "unchecked"})
+    public FieldEnd<? extends Query<T>> field(String name) {
+        return new MorphiaQueryFieldEnd(name);
+    }
+
+    @Override
+    @SuppressWarnings({"removal"})
+    public Query<T> filter(String condition, Object value) {
+        final String[] parts = condition.trim().split(" ");
+        if (parts.length < 1 || parts.length > 6) {
+            throw new IllegalArgumentException("'" + condition + "' is not a legal filter condition");
+        }
+
+        final FilterOperator op = (parts.length == 2) ? FilterOperator.fromString(parts[1]) : FilterOperator.EQUAL;
+
+        return filter(op.apply(parts[0].trim(), value));
+    }
+
+    @Override
+    public String getLoggedQuery() {
+        if (lastOptions != null && lastOptions.isLogQuery()) {
+            String json = "{}";
+            Document filter = new Document("command.comment", "logged query: " + lastOptions.queryLogId());
+            Document first = datastore.getDatabase()
+                    .getCollection("system.profile")
+                    .find(filter, Document.class)
+                    .projection(new Document("command.filter", 1))
+                    .first();
+            if (first != null) {
+                Document command = (Document) first.get("command");
+                filter = (Document) command.get("filter");
+                if (filter != null) {
+                    json = filter.toJson(datastore.getCodecRegistry().get(Document.class));
+                }
+            }
+            return json;
+        } else {
+            throw new IllegalStateException("No query document was logged for this query.");
+        }
+    }
+
+    @Override
+    public T findAndDelete(FindAndDeleteOptions options) {
+        MongoCollection<T> mongoCollection = datastore.configureCollection(options, collection);
+        return datastore.operations().findOneAndDelete(mongoCollection, getQueryDocument(), options);
+    }
+
+    @Override
+    public T first() {
+        return first(options);
+    }
+
+    @Override
+    public T first(FindOptions options) {
+        try (MongoCursor<T> it = iterator(options.copy().limit(1))) {
+            return it.tryNext();
+        }
+    }
+
+    @Override
+    public Class<T> getEntityClass() {
+        return type;
+    }
+
+    @Override
+    public Modify<T> modify(UpdateOperator first, UpdateOperator... updates) {
+        return new Modify<>(datastore, collection, this, getEntityClass(), coalesce(first, updates));
+    }
+
+    @Override
+    public T modify(ModifyOptions options, UpdateOperator... updates) {
+        return new Modify<>(datastore, datastore.configureCollection(options, collection), this, getEntityClass(), CollectionUtil.asList(updates))
+                .execute(options);
+    }
+
+    @MorphiaInternal
+    public boolean isValidate() {
+        return validate;
+    }
+
+    @Override
+    public MorphiaCursor<T> iterator() {
+        return iterator(options);
+    }
+
+    @Override
+    public MorphiaCursor<T> iterator(FindOptions options) {
+        return new MorphiaCursor<>(prepareCursor(options, collection));
+    }
+
+    @Override
+    public MorphiaKeyCursor<T> keys() {
+        return keys(options);
+    }
+
+    @Override
+    public MorphiaKeyCursor<T> keys(FindOptions options) {
+        FindOptions includeId = new FindOptions().copy(options)
+                .projection()
+                .include("_id");
+
+        return new MorphiaKeyCursor<>(prepareCursor(includeId, datastore.getDatabase().getCollection(getCollectionName())),
+                datastore, type, getCollectionName());
+    }
+
+    @Override
+    public Query<T> search(String searchText) {
+        return filter(text(searchText));
+    }
+
+    @Override
+    public Query<T> search(String searchText, String language) {
+        return filter(text(searchText).language(language));
+    }
+
+    /**
+     * Converts the query to a Document and updates for any discriminator values as my be necessary
+     *
+     * @return the query
+     * @morphia.internal
+     */
+    @Override
+    @MorphiaInternal
+    public Document toDocument() {
+        return getQueryDocument();
+    }
+
+    @Override
+    @Deprecated
+    public Update<T> update(List<UpdateOperator> updates) {
+        if (invalid != null) {
+            throw invalid;
+        }
+        try {
+            return new Update<>(datastore, collection, this, type, updates);
+        } catch (ValidationException e) {
+            invalid = e;
+            throw e;
+        }
+    }
+
+    @Override
+    public Update<T> update(UpdateOperator first, UpdateOperator... updates) {
+        if (invalid != null) {
+            throw invalid;
+        }
+        try {
+            return new Update<>(datastore, collection, this, type, coalesce(first, updates));
+        } catch (ValidationException e) {
+            invalid = e;
+            throw e;
+        }
+    }
+
+    @Override
+    public UpdateResult update(UpdateOptions options, Stage... updates) {
+        if (invalid != null) {
+            throw invalid;
+        }
+        try {
+            return new PipelineUpdate<>(datastore, datastore.configureCollection(options, collection), this, CollectionUtil.asList(updates))
+                    .execute(options);
+        } catch (ValidationException e) {
+            invalid = e;
+            throw e;
+        }
+    }
+
+    @Override
+    public UpdateResult update(UpdateOptions options, UpdateOperator... updates) {
+        if (invalid != null) {
+            throw invalid;
+        }
+        return new Update<>(datastore, datastore.configureCollection(options, collection), this, type, CollectionUtil.asList(updates))
+                .execute(options);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, validate, getCollectionName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MorphiaQuery)) {
+            return false;
+        }
+        final MorphiaQuery<?> query20 = (MorphiaQuery<?>) o;
+        return validate == query20.validate
+                && Objects.equals(type, query20.type)
+                && Objects.equals(getCollectionName(), query20.getCollectionName());
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", MorphiaQuery.class.getSimpleName() + "[", "]")
+                .add("clazz=" + type.getSimpleName())
+                .add("query=" + getQueryDocument())
+                .toString();
+    }
+
+    private String getCollectionName() {
+        return collectionName;
+    }
+
+    @NonNull
+    private <E> FindIterable<E> iterable(FindOptions findOptions, MongoCollection<E> collection) {
+        final Document query = toDocument();
+
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(format("Running query(%s) : %s, options: %s,", getCollectionName(), query, findOptions));
+        }
+
+        MongoCollection<E> updated = datastore.configureCollection(findOptions, collection);
+
+        return datastore.operations().find(updated, query);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private <E> MongoCursor<E> prepareCursor(FindOptions options, MongoCollection<E> collection) {
+        Document oldProfile = null;
+        lastOptions = options;
+        if (options.isLogQuery()) {
+            oldProfile = datastore.getDatabase().runCommand(new Document("profile", 2).append("slowms", 0));
+        }
+        try {
+            return options
+                    .apply(iterable(options, collection), mapper, type)
+                    .iterator();
+        } finally {
+            if (options.isLogQuery()) {
+                datastore.getDatabase().runCommand(new Document("profile", oldProfile.get("was"))
+                        .append("slowms", oldProfile.get("slowms"))
+                        .append("sampleRate", oldProfile.get("sampleRate")));
+            }
+
+        }
+    }
+
+    Document getQueryDocument() {
+        if (invalid != null) {
+            throw invalid;
+        }
+        try {
+            DocumentWriter writer = new DocumentWriter(mapper.getConfig(), seedQuery);
+            document(writer, () -> {
+                EncoderContext context = EncoderContext.builder().build();
+                for (Filter filter : filters) {
+                    filter.encode(datastore, writer, context);
+                }
+            });
+
+            Document query = writer.getDocument();
+            if (mapper.isMappable(getEntityClass())) {
+                mapper.updateQueryWithDiscriminators(mapper.getEntityModel(getEntityClass()), query);
+            }
+
+            return query;
+        } catch (ValidationException e) {
+            invalid = e;
+            throw e;
+        }
+
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked", "DeprecatedIsStillUsed"})
+    @Deprecated
+    private class MorphiaQueryFieldEnd extends FieldEndImpl {
+        private final String name;
+
+        private MorphiaQueryFieldEnd(String name) {
+            super(datastore, name, MorphiaQuery.this, mapper.getEntityModel(getEntityClass()), validate);
+            this.name = name;
+        }
+
+        @Override
+        @SuppressWarnings("removal")
+        public CriteriaContainer within(Shape shape) {
+            Filter converted;
+            if (shape instanceof dev.morphia.query.Shape.Center) {
+                final dev.morphia.query.Shape.Center center = (dev.morphia.query.Shape.Center) shape;
+                converted = Filters.center(getField(), center.getCenter(), center.getRadius());
+            } else if (shape.getGeometry().equals("$box")) {
+                Point[] points = shape.getPoints();
+                converted = Filters.box(getField(), points[0], points[1]);
+            } else if (shape.getGeometry().equals("$polygon")) {
+                converted = Filters.polygon(getField(), shape.getPoints());
+            } else {
+                throw new UnsupportedOperationException("No conversion exists yet for this type:  " + shape.getGeometry());
+            }
+            if (isNot()) {
+                converted.not();
+            }
+            filter(converted);
+            return MorphiaQuery.this;
+        }
+
+        @Override
+        @SuppressWarnings("removal")
+        protected MorphiaQuery<T> addCriteria(FilterOperator op, Object val, boolean not) {
+            Filter converted = op.apply(name, val);
+            if (not) {
+                converted.not();
+            }
+            filter(converted);
+            return MorphiaQuery.this;
+        }
+
+        @Override
+        @SuppressWarnings("removal")
+        protected CriteriaContainer addGeoCriteria(FilterOperator op, Object val, Map opts) {
+            NearFilter apply = (NearFilter) op.apply(name, val);
+            apply.applyOpts(opts);
+            filter(apply);
+            return MorphiaQuery.this;
+        }
+    }
+}

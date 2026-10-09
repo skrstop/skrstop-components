@@ -1,0 +1,1078 @@
+package dev.morphia;
+
+import com.mongodb.*;
+import com.mongodb.client.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.model.CreateCollectionOptions;
+import com.mongodb.client.model.ValidationOptions;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertManyResult;
+import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
+import com.mongodb.lang.NonNull;
+import com.mongodb.lang.Nullable;
+import dev.morphia.aggregation.Aggregation;
+import dev.morphia.aggregation.AggregationImpl;
+import dev.morphia.aggregation.codecs.AggregationCodecProvider;
+import dev.morphia.annotations.*;
+import dev.morphia.annotations.internal.IndexHelper;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.config.MorphiaConfig;
+import dev.morphia.internal.CollectionConfigurable;
+import dev.morphia.internal.CollectionConfiguration;
+import dev.morphia.internal.ReadConfigurable;
+import dev.morphia.internal.WriteConfigurable;
+import dev.morphia.mapping.EntityModelImporter;
+import dev.morphia.mapping.Mapper;
+import dev.morphia.mapping.MappingException;
+import dev.morphia.mapping.ShardKeyType;
+import dev.morphia.mapping.codec.*;
+import dev.morphia.mapping.codec.pojo.EntityModel;
+import dev.morphia.mapping.codec.pojo.MergingEncoder;
+import dev.morphia.mapping.codec.pojo.MorphiaCodec;
+import dev.morphia.mapping.codec.pojo.PropertyModel;
+import dev.morphia.mapping.codec.reader.DocumentReader;
+import dev.morphia.mapping.codec.writer.DocumentWriter;
+import dev.morphia.query.*;
+import dev.morphia.transactions.MorphiaSessionImpl;
+import dev.morphia.transactions.MorphiaTransaction;
+import org.bson.Document;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.annotation.Annotation;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import static dev.morphia.query.filters.Filters.eq;
+import static dev.morphia.query.updates.UpdateOperators.set;
+import static java.lang.String.format;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
+import static org.bson.Document.parse;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+
+/**
+ * A generic (type-safe) wrapper around mongodb collections
+ *
+ * @morphia.internal
+ * @hidden
+ */
+@MorphiaInternal
+@SuppressWarnings({"unchecked", "rawtypes", "removal"})
+public class DatastoreImpl implements AdvancedDatastore {
+    private static final Logger LOG = LoggerFactory.getLogger(Datastore.class);
+
+    private static final MongoDriverInformation DRIVER_INFO = buildDriverInfo();
+
+    private static MongoDriverInformation buildDriverInfo() {
+        MongoDriverInformation.Builder builder = MongoDriverInformation.builder().driverName("Morphia");
+        String version = DatastoreImpl.class.getPackage().getImplementationVersion();
+        if (version != null) {
+            builder.driverVersion(version);
+        }
+        return builder.build();
+    }
+
+    private static void appendMongoClientMetadata(MongoClient mongoClient) {
+        try {
+            mongoClient.appendMetadata(DRIVER_INFO);
+        } catch (Throwable e) {
+            // appendMetadata is only available in driver 5.6+
+        }
+    }
+
+    private final MongoClient mongoClient;
+    private final Mapper mapper;
+    private final QueryFactory queryFactory;
+    private final CodecRegistry codecRegistry;
+    public List<MorphiaCodecProvider> morphiaCodecProviders = new ArrayList<>();
+    private ClassLoader classLoader;
+    private MongoDatabase database;
+    private DatastoreOperations operations;
+
+    public DatastoreImpl(MongoClient client, MorphiaConfig config) {
+        this(client, config, Thread.currentThread().getContextClassLoader());
+    }
+
+    public DatastoreImpl(MongoClient client, MorphiaConfig config, ClassLoader classLoader) {
+        this.classLoader = classLoader;
+        this.mongoClient = client;
+        appendMongoClientMetadata(client);
+        this.database = mongoClient.getDatabase(config.database());
+        this.mapper = new Mapper(config, classLoader);
+        this.queryFactory = mapper.getConfig().queryFactory();
+        importModels();
+
+        codecRegistry = buildRegistry();
+
+        this.database = database.withCodecRegistry(this.codecRegistry);
+        operations = new CollectionOperations();
+
+        config.packages().forEach(packageName -> {
+            LOG.debug("Mapping package '{}'", packageName);
+            mapper.map(packageName);
+        });
+        if (config.applyCaps()) {
+            applyCaps();
+        }
+        if (config.applyIndexes()) {
+            applyIndexes();
+        }
+        if (config.applyDocumentValidations()) {
+            applyDocumentValidations();
+        }
+    }
+
+    /**
+     * Copy constructor for a datastore
+     *
+     * @param datastore the datastore to clone
+     * @morphia.internal
+     * @since 2.0
+     */
+    public DatastoreImpl(DatastoreImpl datastore) {
+        this.mongoClient = datastore.mongoClient;
+        this.database = mongoClient.getDatabase(datastore.mapper.getConfig().database());
+        this.mapper = datastore.mapper.copy();
+        this.queryFactory = datastore.queryFactory;
+        this.operations = datastore.operations;
+        codecRegistry = buildRegistry();
+        this.database = this.database.withCodecRegistry(this.codecRegistry);
+    }
+
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    private CodecRegistry buildRegistry() {
+        morphiaCodecProviders.add(new MorphiaCodecProvider(this));
+
+        CodecRegistry codecRegistry = database.getCodecRegistry();
+        List<CodecProvider> providers = new ArrayList<>();
+        mapper.getConfig().codecProvider().ifPresent(providers::add);
+
+        providers.addAll(morphiaCodecProviders);
+        providers.add(new MorphiaMapCodecProvider(this));
+        providers.add(new MorphiaTypesCodecProvider(this));
+        providers.add(new PrimitiveCodecRegistry(codecRegistry));
+        providers.add(new EnumCodecProvider());
+        providers.add(new AggregationCodecProvider(this));
+
+        providers.add(codecRegistry);
+        codecRegistry = fromProviders(providers);
+        return codecRegistry;
+    }
+
+    @Override
+    public <T> void insert(T entity, InsertOneOptions options) {
+        MongoCollection<T> collection = (MongoCollection<T>) configureCollection(options, getCollection(entity.getClass()));
+        VersionBumpInfo info = updateVersioning(entity);
+
+        try {
+            operations.insertOne(collection, entity, options);
+        } catch (MongoWriteException e) {
+            info.rollbackVersion();
+            throw e;
+        }
+    }
+
+    @Override
+    public <T> void insert(List<T> entities, InsertManyOptions options) {
+        if (entities.isEmpty()) {
+            return;
+        }
+
+        Map<Class<?>, List<T>> grouped = groupByType(entities, model -> false);
+
+        String alternate = options.collection();
+        if (alternate != null && grouped.size() > 1) {
+            LOG.warn("You have specified an alternate collection ('{}') when inserting many entities of different types. This will put all entities, regardless of type, in to the same collection.", alternate);
+        }
+
+        grouped.forEach((key, list) -> {
+            List<VersionBumpInfo> infos = list.stream()
+                    .map(this::updateVersioning)
+                    .collect(Collectors.toList());
+
+            try {
+                MongoCollection<T> collection = configureCollection(options,
+                        (MongoCollection<T>) getCollection(key));
+                operations.insertMany(collection, list, options);
+            } catch (MongoException e) {
+                infos.forEach(VersionBumpInfo::rollbackVersion);
+                throw e;
+            }
+        });
+    }
+
+    @Override
+    public Aggregation<Document> aggregate(String source) {
+        return new AggregationImpl(this, getDatabase().getCollection(source));
+    }
+
+    @Override
+    public <T> Aggregation<T> aggregate(Class<T> source) {
+        return new AggregationImpl(this, source, getCollection(source));
+    }
+
+    @Override
+    public dev.morphia.aggregation.AggregationPipeline createAggregation(Class source) {
+        return new dev.morphia.aggregation.AggregationPipelineImpl(this, getCollection(source), source);
+    }
+
+    @Override
+    public <T> dev.morphia.query.UpdateOperations<T> createUpdateOperations(Class<T> clazz) {
+        return new dev.morphia.query.UpdateOpsImpl<>(this, clazz);
+    }
+
+    /**
+     * Applies configuration options to the collection
+     *
+     * @param <T>        the collection type
+     * @param options    the options to apply
+     * @param collection the collection to configure
+     * @return the configured collection
+     * @morphia.internal
+     */
+    @NonNull
+    @MorphiaInternal
+    public <T> MongoCollection<T> configureCollection(CollectionConfiguration options, MongoCollection<T> collection) {
+        if (options instanceof CollectionConfigurable) {
+            collection = ((CollectionConfigurable<?>) options).prepare(collection, getDatabase());
+        }
+        if (options instanceof ReadConfigurable) {
+            collection = ((ReadConfigurable<?>) options).prepare(collection);
+        }
+        if (options instanceof WriteConfigurable) {
+            collection = ((WriteConfigurable<?>) options).configure(collection);
+        }
+        return collection;
+    }
+
+    /**
+     * Deletes the given entity (by @Id), with the WriteConcern
+     *
+     * @param entity  the entity to delete
+     * @param options the options to use when deleting
+     * @return results of the delete
+     */
+    @Override
+    public <T> DeleteResult delete(T entity, DeleteOptions options) {
+        if (entity instanceof Class<?>) {
+            throw new MappingException("Did you mean to delete all documents? " + entity.getClass().getName());
+        }
+        Object id = mapper.getId(entity);
+        return id != null
+                ? find(entity.getClass())
+                .filter(eq("_id", id))
+                .delete(options)
+                : new NoDeleteResult();
+    }
+
+    @Override
+    public <T> DeleteResult delete(T entity) {
+        return delete(entity, new DeleteOptions().writeConcern(mapper.getWriteConcern(entity.getClass())));
+    }
+
+    public void applyDocumentValidations() {
+        for (EntityModel model : mapper.getMappedEntities()) {
+            enableDocumentValidation(model);
+        }
+    }
+
+    @Override
+    public void enableDocumentValidation() {
+        LOG.warn("Datastore#enableDocumentValidation() is configured in the config file and should not be called directly.");
+        for (EntityModel model : mapper.getMappedEntities()) {
+            enableDocumentValidation(model);
+        }
+    }
+
+    @Override
+    public void ensureIndexes() {
+        LOG.warn("Datastore#ensureIndexes is configured in the config file and should not be called directly.");
+        applyIndexes();
+    }
+
+    public void applyIndexes() {
+        if (mapper.getMappedEntities().isEmpty()) {
+            LOG.warn("No classes have been mapped");
+        }
+        final IndexHelper indexHelper = new IndexHelper(mapper);
+        for (EntityModel model : mapper.getMappedEntities()) {
+            if (model.getIdProperty() != null) {
+                indexHelper.createIndex(getCollection(model.getType()), model);
+            }
+        }
+    }
+
+    public <T> void ensureIndexes(Class<T> type) {
+        EntityModel model = mapper.getEntityModel(type);
+        final IndexHelper indexHelper = new IndexHelper(mapper);
+        if (model.getIdProperty() != null) {
+            indexHelper.createIndex(getCollection(type), model);
+        }
+    }
+
+    @Override
+    public <T> Query<T> find(Class<T> type, FindOptions options) {
+        return queryFactory.createQuery(this, type, options);
+    }
+
+    @Override
+    public <T> Query<T> find(Class<T> type, Document nativeQuery) {
+        return queryFactory.createQuery(this, type, new FindOptions(), nativeQuery);
+    }
+
+    @Override
+    public <T> Query<T> find(String collection) {
+        Class<T> type = mapper.getClassFromCollection(collection);
+        return queryFactory.createQuery(this, type, new FindOptions());
+    }
+
+    @Override
+    public CodecRegistry getCodecRegistry() {
+        return codecRegistry;
+    }
+
+    @Override
+    public <T> MongoCollection<T> getCollection(Class<T> type) {
+        EntityModel entityModel = mapper.getEntityModel(type);
+        String collectionName = entityModel.getCollectionName();
+
+        MongoCollection<T> collection = getDatabase().getCollection(collectionName, type);
+
+        Entity annotation = entityModel.getEntityAnnotation();
+        if (annotation != null && !annotation.concern().equals("")) {
+            collection = collection.withWriteConcern(WriteConcern.valueOf(annotation.concern()));
+        }
+        return collection;
+    }
+
+    @Override
+    public MongoDatabase getDatabase() {
+        return database;
+    }
+
+    /**
+     * @return the logged query
+     * @morphia.internal
+     */
+    @Override
+    public String getLoggedQuery(FindOptions options) {
+        if (options.isLogQuery()) {
+            String json = "{}";
+            Document first = getDatabase()
+                    .getCollection("system.profile")
+                    .find(new Document("command.comment", "logged query: " + options.queryLogId()),
+                            Document.class)
+                    .projection(new Document("command.filter", 1))
+                    .first();
+            if (first != null) {
+                Document command = (Document) first.get("command");
+                Document filter = (Document) command.get("filter");
+                if (filter != null) {
+                    json = filter.toJson(codecRegistry.get(Document.class));
+                }
+            }
+            return json;
+        } else {
+            throw new IllegalStateException("No query document was logged for this query.");
+        }
+    }
+
+    @Override
+    public <T> T replace(T entity, ReplaceOptions options) {
+        MongoCollection collection = configureCollection(options, getCollection(entity.getClass()));
+
+        EntityModel entityModel = mapper.getEntityModel(entity.getClass());
+        PropertyModel idProperty = entityModel.getIdProperty();
+        Object id = idProperty != null ? idProperty.getValue(entity) : null;
+        if (id == null) {
+            throw new MissingIdException();
+        }
+        VersionBumpInfo info = updateVersioning(entity);
+
+        try {
+            Document filter = new Document("_id", id);
+            info.filter(filter);
+            entityModel.getShardKeys().forEach((property) -> {
+                filter.put(property.getMappedName(), property.getValue(entity));
+            });
+
+            UpdateResult updateResult = operations.replaceOne(collection, entity, filter, options);
+
+            if (updateResult.getModifiedCount() != 1) {
+                if (info.versioned()) {
+                    info.rollbackVersion();
+                    throw new VersionMismatchException(entity.getClass(), id);
+                } else if (!entityModel.getShardKeys().isEmpty()) {
+                    throw new MappingException("No documents were updated. Was a shard key value changed? " + entityModel.getShardKeys()
+                            .stream().map(PropertyModel::getMappedName)
+                            .collect(joining(", ")));
+                } else {
+                    throw new MappingException("No documents were updated by the operation for ID: " + id);
+                }
+            }
+        } catch (MongoWriteException e) {
+            info.rollbackVersion();
+            throw e;
+        }
+        return entity;
+    }
+
+    private void applyCaps() {
+        List<String> collectionNames = database.listCollectionNames().into(new ArrayList<>());
+        for (EntityModel model : mapper.getMappedEntities()) {
+            Entity entityAnnotation = model.getEntityAnnotation();
+            if (entityAnnotation != null) {
+                CappedAt cappedAt = entityAnnotation.cap();
+                if (cappedAt.value() > 0 || cappedAt.count() > 0) {
+                    final CappedAt cap = entityAnnotation.cap();
+                    final String collName = model.getCollectionName();
+                    final CreateCollectionOptions dbCapOpts = new CreateCollectionOptions()
+                            .capped(true);
+                    if (cap.value() > 0) {
+                        dbCapOpts.sizeInBytes(cap.value());
+                    }
+                    if (cap.count() > 0) {
+                        dbCapOpts.maxDocuments(cap.count());
+                    }
+                    final MongoDatabase database = getDatabase();
+                    if (collectionNames.contains(collName)) {
+                        final Document dbResult = database.runCommand(new Document("collstats", collName));
+                        if (dbResult.getBoolean("capped", false)) {
+                            LOG.debug("MongoCollection already exists and is capped already; doing nothing. " + dbResult);
+                        } else {
+                            LOG.warn("MongoCollection already exists with same name(" + collName
+                                    + ") and is not capped; not creating capped version!");
+                        }
+                    } else {
+                        getDatabase().createCollection(collName, dbCapOpts);
+                        LOG.debug("Created capped MongoCollection (" + collName + ") with opts " + dbCapOpts);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void ensureCaps() {
+        LOG.warn("ensureCaps is configured in the config file and should not be called directly.");
+        applyCaps();
+    }
+
+    @Override
+    public <T> T merge(T entity, InsertOneOptions options) {
+        final Object id = mapper.getId(entity);
+        if (id == null) {
+            throw new MappingException("Could not get id for " + entity.getClass().getName());
+        }
+
+        VersionBumpInfo info = updateVersioning(entity);
+
+        final Query<T> query = (Query<T>) find(entity.getClass()).filter(eq("_id", id));
+        info.filter(query);
+
+        UpdateResult update;
+        if (!options.unsetMissing()) {
+            update = query.update(set(entity)).execute(new UpdateOptions()
+                    .writeConcern(options.writeConcern()));
+        } else {
+            update = ((MergingEncoder<T>) new MergingEncoder(query,
+                    (MorphiaCodec) codecRegistry.get(entity.getClass())))
+                    .encode(entity)
+                    .execute(new UpdateOptions()
+                            .writeConcern(options.writeConcern()));
+        }
+        if (update.getMatchedCount() != 1) {
+            if (info.versioned()) {
+                info.rollbackVersion();
+                throw new VersionMismatchException(entity.getClass(), id);
+            }
+            throw new UpdateException("No matching documents could be found.");
+        }
+
+        return (T) find(entity.getClass()).filter(eq("_id", id)).first();
+    }
+
+    protected MongoClient getMongoClient() {
+        return mongoClient;
+    }
+
+    /**
+     * @return the Mapper used by this Datastore
+     */
+    public Mapper getMapper() {
+        return mapper;
+    }
+
+    @Override
+    public void shardCollections() {
+        List<EntityModel> entities = getMapper().getMappedEntities()
+                .stream().filter(m -> m.getAnnotation(ShardKeys.class) != null)
+                .collect(Collectors.toList());
+
+        operations.runCommand(new Document("enableSharding", database.getName()));
+
+        entities.forEach(e -> {
+            if (!shardCollection(e).containsKey("collectionsharded")) {
+                throw new MappingException("Can not shard collection " + getDatabase().getName() + "." + e.getCollectionName());
+            }
+        });
+    }
+
+    @Override
+    public <T> T merge(T entity) {
+        return merge(entity, new InsertOneOptions());
+    }
+
+    protected Document shardCollection(EntityModel model) {
+        ShardKeys shardKeys = model.getAnnotation(ShardKeys.class);
+        if (shardKeys != null) {
+            final Document collstats = database.runCommand(new Document("collstats", model.getCollectionName()));
+            if (collstats.getBoolean("sharded", false)) {
+                LOG.debug("MongoCollection already exists and is sharded already; doing nothing. " + collstats);
+            } else {
+                ShardOptions options = shardKeys.options();
+
+                Document command = new Document("shardCollection", format("%s.%s", getDatabase().getName(), model.getCollectionName()))
+                        .append("unique", options.unique())
+                        .append("presplitHashedZones", options.presplitHashedZones());
+                boolean hashed = stream(shardKeys.value()).anyMatch(k -> k.type() == ShardKeyType.HASHED);
+                if (hashed) {
+                    if (options.numInitialChunks() != -1) {
+                        command.append("numInitialChunks", options.numInitialChunks());
+                    }
+                }
+
+                if (collstats.get("collation") != null) {
+                    command.append("collation", new Document("locale", "simple"));
+                }
+                command.append("key", stream(shardKeys.value())
+                        .map(k -> new Document(k.value(), queryForm(k.type())))
+                        .reduce(new Document(), (a, m) -> {
+                            a.putAll(m);
+                            return a;
+                        }));
+
+                return operations.runCommand(command);
+            }
+        }
+        return new Document();
+    }
+
+    private Object queryForm(ShardKeyType type) {
+        switch (type) {
+            case HASHED:
+                return "hashed";
+            case RANGED:
+                return 1;
+        }
+
+        throw new IllegalStateException("Every shard key type should be handled.");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> List<T> save(List<T> entities, InsertManyOptions options) {
+        if (entities.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Map<Class<?>, List<T>> grouped = new LinkedHashMap<>();
+        List<T> list = new ArrayList<>();
+        for (T entity : entities) {
+            Class<?> type = entity.getClass();
+
+            EntityModel model = getMapper().getEntityModel(type);
+            if (getMapper().getId(entity) != null || model.getVersionProperty() != null) {
+                list.add(entity);
+            } else {
+                grouped.computeIfAbsent(type, c -> new ArrayList<>())
+                        .add(entity);
+            }
+        }
+
+        String alternate = options.collection();
+        if (grouped.size() > 1 && alternate != null) {
+            LOG.warn("You have specified an alternate collection ('{}') when inserting many entities of different types. This will put all entities, regardless of type, in to the same collection.", alternate);
+        }
+
+        for (Entry<Class<?>, List<T>> entry : grouped.entrySet()) {
+            MongoCollection<T> collection = configureCollection(options, (MongoCollection<T>) getCollection(entry.getKey()));
+            operations.insertMany(collection, entry.getValue(), options);
+        }
+
+        InsertOneOptions insertOneOptions = new InsertOneOptions()
+                .bypassDocumentValidation(options.bypassDocumentValidation())
+                .collection(alternate)
+                .writeConcern(options.writeConcern());
+        for (T entity : list) {
+            save(entity, insertOneOptions);
+        }
+        return entities;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> Query<T> queryByExample(T example) {
+        return queryFactory.createQuery(this, (Class<T>) example.getClass(), new FindOptions(), toDocument(example));
+    }
+
+    @Override
+    public <T> void refresh(T entity) {
+        Codec<T> refreshCodec = getRefreshCodec(entity);
+
+        MongoCollection<?> collection = getCollection(entity.getClass());
+        PropertyModel idField = mapper.getEntityModel(entity.getClass())
+                .getIdProperty();
+        if (idField == null) {
+            throw new MappingException("An @Id property is required on top level entities.  " + entity.getClass().getName() + " does not have an @Id property.");
+        }
+
+        Document id = collection.find(new Document("_id", idField.getValue(entity)), Document.class)
+                .iterator()
+                .next();
+
+        refreshCodec.decode(new DocumentReader(id, mapper.getConversions()), DecoderContext.builder().checkedDiscriminator(true).build());
+    }
+
+    @Override
+    public MorphiaSessionImpl startSession() {
+        return new MorphiaSessionImpl(this, mongoClient.startSession());
+    }
+
+    @Override
+    public MorphiaSessionImpl startSession(ClientSessionOptions options) {
+        return new MorphiaSessionImpl(this, mongoClient.startSession(options));
+    }
+
+    @Override
+    public <T> T save(T entity, InsertOneOptions options) {
+        save(getCollection(entity.getClass()), entity, options);
+        return entity;
+    }
+
+    public DatastoreOperations operations() {
+        return operations;
+    }
+
+    @Nullable
+    protected <T> T doTransaction(MorphiaSessionImpl morphiaSession, MorphiaTransaction<T> body) {
+        try {
+            return morphiaSession.getSession().withTransaction(() -> body.execute(morphiaSession));
+        } finally {
+            morphiaSession.close();
+        }
+    }
+
+    @Override
+    public <T> T withTransaction(MorphiaTransaction<T> body) {
+        return doTransaction(startSession(), body);
+    }
+
+    @Override
+    public <T> T withTransaction(ClientSessionOptions options, MorphiaTransaction<T> transaction) {
+        return doTransaction(startSession(options), transaction);
+    }
+
+    @Override
+    public <T> List<T> replace(List<T> entities, ReplaceOptions options) {
+        for (T entity : entities) {
+            replace(entity, options);
+        }
+
+        return entities;
+    }
+
+    @Override
+    public dev.morphia.aggregation.AggregationPipeline createAggregation(String collection, Class<?> clazz) {
+        return new dev.morphia.aggregation.AggregationPipelineImpl(this, getDatabase().getCollection(collection), clazz);
+    }
+
+    @Override
+    public <T> Query<T> createQuery(Class<T> type, Document q) {
+        return queryFactory.createQuery(this, type, new FindOptions(), q);
+    }
+
+    @Override
+    @SuppressWarnings("removal")
+    public <T> Query<T> queryByExample(String collection, T ex) {
+        return queryByExample(ex);
+    }
+
+    /**
+     * @param model      internal
+     * @param validation internal
+     * @morphia.internal
+     */
+    @MorphiaInternal
+    public void enableValidation(EntityModel model, Validation validation) {
+        String collectionName = model.getCollectionName();
+        try {
+            getDatabase().runCommand(new Document("collMod", collectionName)
+                    .append("validator", parse(validation.value()))
+                    .append("validationLevel", validation.level().getValue())
+                    .append("validationAction", validation.action().getValue()));
+        } catch (MongoCommandException e) {
+            if (e.getCode() == 26) {
+                getDatabase().createCollection(collectionName,
+                        new CreateCollectionOptions()
+                                .validationOptions(new ValidationOptions()
+                                        .validator(parse(validation.value()))
+                                        .validationLevel(validation.level())
+                                        .validationAction(validation.action())));
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    protected DatastoreImpl operations(DatastoreOperations operations) {
+        this.operations = operations;
+        return this;
+    }
+
+    private <T> void save(MongoCollection collection, T entity, InsertOneOptions options) {
+        collection = configureCollection(options, collection);
+
+        EntityModel entityModel = mapper.getEntityModel(entity.getClass());
+        PropertyModel idProperty = entityModel.getIdProperty();
+        Object id = idProperty != null ? idProperty.getValue(entity) : null;
+        VersionBumpInfo info = updateVersioning(entity);
+
+        try {
+            if (id == null || info.versioned() && info.newVersion() == 1) {
+                operations.insertOne(collection, entity, options);
+            } else {
+                ReplaceOptions updateOptions = new ReplaceOptions()
+                        .bypassDocumentValidation(options.bypassDocumentValidation())
+                        .upsert(!info.versioned);
+                Document filter = new Document("_id", id);
+                info.filter(filter);
+                entityModel.getShardKeys().forEach((property) -> {
+                    filter.put(property.getMappedName(), property.getValue(entity));
+                });
+
+                UpdateResult updateResult = operations.replaceOne(collection, entity, filter, updateOptions);
+
+                if (info.versioned() && updateResult.getModifiedCount() != 1) {
+                    info.rollbackVersion();
+                    throw new VersionMismatchException(entity.getClass(), id);
+                }
+            }
+        } catch (MongoWriteException e) {
+            if (info.versioned()) {
+                info.rollbackVersion();
+            }
+            throw e;
+        }
+    }
+
+    /**
+     * Enables any document validation defined on the class
+     *
+     * @param model the model to use
+     */
+    private void enableDocumentValidation(EntityModel model) {
+        Validation validation = model.getAnnotation(Validation.class);
+        String collectionName = model.getCollectionName();
+        if (validation != null) {
+            try {
+                getDatabase().runCommand(new Document("collMod", collectionName)
+                        .append("validator", parse(validation.value()))
+                        .append("validationLevel", validation.level().getValue())
+                        .append("validationAction", validation.action().getValue()));
+            } catch (MongoCommandException e) {
+                if (e.getCode() == 26) {
+                    database.createCollection(collectionName,
+                            new CreateCollectionOptions()
+                                    .validationOptions(new ValidationOptions()
+                                            .validator(parse(validation.value()))
+                                            .validationLevel(validation.level())
+                                            .validationAction(validation.action())));
+                } else {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    private <T> Codec<T> getRefreshCodec(T entity) {
+        for (MorphiaCodecProvider codecProvider : morphiaCodecProviders) {
+            Codec<T> refreshCodec = codecProvider.getRefreshCodec(entity, codecRegistry);
+            if (refreshCodec != null) {
+                return refreshCodec;
+            }
+        }
+        throw new IllegalStateException("No refresh codec was found for " + entity.getClass().getName() + ". This operation can only be performed on Morphia mapped types.");
+    }
+
+    @NonNull
+    private <T> Map<Class<?>, List<T>> groupByType(List<T> entities, Predicate<EntityModel> special) {
+        Map<Class<?>, List<T>> grouped = new LinkedHashMap<>();
+        for (T entity : entities) {
+            Class<?> type = entity.getClass();
+
+            EntityModel model = getMapper().getEntityModel(type);
+            if (special.test(model)) {
+                grouped.computeIfAbsent(Void.class, c -> new ArrayList<>())
+                        .add(entity);
+            } else {
+                grouped.computeIfAbsent(type, c -> new ArrayList<>())
+                        .add(entity);
+            }
+        }
+        return grouped;
+    }
+
+    public boolean hasLifecycle(EntityModel model, Class<? extends Annotation> type) {
+        return model.hasLifecycle(type)
+                || mapper.getInterceptors().stream()
+                .anyMatch(listener -> listener.hasAnnotation(type));
+    }
+
+    private void importModels() {
+        ServiceLoader<EntityModelImporter> importers = ServiceLoader.load(EntityModelImporter.class);
+        for (EntityModelImporter importer : importers) {
+            for (EntityModel model : importer.getModels(getMapper())) {
+                mapper.register(model);
+            }
+
+            morphiaCodecProviders.add(importer.getCodecProvider(mapper));
+        }
+    }
+
+    /**
+     * Converts an entity (POJO) to a Document. A special field will be added to keep track of the class type.
+     *
+     * @param entity The POJO
+     * @return the Document
+     * @since 2.3
+     */
+    private Document toDocument(Object entity) {
+        return DocumentWriter.encode(entity, this.getMapper(), this.getCodecRegistry());
+    }
+
+    private <T> VersionBumpInfo updateVersioning(T entity) {
+        final EntityModel entityModel = mapper.getEntityModel(entity.getClass());
+        PropertyModel versionProperty = entityModel.getVersionProperty();
+        if (versionProperty != null) {
+            Long value = (Long) versionProperty.getValue(entity);
+            long updated = value == null ? 1 : value + 1;
+            versionProperty.setValue(entity, updated);
+            return new VersionBumpInfo(entity, versionProperty, value, updated);
+        }
+
+        return new VersionBumpInfo(entity);
+    }
+
+    private static class NoDeleteResult extends DeleteResult {
+        @Override
+        public boolean wasAcknowledged() {
+            return false;
+        }
+
+        @Override
+        public long getDeletedCount() {
+            return 0;
+        }
+    }
+
+    public abstract static class DatastoreOperations {
+        public abstract <T> AggregateIterable<T> aggregate(MongoCollection<?> collection, List<Document> pipeline);
+
+        public abstract <T> AggregateIterable<T> aggregate(MongoCollection<?> collection, List<Document> pipeline, Class<?> resultType);
+
+        public abstract <T> long countDocuments(MongoCollection<T> collection, Document query, CountOptions options);
+
+        public abstract <T> DeleteResult deleteMany(MongoCollection<T> collection, Document queryDocument, DeleteOptions options);
+
+        public abstract <T> DeleteResult deleteOne(MongoCollection<T> collection, Document queryDocument, DeleteOptions options);
+
+        public abstract <E> FindIterable<E> find(MongoCollection<E> collection, Document query);
+
+        @Nullable
+        public abstract <T> T findOneAndDelete(MongoCollection<T> mongoCollection, Document queryDocument, FindAndDeleteOptions options);
+
+        @Nullable
+        public abstract <T> T findOneAndUpdate(MongoCollection<T> collection, Document toDocument, Document update, ModifyOptions options);
+
+        public abstract <T> InsertManyResult insertMany(MongoCollection<T> collection, List<T> list, InsertManyOptions options);
+
+        public abstract <T> InsertOneResult insertOne(MongoCollection<T> collection, T entity, InsertOneOptions options);
+
+        public abstract <T> UpdateResult replaceOne(MongoCollection<T> collection, T entity, Document filter, ReplaceOptions options);
+
+        public abstract Document runCommand(Document command);
+
+        public abstract <T> UpdateResult updateMany(MongoCollection<T> collection, Document queryObject, Document updateOperations,
+                                                    UpdateOptions options);
+
+        public abstract <T> UpdateResult updateMany(MongoCollection<T> collection, Document queryObject, List<Document> updateOperations,
+                                                    UpdateOptions options);
+
+        public abstract <T> UpdateResult updateOne(MongoCollection<T> collection, Document queryObject, Document updateOperations,
+                                                   UpdateOptions options);
+
+        public abstract <T> UpdateResult updateOne(MongoCollection<T> collection, Document queryObject, List<Document> updateOperations,
+                                                   UpdateOptions options);
+
+    }
+
+    private class CollectionOperations extends DatastoreOperations {
+        @Override
+        public <T> AggregateIterable<T> aggregate(MongoCollection<?> collection, List<Document> pipeline) {
+            return (AggregateIterable<T>) collection.aggregate(pipeline);
+        }
+
+        @Override
+        public <T> AggregateIterable<T> aggregate(MongoCollection<?> collection, List<Document> pipeline, Class<?> resultType) {
+            return (AggregateIterable<T>) collection.aggregate(pipeline, resultType);
+        }
+
+        @Override
+        public <T> long countDocuments(MongoCollection<T> collection, Document query, CountOptions options) {
+            return collection.countDocuments(query, options);
+        }
+
+        @Override
+        public <T> DeleteResult deleteMany(MongoCollection<T> collection, Document queryDocument, DeleteOptions options) {
+            return collection.deleteMany(queryDocument, options);
+        }
+
+        @Override
+        public <T> DeleteResult deleteOne(MongoCollection<T> collection, Document queryDocument, DeleteOptions options) {
+            return collection.deleteOne(queryDocument, options);
+        }
+
+        @Override
+        public <E> FindIterable<E> find(MongoCollection<E> collection, Document query) {
+            return collection.find(query);
+        }
+
+        @Override
+        public <T> T findOneAndDelete(MongoCollection<T> mongoCollection, Document queryDocument, FindAndDeleteOptions options) {
+            return mongoCollection.findOneAndDelete(queryDocument, options);
+        }
+
+        @Override
+        public <T> T findOneAndUpdate(MongoCollection<T> collection, Document query, Document update, ModifyOptions options) {
+            return collection.findOneAndUpdate(query, update, options);
+        }
+
+        @Override
+        public <T> InsertManyResult insertMany(MongoCollection<T> collection, List<T> list, InsertManyOptions options) {
+            return collection.insertMany(list, options.options());
+        }
+
+        @Override
+        public <T> InsertOneResult insertOne(MongoCollection<T> collection, T entity, InsertOneOptions options) {
+            return collection.insertOne(entity, options.options());
+        }
+
+        @Override
+        public <T> UpdateResult replaceOne(MongoCollection<T> collection, T entity, Document filter, ReplaceOptions options) {
+            return collection.replaceOne(filter, entity, options);
+        }
+
+        @Override
+        public Document runCommand(Document command) {
+            return mongoClient
+                    .getDatabase("admin")
+                    .runCommand(command);
+        }
+
+        @Override
+        public <T> UpdateResult updateMany(MongoCollection<T> collection, Document queryObject, Document updateOperations,
+                                           UpdateOptions options) {
+            return collection.updateMany(queryObject, updateOperations, options);
+        }
+
+        @Override
+        public <T> UpdateResult updateOne(MongoCollection<T> collection, Document queryObject, Document updateOperations,
+                                          UpdateOptions options) {
+            return collection.updateOne(queryObject, updateOperations, options);
+        }
+
+        @Override
+        public <T> UpdateResult updateMany(MongoCollection<T> collection, Document queryObject, List<Document> updateOperations,
+                                           UpdateOptions options) {
+            return collection.updateMany(queryObject, updateOperations, options);
+        }
+
+        @Override
+        public <T> UpdateResult updateOne(MongoCollection<T> collection, Document queryObject, List<Document> updateOperations,
+                                          UpdateOptions options) {
+            return collection.updateOne(queryObject, updateOperations, options);
+        }
+    }
+
+    @MorphiaInternal
+    private static class VersionBumpInfo {
+        private final Long oldVersion;
+        private final boolean versioned;
+        private final Long newVersion;
+        private final PropertyModel versionProperty;
+        private final Object entity;
+
+        <T> VersionBumpInfo(T entity) {
+            versioned = false;
+            newVersion = null;
+            oldVersion = null;
+            versionProperty = null;
+            this.entity = entity;
+        }
+
+        <T> VersionBumpInfo(T entity, PropertyModel versionProperty, @Nullable Long oldVersion, Long newVersion) {
+            this.entity = entity;
+            versioned = true;
+            this.newVersion = newVersion;
+            this.oldVersion = oldVersion;
+            this.versionProperty = versionProperty;
+        }
+
+        public Object entity() {
+            return entity;
+        }
+
+        public void filter(Document filter) {
+            if (versioned()) {
+                filter.put(versionProperty.getMappedName(), oldVersion());
+            }
+        }
+
+        public <T> void filter(Query<T> query) {
+            if (versioned() && newVersion() != -1) {
+                query.filter(eq(versionProperty.getMappedName(), oldVersion()));
+            }
+
+        }
+
+        public Long newVersion() {
+            return newVersion;
+        }
+
+        public Long oldVersion() {
+            return oldVersion;
+        }
+
+        public void rollbackVersion() {
+            if (entity != null && versionProperty != null) {
+                versionProperty.setValue(entity, oldVersion);
+            }
+        }
+
+        public boolean versioned() {
+            return versioned;
+        }
+    }
+}

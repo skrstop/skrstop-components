@@ -1,0 +1,43 @@
+package dev.morphia.mapping.codec;
+
+import dev.morphia.Datastore;
+import dev.morphia.query.LegacyQuery;
+import org.bson.BsonReader;
+import org.bson.BsonWriter;
+import org.bson.Document;
+import org.bson.codecs.Codec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
+
+/**
+ * Defines a codec for Query instances
+ *
+ * @deprecated
+ */
+@Deprecated
+public class LegacyQueryCodec implements Codec<LegacyQuery> {
+    private Datastore datastore;
+
+    /**
+     * Creates a codec
+     *
+     */
+    public LegacyQueryCodec(Datastore datastore) {
+        this.datastore = datastore;
+    }
+
+    @Override
+    public LegacyQuery decode(BsonReader reader, DecoderContext decoderContext) {
+        throw new UnsupportedOperationException("This codec is for encoding only.");
+    }
+
+    @Override
+    public void encode(BsonWriter writer, LegacyQuery value, EncoderContext encoderContext) {
+        datastore.getCodecRegistry().get(Document.class).encode(writer, value.toDocument(), encoderContext);
+    }
+
+    @Override
+    public Class<LegacyQuery> getEncoderClass() {
+        return LegacyQuery.class;
+    }
+}

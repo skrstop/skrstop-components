@@ -1,0 +1,79 @@
+package dev.morphia.mapping.codec.references;
+
+import com.mongodb.lang.Nullable;
+import dev.morphia.annotations.IdGetter;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.mapping.experimental.MorphiaReference;
+import dev.morphia.mapping.lazy.proxy.ReferenceException;
+import dev.morphia.utils.CollectionUtil;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
+/**
+ * The proxy for lazy references.
+ *
+ * @morphia.internal
+ */
+@MorphiaInternal
+public class ReferenceProxy implements MorphiaProxy, InvocationHandler {
+    private static final List<String> NONFETCHES = CollectionUtil.asList("isEmpty", "size");
+    private final MorphiaReference<?> reference;
+
+    ReferenceProxy(MorphiaReference<?> reference) {
+        this.reference = reference;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        if (method.getName().equals("isFetched")) {
+            return isFetched();
+        } else if (method.getAnnotation(IdGetter.class) != null) {
+            return reference.getIds().get(0);
+        } else if ("isEmpty".equals(method.getName())) {
+            return isFetched() ? invoke(method, args) : reference.getIds().isEmpty();
+        } else if ("size".equals(method.getName())) {
+            return isFetched() ? invoke(method, args) : reference.getIds().size();
+        } else {
+            fetch(method);
+            return invoke(method, args);
+        }
+    }
+
+    @Override
+    public boolean isFetched() {
+        return reference.isResolved();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T unwrap() {
+        return (T) reference.get();
+    }
+
+    @Nullable
+    private Object invoke(Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        if (method.getDeclaringClass().isAssignableFrom(getClass())) {
+            return method.invoke(this, args);
+        } else {
+            if (isFetched()) {
+                Object target = reference.get();
+                if (target == null) {
+                    throw new ReferenceException("Referenced '" + reference.getType() + "' entity could not be found during a fetch.");
+                } else {
+                    return method.invoke(target, args);
+                }
+            } else {
+                return method.invoke(reference.getIds(), args);
+            }
+        }
+    }
+
+    private void fetch(Method method) {
+        if (!isFetched() && !NONFETCHES.contains(method.getName())) {
+            reference.get();
+        }
+    }
+}

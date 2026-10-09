@@ -1,0 +1,60 @@
+package dev.morphia.mapping.experimental;
+
+import dev.morphia.Datastore;
+import dev.morphia.annotations.internal.MorphiaInternal;
+import dev.morphia.mapping.codec.pojo.EntityModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @param <T>
+ * @morphia.internal
+ * @hidden
+ */
+@MorphiaInternal
+@Deprecated
+public class ListReference<T> extends CollectionReference<List<T>> {
+    private List<T> values;
+
+    /**
+     * @param datastore
+     * @param model     the EntityModel for the entity type
+     * @param ids       the IDs of the entities
+     * @morphia.internal
+     */
+    @MorphiaInternal
+    public ListReference(Datastore datastore, EntityModel model, List ids) {
+        super(datastore, model, ids);
+    }
+
+    /**
+     * Creates an instance with prepopulated values.
+     *
+     * @param values the values to use
+     */
+    public ListReference(Datastore datastore, List<T> values) {
+        super(datastore);
+        this.values = values;
+    }
+
+    @Override
+    List<?> getValues() {
+        return values;
+    }
+
+    @Override
+    protected void setValues(List ids) {
+        values = new ArrayList<>();
+        values.addAll(ids);
+        resolve();
+    }
+
+    @Override
+    public List<T> get() {
+        if (values == null) {
+            values = (List<T>) find();
+        }
+        return values;
+    }
+}
