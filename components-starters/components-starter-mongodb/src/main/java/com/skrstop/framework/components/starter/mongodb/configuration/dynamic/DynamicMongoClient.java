@@ -231,4 +231,9 @@ public class DynamicMongoClient implements MongoClient {
     public ClusterDescription getClusterDescription() {
         return this.getMongoClient().getClusterDescription();
     }
+
+    @Override
+    public void appendMetadata(MongoDriverInformation mongoDriverInformation) {
+        this.getMongoClient().appendMetadata(mongoDriverInformation);
+    }
 }
