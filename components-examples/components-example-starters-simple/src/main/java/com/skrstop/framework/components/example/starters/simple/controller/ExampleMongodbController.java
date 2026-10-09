@@ -155,19 +155,26 @@ public class ExampleMongodbController {
      */
     @GetMapping("/exampleMongodbMulti1")
     public List<Object> exampleMongodbMulti1() {
-        example1MongoService.saveMaster("aaaaaaa111111");
-        example1MongoService.saveSlave("bbbbbbb111111");
         Example1Mongo res1 = example1MongoService.findById("aaaaaaa111111");
+        if (res1 == null) {
+            example1MongoService.saveMaster("aaaaaaa111111");
+        }
         DynamicMongoContextHolder.push("slave");
         Example1Mongo res2 = example1MongoService.findById("bbbbbbb111111");
+        if (res2 == null) {
+            example1MongoService.saveSlave("bbbbbbb111111");
+        }
         DynamicMongoContextHolder.poll();
 
-
-        example2MongoService.saveMaster(11111111L);
-        example2MongoService.saveSlave(22222222L);
         Example2Mongo res3 = example2MongoService.findById(11111111L);
+        if (res3 == null) {
+            example2MongoService.saveMaster(11111111L);
+        }
         DynamicMongoContextHolder.push("slave");
         Example2Mongo res4 = example2MongoService.findById(22222222L);
+        if (res4 == null) {
+            example2MongoService.saveMaster(22222222L);
+        }
         DynamicMongoContextHolder.poll();
 
         return CollectionUtil.newArrayList(res1, res2, res3, res4);
