@@ -96,3 +96,7 @@
 
 * components-starter-object-storage 模块中增加：阿里云oss、华为云obs
 * components-starter-mqtt
+
+# 鸣谢
+
+- [AtomGit](https://atomgit.com/skrstop/MCPHub-Desktop) 在国内托管, 帮助国内用户更快访问项目与下载Release
