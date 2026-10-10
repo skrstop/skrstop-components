@@ -79,8 +79,8 @@
     </developers>
 
     <properties>
-        <!-- 3.3.x -> springboot 3.3.x -->
-        <framework.components.revision>3.3.1.20260520-RELEASE</framework.components.revision>
+        <!-- 3.5.x -> springboot 3.5.x -->
+        <framework.components.revision>3.5.100.20261009-RELEASE</framework.components.revision>
         <java.version>17</java.version>
         <release.id>sonatype</release.id>
 
@@ -95,7 +95,7 @@
         <resource.delimiter>@</resource.delimiter>
 
         <!-- metrics -->
-        <metrics-jvm-extras.version>0.2.2</metrics-jvm-extras.version>
+        <metrics-jvm-extras.version>0.3.0</metrics-jvm-extras.version>
         <simpleclient.version>0.16.0</simpleclient.version>
 
         <!-- jdk9+ 移除的包 -->
@@ -107,115 +107,129 @@
         <jaxb-core.version>2.3.0.1</jaxb-core.version>
         <jersey-client.version>1.19.4</jersey-client.version>
 
+        <!-- logback -->
+        <logback.version>1.5.38</logback.version>
+
+        <!-- transitive alignment (unmanaged 3rd-party transitives) -->
+        <bcprov-jdk18on.version>1.86</bcprov-jdk18on.version>
+        <fastjson-compat.version>2.0.65</fastjson-compat.version>
+        <javassist.version>3.33.0-GA</javassist.version>
+        <org-json.version>20260814</org-json.version>
+        <commons-logging.version>1.4.0</commons-logging.version>
+        <commons-lang2.version>2.6</commons-lang2.version>
+        <swagger-core-jakarta.version>2.2.55</swagger-core-jakarta.version>
+
         <!-- dependencies  -->
-        <lombok.version>1.18.42</lombok.version>
-        <log4j.version>2.24.3</log4j.version>
-        <checker.version>3.48.4</checker.version>
+        <lombok.version>1.18.48</lombok.version>
+        <log4j.version>2.26.1</log4j.version>
+        <checker.version>4.3.1</checker.version>
 
         <!-- oshi -->
-        <oshi.version>6.6.5</oshi.version>
+        <oshi.version>7.7.0</oshi.version>
+        <!-- oshi-core-java11 在 7.0.0 后停发（7.x 已合并入主包） -->
+        <oshi-core-java11.version>7.0.0</oshi-core-java11.version>
 
         <!-- dependencies management libs -->
         <!-- spring's version -->
-        <spring-cloud.version>2023.0.6</spring-cloud.version>
-        <openfeign.version>4.2.0</openfeign.version>
-        <spring-boot.version>3.3.13</spring-boot.version>
+        <spring-cloud.version>2025.0.3</spring-cloud.version>
+        <spring-boot.version>3.5.16</spring-boot.version>
         <spring-brick.version>3.1.2</spring-brick.version>
-        <spring-cloud-alibaba.version>2023.0.3.4</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
         <!-- cache -->
-        <cache-caffeine.version>3.2.0</cache-caffeine.version>
+        <cache-caffeine.version>3.3.0</cache-caffeine.version>
         <!-- mybatis -->
         <mybatis.version>3.5.19</mybatis.version>
-        <mybatis-spring.version>3.0.4</mybatis-spring.version>
+        <mybatis-spring.version>3.0.5</mybatis-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
-        <mybatis-plus-join.version>1.5.4</mybatis-plus-join.version>
-        <mybatis-plus.version>3.5.14</mybatis-plus.version>
-        <mybatis-fluent.version>1.9.10</mybatis-fluent.version>
-        <dynamic-database.version>4.3.1</dynamic-database.version>
+        <mybatis-plus-join.version>1.5.9</mybatis-plus-join.version>
+        <mybatis-plus.version>3.5.17</mybatis-plus.version>
+        <mybatis-fluent.version>1.10.1</mybatis-fluent.version>
+        <dynamic-database.version>4.5.0</dynamic-database.version>
         <hikaricp7.version>2.4.13</hikaricp7.version>
         <hikaricp9.version>2.6.1</hikaricp9.version>
-        <beeCp.version>4.1.6</beeCp.version>
-        <commons-dbcp2.version>2.13.0</commons-dbcp2.version>
+        <beeCp.version>4.2.0</beeCp.version>
+        <commons-dbcp2.version>2.14.0</commons-dbcp2.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <seata.version>2.2.0</seata.version>
-        <atomikos.version>6.0.0</atomikos.version>
+        <seata.version>2.5.0</seata.version>
+        <atomikos.version>6.0.1</atomikos.version>
         <!-- cglib -->
         <cglib.version>3.3.0</cglib.version>
         <!-- disruptor -->
         <disruptor.version>4.0.0</disruptor.version>
         <!-- pageHelper -->
-        <pagehelper.version>6.1.0</pagehelper.version>
-        <page-helper-starter.version>2.1.0</page-helper-starter.version>
+        <pagehelper.version>6.1.1</pagehelper.version>
+        <page-helper-starter.version>2.1.1</page-helper-starter.version>
         <!-- druid -->
-        <druid.version>1.2.24</druid.version>
+        <druid.version>1.2.28</druid.version>
         <!-- dozer -->
         <dozer.version>5.5.1</dozer.version>
         <!-- sky walking -->
-        <sky-walking.version>9.3.0</sky-walking.version>
-        <prometheus.varsion>1.14.3</prometheus.varsion>
+        <sky-walking.version>9.8.0</sky-walking.version>
+        <prometheus.varsion>1.15.12</prometheus.varsion>
         <!-- apache common -->
-        <apache-commons-lang3.version>3.17.0</apache-commons-lang3.version>
-        <apache-commons-net.version>3.11.1</apache-commons-net.version>
-        <apache-commons-io.version>2.18.0</apache-commons-io.version>
-        <apache-commons-compress.version>1.27.1</apache-commons-compress.version>
-        <apache-commons-beanutils.version>1.10.0</apache-commons-beanutils.version>
-        <apache-commons-pool2.version>2.12.0</apache-commons-pool2.version>
-        <apache-commons-cli.version>1.9.0</apache-commons-cli.version>
-        <apache-commons-codec.version>1.17.2</apache-commons-codec.version>
-        <apache-commons-configuration2.version>2.11.0</apache-commons-configuration2.version>
-        <apache-commons-uploads.version>1.5</apache-commons-uploads.version>
+        <apache-commons-lang3.version>3.21.0</apache-commons-lang3.version>
+        <apache-commons-net.version>3.13.0</apache-commons-net.version>
+        <apache-commons-io.version>2.22.0</apache-commons-io.version>
+        <apache-commons-compress.version>1.28.0</apache-commons-compress.version>
+        <apache-commons-beanutils.version>1.11.0</apache-commons-beanutils.version>
+        <apache-commons-pool2.version>2.13.1</apache-commons-pool2.version>
+        <apache-commons-cli.version>1.11.0</apache-commons-cli.version>
+        <apache-commons-codec.version>1.22.1</apache-commons-codec.version>
+        <apache-commons-configuration2.version>2.15.1</apache-commons-configuration2.version>
+        <apache-commons-uploads.version>1.6.0</apache-commons-uploads.version>
         <!-- reflections -->
         <reflections.version>0.10.2</reflections.version>
         <!-- hutool -->
-        <hutool.version>5.8.41</hutool.version>
+        <hutool.version>5.8.48</hutool.version>
         <!-- concurrentlinkedhashmap-lru -->
         <concurrentlinkedhashmap-lru.version>1.4.2</concurrentlinkedhashmap-lru.version>
         <!-- json -->
-        <fastjson.version>2.0.59</fastjson.version>
-        <gson.version>2.11.0</gson.version>
+        <fastjson.version>2.0.65</fastjson.version>
+        <gson.version>2.14.0</gson.version>
         <!-- bouncy castle -->
         <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
         <bcprov-jdk16.version>1.46</bcprov-jdk16.version>
         <bcprov-jdk15.version>1.46</bcprov-jdk15.version>
-        <bcprov-jdk15to18.version>1.80</bcprov-jdk15to18.version>
+        <bcprov-jdk15to18.version>1.86</bcprov-jdk15to18.version>
         <!-- springdoc -->
-        <springdoc.version>2.5.0</springdoc.version>
+        <springdoc.version>2.8.13</springdoc.version>
         <!-- validation -->
-        <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
-        <jakarta-validator.version>3.1.0</jakarta-validator.version>
+        <hibernate-validator.version>8.0.3.Final</hibernate-validator.version>
+        <jakarta-validator.version>3.1.1</jakarta-validator.version>
         <!-- dubbo -->
-        <dubbo.version>3.3.2</dubbo.version>
+        <dubbo.version>3.3.6</dubbo.version>
         <!-- zk client -->
-        <curator.version>5.7.1</curator.version>
+        <curator.version>5.9.0</curator.version>
         <zkclient.version>0.11</zkclient.version>
         <!-- xxl-job -->
-        <xxl-job.version>2.5.0</xxl-job.version>
+        <xxl-job.version>3.5.0</xxl-job.version>
         <!-- protostuff -->
         <io.protostuff.version>1.8.0</io.protostuff.version>
         <!-- kryo -->
-        <kryo.version>5.6.2</kryo.version>
+        <kryo.version>5.7.1</kryo.version>
         <!-- hessian -->
         <hessian.version>4.0.66</hessian.version>
         <!-- msgpack -->
-        <msgpack.version>0.9.9</msgpack.version>
+        <msgpack.version>0.9.12</msgpack.version>
         <!-- db driver -->
         <db-driver-mysql.version>8.0.33</db-driver-mysql.version>
-        <db-driver-h2.version>2.3.232</db-driver-h2.version>
+        <db-driver-mysql-j.version>9.7.0</db-driver-mysql-j.version>
+        <db-driver-h2.version>2.5.252</db-driver-h2.version>
         <!-- redis -->
-        <lettuce.version>6.5.2.RELEASE</lettuce.version>
-        <jedis.version>5.2.0</jedis.version>
-        <redisson.version>3.43.0</redisson.version>
+        <lettuce.version>6.6.0.RELEASE</lettuce.version>
+        <jedis.version>6.0.0</jedis.version>
+        <redisson.version>4.8.0</redisson.version>
         <!-- mongodb -->
         <mongo-driver-old.version>3.12.14</mongo-driver-old.version>
-        <mongo-driver.version>5.7.0</mongo-driver.version>
+        <mongo-driver.version>5.13.0</mongo-driver.version>
         <morphia-core.version>2.5.3</morphia-core.version>
         <!-- lz4 -->
-        <lz4.version>1.8.0</lz4.version>
+        <lz4.version>1.8.1</lz4.version>
         <!-- snappy -->
-        <snappy.version>1.1.10.7</snappy.version>
+        <snappy.version>1.1.10.11</snappy.version>
         <!-- guava -->
-        <google-guava.version>33.4.0-jre</google-guava.version>
-        <error_prone_annotations.version>2.36.0</error_prone_annotations.version>
+        <google-guava.version>33.7.2-jre</google-guava.version>
+        <error_prone_annotations.version>2.50.0</error_prone_annotations.version>
         <!-- servlet api-->
         <servlet-api.version>6.1.0</servlet-api.version>
         <!-- ali TTL -->
@@ -223,48 +237,48 @@
         <!-- 图片处理 -->
         <simpleImage.version>1.2.3</simpleImage.version>
         <jai.version>1.1.3</jai.version>
-        <thumbnailator.version>0.4.20</thumbnailator.version>
-        <twelvemonkeys.version>3.10.1</twelvemonkeys.version>
+        <thumbnailator.version>0.4.21</thumbnailator.version>
+        <twelvemonkeys.version>3.15.3</twelvemonkeys.version>
         <!-- 视频处理 -->
-        <media-analyzer.version>2.0.6</media-analyzer.version>
-        <javacv.version>1.5.11</javacv.version>
+        <media-analyzer.version>3.0.0</media-analyzer.version>
+        <javacv.version>1.5.14</javacv.version>
         <javacv8.version>1.5.8</javacv8.version>
         <javacv9.version>1.5.9</javacv9.version>
         <javacv10.version>1.5.10</javacv10.version>
-        <opencv-platform.version>4.10.0-${javacv.version}</opencv-platform.version>
-        <ffmpeg-platform.version>7.1-${javacv.version}</ffmpeg-platform.version>
-        <spinnaker-platform.version>4.0.0.116-${javacv.version}</spinnaker-platform.version>
-        <mkl-platform.version>2025.0-${javacv.version}</mkl-platform.version>
-        <dnnl-platform.version>3.6.1-${javacv.version}</dnnl-platform.version>
-        <openblas-platform.version>0.3.28-${javacv.version}</openblas-platform.version>
+        <opencv-platform.version>4.14.0-${javacv.version}</opencv-platform.version>
+        <ffmpeg-platform.version>8.1.2-${javacv.version}</ffmpeg-platform.version>
+        <spinnaker-platform.version>4.0.0.116-1.5.11</spinnaker-platform.version>
+        <mkl-platform.version>2026.1-${javacv.version}</mkl-platform.version>
+        <dnnl-platform.version>3.13-${javacv.version}</dnnl-platform.version>
+        <openblas-platform.version>0.3.34-${javacv.version}</openblas-platform.version>
         <arpack-ng-platform.version>3.9.1-${javacv.version}</arpack-ng-platform.version>
-        <cminpack-platform.version>1.3.11-${javacv.version}</cminpack-platform.version>
-        <fftw-platform.version>3.3.10-${javacv.version}</fftw-platform.version>
+        <cminpack-platform.version>1.3.14-${javacv.version}</cminpack-platform.version>
+        <fftw-platform.version>3.3.11-${javacv.version}</fftw-platform.version>
         <gsl-platform.version>2.8-${javacv.version}</gsl-platform.version>
-        <cpython-platform.version>3.13.0-${javacv.version}</cpython-platform.version>
-        <numpy-platform.version>2.1.3-${javacv.version}</numpy-platform.version>
-        <scipy-platform.version>1.14.1-${javacv.version}</scipy-platform.version>
-        <llvm-platform.version>19.1.3-${javacv.version}</llvm-platform.version>
-        <libffi-platform.version>3.4.6-${javacv.version}</libffi-platform.version>
-        <leptonica-platform.version>1.85.0-${javacv.version}</leptonica-platform.version>
-        <tesseract-platform.version>5.5.0-${javacv.version}</tesseract-platform.version>
-        <cuda-platform.version>12.6-9.5-${javacv.version}</cuda-platform.version>
-        <nvcodec-platform.version>12.2.72-${javacv.version}</nvcodec-platform.version>
-        <opencl-platform.version>3.0-${javacv.version}</opencl-platform.version>
-        <pytorch-platform.version>2.5.1-${javacv.version}</pytorch-platform.version>
-        <tensorflow-lite-platform.version>2.18.0-${javacv.version}</tensorflow-lite-platform.version>
-        <tensorrt-platform.version>10.6-${javacv.version}</tensorrt-platform.version>
-        <tritonserver-platform.version>2.51.0-${javacv.version}</tritonserver-platform.version>
-        <onnx-platform.version>1.17.0-${javacv.version}</onnx-platform.version>
-        <onnxruntime-platform.version>1.20.0-${javacv.version}</onnxruntime-platform.version>
-        <tvm-platform.version>0.18.0-${javacv.version}</tvm-platform.version>
-        <pytorch-platform-gpu.version>2.5.1-${javacv.version}</pytorch-platform-gpu.version>
-        <opencv-platform-gpu.version>4.10.0-${javacv.version}</opencv-platform-gpu.version>
-        <onnxruntime-platform-gpu.version>1.20.0-${javacv.version}</onnxruntime-platform-gpu.version>
-        <tvm-platform-gpu.version>0.18.0-${javacv.version}</tvm-platform-gpu.version>
-        <cuda-platform-redist.version>12.6-9.5-${javacv.version}</cuda-platform-redist.version>
-        <tensorrt-platform-redist.version>10.6-${javacv.version}</tensorrt-platform-redist.version>
-        <mkl-platform-redist.version>2025.0-${javacv.version}</mkl-platform-redist.version>
+        <cpython-platform.version>3.14.7-${javacv.version}</cpython-platform.version>
+        <numpy-platform.version>2.5.1-${javacv.version}</numpy-platform.version>
+        <scipy-platform.version>1.18.0-${javacv.version}</scipy-platform.version>
+        <llvm-platform.version>22.1.8-${javacv.version}</llvm-platform.version>
+        <libffi-platform.version>3.7.1-${javacv.version}</libffi-platform.version>
+        <leptonica-platform.version>1.87.0-${javacv.version}</leptonica-platform.version>
+        <tesseract-platform.version>5.5.3-${javacv.version}</tesseract-platform.version>
+        <cuda-platform.version>13.3-9.25-${javacv.version}</cuda-platform.version>
+        <nvcodec-platform.version>13.1.15-${javacv.version}</nvcodec-platform.version>
+        <opencl-platform.version>3.1-${javacv.version}</opencl-platform.version>
+        <pytorch-platform.version>2.13.0-${javacv.version}</pytorch-platform.version>
+        <tensorflow-lite-platform.version>2.21.0-${javacv.version}</tensorflow-lite-platform.version>
+        <tensorrt-platform.version>11.2-${javacv.version}</tensorrt-platform.version>
+        <tritonserver-platform.version>2.71.0-${javacv.version}</tritonserver-platform.version>
+        <onnx-platform.version>1.22.0-${javacv.version}</onnx-platform.version>
+        <onnxruntime-platform.version>1.28.0-${javacv.version}</onnxruntime-platform.version>
+        <tvm-platform.version>0.18.0-1.5.11</tvm-platform.version>
+        <pytorch-platform-gpu.version>2.13.0-${javacv.version}</pytorch-platform-gpu.version>
+        <opencv-platform-gpu.version>4.14.0-${javacv.version}</opencv-platform-gpu.version>
+        <onnxruntime-platform-gpu.version>1.28.0-${javacv.version}</onnxruntime-platform-gpu.version>
+        <tvm-platform-gpu.version>0.18.0-1.5.11</tvm-platform-gpu.version>
+        <cuda-platform-redist.version>13.3-9.25-${javacv.version}</cuda-platform-redist.version>
+        <tensorrt-platform-redist.version>11.2-${javacv.version}</tensorrt-platform-redist.version>
+        <mkl-platform-redist.version>2026.1-${javacv.version}</mkl-platform-redist.version>
         <!-- 即将废弃 -->
         <liquidfun-platform.version>master-${javacv8.version}</liquidfun-platform.version>
         <ngraph-platform.version>0.26.0-${javacv8.version}</ngraph-platform.version>
@@ -305,32 +319,32 @@
         <!-- emoji -->
         <emoji.version>5.1.1</emoji.version>
         <!-- tika -->
-        <tika.version>3.0.0</tika.version>
+        <tika.version>4.1.0</tika.version>
         <!-- 二维码 -->
-        <zxing.version>3.5.3</zxing.version>
+        <zxing.version>3.5.4</zxing.version>
         <!-- email -->
         <email.version>1.4.7</email.version>
         <!-- jsonp -->
-        <jsonp.version>1.18.3</jsonp.version>
+        <jsonp.version>1.23.2</jsonp.version>
         <!-- vert.x -->
-        <vertx.version>4.5.11</vertx.version>
+        <vertx.version>5.2.1</vertx.version>
         <!-- findbugs-jsr305 -->
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <!-- http -->
-        <async-http-client.version>2.12.4</async-http-client.version>
-        <mica-http.version>3.3.5</mica-http.version>
-        <okhttp.version>4.12.0</okhttp.version>
-        <okhttp-feign.version>13.5</okhttp-feign.version>
+        <async-http-client.version>2.16.1</async-http-client.version>
+        <mica-http.version>4.1.1</mica-http.version>
+        <okhttp.version>5.5.0</okhttp.version>
+        <okhttp-feign.version>13.17</okhttp-feign.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <httpclient-feign.version>13.5</httpclient-feign.version>
-        <httpclient5.version>5.4.1</httpclient5.version>
-        <httpclient5-feign.version>13.5</httpclient5-feign.version>
-        <hystrix-feign.version>13.5</hystrix-feign.version>
-        <retrofit.version>2.11.0</retrofit.version>
+        <httpclient-feign.version>13.17</httpclient-feign.version>
+        <httpclient5.version>5.6.4</httpclient5.version>
+        <httpclient5-feign.version>13.17</httpclient5-feign.version>
+        <hystrix-feign.version>13.17</hystrix-feign.version>
+        <retrofit.version>3.0.0</retrofit.version>
         <!-- jwt -->
-        <java-jwt.version>4.4.0</java-jwt.version>
-        <jjwt.version>0.12.6</jjwt.version>
-        <jwks-rsa.version>0.22.1</jwks-rsa.version>
+        <java-jwt.version>4.6.1</java-jwt.version>
+        <jjwt.version>0.13.0</jjwt.version>
+        <jwks-rsa.version>0.24.1</jwks-rsa.version>
 
         <!-- pinyin -->
         <TinyPinyin.version>2.0.3.RELEASE</TinyPinyin.version>
@@ -341,55 +355,55 @@
 
         <!-- document -->
         <!-- apache-pdfbox -->
-        <apache-pdfbox.version>3.0.3</apache-pdfbox.version>
+        <apache-pdfbox.version>3.0.8</apache-pdfbox.version>
         <!-- docx4j -->
-        <docx4j.version>11.5.1</docx4j.version>
+        <docx4j.version>17.3.2</docx4j.version>
         <!-- poi -->
-        <poi.version>5.4.0</poi.version>
-        <fastexcel.version>1.2.0</fastexcel.version>
+        <poi.version>5.5.1</poi.version>
+        <fastexcel.version>1.3.0</fastexcel.version>
         <!-- mock -->
         <testale-mock.version>0.7.9</testale-mock.version>
 
         <!-- script engine -->
-        <nashorn.version>15.6</nashorn.version>
-        <nashorn-sandbox.version>0.5.0</nashorn-sandbox.version>
-        <rhino.version>1.8.0</rhino.version>
-        <rhino-sandbox.version>0.0.17</rhino-sandbox.version>
+        <nashorn.version>15.7</nashorn.version>
+        <nashorn-sandbox.version>0.5.6</nashorn-sandbox.version>
+        <rhino.version>1.9.1</rhino.version>
+        <rhino-sandbox.version>0.2.5</rhino-sandbox.version>
 
         <!-- rule -->
-        <liteflow.version>2.12.4.5</liteflow.version>
+        <liteflow.version>2.16.3.1</liteflow.version>
 
-        <byte-buddy.version>1.17.5</byte-buddy.version>
+        <byte-buddy.version>1.17.8</byte-buddy.version>
 
         <!-- object storage -->
-        <cos.version>5.6.269</cos.version>
+        <cos.version>5.6.281</cos.version>
         <cos-sts.version>3.1.1</cos-sts.version>
-        <oss.version>3.18.1</oss.version>
-        <obs.version>3.24.12</obs.version>
+        <oss.version>3.18.5</oss.version>
+        <obs.version>3.26.6</obs.version>
 
         <!-- maven plugins -->
-        <maven-archetype-plugin.version>3.3.1</maven-archetype-plugin.version>
+        <maven-archetype-plugin.version>3.4.1</maven-archetype-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.6.0</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
-        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
         <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
         <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
-        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
-        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
-        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+        <maven-antrun-plugin.version>3.2.0</maven-antrun-plugin.version>
         <maven-lombok-plugin.version>1.18.20.0</maven-lombok-plugin.version>
-        <maven-versions-plugin.version>2.18.0</maven-versions-plugin.version>
-        <maven-exec-plugin.version>3.5.0</maven-exec-plugin.version>
+        <maven-versions-plugin.version>2.22.0</maven-versions-plugin.version>
+        <maven-exec-plugin.version>3.6.4</maven-exec-plugin.version>
         <maven-kotlin-plugin.version>2.1.0</maven-kotlin-plugin.version>
-        <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.6.0</maven-failsafe-plugin.version>
         <maven-git-commit-id-plugin.version>4.9.10</maven-git-commit-id-plugin.version>
-        <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+        <maven-shade-plugin.version>3.6.2</maven-shade-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-findbugs-plugin.version>3.0.5</maven-findbugs-plugin.version>
         <maven-cobertura-plugin.version>2.7</maven-cobertura-plugin.version>
-        <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+        <maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
         <maven-docker-plugin.version>1.2.2</maven-docker-plugin.version>
         <maven-dockerfile-plugin.version>1.4.13</maven-dockerfile-plugin.version>
         <maven-flatten-plugin.version>1.6.0</maven-flatten-plugin.version>
@@ -550,16 +564,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${openfeign.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-openfeign-core</artifactId>
-                <version>${openfeign.version}</version>
-            </dependency>
+            <!-- openfeign 由 spring-cloud-dependencies 统一管理 -->
             <!-- Spring Cloud Alibaba -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -592,7 +597,7 @@
             <dependency>
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core-java11</artifactId>
-                <version>${oshi.version}</version>
+                <version>${oshi-core-java11.version}</version>
             </dependency>
             <!-- cglib -->
             <dependency>
@@ -631,7 +636,7 @@
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.version}</version>
+                <version>${mybatis-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -746,6 +751,63 @@
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
+            </dependency>
+            <!-- logback (override Boot BOM 1.5.34 -> 1.5.x latest patch) -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <!-- transitive alignment -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov-jdk18on.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson-compat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${org-json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commons-logging.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-core-jakarta</artifactId>
+                <version>${swagger-core-jakarta.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-models-jakarta</artifactId>
+                <version>${swagger-core-jakarta.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
+                <version>${swagger-core-jakarta.version}</version>
             </dependency>
             <!-- sky walking trace support -->
             <dependency>
@@ -989,7 +1051,7 @@
             <dependency>
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
-                <version>${db-driver-mysql.version}</version>
+                <version>${db-driver-mysql-j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -1061,7 +1123,7 @@
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongodb-driver-async</artifactId>
-                <version>${mongo-driver.version}</version>
+                <version>${mongo-driver-old.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.morphia.morphia</groupId>
@@ -1607,6 +1669,16 @@
             </dependency>
             <dependency>
                 <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>${httpclient5-feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-slf4j</artifactId>
+                <version>${httpclient5-feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-httpclient</artifactId>
                 <version>${httpclient-feign.version}</version>
             </dependency>
@@ -1622,7 +1694,7 @@
             </dependency>
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
+                <artifactId>okhttp-jvm</artifactId>
                 <version>${okhttp.version}</version>
             </dependency>
             <dependency>
@@ -1675,11 +1747,13 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-root</artifactId>
                 <version>${jjwt.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-extensions</artifactId>
                 <version>${jjwt.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>com.auth0</groupId>

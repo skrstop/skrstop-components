@@ -145,7 +145,7 @@ skrstop:
         threads: 10
         nettyThreads: 10
         codec:
-          class: "org.redisson.codec.JsonJacksonCodec"
+          class: "org.redisson.codec.SerializationCodec"
       dynamic:
         enabled: true
         primary: r_db0
@@ -158,7 +158,7 @@ skrstop:
               threads: 10
               nettyThreads: 10
               codec:
-                class: "org.redisson.codec.JsonJacksonCodec"
+                class: "org.redisson.codec.SerializationCodec"
           r_db1:
             config-yaml-str: |
               singleServerConfig:
@@ -167,7 +167,7 @@ skrstop:
               threads: 10
               nettyThreads: 10
               codec:
-                class: "org.redisson.codec.JsonJacksonCodec"
+                class: "org.redisson.codec.SerializationCodec"
           r_db2:
             config-yaml-str: |
               singleServerConfig:
@@ -176,7 +176,7 @@ skrstop:
               threads: 10
               nettyThreads: 10
               codec:
-                class: "org.redisson.codec.JsonJacksonCodec"
+                class: "org.redisson.codec.SerializationCodec"
     dynamic:
       enabled: true
       primary: db0

@@ -36,17 +36,18 @@ public class RedissonAutoConfiguration {
         if (StrUtil.isNotBlank(globalRedissonProperties.getConfigFile())) {
             Resource resource = ctx.getResource(globalRedissonProperties.getConfigFile());
             InputStream is = resource.getInputStream();
-            config = Config.fromYAML(is);
+            config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromYaml(new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
         } else if (StrUtil.isNotBlank(globalRedissonProperties.getConfigYamlStr())) {
-            config = Config.fromYAML(globalRedissonProperties.getConfigYamlStr());
+            config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromYaml(globalRedissonProperties.getConfigYamlStr());
         } else if (StrUtil.isNotBlank(globalRedissonProperties.getConfigJsonStr())) {
-            config = Config.fromJSON(globalRedissonProperties.getConfigJsonStr());
+            config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromJson(globalRedissonProperties.getConfigJsonStr());
         }
         if (ObjectUtil.isNull(config)) {
             throw new SkrstopRuntimeException("redisson未配置相关参数");
         }
         return Redisson.create(config);
     }
+
 
 }
 

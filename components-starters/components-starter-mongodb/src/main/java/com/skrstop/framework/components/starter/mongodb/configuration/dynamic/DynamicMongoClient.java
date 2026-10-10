@@ -44,9 +44,8 @@ public class DynamicMongoClient implements MongoClient {
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder().build();
         dataSources.forEach((key, value) -> {
             log.info("初始化mongo数据源：{}", key);
-            PropertiesMongoConnectionDetails propertiesMongoConnectionDetails = new PropertiesMongoConnectionDetails(value);
-            StandardMongoClientSettingsBuilderCustomizer standardMongoClientSettingsBuilderCustomizer = new StandardMongoClientSettingsBuilderCustomizer(propertiesMongoConnectionDetails.getConnectionString(),
-                    value.getUuidRepresentation(), value.getSsl(), sslBundles.getIfAvailable());
+            PropertiesMongoConnectionDetails propertiesMongoConnectionDetails = new PropertiesMongoConnectionDetails(value, sslBundles.getIfAvailable());
+            StandardMongoClientSettingsBuilderCustomizer standardMongoClientSettingsBuilderCustomizer = new StandardMongoClientSettingsBuilderCustomizer(propertiesMongoConnectionDetails, value.getUuidRepresentation());
             List<MongoClientSettingsBuilderCustomizer> builderCustomizers = CollectionUtil.newArrayList(standardMongoClientSettingsBuilderCustomizer);
             MongoClient mongoClient = new MongoClientFactory(builderCustomizers).createMongoClient(mongoClientSettings);
             dynamicMongoClientMap.put(key, mongoClient);

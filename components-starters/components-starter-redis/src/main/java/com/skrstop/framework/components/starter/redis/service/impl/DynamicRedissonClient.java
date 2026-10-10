@@ -1605,23 +1605,6 @@ public class DynamicRedissonClient {
         return redissonClient.getRedisNodes(nodes);
     }
 
-    /*
-     * Use getRedisNodes() method instead
-     */
-    @Deprecated
-    public NodesGroup<Node> getNodesGroup(String dsKey) {
-        RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
-        return redissonClient.getNodesGroup();
-    }
-
-    /*
-     * Use getRedisNodes() method instead
-     */
-    @Deprecated
-    public ClusterNodesGroup getClusterNodesGroup(String dsKey) {
-        RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
-        return redissonClient.getClusterNodesGroup();
-    }
 
     /**
      * Returns {@code true} if this Redisson instance has been shut down.

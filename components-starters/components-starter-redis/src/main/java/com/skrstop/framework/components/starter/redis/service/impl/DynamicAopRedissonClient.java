@@ -1605,23 +1605,6 @@ public class DynamicAopRedissonClient {
         return redissonClient.getRedisNodes(nodes);
     }
 
-    /*
-     * Use getRedisNodes() method instead
-     */
-    @Deprecated
-    public NodesGroup<Node> getNodesGroup() {
-        RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
-        return redissonClient.getNodesGroup();
-    }
-
-    /*
-     * Use getRedisNodes() method instead
-     */
-    @Deprecated
-    public ClusterNodesGroup getClusterNodesGroup() {
-        RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
-        return redissonClient.getClusterNodesGroup();
-    }
 
     /**
      * Returns {@code true} if this Redisson instance has been shut down.

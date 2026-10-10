@@ -108,7 +108,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
         return executeBatch(entityList, entityList.size(), (sqlSession, entity) -> {
             MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
             param.put(Constants.ENTITY, entity);
-            sqlSession.update(sqlStatement, param);
+            return sqlSession.update(sqlStatement, param);
         });
     }
 
@@ -148,7 +148,7 @@ public abstract class SuperRepositoryImpl<M extends SuperMapper<T>, T extends Ab
                     this.setUpdateInfo(entity);
                     MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
                     param.put(Constants.ENTITY, entity);
-                    sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param);
+                    return sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param);
                 });
     }
 

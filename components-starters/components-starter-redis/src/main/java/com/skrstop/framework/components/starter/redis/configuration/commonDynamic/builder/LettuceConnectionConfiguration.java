@@ -3,6 +3,7 @@ package com.skrstop.framework.components.starter.redis.configuration.commonDynam
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import io.lettuce.core.TimeoutOptions;
+import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.resource.ClientResources;
@@ -158,8 +159,8 @@ public class LettuceConnectionConfiguration extends RedisConnectionConfiguration
             return LettucePoolingClientConfiguration.builder().poolConfig(getPoolConfig(properties));
         }
 
-        private GenericObjectPoolConfig<?> getPoolConfig(RedisProperties.Pool properties) {
-            GenericObjectPoolConfig<?> config = new GenericObjectPoolConfig<>();
+        private GenericObjectPoolConfig<StatefulConnection<?, ?>> getPoolConfig(RedisProperties.Pool properties) {
+            GenericObjectPoolConfig<StatefulConnection<?, ?>> config = new GenericObjectPoolConfig<>();
             config.setMaxTotal(properties.getMaxActive());
             config.setMaxIdle(properties.getMaxIdle());
             config.setMinIdle(properties.getMinIdle());
