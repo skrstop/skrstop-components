@@ -55,7 +55,7 @@ public class PortShiftAutoConfiguration {
                     if (NumberUtil.isNumber(minPortStr) && NumberUtil.isNumber(maxPortStr)) {
                         int minPort = NumberUtil.toInt(minPortStr);
                         int maxPort = NumberUtil.toInt(maxPortStr);
-                        if (maxPort >= minPort && minPort >= 0) {
+                        if (maxPort >= minPort) {
                             if (basePort < minPort || basePort > maxPort) {
                                 basePort = minPort;
                             }

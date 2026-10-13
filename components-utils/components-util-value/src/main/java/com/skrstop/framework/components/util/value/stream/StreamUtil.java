@@ -63,8 +63,7 @@ public class StreamUtil {
     public static String parseString(final OutputStream out) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos = (ByteArrayOutputStream) out;
-        final ByteArrayInputStream swapStream = new ByteArrayInputStream(baos.toByteArray());
-        return swapStream.toString();
+        return baos.toString();
     }
 
     /**
@@ -161,11 +160,7 @@ public class StreamUtil {
      * @return
      */
     public static InputStream byteToInputStream(byte[] bytes) {
-        try {
-            return new ByteArrayInputStream(bytes);
-        } catch (Exception e) {
-            throw new IOStreamingException(e);
-        }
+        return new ByteArrayInputStream(bytes);
     }
 
     /**
@@ -195,7 +190,8 @@ public class StreamUtil {
      * @throws IOException
      */
     public static InputStream getInputStream(URL url) throws IOException {
-        if (ObjectUtil.isNotNull(url) && StrUtil.isNotBlank(url.toString())) {
+        // URL.toString() 不可能为空串
+        if (ObjectUtil.isNotNull(url)) {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(HttpMethodEnum.GET.getMethod());
             con.setConnectTimeout(4 * 1000);
@@ -213,11 +209,9 @@ public class StreamUtil {
      * @throws IOException
      */
     public static byte[] getBytes(URL url) throws IOException {
-        if (ObjectUtil.isNotNull(url) && StrUtil.isNotBlank(url.toString())) {
-            InputStream inputStream = getInputStream(url);
-            if (ObjectUtil.isNotNull(inputStream)) {
-                return inputStreamToByte(inputStream);
-            }
+        if (ObjectUtil.isNotNull(url)) {
+            // getInputStream 非空或抛异常
+            return inputStreamToByte(getInputStream(url));
         }
         return null;
     }

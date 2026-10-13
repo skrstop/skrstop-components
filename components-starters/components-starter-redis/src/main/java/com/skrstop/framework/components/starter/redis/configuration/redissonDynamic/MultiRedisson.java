@@ -62,7 +62,7 @@ public class MultiRedisson implements InitializingBean, DisposableBean {
     @Override
     public void destroy() throws Exception {
         multiRedissonClient.forEach((key, ds) -> {
-            if (ObjectUtil.isNull(ds) || ds.isShutdown() || ds.isShuttingDown()) {
+            if (ds.isShutdown() || ds.isShuttingDown()) {
                 return;
             }
             log.info("关闭redisson数据源：{}", key);

@@ -60,12 +60,12 @@ public class WebMvcProtostuffReturnResponseHandler extends RequestResponseBodyMe
         ServletServerHttpRequest inputMessage = createInputMessage(webRequest);
         ServletServerHttpResponse outputMessage = createOutputMessage(webRequest);
 
-        if (inputMessage.getHeaders().containsKey(FeignConst.USE_FEIGN_NAME)) {
-            List<String> header = inputMessage.getHeaders().get(FeignConst.USE_FEIGN_NAME);
-            if (CollectionUtil.isNotEmpty(header) && FeignConst.USE_FEIGN_VALUE.equals(header.get(0))) {
-                MediaType application = new MediaType("application", "x-protobuf", StandardCharsets.UTF_8);
-                outputMessage.getHeaders().setContentType(application);
-            }
+        // getHeaders().get(name) 仅在头存在时非空(containsKey 蕴含非空列表), 原外层 containsKey 分支与
+        // isNotEmpty 判断合并为对 get 结果的判空, 行为等价
+        List<String> header = inputMessage.getHeaders().get(FeignConst.USE_FEIGN_NAME);
+        if (CollectionUtil.isNotEmpty(header) && FeignConst.USE_FEIGN_VALUE.equals(header.get(0))) {
+            MediaType application = new MediaType("application", "x-protobuf", StandardCharsets.UTF_8);
+            outputMessage.getHeaders().setContentType(application);
         } else {
             outputMessage.getHeaders().setContentType(MediaType.parseMediaType("application/json;charset=UTF-8"));
         }

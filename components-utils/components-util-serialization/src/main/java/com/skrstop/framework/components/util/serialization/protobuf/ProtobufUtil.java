@@ -6,7 +6,6 @@ import com.skrstop.framework.components.core.common.response.PageListResult;
 import com.skrstop.framework.components.core.common.response.Result;
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtobufIOUtil;
-import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import lombok.experimental.UtilityClass;
 
@@ -128,7 +127,7 @@ public class ProtobufUtil {
     public static <T> T deserialize(InputStream inputStream, Class<T> clazz) throws IOException {
         if (ProtostuffUtil.notSupported(clazz)) {
             ProtostuffUtil.SerializeDeserializeWrapper<T> wrapper = new ProtostuffUtil.SerializeDeserializeWrapper<>();
-            ProtostuffIOUtil.mergeFrom(inputStream, wrapper, ProtostuffUtil.WRAPPER_SCHEMA);
+            ProtobufIOUtil.mergeFrom(inputStream, wrapper, ProtostuffUtil.WRAPPER_SCHEMA);
             return wrapper.getData();
         } else {
             Schema<T> schema = ProtostuffUtil.getSchema(clazz);

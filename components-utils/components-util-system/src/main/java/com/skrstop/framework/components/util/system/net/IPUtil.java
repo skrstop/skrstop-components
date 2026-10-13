@@ -35,7 +35,7 @@ public class IPUtil {
         }
         Enumeration<NetworkInterface> networks = null;
         try {
-            networks = NetworkInterface.getNetworkInterfaces();
+            networks = getNetworkInterfaces();
         } catch (SocketException e) {
             throw new RuntimeException("获取当前机器内网IP失败");
         }
@@ -45,8 +45,7 @@ public class IPUtil {
             addrs = networks.nextElement().getInetAddresses();
             while (addrs.hasMoreElements()) {
                 ip = addrs.nextElement();
-                if (ip != null
-                        && ip instanceof Inet4Address
+                if (ip instanceof Inet4Address
                         && ip.isSiteLocalAddress()) {
                     INTRANET_IP = ip.getHostAddress();
                     return INTRANET_IP;
@@ -67,23 +66,37 @@ public class IPUtil {
         if (StrUtil.isNotBlank(INTERNET_IP)) {
             return INTERNET_IP;
         }
-        BufferedReader sc = null;
-        try {
-            URL url = new URL("https://ip.3322.net/");
-            sc = new BufferedReader(new InputStreamReader(url.openStream()));
+        try (BufferedReader sc = createInternetReader()) {
             INTERNET_IP = sc.readLine().trim();
             return INTERNET_IP;
         } catch (Exception e) {
             throw new RuntimeException("获取当前机器外网IP失败");
-        } finally {
-            if (sc != null) {
-                try {
-                    sc.close();
-                } catch (Exception e) {
-                    throw new RuntimeException("获取当前机器外网IP失败");
-                }
-            }
         }
+    }
+
+    static BufferedReader createInternetReader() throws Exception {
+        URL url = new URL("https://ip.3322.net/");
+        return new BufferedReader(new InputStreamReader(url.openStream()));
+    }
+
+    private static final String[] PROXY_HEADERS = {
+            "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"
+    };
+
+    private static boolean isLocalhost(String value) {
+        return StrUtil.isNotBlank(value) && "localhost".equalsIgnoreCase(value);
+    }
+
+    private static boolean isNotUnknown(String value) {
+        return StrUtil.isNotEmpty(value) && !"unKnown".equalsIgnoreCase(value);
+    }
+
+    private static boolean isUnknownOrBlank(String value) {
+        return StrUtil.isBlank(value) || "unknown".equalsIgnoreCase(value);
+    }
+
+    static Enumeration<NetworkInterface> getNetworkInterfaces() throws SocketException {
+        return NetworkInterface.getNetworkInterfaces();
     }
 
     /**
@@ -95,10 +108,10 @@ public class IPUtil {
     public static String getIpAddress(HttpServletRequest request) {
         Assert.notNull(request, "HttpServletRequest must not null");
         String XFor = request.getHeader("X-Forwarded-For");
-        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+        if (isLocalhost(XFor)) {
             return "127.0.0.1";
         }
-        if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
+        if (isNotUnknown(XFor)) {
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
             int index = XFor.indexOf(",");
             if (index != -1) {
@@ -108,28 +121,23 @@ public class IPUtil {
             }
         }
         XFor = request.getHeader("X-Real-IP");
-        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+        if (isLocalhost(XFor)) {
             return "127.0.0.1";
         }
-        if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
+        if (isNotUnknown(XFor)) {
             return XFor;
         }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("Proxy-Client-IP");
+        // 多级代理头依次回退，取第一个非空且非 unknown 的值
+        for (String header : PROXY_HEADERS) {
+            if (!isUnknownOrBlank(XFor)) {
+                break;
+            }
+            XFor = request.getHeader(header);
         }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+        if (isUnknownOrBlank(XFor)) {
             XFor = request.getRemoteAddr();
         }
-        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+        if (isLocalhost(XFor)) {
             return "127.0.0.1";
         }
         return XFor;
@@ -144,7 +152,7 @@ public class IPUtil {
     public static String getIpAddress(ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();
         String XFor = headers.getFirst("X-Forwarded-For");
-        if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+        if (isLocalhost(XFor)) {
             return "127.0.0.1";
         }
         if (StrUtil.isNotBlank(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
@@ -152,28 +160,22 @@ public class IPUtil {
             return index != -1 ? XFor.substring(0, index) : XFor;
         } else {
             XFor = headers.getFirst("X-Real-IP");
-            if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+            if (isLocalhost(XFor)) {
                 return "127.0.0.1";
             }
-            if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
+            if (isNotUnknown(XFor)) {
                 return XFor;
             } else {
-                if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-                    XFor = headers.getFirst("Proxy-Client-IP");
+                for (String header : PROXY_HEADERS) {
+                    if (!isUnknownOrBlank(XFor)) {
+                        break;
+                    }
+                    XFor = headers.getFirst(header);
                 }
-                if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-                    XFor = headers.getFirst("WL-Proxy-Client-IP");
-                }
-                if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-                    XFor = headers.getFirst("HTTP_CLIENT_IP");
-                }
-                if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-                    XFor = headers.getFirst("HTTP_X_FORWARDED_FOR");
-                }
-                if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+                if (isUnknownOrBlank(XFor)) {
                     XFor = request.getRemoteAddress().getAddress().getHostAddress();
                 }
-                if (StrUtil.isNotBlank(XFor) && "localhost".equalsIgnoreCase(XFor)) {
+                if (isLocalhost(XFor)) {
                     return "127.0.0.1";
                 }
                 return XFor;

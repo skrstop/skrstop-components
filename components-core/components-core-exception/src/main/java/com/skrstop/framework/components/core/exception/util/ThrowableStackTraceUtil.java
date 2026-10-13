@@ -3,7 +3,6 @@ package com.skrstop.framework.components.core.exception.util;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -18,25 +17,13 @@ import java.io.StringWriter;
 public class ThrowableStackTraceUtil {
 
     public static String getStackTraceStr(Throwable e) {
-        StringWriter sw = null;
-        PrintWriter printWriter = null;
-        try {
-            sw = new StringWriter();
-            printWriter = new PrintWriter(sw, true);
+        try (StringWriter sw = new StringWriter();
+             PrintWriter printWriter = new PrintWriter(sw, true)) {
             e.printStackTrace(printWriter);
             return sw.toString();
-        } finally {
-            if (sw != null) {
-                try {
-                    sw.close();
-                } catch (IOException ex) {
-                    log.error(ex.getMessage(), ex);
-                }
-            }
-            if (printWriter != null) {
-                printWriter.close();
-            }
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
         }
-
+        return null;
     }
 }

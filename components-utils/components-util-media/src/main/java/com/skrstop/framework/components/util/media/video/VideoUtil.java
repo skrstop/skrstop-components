@@ -94,12 +94,17 @@ public class VideoUtil {
         this(StreamUtil.inputStreamToByte(targetInStream));
     }
 
+    /*** 创建输出临时文件（供测试覆写） */
+    File createTempOut() throws IOException {
+        return File.createTempFile(IdUtil.fastSimpleUUID(), null);
+    }
+
     public VideoUtil(byte[] bytes) {
         VideoSnapshotValue videoSnapshotValue = new VideoSnapshotValue();
         videoSnapshotValue.setSourceBytes(bytes);
         videoSnapshotValue.setBuffedStream(StreamUtil.byteToInputStream(videoSnapshotValue.getSourceBytes()));
         try {
-            videoSnapshotValue.setOut(File.createTempFile(IdUtil.fastSimpleUUID(), null));
+            videoSnapshotValue.setOut(createTempOut());
         } catch (IOException e) {
             throw new IllegalArgumentException("创建临时文件失败");
         }
@@ -472,19 +477,9 @@ public class VideoUtil {
             throw new VideoHandleException(e);
         } finally {
             if (ObjectUtil.isNotNull(recorder)) {
-                try {
-                    recorder.close();
-                } catch (FrameRecorder.Exception e) {
-                    e.printStackTrace();
-                }
+                closeRecorder(recorder);
             }
-            if (ObjectUtil.isNotNull(frameGrabber)) {
-                try {
-                    frameGrabber.close();
-                } catch (FrameGrabber.Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            closeGrabber(frameGrabber);
         }
         return this;
     }
@@ -496,9 +491,8 @@ public class VideoUtil {
      */
     public VideoUtil executeVideoCover() {
         VideoSnapshotValue videoSnapshotValue = this.videoSnapshot.get();
-        FFmpegFrameGrabber frameGrabber = null;
+        FFmpegFrameGrabber frameGrabber = new FFmpegFrameGrabber(videoSnapshotValue.getBuffedStream());
         try {
-            frameGrabber = new FFmpegFrameGrabber(videoSnapshotValue.getBuffedStream());
             frameGrabber.start();
             Frame frame = null;
             // 截取封面
@@ -515,13 +509,7 @@ public class VideoUtil {
             e.printStackTrace();
             throw new VideoHandleException(e);
         } finally {
-            if (ObjectUtil.isNotNull(frameGrabber)) {
-                try {
-                    frameGrabber.close();
-                } catch (FrameGrabber.Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            closeGrabber(frameGrabber);
         }
         return this;
     }
@@ -558,13 +546,7 @@ public class VideoUtil {
             e.printStackTrace();
             throw new VideoHandleException(e);
         } finally {
-            if (ObjectUtil.isNotNull(frameGrabber)) {
-                try {
-                    frameGrabber.close();
-                } catch (FrameGrabber.Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            closeGrabber(frameGrabber);
         }
         return this;
     }
@@ -621,6 +603,24 @@ public class VideoUtil {
             return new FileOutputStream(videoSnapshotValue.getOut());
         }
         return null;
+    }
+
+    /*** 静默关闭录制器（供测试覆写/直接调用） */
+    static void closeRecorder(FFmpegFrameRecorder recorder) {
+        try {
+            recorder.close();
+        } catch (FrameRecorder.Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*** 静默关闭抓取器（供测试覆写/直接调用） */
+    static void closeGrabber(FFmpegFrameGrabber frameGrabber) {
+        try {
+            frameGrabber.close();
+        } catch (FrameGrabber.Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static class Builder {
@@ -681,17 +681,17 @@ public class VideoUtil {
          */
         public static VideoUtil ofUrl(URL url) throws IOException {
             if (ObjectUtil.isNotNull(url) && StrUtil.isNotBlank(url.toString())) {
+                // 等价重构：StreamUtil.getInputStream(URL) 仅在 url 为 null 时返回 null，
+                // 此处 url 已判非空，故 inStream 必不为 null（否则抛 IOException），删除恒假的空判分支
                 InputStream inStream = StreamUtil.getInputStream(url);
-                if (ObjectUtil.isNotNull(inStream)) {
-                    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[2048];
-                    int len = 0;
-                    while ((len = inStream.read(buffer)) != -1) {
-                        outStream.write(buffer, 0, len);
-                    }
-                    inStream.close();
-                    return new VideoUtil(outStream.toByteArray());
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[2048];
+                int len = 0;
+                while ((len = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, len);
                 }
+                inStream.close();
+                return new VideoUtil(outStream.toByteArray());
             }
             return null;
         }

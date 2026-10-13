@@ -59,22 +59,11 @@ public class PortUtil {
      * @return
      */
     public static boolean isPortUsed(int port) {
-        boolean used = false;
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(port);
-            used = false;
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            return false;
         } catch (IOException e) {
-            used = true;
-        } finally {
-            if (serverSocket != null) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                }
-            }
+            return true;
         }
-        return used;
     }
 
 }

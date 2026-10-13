@@ -60,7 +60,7 @@ public class TarEntry {
 
     public String getName() {
         String name = header.name.toString();
-        if (header.namePrefix != null && !header.namePrefix.toString().equals("")) {
+        if (!header.namePrefix.toString().equals("")) {
             name = header.namePrefix.toString() + "/" + name;
         }
 
@@ -140,15 +140,11 @@ public class TarEntry {
             return this.file.isDirectory();
         }
 
-        if (header != null) {
-            if (header.linkFlag == TarHeader.LF_DIR) {
-                return true;
-            }
-
-            if (header.name.toString().endsWith("/")) return true;
+        if (header.linkFlag == TarHeader.LF_DIR) {
+            return true;
         }
 
-        return false;
+        return header.name.toString().endsWith("/");
     }
 
     /**

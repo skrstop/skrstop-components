@@ -209,24 +209,4 @@ public class JsonUtil extends JSONUtil {
         }
     }
 
-    /**
-     * 单位缩进字符串。
-     */
-    private static String SPACE = "  ";
-
-    /**
-     * 返回指定次数的缩进字符串。每一次缩进三个空格，即SPACE。
-     *
-     * @param number 缩进次数。
-     * @return 指定缩进次数的字符串。
-     */
-    private String indent(int number) {
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < number; i++) {
-            result.append(SPACE);
-        }
-        return result.toString();
-    }
-
-
 }

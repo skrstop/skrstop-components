@@ -83,10 +83,8 @@ public class MybatisPlusCommonAutoConfiguration {
         sqlSessionFactoryBean.setMapperLocations(ArrayUtil.toArray(allResources, Resource.class));
         // mybatis plus join 插件注入
         sqlSessionFactoryBean.setPlugins(mybatisPlusInterceptor, new MPJInterceptor());
-        if (ObjectUtil.isNull(sqlSessionFactoryBean.getObject())
-                || ObjectUtil.isNull(sqlSessionFactoryBean.getObject().getConfiguration())) {
-            return;
-        }
+        // getObject() 在工厂未初始化时会自动完成构建并抛出缺失依赖的异常，
+        // 构建成功后 configuration 必不为 null，故无需空判断
         // 下划线转驼峰
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(globalDataBaseProperties.isMapUnderscoreToCamelCase());
         // 懒加载

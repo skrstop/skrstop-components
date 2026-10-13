@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 /**
@@ -36,27 +35,18 @@ public class HttpClientErrorExceptionInterceptor implements ExceptionHandlerInte
     @Override
     public InterceptorResult execute(Exception e) {
         HttpClientErrorException httpClientErrorException = (HttpClientErrorException) e;
-        String httpResultStr = null;
-        try {
-            httpResultStr = new String(httpClientErrorException.getResponseBodyAsByteArray(), "UTF-8");
-            HashMap<String, String> map = FastJsonUtil.toBeanForHashMap(httpResultStr);
-            String message = null;
-            if (map != null) {
-                message = map.get("message");
-            }
-            IResult error = EnumCodeUtil.transferEnumCode(CommonResultCode.FAIL);
-            error.setMessage(message);
-            return InterceptorResult.builder()
-                    .next(false)
-                    .result(Result.Builder.result(error))
-                    .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
-                    .build();
-        } catch (UnsupportedEncodingException ex) {
-            return InterceptorResult.builder()
-                    .next(false)
-                    .result(Result.Builder.result(CommonResultCode.FAIL, ex))
-                    .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
-                    .build();
+        String httpResultStr = new String(httpClientErrorException.getResponseBodyAsByteArray(), java.nio.charset.StandardCharsets.UTF_8);
+        HashMap<String, String> map = FastJsonUtil.toBeanForHashMap(httpResultStr);
+        String message = null;
+        if (map != null) {
+            message = map.get("message");
         }
+        IResult error = EnumCodeUtil.transferEnumCode(CommonResultCode.FAIL);
+        error.setMessage(message);
+        return InterceptorResult.builder()
+                .next(false)
+                .result(Result.Builder.result(error))
+                .responseStatus(HttpStatusConst.HTTP_INTERNAL_ERROR)
+                .build();
     }
 }

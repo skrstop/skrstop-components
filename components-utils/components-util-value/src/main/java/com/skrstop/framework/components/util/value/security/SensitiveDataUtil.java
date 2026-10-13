@@ -199,7 +199,7 @@ public class SensitiveDataUtil {
         if (name.length() <= 3) // 姓名三个字以内隐藏姓
         {
             return customizeHide(name, 0, name.length() - 1, 1);
-        } else if (name.length() > 3 && name.length() <= 6) {
+        } else if (name.length() <= 6) {
             return customizeHide(name, 0, 2, name.length() - 2);
         } else {
             return customizeHide(name, 1, 2, name.length() - 3);
@@ -662,7 +662,7 @@ public class SensitiveDataUtil {
 
         // 原数据前半部分
         StringBuilder result = new StringBuilder();
-        if (beginIndex >= 0 && beginIndex < length) {
+        if (beginIndex >= 0) {
             result.append(tmp.substring(0, frontCharNum));
         }
 
@@ -672,7 +672,7 @@ public class SensitiveDataUtil {
         }
 
         // 原数据后半部分
-        if (endIndex >= 0 && endIndex < length) {
+        if (endIndex < length) {
             result.append(tmp.substring(endIndex));
         }
 
@@ -705,12 +705,8 @@ public class SensitiveDataUtil {
      * @return
      */
     private static boolean isIdCardNo(final String idCardNo) {
-        if (isBlank(idCardNo)) {
-            return false;
-        } else {
-            Matcher matcher = ID_CARD_PATTERN.matcher(idCardNo.trim());
-            return matcher.matches();
-        }
+        Matcher matcher = ID_CARD_PATTERN.matcher(idCardNo.trim());
+        return matcher.matches();
     }
 
     /**
@@ -720,12 +716,8 @@ public class SensitiveDataUtil {
      * @return 指示入参是否银行卡号的布尔值。
      */
     private static boolean isBankCardNo(final String bankCardNo) {
-        if (isBlank(bankCardNo)) {
-            return false;
-        } else {
-            Matcher matcher = BANK_CARD_PATTERN.matcher(bankCardNo.trim());
-            return matcher.matches();
-        }
+        Matcher matcher = BANK_CARD_PATTERN.matcher(bankCardNo.trim());
+        return matcher.matches();
     }
 
     /**
@@ -735,12 +727,8 @@ public class SensitiveDataUtil {
      * @return 指示入参是否电话号码的布尔值。
      */
     private static boolean isPhoneOrTelNo(final String phoneOrTelNo) {
-        if (isBlank(phoneOrTelNo)) {
-            return false;
-        } else {
-            Matcher matcher = MAINLAND_PHONE_TEL_PATTERN.matcher(phoneOrTelNo.trim());
-            return matcher.matches();
-        }
+        Matcher matcher = MAINLAND_PHONE_TEL_PATTERN.matcher(phoneOrTelNo.trim());
+        return matcher.matches();
     }
 
     /**

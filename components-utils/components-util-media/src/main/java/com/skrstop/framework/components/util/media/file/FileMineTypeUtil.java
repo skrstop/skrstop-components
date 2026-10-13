@@ -34,7 +34,7 @@ public class FileMineTypeUtil {
             return false;
         }
         MediaType parse = MediaType.parse(new Tika().detect(in));
-        if (ObjectUtil.isNotNull(parse) && StrUtil.isNotBlank(parse.getType())) {
+        if (ObjectUtil.isNotNull(parse)) {
             return parse.compareTo(MediaType.parse(mineType)) == 0;
         }
         return false;
@@ -54,7 +54,7 @@ public class FileMineTypeUtil {
             return false;
         }
         MediaType parse = MediaType.parse(new Tika().detect(in));
-        if (ObjectUtil.isNotNull(parse) && StrUtil.isNotBlank(parse.getType())) {
+        if (ObjectUtil.isNotNull(parse)) {
             return mineTypeList.stream().anyMatch(mineType -> parse.compareTo(MediaType.parse(mineType)) == 0);
         }
         return false;

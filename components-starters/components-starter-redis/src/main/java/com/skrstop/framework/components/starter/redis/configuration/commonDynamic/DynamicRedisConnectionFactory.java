@@ -19,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.util.ClassUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -67,9 +68,6 @@ public class DynamicRedisConnectionFactory implements InitializingBean, Disposab
     @Override
     public void destroy() {
         multiRedisConnectionFactory.forEach((key, ds) -> {
-            if (ObjectUtil.isNull(ds)) {
-                return;
-            }
             if (!(ds instanceof DisposableBean)) {
                 return;
             }
@@ -92,22 +90,13 @@ public class DynamicRedisConnectionFactory implements InitializingBean, Disposab
             if (ObjectUtil.isNotNull(redisProperties.getClientType())) {
                 type = redisProperties.getClientType();
             } else {
-                // 自动选择，依次判断是否有luttuce/jedis
-                Class<?> clazz = null;
-                try {
-                    clazz = Class.forName("io.lettuce.core.RedisClient");
-                } catch (Exception e) {
-                }
-                if (clazz != null) {
+                // 自动选择，依次判断是否有lettuce/jedis
+                if (ClassUtils.isPresent("io.lettuce.core.RedisClient", DynamicRedisConnectionFactory.class.getClassLoader())) {
                     type = RedisProperties.ClientType.LETTUCE;
+                } else if (ClassUtils.isPresent("redis.clients.jedis.Jedis", DynamicRedisConnectionFactory.class.getClassLoader())) {
+                    type = RedisProperties.ClientType.JEDIS;
                 } else {
-                    try {
-                        clazz = Class.forName("redis.clients.jedis.Jedis");
-                    } catch (Exception e) {
-                    }
-                    if (clazz != null) {
-                        type = RedisProperties.ClientType.JEDIS;
-                    }
+                    throw new RuntimeException("未找到redis客户端，请检查是否引入了lettuce或jedis");
                 }
             }
             // 创建
@@ -123,7 +112,8 @@ public class DynamicRedisConnectionFactory implements InitializingBean, Disposab
                 // 初始化
                 lettuceConnectionFactory.afterPropertiesSet();
                 multiRedisConnectionFactory.put(key, lettuceConnectionFactory);
-            } else if (RedisProperties.ClientType.JEDIS.equals(type)) {
+            }
+            if (RedisProperties.ClientType.JEDIS.equals(type)) {
                 log.info("初始化jedis数据源：{}", key);
                 JedisConnectionFactory jedisConnectionFactory = new JedisConnectionConfiguration(redisProperties
                         , new PropertiesRedisConnectionDetails(redisProperties)
@@ -135,13 +125,8 @@ public class DynamicRedisConnectionFactory implements InitializingBean, Disposab
                 // 初始化
                 jedisConnectionFactory.afterPropertiesSet();
                 multiRedisConnectionFactory.put(key, jedisConnectionFactory);
-            } else {
-                throw new RuntimeException("未找到redis客户端，请检查是否引入了lettuce或jedis");
             }
         });
-        if (!multiRedisConnectionFactory.containsKey(this.dynamicRedisProperties.getPrimary())) {
-            throw new RuntimeException("未找到redis默认数据源，请检查是否配置了redis默认数据源");
-        }
     }
 
     private RedisConnectionFactory getConnectionFactoryFromCurrentKey() {

@@ -49,14 +49,8 @@ public class ConstraintViolationExceptionInterceptor implements ExceptionHandler
                     .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
                     .build();
         }
+        // errors 与 constraintViolations 一一对应，violations 非空则 errors 必非空，此处判空不可达
         List<String> errors = constraintViolations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
-        if (CollectionUtil.isEmpty(errors)) {
-            return InterceptorResult.builder()
-                    .next(false)
-                    .result(paramError)
-                    .responseStatus(HttpStatusConst.HTTP_BAD_REQUEST)
-                    .build();
-        }
         paramError.setMessage(ErrorMessageUtil.getFirstErrorMessage(errors));
         return InterceptorResult.builder()
                 .next(false)

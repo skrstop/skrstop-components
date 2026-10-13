@@ -23,10 +23,7 @@ public class ReflectionUtil extends ReflectionUtils {
      * @return
      */
     public static <T> Set<Class<? extends T>> getSubTypesOf(final String basePackage, final Class<T> type) {
-        return Reflections.collect(basePackage
-                        , new FilterBuilder().includePattern("*.*")
-                        , new JavaCodeSerializer())
-                .getSubTypesOf(type);
+        return getSubTypes(basePackage, type);
     }
 
     /**
@@ -36,10 +33,21 @@ public class ReflectionUtil extends ReflectionUtils {
      * @return
      */
     public static <T> Set<Class<? extends T>> getSubTypesOf(final Class<T> type) {
-        return Reflections.collect(StringPoolConst.EMPTY
-                        , new FilterBuilder().includePattern("*.*")
-                        , new JavaCodeSerializer())
-                .getSubTypesOf(type);
+        return getSubTypes(StringPoolConst.EMPTY, type);
+    }
+
+    /**
+     * JavaCodeSerializer 不支持 read，classpath 中存在元数据时抛 UnsupportedOperationException，此时返回空集合
+     */
+    private static <T> Set<Class<? extends T>> getSubTypes(final String basePackage, final Class<T> type) {
+        try {
+            return Reflections.collect(basePackage
+                            , new FilterBuilder().includePattern(".*")
+                            , new JavaCodeSerializer())
+                    .getSubTypesOf(type);
+        } catch (UnsupportedOperationException e) {
+            return java.util.Collections.emptySet();
+        }
     }
 
 

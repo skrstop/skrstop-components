@@ -67,7 +67,9 @@ public class DefaultErrorHtmlController extends DefaultErrorController {
         }
         Map<String, Object> model = new java.util.HashMap<>(Collections
                 .unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.TEXT_HTML))));
-        if (ObjectUtil.isNotNull(error) || error instanceof BusinessThrowable) {
+        // 等价重构：error 为 null 时 isNotNull 与 instanceof 均为 false，error 非 null 时 isNotNull 已为 true，
+        // `|| error instanceof BusinessThrowable` 永不影响结果，故移除
+        if (ObjectUtil.isNotNull(error)) {
             model.put("message", error.getMessage());
         } else {
             model.put("message", CommonResultCode.FAIL.getMessage());

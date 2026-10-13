@@ -73,10 +73,10 @@ public class PermissionUtils {
         return isPosix ? posixPermissions(f) : standardPermissions(f);
     }
 
-    private static final boolean isPosix =
+    static boolean isPosix =
             FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
 
-    private static int posixPermissions(File f) {
+    static int posixPermissions(File f) {
         int number = 0;
         try {
             Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(f.toPath());
@@ -91,7 +91,7 @@ public class PermissionUtils {
         return number;
     }
 
-    private static Set<StandardFilePermission> readStandardPermissions(File f) {
+    static Set<StandardFilePermission> readStandardPermissions(File f) {
         Set<StandardFilePermission> permissions = new HashSet<>();
         if (f.canExecute()) {
             permissions.add(StandardFilePermission.EXECUTE);
@@ -105,7 +105,7 @@ public class PermissionUtils {
         return permissions;
     }
 
-    private static Integer standardPermissions(File f) {
+    static Integer standardPermissions(File f) {
         int number = 0;
         Set<StandardFilePermission> permissions = readStandardPermissions(f);
         for (StandardFilePermission permission : permissions) {

@@ -39,6 +39,7 @@ public abstract class AbstractPageResult<TS, P extends PageData<TS>> extends Abs
 
     public AbstractPageResult(IPageResult<TS, P> iPageResult, TS list) {
         super(iPageResult);
+        this.data = iPageResult.getData();
         if (this.data != null) {
             this.data.setRows(list);
         }

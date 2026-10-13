@@ -5,7 +5,6 @@ import lombok.experimental.UtilityClass;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
-import org.springframework.util.ClassUtils;
 
 import java.lang.annotation.*;
 import java.lang.reflect.AnnotatedElement;
@@ -397,28 +396,19 @@ public class AnnotationUtil {
     public static Annotation tryGetMergedAnnotation(
             AnnotatedElement annotatedElement, Class<? extends Annotation> annotationType) {
 
-        Annotation mergedAnnotation = null;
-
         ClassLoader classLoader = annotationType.getClassLoader();
 
-        if (ClassUtils.isPresent(ANNOTATED_ELEMENT_UTILS_CLASS_NAME, classLoader)) {
-            Class<?> annotatedElementUtilsClass =
-                    resolveClassName(ANNOTATED_ELEMENT_UTILS_CLASS_NAME, classLoader);
-            // getMergedAnnotation method appears in the Spring Framework 4.2
-            Method getMergedAnnotationMethod =
-                    findMethod(
-                            annotatedElementUtilsClass,
-                            "getMergedAnnotation",
-                            AnnotatedElement.class,
-                            Class.class);
-            if (getMergedAnnotationMethod != null) {
-                mergedAnnotation =
-                        (Annotation)
-                                invokeMethod(getMergedAnnotationMethod, null, annotatedElement, annotationType);
-            }
-        }
-
-        return mergedAnnotation;
+        // AnnotatedElementUtils 自 Spring Framework 4.2 起存在于 classpath，getMergedAnnotation 同样
+        Class<?> annotatedElementUtilsClass =
+                resolveClassName(ANNOTATED_ELEMENT_UTILS_CLASS_NAME, classLoader);
+        Method getMergedAnnotationMethod =
+                findMethod(
+                        annotatedElementUtilsClass,
+                        "getMergedAnnotation",
+                        AnnotatedElement.class,
+                        Class.class);
+        return (Annotation)
+                invokeMethod(getMergedAnnotationMethod, null, annotatedElement, annotationType);
     }
 
     /**

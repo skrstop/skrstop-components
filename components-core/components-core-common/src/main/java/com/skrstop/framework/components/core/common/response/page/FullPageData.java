@@ -53,7 +53,7 @@ public class FullPageData<T> extends AbstractPageInfo<T> implements PageData<T> 
     }
 
     private void setParam() {
-        this.totalPage = (this.total + this.pageSize - 1) / pageSize;
+        this.totalPage = this.pageSize <= 0 ? 0 : (this.total + this.pageSize - 1) / this.pageSize;
         this.firstPage = 1;
         this.lastPage = totalPage;
         this.prePage = Math.max(this.pageNumber - 1, 0);

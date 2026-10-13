@@ -1159,7 +1159,7 @@ public class DynamicAopRedissonClient {
      */
     public <V> RBoundedBlockingQueue<V> getBoundedBlockingQueue(String name) {
         RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
-        return getBoundedBlockingQueue(name);
+        return redissonClient.getBoundedBlockingQueue(name);
     }
 
     /**
@@ -1185,7 +1185,7 @@ public class DynamicAopRedissonClient {
      */
     public <V> RDeque<V> getDeque(String name) {
         RedissonClient redissonClient = this.multiRedisson.getRedissonClient();
-        return getDeque(name);
+        return redissonClient.getDeque(name);
     }
 
     /**

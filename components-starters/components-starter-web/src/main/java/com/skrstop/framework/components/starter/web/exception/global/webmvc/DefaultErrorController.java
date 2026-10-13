@@ -81,8 +81,8 @@ public class DefaultErrorController extends AbstractErrorController {
                                      final Exception ex,
                                      final WebRequest req) throws Throwable {
         response.setHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        this.error(request, response, ex, req);
-        return null;
+        // error() 内部所有分支都会抛出异常，直接把其返回值作为不可达结果抛出（等价于原来的 this.error(...); return null;）
+        return (ModelAndView) this.error(request, response, ex, req);
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)

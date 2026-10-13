@@ -45,7 +45,8 @@ public class EntityPropertiesUtil {
                 if (ObjectUtil.isNull(propertyValue)) {
                     tableInfo.setPropertyValue(entity, key, value);
                 }
-            } else if (!superRepository.onlySetUpdateInfoWhenNull()) {
+            } else {
+                // 走到 else 时 onlySetUpdateInfoWhenNull 必为 false
                 tableInfo.setPropertyValue(entity, key, value);
             }
         }
@@ -196,9 +197,6 @@ public class EntityPropertiesUtil {
                 continue;
             }
             String targetFieldName = field.getName();
-            if (StrUtil.isBlank(targetFieldName)) {
-                continue;
-            }
             TableField tableField = AnnotationUtil.getAnnotation(field, TableField.class);
             if (ObjectUtil.isNotNull(tableField) && StrUtil.isNotBlank(tableField.value())) {
                 targetFieldName = tableField.value();

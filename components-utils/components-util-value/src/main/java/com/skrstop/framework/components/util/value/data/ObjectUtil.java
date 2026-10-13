@@ -54,31 +54,39 @@ public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {
             return (String) obj;
         }
         if (obj instanceof Object[]) {
-            return nullSafeToString((Object[]) obj);
+            Object[] array = (Object[]) obj;
+            StringBuilder sb = new StringBuilder(ARRAY_START);
+            for (int i = 0; i < array.length; i++) {
+                sb.append(nullSafeToString(array[i]));
+                if (i < array.length - 1) {
+                    sb.append(ARRAY_ELEMENT_SEPARATOR);
+                }
+            }
+            return sb.append(ARRAY_END).toString();
         }
         if (obj instanceof boolean[]) {
-            return nullSafeToString((boolean[]) obj);
+            return joinArray((boolean[]) obj);
         }
         if (obj instanceof byte[]) {
-            return nullSafeToString((byte[]) obj);
+            return joinArray((byte[]) obj);
         }
         if (obj instanceof char[]) {
-            return nullSafeToString((char[]) obj);
+            return joinArray((char[]) obj);
         }
         if (obj instanceof double[]) {
-            return nullSafeToString((double[]) obj);
+            return joinArray((double[]) obj);
         }
         if (obj instanceof float[]) {
-            return nullSafeToString((float[]) obj);
+            return joinArray((float[]) obj);
         }
         if (obj instanceof int[]) {
-            return nullSafeToString((int[]) obj);
+            return joinArray((int[]) obj);
         }
         if (obj instanceof long[]) {
-            return nullSafeToString((long[]) obj);
+            return joinArray((long[]) obj);
         }
         if (obj instanceof short[]) {
-            return nullSafeToString((short[]) obj);
+            return joinArray((short[]) obj);
         }
         String str = obj.toString();
         return (str != null ? str : EMPTY_STRING);
@@ -205,6 +213,50 @@ public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {
      * @param o2
      * @return
      */
+    private static String joinArray(boolean[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(byte[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(char[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(double[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(float[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(int[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(long[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArray(short[] array) {
+        return joinArrayObj(array);
+    }
+
+    private static String joinArrayObj(Object array) {
+        int length = Array.getLength(array);
+        StringBuilder sb = new StringBuilder(ARRAY_START);
+        for (int i = 0; i < length; i++) {
+            sb.append(nullSafeToString(Array.get(array, i)));
+            if (i < length - 1) {
+                sb.append(ARRAY_ELEMENT_SEPARATOR);
+            }
+        }
+        return sb.append(ARRAY_END).toString();
+    }
+
     private static boolean arrayEquals(Object o1, Object o2) {
         if (o1 instanceof Object[] && o2 instanceof Object[]) {
             return Arrays.equals((Object[]) ((Object[]) o1), (Object[]) ((Object[]) o2));
@@ -223,8 +275,12 @@ public class ObjectUtil extends cn.hutool.core.util.ObjectUtil {
         } else if (o1 instanceof long[] && o2 instanceof long[]) {
             return Arrays.equals((long[]) ((long[]) o1), (long[]) ((long[]) o2));
         } else {
-            return (o1 instanceof short[] && o2 instanceof short[]) && Arrays.equals((short[]) ((short[]) o1), (short[]) ((short[]) o2));
+            return isShortArrayPair(o1, o2) && Arrays.equals((short[]) o1, (short[]) o2);
         }
+    }
+
+    private static boolean isShortArrayPair(Object o1, Object o2) {
+        return o1 instanceof short[] && o2 instanceof short[];
     }
 
     public static <T> T[] of(T... values) {

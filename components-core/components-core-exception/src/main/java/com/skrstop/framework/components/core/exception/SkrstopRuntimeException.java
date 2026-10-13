@@ -42,12 +42,14 @@ public class SkrstopRuntimeException extends RuntimeException implements Skrstop
 
     public SkrstopRuntimeException(Throwable throwable) {
         super(throwable.getMessage());
+        this.throwable = throwable;
         this.exceptionMessage = throwable.getMessage();
     }
 
     public SkrstopRuntimeException(String message, Throwable throwable) {
         super(throwable.getMessage());
         this.iResult.setMessage(message);
+        this.throwable = throwable;
         this.exceptionMessage = throwable.getMessage();
     }
 
@@ -59,6 +61,7 @@ public class SkrstopRuntimeException extends RuntimeException implements Skrstop
     public SkrstopRuntimeException(IResult iResult, Throwable throwable) {
         super(throwable.getMessage());
         this.iResult = EnumCodeUtil.transferEnumCode(iResult);
+        this.throwable = throwable;
         this.exceptionMessage = throwable.getMessage();
     }
 
@@ -72,6 +75,7 @@ public class SkrstopRuntimeException extends RuntimeException implements Skrstop
         super(throwable.getMessage());
         this.iResult = EnumCodeUtil.transferEnumCode(iResult);
         this.iResult.setMessage(message);
+        this.throwable = throwable;
         this.exceptionMessage = throwable.getMessage();
     }
 

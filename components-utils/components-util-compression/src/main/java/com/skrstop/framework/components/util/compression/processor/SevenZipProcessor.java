@@ -50,8 +50,8 @@ public class SevenZipProcessor implements CompressProcessor {
         long t1 = System.currentTimeMillis();
         byte[] data = FileKits.convertFileToByte(srcPath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SevenZFile sevenZFile = new SevenZFile(new File(srcPath));
         try {
+            SevenZFile sevenZFile = new SevenZFile(new File(srcPath));
             byte[] buffer = new byte[1024];
             int readByte;
             SevenZArchiveEntry entry = sevenZFile.getNextEntry();
@@ -72,7 +72,6 @@ public class SevenZipProcessor implements CompressProcessor {
         } catch (Exception e) {
             FileCompressor.LOGGER.error("Error on get compressor file", e);
         } finally {
-            sevenZFile.close();
             baos.close();
         }
         CompressLoggerKits.createReadLog(

@@ -114,17 +114,13 @@ public final class CompressUtil {
                     collection = FileUtils.listFiles(Paths.get(baseDir).toFile(), null, true);
                 }
                 for (Object o : collection) {
-                    if (o instanceof File) {
-                        File item = (File) o;
-                        if (!item.isHidden()) {
-                            if (!item.isDirectory()) {
-                                params.add(
-                                        ZipFileParams.builder()
-                                                .originalFilePath(item.getAbsolutePath())
-                                                .zipInnerRelativePath(item.getAbsolutePath().replace(baseDir, ""))
-                                                .build());
-                            }
-                        }
+                    File item = (File) o;
+                    if (!item.isHidden()) {
+                        params.add(
+                                ZipFileParams.builder()
+                                        .originalFilePath(item.getAbsolutePath())
+                                        .zipInnerRelativePath(item.getAbsolutePath().replace(baseDir, ""))
+                                        .build());
                     }
                 }
             }

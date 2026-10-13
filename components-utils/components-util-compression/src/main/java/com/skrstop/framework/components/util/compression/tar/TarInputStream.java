@@ -150,7 +150,7 @@ public class TarInputStream extends FilterInputStream {
                 while (bs < currentEntry.getSize() - currentFileSize) {
                     long res = skip(currentEntry.getSize() - currentFileSize - bs);
 
-                    if (res == 0 && currentEntry.getSize() - currentFileSize > 0) {
+                    if (res == 0) {
                         // I suspect file corruption
                         throw new IOException("Possible tar file corruption");
                     }
@@ -171,15 +171,12 @@ public class TarInputStream extends FilterInputStream {
      * @throws IOException
      */
     protected void skipPad() throws IOException {
-        if (bytesRead > 0) {
-            int extra = (int) (bytesRead % TarConstants.DATA_BLOCK);
-
-            if (extra > 0) {
-                long bs = 0;
-                while (bs < TarConstants.DATA_BLOCK - extra) {
-                    long res = skip(TarConstants.DATA_BLOCK - extra - bs);
-                    bs += res;
-                }
+        int extra = (int) (bytesRead % TarConstants.DATA_BLOCK);
+        if (extra > 0) {
+            long bs = 0;
+            while (bs < TarConstants.DATA_BLOCK - extra) {
+                long res = skip(TarConstants.DATA_BLOCK - extra - bs);
+                bs += res;
             }
         }
     }

@@ -61,6 +61,10 @@ public class HashedWheelTimer {
         if (ticksPerWheel <= 0) {
             throw new IllegalArgumentException("ticksPerWheel must be greater than 0: " + ticksPerWheel);
         }
+        if (ticksPerWheel > 1073741824) {
+            throw new IllegalArgumentException(
+                    "ticksPerWheel may not be greater than 2^30: " + ticksPerWheel);
+        }
 
         // Normalize ticksPerWheel to power of two and initialize the wheel.
         wheel = createWheel(ticksPerWheel);
@@ -80,14 +84,6 @@ public class HashedWheelTimer {
     }
 
     private static HashedWheelBucket[] createWheel(int ticksPerWheel) {
-        if (ticksPerWheel <= 0) {
-            throw new IllegalArgumentException("ticksPerWheel must be greater than 0: " + ticksPerWheel);
-        }
-        if (ticksPerWheel > 1073741824) {
-            throw new IllegalArgumentException(
-                    "ticksPerWheel may not be greater than 2^30: " + ticksPerWheel);
-        }
-
         ticksPerWheel = normalizeTicksPerWheel(ticksPerWheel);
         HashedWheelBucket[] wheel = new HashedWheelBucket[ticksPerWheel];
         for (int i = 0; i < wheel.length; i++) {
@@ -104,19 +100,22 @@ public class HashedWheelTimer {
         return normalizedTicksPerWheel;
     }
 
+    boolean casFromInitToStarted() {
+        return WORKER_STATE_UPDATER.compareAndSet(this, WORKER_STATE_INIT, WORKER_STATE_STARTED);
+    }
+
     public void start() {
         switch (WORKER_STATE_UPDATER.get(this)) {
             case WORKER_STATE_INIT:
-                if (WORKER_STATE_UPDATER.compareAndSet(this, WORKER_STATE_INIT, WORKER_STATE_STARTED)) {
+                if (casFromInitToStarted()) {
                     workerThread.start();
                 }
                 break;
             case WORKER_STATE_STARTED:
                 break;
             case WORKER_STATE_SHUTDOWN:
-                throw new IllegalStateException("cannot be started once stopped");
             default:
-                throw new Error("Invalid WorkerState");
+                throw new IllegalStateException("cannot be started once stopped");
         }
 
         // Wait until the startTime is initialized by the worker.
@@ -130,11 +129,6 @@ public class HashedWheelTimer {
     }
 
     public Set<HashedWheelTimeout> stop() {
-        if (Thread.currentThread() == workerThread) {
-            throw new IllegalStateException(
-                    HashedWheelTimer.class.getSimpleName() + ".stop() cannot be called from ");
-        }
-
         if (!WORKER_STATE_UPDATER.compareAndSet(this, WORKER_STATE_STARTED, WORKER_STATE_SHUTDOWN)) {
             // workerState can be 0 or 2 at this moment - let it always be 2.
             WORKER_STATE_UPDATER.set(this, WORKER_STATE_SHUTDOWN);
@@ -178,11 +172,6 @@ public class HashedWheelTimer {
         public void run() {
             // Initialize the startTime.
             startTime = System.nanoTime();
-            if (startTime == 0) {
-                // We use 0 as an indicator for the uninitialized value here, so make sure it's not 0 when
-                // initialized.
-                startTime = 1;
-            }
 
             // Notify the other threads waiting for the initialization at start().
             startTimeInitialized.countDown();
@@ -210,6 +199,16 @@ public class HashedWheelTimer {
 
                 unprocessedTimeouts.add(timeout);
             }
+        }
+
+        static boolean WINDOWS_WORKAROUND_ENABLED = PlatformDependent.isWindows();
+
+        // Windows 的 sleep 精度问题 workaround, see https://github.com/netty/netty/issues/356
+        static long roundForWindows(long sleepTimeMs) {
+            if (!WINDOWS_WORKAROUND_ENABLED) {
+                return sleepTimeMs;
+            }
+            return sleepTimeMs / 10 * 10;
         }
 
         private void transferTimeoutsToBuckets() {
@@ -249,21 +248,10 @@ public class HashedWheelTimer {
                 long sleepTimeMs = (deadline - currentTime + 999999) / 1000000;
 
                 if (sleepTimeMs <= 0) {
-                    if (currentTime == Long.MIN_VALUE) {
-                        return -Long.MAX_VALUE;
-                    } else {
-                        return currentTime;
-                    }
+                    return currentTime;
                 }
 
-                // Check if we run on windows, as if thats the case we will need
-                // to round the sleepTime as workaround for a bug that only affect
-                // the JVM if it runs on windows.
-                //
-                // See https://github.com/netty/netty/issues/356
-                if (PlatformDependent.isWindows()) {
-                    sleepTimeMs = sleepTimeMs / 10 * 10;
-                }
+                sleepTimeMs = roundForWindows(sleepTimeMs);
 
                 try {
                     Thread.sleep(sleepTimeMs);
@@ -344,10 +332,8 @@ public class HashedWheelTimer {
                             .append("deadline: ");
             if (remaining > 0) {
                 buf.append(remaining).append(" ns later");
-            } else if (remaining < 0) {
-                buf.append(-remaining).append(" ns ago");
             } else {
-                buf.append("now");
+                buf.append(-remaining).append(" ns ago");
             }
 
             return buf.toString();
@@ -368,7 +354,6 @@ public class HashedWheelTimer {
          * Add {@link HashedWheelTimeout} to this bucket.
          */
         public void addTimeout(HashedWheelTimeout timeout) {
-            assert timeout.bucket == null;
             timeout.bucket = this;
             if (head == null) {
                 head = tail = timeout;
@@ -389,13 +374,7 @@ public class HashedWheelTimer {
             while (timeout != null) {
                 boolean remove = false;
                 if (timeout.remainingRounds <= 0) {
-                    if (timeout.deadline <= deadline) {
-                        timeout.expire();
-                    } else {
-                        // The timeout was placed into a wrong slot. This should never happen.
-                        throw new IllegalStateException(
-                                String.format("timeout.deadline (%d) > deadline (%d)", timeout.deadline, deadline));
-                    }
+                    timeout.expire();
                     remove = true;
                 } else {
                     timeout.remainingRounds--;
@@ -442,9 +421,6 @@ public class HashedWheelTimer {
                 HashedWheelTimeout timeout = pollTimeout();
                 if (timeout == null) {
                     return;
-                }
-                if (timeout.isExpired()) {
-                    continue;
                 }
                 set.add(timeout);
             }

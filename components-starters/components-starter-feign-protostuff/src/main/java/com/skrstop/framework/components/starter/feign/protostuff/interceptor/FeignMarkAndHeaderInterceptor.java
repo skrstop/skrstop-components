@@ -5,7 +5,6 @@ import com.skrstop.framework.components.starter.feign.protostuff.configuration.G
 import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.enums.ContentTypeEnum;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
-import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,32 +40,27 @@ public class FeignMarkAndHeaderInterceptor implements RequestInterceptor {
 //		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 //		HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
 
-        try {
-            String name = template.feignTarget().type().getName();
-            Boolean isProtostuffFeignClient = PROTOSTUFF_FEIGN_CLIENT_CACHE.get(name);
-            if (isProtostuffFeignClient == null) {
-                ProtostuffFeignClient protostuffFeignClient = Class.forName(name).getAnnotation(ProtostuffFeignClient.class);
-                if (protostuffFeignClient != null) {
-                    isProtostuffFeignClient = true;
-                } else {
-                    isProtostuffFeignClient = false;
-                }
-                PROTOSTUFF_FEIGN_CLIENT_CACHE.put(name, isProtostuffFeignClient);
-            }
-            if (ObjectUtil.isNotNull(isProtostuffFeignClient) && isProtostuffFeignClient) {
-                // 添加feignMark 标记为protostuff
-                template.header(FeignConst.USE_FEIGN_NAME, FeignConst.USE_FEIGN_VALUE);
-                template.header(FeignConst.FEIGN_PROTOCOL_NAME, FeignConst.FEIGN_PROTOCOL_VALUE_PROTOSTUFF);
-                template.header("Content-Type", ContentTypeEnum.PROTOBUF.getContentType());
-            }
-            // 请求头传递
-            if (globalFeignProperties.getTransferHeader()) {
-                this.transferHeader(template);
-            }
-        } catch (ClassNotFoundException e) {
-            // do nothing
+        // 直接使用 feignTarget().type() 获取 Class(原 Class.forName(name) 中 name 即 type.getName(),
+        // type 已加载, CNFE 不可达), try/catch 等价删除
+        Class<?> type = template.feignTarget().type();
+        String name = type.getName();
+        Boolean isProtostuffFeignClient = PROTOSTUFF_FEIGN_CLIENT_CACHE.get(name);
+        if (isProtostuffFeignClient == null) {
+            ProtostuffFeignClient protostuffFeignClient = type.getAnnotation(ProtostuffFeignClient.class);
+            // 缓存未命中时 isProtostuffFeignClient 已被赋值, 恒非 null
+            isProtostuffFeignClient = protostuffFeignClient != null;
+            PROTOSTUFF_FEIGN_CLIENT_CACHE.put(name, isProtostuffFeignClient);
         }
-
+        if (isProtostuffFeignClient) {
+            // 添加feignMark 标记为protostuff
+            template.header(FeignConst.USE_FEIGN_NAME, FeignConst.USE_FEIGN_VALUE);
+            template.header(FeignConst.FEIGN_PROTOCOL_NAME, FeignConst.FEIGN_PROTOCOL_VALUE_PROTOSTUFF);
+            template.header("Content-Type", ContentTypeEnum.PROTOBUF.getContentType());
+        }
+        // 请求头传递
+        if (globalFeignProperties.getTransferHeader()) {
+            this.transferHeader(template);
+        }
     }
 
     private void transferHeader(RequestTemplate template) {

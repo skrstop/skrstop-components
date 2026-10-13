@@ -119,10 +119,10 @@ public class FileKits {
      */
     public static byte[] convertFileToByte(String filePath) throws Exception {
         File file = new File(filePath);
-        FileInputStream fis = new FileInputStream(file);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] result = null;
         try {
+            FileInputStream fis = new FileInputStream(file);
             byte[] fetchByte = new byte[1024];
             int readByte = fis.read(fetchByte);
             while (readByte != -1) {
@@ -130,11 +130,11 @@ public class FileKits {
                 readByte = fis.read(fetchByte);
             }
             result = baos.toByteArray();
+            fis.close();
         } catch (Exception e) {
             FileCompressor.LOGGER.error("Error on convert file to byte", e);
         } finally {
             baos.close();
-            fis.close();
         }
         return result;
     }

@@ -75,7 +75,7 @@ public class DefaultPropertySourceEnvironmentPostProcessor
         }
     }
 
-    private PropertySource buildPropertySource(ResourceLoader resourceLoader) throws IOException {
+    protected PropertySource buildPropertySource(ResourceLoader resourceLoader) throws IOException {
         CompositePropertySource propertySource = new CompositePropertySource(PROPERTY_SOURCE_NAME);
         appendPropertySource(propertySource, resourceLoader);
         return propertySource;
@@ -87,12 +87,9 @@ public class DefaultPropertySourceEnvironmentPostProcessor
                 new PathMatchingResourcePatternResolver(resourceLoader);
         Resource[] resources = resourcePatternResolver.getResources(RESOURCE_LOCATION_PATTERN);
         for (Resource resource : resources) {
-            // Add if exists
-            if (resource.exists()) {
-                String internalName = String.valueOf(resource.getURL());
-                propertySource.addPropertySource(
-                        new ResourcePropertySource(internalName, new EncodedResource(resource, FILE_ENCODING)));
-            }
+            String internalName = String.valueOf(resource.getURL());
+            propertySource.addPropertySource(
+                    new ResourcePropertySource(internalName, new EncodedResource(resource, FILE_ENCODING)));
         }
     }
 

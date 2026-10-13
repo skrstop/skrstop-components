@@ -30,7 +30,10 @@ public class DynamicClientInterceptor implements MethodInterceptor {
     private String determineClientKey(MethodInvocation invocation) {
         // 获取方法的第一个参数
         Object[] arguments = invocation.getArguments();
-        if (ObjectUtil.isNull(arguments) || arguments.length <= 0) {
+        if (ObjectUtil.isNull(arguments)) {
+            return null;
+        }
+        if (arguments.length <= 0) {
             return null;
         }
         String key = arguments[0].toString();

@@ -45,17 +45,13 @@ public class ServiceLockAnnotationInterceptor implements MethodInterceptor {
                         throw new RuntimeException("beanName: " + serviceLock.beanName() + "未实现锁规则接口AccessLimitRule");
                     }
                     rule = (ServiceLockRule) bean;
-                    if (ObjectUtil.isNull(rule)) {
-                        throw new RuntimeException("未找到锁规则, beanName: " + serviceLock.beanName());
-                    }
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                     throw new RuntimeException("未找到锁规则, beanName: " + serviceLock.beanName());
                 }
                 ruleMap.put(serviceLock.beanName(), rule);
             }
-        } else if (ObjectUtil.isNotNull(serviceLock.beanClass())
-                && serviceLock.beanClass() != void.class
+        } else if (serviceLock.beanClass() != void.class
                 && serviceLock.beanClass() != Void.class) {
             // beanClass
             rule = ruleMap.get(serviceLock.beanClass());
@@ -65,9 +61,6 @@ public class ServiceLockAnnotationInterceptor implements MethodInterceptor {
                 }
                 try {
                     rule = (ServiceLockRule) SpringUtil.getBean(serviceLock.beanClass());
-                    if (ObjectUtil.isNull(rule)) {
-                        throw new RuntimeException("未找到锁规则, beanClass: " + serviceLock.beanClass().getName());
-                    }
                 } catch (NoUniqueBeanDefinitionException e) {
                     log.error(e.getMessage(), e);
                     throw new RuntimeException("找到多个锁规则, beanClass: " + serviceLock.beanClass().getName());
@@ -77,16 +70,13 @@ public class ServiceLockAnnotationInterceptor implements MethodInterceptor {
                 }
                 ruleMap.put(serviceLock.beanClass(), rule);
             }
-        } else if (ObjectUtil.isNotNull(serviceLock.defaultRule())) {
+        } else {
             // defaultRule
             rule = ruleMap.get(serviceLock.defaultRule());
             if (ObjectUtil.isNull(rule)) {
                 rule = ReflectUtil.newInstance(serviceLock.defaultRule());
                 ruleMap.put(serviceLock.defaultRule(), rule);
             }
-        }
-        if (ObjectUtil.isNull(rule)) {
-            throw new RuntimeException("未设置任何锁规则");
         }
         return rule.handle(invocation, serviceLock);
     }

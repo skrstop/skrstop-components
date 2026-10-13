@@ -141,7 +141,7 @@ public class CallExecutor<T> implements RetryExecutor<T, Status<T>> {
 
             boolean shouldRetryOnThisResult =
                     config.shouldRetryOnValue()
-                            && ((config.getValuesToExpect() != null && !isOneOfValuesToExpect(callResult))
+                            && (shouldRetryOnExpectedValues(callResult)
                             || isOneOfValuesToRetryOn(callResult));
             if (shouldRetryOnThisResult) {
                 attemptStatus.setSuccessful(false);
@@ -162,16 +162,12 @@ public class CallExecutor<T> implements RetryExecutor<T, Status<T>> {
         return attemptStatus;
     }
 
-    private boolean isOneOfValuesToExpect(T callResult) {
+    private boolean shouldRetryOnExpectedValues(T callResult) {
         Collection<Object> valuesToExpect = config.getValuesToExpect();
-        if (valuesToExpect != null) {
-            for (Object o : valuesToExpect) {
-                if (o.equals(callResult)) {
-                    return true;
-                }
-            }
+        if (valuesToExpect == null) {
+            return false;
         }
-        return false;
+        return !valuesToExpect.contains(callResult);
     }
 
     private boolean isOneOfValuesToRetryOn(T callResult) {

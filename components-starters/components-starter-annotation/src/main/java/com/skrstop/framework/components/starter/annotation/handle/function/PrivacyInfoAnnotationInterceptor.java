@@ -105,9 +105,6 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
         PropertyDescriptor[] propertyDescriptors = BeanUtil.getPropertyDescriptors(returnVal.getClass());
         for (PropertyDescriptor descriptor : propertyDescriptors) {
             String name = descriptor.getName();
-            if ("class".equals(name)) {
-                continue;
-            }
             if (!this.isPrimitive(descriptor)) {
                 Object property = BeanUtil.getProperty(returnVal, descriptor.getName());
                 this.setInfo(property, innerIp);
@@ -121,7 +118,7 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
                     continue;
                 }
                 PrivacyInfoValue privacyInfoValue = field.getAnnotation(PrivacyInfoValue.class);
-                if (ObjectUtil.isNull(privacyInfoValue) || ObjectUtil.isNull(privacyInfoValue.type())) {
+                if (ObjectUtil.isNull(privacyInfoValue)) {
                     continue;
                 }
                 boolean limit = privacyInfoValue.limitIntranet();
@@ -169,27 +166,17 @@ public class PrivacyInfoAnnotationInterceptor implements MethodInterceptor {
 
     private boolean isPrimitive(PropertyDescriptor field) {
         Class<?> type = field.getPropertyType();
-        boolean primitive = ClassUtil.isBasicType(type);
-        if (!primitive) {
-            return type.getName().equals(Integer.class.getName()) ||
-                    type.getName().equals(Byte.class.getName()) ||
-                    type.getName().equals(Long.class.getName()) ||
-                    type.getName().equals(Double.class.getName()) ||
-                    type.getName().equals(Float.class.getName()) ||
-                    type.getName().equals(Character.class.getName()) ||
-                    type.getName().equals(String.class.getName()) ||
-                    type.getName().equals(Short.class.getName()) ||
-                    type.getName().equals(Timestamp.class.getName()) ||
-                    type.getName().equals(Time.class.getName()) ||
-                    type.getName().equals(Date.class.getName()) ||
-                    type.getName().equals(LocalDateTime.class.getName()) ||
-                    type.getName().equals(LocalDate.class.getName()) ||
-                    type.getName().equals(LocalTime.class.getName()) ||
-                    type.getName().equals(Time.class.getName()) ||
-                    type.getName().equals(BigDecimal.class.getName()) ||
-                    type.getName().equals(Boolean.class.getName());
+        if (ClassUtil.isBasicType(type)) {
+            return true;
         }
-        return true;
+        return type.getName().equals(String.class.getName()) ||
+                type.getName().equals(Timestamp.class.getName()) ||
+                type.getName().equals(Time.class.getName()) ||
+                type.getName().equals(Date.class.getName()) ||
+                type.getName().equals(LocalDateTime.class.getName()) ||
+                type.getName().equals(LocalDate.class.getName()) ||
+                type.getName().equals(LocalTime.class.getName()) ||
+                type.getName().equals(BigDecimal.class.getName());
     }
 
     private boolean innerIp() {

@@ -80,8 +80,12 @@ public class ServletUtil {
      * @since 4.0.2
      */
     public static String getBody(ServletRequest request) {
-        try (final BufferedReader reader = request.getReader()) {
-            return IoUtil.read(reader);
+        // 等价重构：IoUtil.read 内部会静默关闭 Reader（hutool 关闭时吞掉 IOException），
+        // 且 BufferedReader.close 幂等，try-with-resources 的二次 close 不会抛 IOException；
+        // IoUtil.read 抛出的是非受检 IORuntimeException，因此原 catch(IOException) 不可达，
+        // IOException 唯一可能来源是 getReader() 本身，语义保持不变。
+        try {
+            return IoUtil.read(request.getReader());
         } catch (IOException e) {
             throw new IORuntimeException(e);
         }
@@ -540,13 +544,16 @@ public class ServletUtil {
      */
     public static void write(HttpServletResponse response, String text, String contentType) {
         response.setContentType(contentType);
-        Writer writer = null;
+        java.io.PrintWriter writer;
         try {
+            // response.getWriter() 返回 PrintWriter，其 write/flush 均不抛 IOException，仅需捕获 getWriter 的异常
             writer = response.getWriter();
-            writer.write(text);
-            writer.flush();
         } catch (IOException e) {
             throw new UtilException(e);
+        }
+        try {
+            writer.write(text);
+            writer.flush();
         } finally {
             IoUtil.close(writer);
         }
@@ -657,7 +664,8 @@ public class ServletUtil {
             response.setHeader(name, (String) value);
         } else if (Date.class.isAssignableFrom(value.getClass())) {
             response.setDateHeader(name, ((Date) value).getTime());
-        } else if (value instanceof Integer || "int".equalsIgnoreCase(value.getClass().getSimpleName())) {
+            // getClass().getSimpleName() 不可能为 "int"，第二个条件不可达
+        } else if (value instanceof Integer) {
             response.setIntHeader(name, (int) value);
         } else {
             response.setHeader(name, value.toString());

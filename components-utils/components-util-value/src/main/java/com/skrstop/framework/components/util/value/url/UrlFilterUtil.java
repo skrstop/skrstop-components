@@ -37,7 +37,7 @@ public class UrlFilterUtil {
             if (StrUtil.startWith(targetPath, temp)) {
                 return true;
             }
-        } else if (StrUtil.startWith(url, PATTERN) && StrUtil.endWith(url, PATTERN)) {
+        } else if (StrUtil.startWith(url, PATTERN)) {
             // 模糊匹配  **xxx**
             temp = StrUtil.removePrefix(url, PATTERN);
             temp = StrUtil.removeSuffix(temp, PATTERN);

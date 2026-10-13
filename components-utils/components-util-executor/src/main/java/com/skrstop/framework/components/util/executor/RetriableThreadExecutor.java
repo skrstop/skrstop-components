@@ -36,8 +36,6 @@ public class RetriableThreadExecutor<T> {
         this.attribute = attribute;
         this.callable = callable;
         this.callback = callback;
-        // not null
-        assert this.callable != null && this.attribute != null;
         this.hashedWheelTimer = new HashedWheelTimer(1, TimeUnit.SECONDS);
 
         // log

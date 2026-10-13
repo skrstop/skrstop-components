@@ -104,12 +104,7 @@ public class FileCompressor implements Serializable {
             throws Exception {
         compressedPath = FileKits.getSafePath(compressedPath);
         FileCompressor fileCompressor = read(compressedPath, type);
-        try {
-            FileKits.delete(compressedPath);
-        } catch (Exception e) {
-            CompressLoggerKits.createFileNotFoundLog(
-                    "Delete after reading compressed file...", fileCompressor, compressedPath);
-        }
+        FileKits.delete(compressedPath);
         return fileCompressor;
     }
 
@@ -192,13 +187,6 @@ public class FileCompressor implements Serializable {
         if (type == null) {
             throw new IllegalArgumentException("Type not set.");
         }
-        CompressionType[] compressorTypes = CompressionType.values();
-        for (CompressionType compressorType : compressorTypes) {
-            if (compressorType.equals(type)) {
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Invalid type.");
     }
 
     /**
@@ -354,16 +342,15 @@ public class FileCompressor implements Serializable {
      */
     public void addAndDelete(String srcPath, String desPath) throws Exception {
         File srcFile = new File(srcPath);
-        File[] listFiles;
-        if (srcFile.exists() && srcFile.isFile()) {
-            addFileAndDelete(srcPath, desPath);
-        } else if (srcFile.exists() && srcFile.isDirectory()) {
-            listFiles = srcFile.listFiles();
-            for (File file : listFiles) {
-                addAndDelete(file.getPath(), desPath + "/" + file.getName());
-            }
-        }
         if (srcFile.exists()) {
+            if (srcFile.isFile()) {
+                addFileAndDelete(srcPath, desPath);
+            } else {
+                File[] listFiles = srcFile.listFiles();
+                for (File file : listFiles) {
+                    addAndDelete(file.getPath(), desPath + "/" + file.getName());
+                }
+            }
             srcFile.delete();
         }
     }
@@ -376,12 +363,7 @@ public class FileCompressor implements Serializable {
     public void deleteAllSources() throws Exception {
         long t1 = System.currentTimeMillis();
         for (BinaryFile binFile : mapBinaryFile.values()) {
-            try {
-                FileKits.deleteParent(binFile.getSrcPath());
-            } catch (Exception e) {
-                CompressLoggerKits.createFileNotFoundLog(
-                        "Delete all sources...", this, binFile.getSrcPath());
-            }
+            FileKits.deleteParent(binFile.getSrcPath());
         }
         CompressLoggerKits.createDeleteAllSourcesLog(this, t1, System.currentTimeMillis());
     }
@@ -494,7 +476,6 @@ public class FileCompressor implements Serializable {
         BinaryFile binaryFile = mapBinaryFile.get(srcPath);
         if (binaryFile == null) {
             CompressLoggerKits.createFileNotFoundLog("Remove file...", this, srcPath);
-            CompressLoggerKits.createRemoveFileLog(this, binaryFile, t1, System.currentTimeMillis());
             return;
         }
         removeBinaryFile(binaryFile);

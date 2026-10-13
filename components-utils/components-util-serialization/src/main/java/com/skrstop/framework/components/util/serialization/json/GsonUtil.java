@@ -53,8 +53,7 @@ public class GsonUtil {
      */
     public static <T> List<T> toBeanForList(String json,
                                             Class<T> cls) {
-        return new Gson().fromJson(json, new TypeToken<List<T>>() {
-        }.getType());
+        return new Gson().fromJson(json, TypeToken.getParameterized(List.class, cls).getType());
     }
 
     /**
@@ -66,8 +65,8 @@ public class GsonUtil {
      */
     public static <T> List<Map<String, T>> toBeanForListMap(
             String json) {
-        return new Gson().fromJson(json, new TypeToken<List<Map<String, T>>>() {
-        }.getType());
+        return new Gson().fromJson(json, TypeToken.getParameterized(List.class,
+                TypeToken.getParameterized(Map.class, String.class, Object.class).getType()).getType());
     }
 
     /**
@@ -79,8 +78,8 @@ public class GsonUtil {
      */
     public static <T> List<Map<String, T>> toBeanForListMap(
             String json, Class<T> cls) {
-        return new Gson().fromJson(json, new TypeToken<List<Map<String, T>>>() {
-        }.getType());
+        return new Gson().fromJson(json, TypeToken.getParameterized(List.class,
+                TypeToken.getParameterized(Map.class, String.class, cls).getType()).getType());
     }
 
     /**
@@ -92,8 +91,7 @@ public class GsonUtil {
      */
     public static <T> HashMap<String, T> toBeanForHashMap(
             String json) {
-        return new Gson().fromJson(json, new TypeToken<HashMap<String, T>>() {
-        }.getType());
+        return new Gson().fromJson(json, TypeToken.getParameterized(HashMap.class, String.class, Object.class).getType());
     }
 
     /**
@@ -105,8 +103,7 @@ public class GsonUtil {
      */
     public static <T> HashMap<String, T> toBeanForHashMap(
             String json, Class<T> cls) {
-        return new Gson().fromJson(json, new TypeToken<HashMap<String, T>>() {
-        }.getType());
+        return new Gson().fromJson(json, TypeToken.getParameterized(HashMap.class, String.class, cls).getType());
     }
 
     /**

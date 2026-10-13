@@ -528,7 +528,10 @@ public class Assert {
      */
     public static void isAssignable(Class<?> superType, Class<?> subType, String errorMsgTemplate, Object... params) throws IllegalArgumentException {
         notNull(superType, "Type to check against must not be null");
-        if (subType == null || !superType.isAssignableFrom(subType)) {
+        if (subType == null) {
+            throw new IllegalArgumentException(StrUtil.format(errorMsgTemplate, params));
+        }
+        if (!superType.isAssignableFrom(subType)) {
             throw new IllegalArgumentException(StrUtil.format(errorMsgTemplate, params));
         }
     }

@@ -46,16 +46,16 @@ public class DynamicResult {
             return PageLinkedListResult.Builder.success(newPageData, (LinkedList) val);
         } else if (val instanceof List) {
             return PageListResult.Builder.success(newPageData, (List) val);
-        } else if (val instanceof HashSet) {
-            return PageHashSetResult.Builder.success(newPageData, (HashSet) val);
         } else if (val instanceof LinkedHashSet) {
             return PageLinkedSetResult.Builder.success(newPageData, (LinkedHashSet) val);
+        } else if (val instanceof HashSet) {
+            return PageHashSetResult.Builder.success(newPageData, (HashSet) val);
         } else if (val instanceof Set) {
             return PageSetResult.Builder.success(newPageData, (Set) val);
-        } else if (val instanceof Collection) {
+        } else {
+            // 参数类型即 Collection，非 List/Set 时兜底
             return PageCollectionResult.Builder.success(newPageData, (Collection) val);
         }
-        return PageCollectionResult.Builder.success(newPageData, val);
     }
 
     public static IPageResult buildPage(PageData<?> pageData) {

@@ -3,12 +3,12 @@ package com.skrstop.framework.components.starter.annotation.handle.function.serv
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.core.exception.SkrstopRuntimeException;
 import com.skrstop.framework.components.starter.annotation.anno.function.ServiceLock;
-import com.skrstop.framework.components.util.enums.CharSetEnum;
 import com.skrstop.framework.components.util.value.data.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -27,7 +27,7 @@ public class DefaultServiceLockRule implements ServiceLockRule {
     @Override
     public Object handle(MethodInvocation invocation, ServiceLock serviceLock) throws Throwable {
         String methodStr = invocation.getMethod().toString();
-        String functionName = DigestUtils.md5DigestAsHex(methodStr.getBytes(CharSetEnum.UTF8.getCharSet()));
+        String functionName = DigestUtils.md5DigestAsHex(methodStr.getBytes(StandardCharsets.UTF_8));
         //获取注解信息
         // 获取注解每秒加入桶中的token
         String lockKey = serviceLock.lockId();

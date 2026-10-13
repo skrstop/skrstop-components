@@ -41,4 +41,12 @@ public class StressStoreUtilTest {
         });
     }
 
+
+    @Test
+    public void testAndPrintWithWarmUp() {
+        // 4 参数重载 → 指定预热次数
+        StressStoreUtil.testAndPrint(2, 2, () -> {
+        }, 1);
+    }
+
 }

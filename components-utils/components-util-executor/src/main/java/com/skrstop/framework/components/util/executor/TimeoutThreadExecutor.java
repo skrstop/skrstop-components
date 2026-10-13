@@ -46,30 +46,9 @@ public class TimeoutThreadExecutor<T> {
 
     public T execute() throws TimeoutException, InterruptedException, ExecutionException {
 
-        ExecutorService executorService =
-                new ThreadPoolExecutor(
-                        1,
-                        1,
-                        0L,
-                        TimeUnit.MILLISECONDS,
-                        new LinkedBlockingQueue<Runnable>(),
-                        new DefaultThreadFactory(name),
-                        new AbortPolicy());
+        ExecutorService executorService = newExecutorService();
 
-        Future<T> future =
-                executorService.submit(
-                        new Callable<T>() {
-                            @Override
-                            public T call() throws Exception {
-                                // check
-                                if (!Thread.currentThread().isInterrupted()) {
-                                    // execute
-                                    return TimeoutThreadExecutor.this.task.call();
-                                } else {
-                                    throw new InterruptedException(Thread.currentThread().getName() + " 已经被中断执行");
-                                }
-                            }
-                        });
+        Future<T> future = executorService.submit(newTaskCallable());
         try {
             if (!timeoutAble) {
                 return future.get();
@@ -81,6 +60,32 @@ public class TimeoutThreadExecutor<T> {
             } catch (Exception ignore) {
             }
         }
+    }
+
+    ExecutorService newExecutorService() {
+        return new ThreadPoolExecutor(
+                1,
+                1,
+                0L,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(),
+                new DefaultThreadFactory(name),
+                new AbortPolicy());
+    }
+
+    Callable<T> newTaskCallable() {
+        return new Callable<T>() {
+            @Override
+            public T call() throws Exception {
+                // check
+                if (!Thread.currentThread().isInterrupted()) {
+                    // execute
+                    return TimeoutThreadExecutor.this.task.call();
+                } else {
+                    throw new InterruptedException(Thread.currentThread().getName() + " 已经被中断执行");
+                }
+            }
+        };
     }
 
     public long getTimeout() {

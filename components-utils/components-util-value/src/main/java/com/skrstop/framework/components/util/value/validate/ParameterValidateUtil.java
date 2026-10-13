@@ -18,9 +18,12 @@ import java.util.Set;
 @UtilityClass
 public class ParameterValidateUtil {
 
-    private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
+    private static final Validator VALIDATOR = Validation.byDefaultProvider().configure()
+            .messageInterpolator(new org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator()).buildValidatorFactory().getValidator();
     private static final Validator HIBERNATE_VALIDATOR = Validation
-            .byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory().getValidator();
+            .byProvider(HibernateValidator.class).configure().failFast(true)
+            .messageInterpolator(new org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator())
+            .buildValidatorFactory().getValidator();
 
     /**
      * spring validate 框架参数验证，并抛出异常

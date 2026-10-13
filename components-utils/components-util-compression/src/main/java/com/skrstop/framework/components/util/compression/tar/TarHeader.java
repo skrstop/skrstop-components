@@ -189,9 +189,7 @@ public class TarHeader {
         }
         if (dir) {
             header.linkFlag = TarHeader.LF_DIR;
-            if (header.name.charAt(header.name.length() - 1) != '/') {
-                header.name.append("/");
-            }
+            header.name.append("/");
             header.size = 0;
         } else {
             header.linkFlag = TarHeader.LF_NORMAL;

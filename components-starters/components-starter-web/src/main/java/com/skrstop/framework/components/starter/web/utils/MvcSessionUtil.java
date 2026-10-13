@@ -43,14 +43,13 @@ public class MvcSessionUtil {
      */
     public static String getValueStr(String name) {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (ObjectUtil.isNull(servletRequestAttributes) || ObjectUtil.isNull(servletRequestAttributes.getRequest())) {
+        // ServletRequestAttributes.getRequest() 恒非空，判空不可达
+        if (ObjectUtil.isNull(servletRequestAttributes)) {
             return null;
         }
         HttpServletRequest request = servletRequestAttributes.getRequest();
         String value;
-        if (ObjectUtil.isNull(request)) {
-            return null;
-        }
+        // 上方已保证 servletRequestAttributes 与 request 均非空，此处判空不可达
         // attribute
         Object attribute = request.getAttribute(name);
         if (ObjectUtil.isNotNull(attribute)) {

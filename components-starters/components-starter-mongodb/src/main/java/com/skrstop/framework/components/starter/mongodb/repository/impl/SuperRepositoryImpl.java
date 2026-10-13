@@ -361,9 +361,7 @@ public abstract class SuperRepositoryImpl<T extends AbstractBaseEntity> implemen
     }
 
     private List<UpdateOperator> setUpdateTimeUpdateInfo(List<UpdateOperator> updates) {
-        if (ObjectUtil.isNull(updates)) {
-            updates = new ArrayList<>();
-        }
+        // 所有调用方均传入非空列表（update 空列表时提前返回，setRemoveUpdateInfo 传入新建列表）
         if (!this.isAutoSetUpdateExtraInfo()) {
             return updates;
         }

@@ -75,48 +75,47 @@ public class AsyncRuntimeExecutor {
      */
     public static ThreadPoolExecutor getAsyncThreadPool(boolean build) {
         if (asyncThreadPool == null && build) {
-            synchronized (AsyncRuntimeExecutor.class) {
-                if (asyncThreadPool == null && build) {
-                    // 一些系统参数，可以从配置或者注册中心获取。
-                    int coresize = getIntValue(ASYNC_POOL_CORE, ASYNC_POOL_CORE_VALUE);
-                    int maxsize = getIntValue(ASYNC_POOL_MAX, ASYNC_POOL_MAX_VALUE);
-                    int queuesize = getIntValue(ASYNC_POOL_QUEUE, ASYNC_POOL_QUEUE_VALUE);
-                    int keepAliveTime = getIntValue(ASYNC_POOL_TIME, ASYNC_POOL_TIME_VALUE);
-
-                    BlockingQueue<Runnable> queue = ThreadPoolUtil.buildQueue(queuesize);
-                    NamedThreadFactory threadFactory = new NamedThreadFactory("ACMEDCARE-CB", true);
-
-                    RejectedExecutionHandler handler =
-                            new RejectedExecutionHandler() {
-                                private int i = 1;
-
-                                @Override
-                                public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                                    if (i++ % 7 == 0) {
-                                        i = 1;
-                                        if (log.isWarnEnabled()) {
-                                            log.warn(
-                                                    "Task:{} has been reject because of threadPool exhausted!"
-                                                            + " pool:{}, active:{}, queue:{}, taskcnt: {}",
-                                                    r,
-                                                    executor.getPoolSize(),
-                                                    executor.getActiveCount(),
-                                                    executor.getQueue().size(),
-                                                    executor.getTaskCount());
-
-                                        }
-                                    }
-                                    throw new RejectedExecutionException(
-                                            "Callback handler thread pool has bean exhausted");
-                                }
-                            };
-                    asyncThreadPool =
-                            ThreadPoolUtil.newCachedThreadPool(
-                                    coresize, maxsize, keepAliveTime, queue, threadFactory, handler);
-                }
-            }
+            initAsyncThreadPool();
         }
         return asyncThreadPool;
+    }
+
+    private static synchronized void initAsyncThreadPool() {
+        if (asyncThreadPool == null) {
+            // 一些系统参数，可以从配置或者注册中心获取。
+            int coresize = getIntValue(ASYNC_POOL_CORE, ASYNC_POOL_CORE_VALUE);
+            int maxsize = getIntValue(ASYNC_POOL_MAX, ASYNC_POOL_MAX_VALUE);
+            int queuesize = getIntValue(ASYNC_POOL_QUEUE, ASYNC_POOL_QUEUE_VALUE);
+            int keepAliveTime = getIntValue(ASYNC_POOL_TIME, ASYNC_POOL_TIME_VALUE);
+
+            BlockingQueue<Runnable> queue = ThreadPoolUtil.buildQueue(queuesize);
+            NamedThreadFactory threadFactory = new NamedThreadFactory("ACMEDCARE-CB", true);
+
+            RejectedExecutionHandler handler =
+                    new RejectedExecutionHandler() {
+                        private int i = 1;
+
+                        @Override
+                        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                            if (i++ % 7 == 0) {
+                                i = 1;
+                                log.warn(
+                                        "Task:{} has been reject because of threadPool exhausted!"
+                                                + " pool:{}, active:{}, queue:{}, taskcnt: {}",
+                                        r,
+                                        executor.getPoolSize(),
+                                        executor.getActiveCount(),
+                                        executor.getQueue().size(),
+                                        executor.getTaskCount());
+                            }
+                            throw new RejectedExecutionException(
+                                    "Callback handler thread pool has bean exhausted");
+                        }
+                    };
+            asyncThreadPool =
+                    ThreadPoolUtil.newCachedThreadPool(
+                            coresize, maxsize, keepAliveTime, queue, threadFactory, handler);
+        }
     }
 
     private static int getIntValue(String key, int defaultValue) {
@@ -172,8 +171,7 @@ public class AsyncRuntimeExecutor {
          * @param daemon       是否守护线程，true的话随主线程退出而退出，false的话则要主动退出
          */
         public NamedThreadFactory(String secondPrefix, boolean daemon) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+            group = Thread.currentThread().getThreadGroup();
             namePrefix = firstPrefix + secondPrefix + "-" + POOL_COUNT.getAndIncrement() + "-T";
             isDaemon = daemon;
         }

@@ -68,8 +68,6 @@ public class TarProcessor implements CompressProcessor {
                         fileCompressor, binaryFile, t2, System.currentTimeMillis());
                 entry = ais.getNextTarEntry();
             }
-        } catch (Exception e) {
-            FileCompressor.LOGGER.error("Error on get compressor file", e);
         } finally {
             baos.close();
             ais.close();

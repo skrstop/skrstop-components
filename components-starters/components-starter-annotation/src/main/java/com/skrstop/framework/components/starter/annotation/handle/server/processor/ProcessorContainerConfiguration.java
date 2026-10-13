@@ -33,7 +33,7 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         Class<?> beanClass = bean.getClass();
         SProcessor[] sProcessors = beanClass.getAnnotationsByType(SProcessor.class);
-        if (ObjectUtil.isNull(sProcessors) || sProcessors.length <= 0) {
+        if (sProcessors.length <= 0) {
             return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
         }
         ConcurrentHashMap<String, ProcessorContainer> constainers = ProcessorContext.getConstainers();
@@ -62,13 +62,6 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
                     // 获取容器中的bean
                     assertBean = applicationContext.getBean(sProcessor.assertBeanName());
                 }
-                if (ObjectUtil.isNull(assertBean)) {
-                    throw new SkrstopRuntimeException("容器："
-                            + containerName
-                            + " assertBeanName："
-                            + sProcessor.assertBeanName()
-                            + " 不存在！！！");
-                }
                 if (!ProcessorAssert.class.isAssignableFrom(assertBean.getClass())) {
                     throw new SkrstopRuntimeException("容器："
                             + containerName
@@ -77,8 +70,7 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
                             + " 未继承 ProcessorAssert");
                 }
                 processorAssert = (ProcessorAssert) assertBean;
-            } else if (ObjectUtil.isNotNull(sProcessor.assertBeanClass())
-                    && ObjectUtil.isNotNull(applicationContext)
+            } else if (ObjectUtil.isNotNull(applicationContext)
                     && !void.class.equals(sProcessor.assertBeanClass())) {
                 Object assertBean = null;
                 if (bean.getClass().equals(sProcessor.assertBeanClass())) {
@@ -88,13 +80,6 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
                     // 获取容器中的bean
                     assertBean = applicationContext.getBean(sProcessor.assertBeanClass());
                 }
-                if (ObjectUtil.isNull(assertBean)) {
-                    throw new SkrstopRuntimeException("容器："
-                            + containerName
-                            + " assertBeanClass："
-                            + sProcessor.assertBeanClass().getName()
-                            + " 不存在！！！");
-                }
                 if (!ProcessorAssert.class.isAssignableFrom(assertBean.getClass())) {
                     throw new SkrstopRuntimeException("容器："
                             + containerName
@@ -103,8 +88,7 @@ public class ProcessorContainerConfiguration implements ApplicationContextAware,
                             + " 未继承 ProcessorAssert");
                 }
                 processorAssert = (ProcessorAssert) assertBean;
-            } else if (ObjectUtil.isNotNull(sProcessor.assertClass())
-                    && !void.class.equals(sProcessor.assertBeanClass())
+            } else if (!void.class.equals(sProcessor.assertBeanClass())
                     && ProcessorAssert.class.isAssignableFrom(sProcessor.assertClass())) {
                 Class<? extends ProcessorAssert> processAssertClass = (Class<? extends ProcessorAssert>) sProcessor.assertClass();
                 processorAssert = processorAssertMap.get(processAssertClass);

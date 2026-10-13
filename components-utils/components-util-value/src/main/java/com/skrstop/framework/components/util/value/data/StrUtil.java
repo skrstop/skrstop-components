@@ -423,8 +423,7 @@ public class StrUtil extends cn.hutool.core.util.StrUtil {
         if (null == str) {
             return new ArrayList<>(0);
         }
-        final String separatorStr = (null == separator) ? null : separator.toString();
-        return StrSplitter.split(str.toString(), separatorStr, limit, isTrim, ignoreEmpty);
+        return StrSplitter.split(str.toString(), separator.toString(), limit, isTrim, ignoreEmpty);
     }
 
 

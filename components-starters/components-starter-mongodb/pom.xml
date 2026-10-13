@@ -47,6 +47,19 @@
             <artifactId>components-starter-common</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Morphia Mapper 扫描时需解析引用 spring-jdbc 枚举的注解 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- 测试 ReactiveMongoTransactionManager 需要 reactive 驱动 -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-reactivestreams</artifactId>
+            <version>5.13.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

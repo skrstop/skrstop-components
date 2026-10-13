@@ -101,7 +101,7 @@ public class DruidCollector extends Collector {
     }
 
     private static String camelToSnake(String str) {
-        return Stream.of(PATTERN_CAMEL.split(str)).filter(s -> s != null && !s.isEmpty()).map(String::toLowerCase).collect(Collectors.joining("_"));
+        return Stream.of(PATTERN_CAMEL.split(str)).map(String::toLowerCase).collect(Collectors.joining("_"));
     }
 
     public DruidCollector(Map<String, String> tags, boolean enableSql, boolean enableUri) {
@@ -161,7 +161,9 @@ public class DruidCollector extends Collector {
 
         try {
             DruidStatManagerFacade druidStatManagerFacade = DruidStatManagerFacade.getInstance();
-            List<Map<String, Object>> statList = druidStatManagerFacade.getDataSourceStatDataList();
+            List<Map<String, Object>> statList = new ArrayList<>(druidStatManagerFacade.getDataSourceStatDataList());
+            // 非法注册对象可能产生 null 统计项，过滤
+            statList.removeIf(java.util.Objects::isNull);
 
             List<Map<String, Object>> sqlList = getSqlStatData(statList);
             List<Map<String, Object>> uriList = getUriStatData();
@@ -202,13 +204,17 @@ public class DruidCollector extends Collector {
         return list;
     }
 
-    private List<Map<String, Object>> getSqlStatData(List<Map<String, Object>> statList) {
+    protected List<Map<String, Object>> getSqlStatData(List<Map<String, Object>> statList) {
         if (!enableSql) {
             return Collections.emptyList();
         }
         Map<String, Map<String, Object>> dataSourcesInfo = new HashMap<>();
         for (int i = 0; i < statList.size(); i++) {
             Map<String, Object> stringObjectMap = statList.get(i);
+            // 统计项可能不完整，缺少 Name 的条目跳过（null 项已在 collect 中过滤）
+            if (stringObjectMap.get(KEY_NAME) == null) {
+                continue;
+            }
             String key = stringObjectMap.get(KEY_NAME).toString();
             Map<String, Object> info = new HashMap<>();
             info.put(KEY_NAME, stringObjectMap.get(KEY_NAME));
@@ -218,34 +224,42 @@ public class DruidCollector extends Collector {
         DruidStatManagerFacade druidStatManagerFacade = DruidStatManagerFacade.getInstance();
         Set<Object> dataSources = DruidDataSourceStatManager.getInstances().keySet();
         return dataSources.stream().flatMap(obj -> {
-            List<Map<String, Object>> sqlStatDataList = druidStatManagerFacade.getSqlStatDataList(obj);
             try {
+                List<Map<String, Object>> sqlStatDataList = druidStatManagerFacade.getSqlStatDataList(obj);
                 String name = ((DruidDataSource) obj).getName();
                 Map<String, Object> datasourceInfo = dataSourcesInfo.get(name);
                 for (Map<String, Object> stringObjectMap : sqlStatDataList) {
                     stringObjectMap.putAll(datasourceInfo);
                 }
+                return sqlStatDataList.stream();
             } catch (Exception e) {
-                // no nothing
+                // 非 DruidDataSource 实例或统计不可用时忽略
+                return java.util.Collections.<Map<String, Object>>emptyList().stream();
             }
-            return sqlStatDataList.stream();
         }).collect(Collectors.toList());
     }
 
-    private List<Map<String, Object>> getUriStatData() {
+    protected List<Map<String, Object>> getUriStatData() {
         if (!enableUri) {
             return Collections.emptyList();
         }
         WebAppStatManager webAppStatManager = WebAppStatManager.getInstance();
-        return webAppStatManager.getURIStatData();
+        List<Map<String, Object>> uriStatData = webAppStatManager.getURIStatData();
+        uriStatData.removeIf(java.util.Objects::isNull);
+        return uriStatData;
     }
 
     private GaugeMetricFamily createGauge(String metric, List<Map<String, Object>> list, Function<Map<String, Object>, Number> metricValueFunc) {
         ArrayList<String> labels = (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_NAMES), DB_INFO_LABELS);
         GaugeMetricFamily metricFamily = new GaugeMetricFamily(LABEL_PRE_DRUID + camelToSnake(metric), HELP_PRE_DRUID + metric, labels);
-        list.forEach((m) -> metricFamily.addMetric(
-                (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_VALUES_FUNCTION.apply(m)), getDbLabelsValues(m))
-                , metricValueFunc.apply(m).doubleValue()));
+        list.forEach((m) -> {
+            Number value = metricValueFunc.apply(m);
+            if (value != null) {
+                metricFamily.addMetric(
+                        (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_VALUES_FUNCTION.apply(m)), getDbLabelsValues(m))
+                        , value.doubleValue());
+            }
+        });
         return metricFamily;
     }
 
@@ -255,6 +269,9 @@ public class DruidCollector extends Collector {
                 , HELP_PRE_DRUID + metric, labels);
         list.forEach((m) -> {
             long[] data = metricValueFunc.apply(m);
+            if (data == null) {
+                return;
+            }
             for (int i = 0; i < data.length && i < BUCKETS.length; i++) {
                 metricFamily.addMetric(
                         (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_HISTOGRAM_VALUES_FUNCTION.apply(m, BUCKETS[i])), getDbLabelsValues(m))
@@ -267,9 +284,14 @@ public class DruidCollector extends Collector {
     private GaugeMetricFamily createSqlGauge(String metric, List<Map<String, Object>> list, Function<Map<String, Object>, Number> metricValueFunc) {
         ArrayList<String> labels = (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_SQL_NAMES), DB_INFO_LABELS);
         GaugeMetricFamily metricFamily = new GaugeMetricFamily(LABEL_PRE_SQL + camelToSnake(metric), HELP_PRE_SQL + metric, labels);
-        list.forEach((m) -> metricFamily.addMetric(
-                (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_SQL_VALUES_FUNCTION.apply(m)), getDbLabelsValues(m))
-                , metricValueFunc.apply(m).doubleValue()));
+        list.forEach((m) -> {
+            Number value = metricValueFunc.apply(m);
+            if (value != null) {
+                metricFamily.addMetric(
+                        (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_SQL_VALUES_FUNCTION.apply(m)), getDbLabelsValues(m))
+                        , value.doubleValue());
+            }
+        });
         return metricFamily;
     }
 
@@ -293,6 +315,9 @@ public class DruidCollector extends Collector {
                 , HELP_PRE_SQL + metric, labels);
         list.forEach((m) -> {
             long[] data = metricValueFunc.apply(m);
+            if (data == null) {
+                return;
+            }
             for (int i = 0; i < data.length && i < BUCKETS.length; i++) {
                 metricFamily.addMetric(
                         (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_SQL_HISTOGRAM_VALUES_FUNCTION.apply(m, BUCKETS[i])), getDbLabelsValues(m))
@@ -305,9 +330,14 @@ public class DruidCollector extends Collector {
     private GaugeMetricFamily createUriGauge(String metric, List<Map<String, Object>> list, Function<Map<String, Object>, Number> metricValueFunc) {
         ArrayList<String> labels = (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_URI_NAMES), DB_INFO_LABELS);
         GaugeMetricFamily metricFamily = new GaugeMetricFamily(LABEL_PRE_URI + camelToSnake(metric), HELP_PRE_URI + metric, labels);
-        list.forEach((m) -> metricFamily.addMetric(
-                (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_URI_VALUES_FUNCTION.apply(m)), getDbLabelsValues(m))
-                , metricValueFunc.apply(m).doubleValue()));
+        list.forEach((m) -> {
+            Number value = metricValueFunc.apply(m);
+            if (value != null) {
+                metricFamily.addMetric(
+                        (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_URI_VALUES_FUNCTION.apply(m)), getDbLabelsValues(m))
+                        , value.doubleValue());
+            }
+        });
         return metricFamily;
     }
 
@@ -317,6 +347,9 @@ public class DruidCollector extends Collector {
                 , HELP_PRE_URI + metric, labels);
         list.forEach((m) -> {
             long[] data = metricValueFunc.apply(m);
+            if (data == null) {
+                return;
+            }
             for (int i = 0; i < data.length && i < BUCKETS.length; i++) {
                 metricFamily.addMetric(
                         (ArrayList<String>) CollectionUtil.addAll(CollectionUtil.newArrayList(LABEL_URI_HISTOGRAM_VALUES_FUNCTION.apply(m, BUCKETS[i])), getDbLabelsValues(m))

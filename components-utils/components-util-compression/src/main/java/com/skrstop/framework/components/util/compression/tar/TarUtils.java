@@ -118,7 +118,7 @@ public class TarUtils {
 
             if (fe.isDirectory()) {
                 String[] fl = fe.list();
-                if (fl != null && fl.length != 0) {
+                if (fl.length != 0) {
                     tarFolder(parent, fe.getPath(), out);
                 } else {
                     TarEntry entry = new TarEntry(fe, parent + file + "/");

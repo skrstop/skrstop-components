@@ -17,6 +17,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.function.LongSupplier;
 
 /**
  * @author 蒋时华
@@ -35,6 +36,22 @@ public class DiskSpaceUtil {
     public static synchronized void cleanLinuxDiskCapacity(String fileCachePath,
                                                            Long minSpaceLimit,
                                                            boolean ignoreDeleteException) {
+        cleanLinuxDiskCapacity(fileCachePath, minSpaceLimit, ignoreDeleteException,
+                () -> new File(fileCachePath).getUsableSpace() / (1024 * 1024));
+    }
+
+    /**
+     * 检测磁盘容量并清理缓存文件 -- linux
+     *
+     * @param fileCachePath         路径
+     * @param minSpaceLimit         空间限制, 单温：MB
+     * @param ignoreDeleteException 是否忽略删除异常
+     * @param usableSpaceSupplier   可用空间获取方式，单位：MB
+     */
+    static synchronized void cleanLinuxDiskCapacity(String fileCachePath,
+                                                    Long minSpaceLimit,
+                                                    boolean ignoreDeleteException,
+                                                    LongSupplier usableSpaceSupplier) {
         // 获取系统类型
         OsInfo osInfo = SystemUtil.getOsInfo();
         if (!osInfo.isLinux()) {
@@ -42,7 +59,7 @@ public class DiskSpaceUtil {
             return;
         }
         File folder = new File(fileCachePath);
-        long usableSpaceMb = getUsableSpace(fileCachePath);
+        long usableSpaceMb = usableSpaceSupplier.getAsLong();
         if (usableSpaceMb > minSpaceLimit) {
             return;
         }
@@ -54,32 +71,15 @@ public class DiskSpaceUtil {
         }
         // 按文件创建时间排序
         List<File> sortFiles = CollectionUtil.newArrayList(files);
-        sortFiles.sort(Comparator.comparingLong(file -> {
-            long sortLong = -1;
-            try {
-                BasicFileAttributes attr = FileUtil.getAttributes(Paths.get(file.getPath()), false);
-                Date createTimeDate = new Date(attr.creationTime().toMillis());
-                sortLong = createTimeDate.getTime();
-            } catch (IORuntimeException e) {
-                log.error("清理文件失败：{}", ThrowableStackTraceUtil.getStackTraceStr(e));
-                if (!ignoreDeleteException) {
-                    throw new SkrstopRuntimeException(e);
-                }
-            }
-            return sortLong;
-        }));
+        sortFiles.sort(Comparator.comparingLong(file -> getSortTime(file, ignoreDeleteException)));
         for (File sortFile : sortFiles) {
-            boolean deleteResult = FileUtil.del(sortFile);
-            if (!deleteResult) {
-                // 记录警告信息
-                log.error("磁盘清理，文件删除失败：{}", sortFile.getAbsolutePath());
-            }
-            usableSpaceMb = getUsableSpace(fileCachePath);
+            FileUtil.del(sortFile);
+            usableSpaceMb = usableSpaceSupplier.getAsLong();
             if (usableSpaceMb > minSpaceLimit) {
                 break;
             }
         }
-        usableSpaceMb = getUsableSpace(fileCachePath);
+        usableSpaceMb = usableSpaceSupplier.getAsLong();
         if (usableSpaceMb <= minSpaceLimit) {
             log.error("磁盘空间清理失败，当前：{} MB, 期望：{} MB", usableSpaceMb, minSpaceLimit);
             throw new SkrstopRuntimeException("本地磁盘空间不足，本地缓存文件所占空间为: " + usableSpaceMb);
@@ -88,15 +88,21 @@ public class DiskSpaceUtil {
     }
 
     /**
-     * 获取磁盘可用空间 MB
-     *
-     * @param fileCachePath
-     * @return
+     * 获取文件的创建时间作为排序依据；获取失败时返回 -1 或抛出异常
      */
-    private static long getUsableSpace(String fileCachePath) {
-        File folder = new File(fileCachePath);
-        long usableSpace = folder.getUsableSpace();
-        return usableSpace / (1024 * 1024);
+    static long getSortTime(File file, boolean ignoreDeleteException) {
+        long sortLong = -1;
+        try {
+            BasicFileAttributes attr = FileUtil.getAttributes(Paths.get(file.getPath()), false);
+            Date createTimeDate = new Date(attr.creationTime().toMillis());
+            sortLong = createTimeDate.getTime();
+        } catch (IORuntimeException e) {
+            log.error("清理文件失败：{}", ThrowableStackTraceUtil.getStackTraceStr(e));
+            if (!ignoreDeleteException) {
+                throw new SkrstopRuntimeException(e);
+            }
+        }
+        return sortLong;
     }
 
 }

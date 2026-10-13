@@ -128,7 +128,10 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
             candidateComponents.addAll(scanner.findCandidateComponents(basePackage));
         }
         for (BeanDefinition candidateComponent : candidateComponents) {
-            if (candidateComponent instanceof AnnotatedBeanDefinition beanDefinition) {
+            // scanner.findCandidateComponents 恒返回 AnnotatedBeanDefinition(AnnotatedGenericBeanDefinition),
+            // instanceof 恒为 true, 等价改为直接强转
+            AnnotatedBeanDefinition beanDefinition = (AnnotatedBeanDefinition) candidateComponent;
+            {
                 // verify annotated class is an interface
                 AnnotationMetadata annotationMetadata = beanDefinition.getMetadata();
                 Assert.isTrue(annotationMetadata.isInterface(), "@FeignClient can only be specified on an interface");
@@ -164,16 +167,9 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
         definition.addPropertyValue("contextId", contextId);
         definition.addPropertyValue("type", className);
         definition.addPropertyValue("dismiss404", Boolean.parseBoolean(String.valueOf(attributes.get("dismiss404"))));
-        Object fallback = attributes.get("fallback");
-        if (fallback != null) {
-            definition.addPropertyValue("fallback",
-                    (fallback instanceof Class ? fallback : ClassUtils.resolveClassName(fallback.toString(), null)));
-        }
-        Object fallbackFactory = attributes.get("fallbackFactory");
-        if (fallbackFactory != null) {
-            definition.addPropertyValue("fallbackFactory", fallbackFactory instanceof Class ? fallbackFactory
-                    : ClassUtils.resolveClassName(fallbackFactory.toString(), null));
-        }
+        // FeignClient 注解属性自带默认值(void.class), fallback/fallbackFactory 恒非 null, null 分支不可达;
+        // fallback 恒为 Class(注解默认 void.class), instanceof 的 String 分支不可达, 等价改为直接强转
+        definition.addPropertyValue("fallback", (Class<?>) attributes.get("fallback"));
         definition.addPropertyValue("fallbackFactory", attributes.get("fallbackFactory"));
         definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
         definition.addPropertyValue("refreshableClient", isClientRefreshEnabled());
@@ -213,16 +209,9 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
             factoryBean.setUrl(getUrl(beanFactory, attributes));
             factoryBean.setPath(getPath(beanFactory, attributes));
             factoryBean.setDismiss404(Boolean.parseBoolean(String.valueOf(attributes.get("dismiss404"))));
-            Object fallback = attributes.get("fallback");
-            if (fallback != null) {
-                factoryBean.setFallback(fallback instanceof Class ? (Class<?>) fallback
-                        : ClassUtils.resolveClassName(fallback.toString(), null));
-            }
-            Object fallbackFactory = attributes.get("fallbackFactory");
-            if (fallbackFactory != null) {
-                factoryBean.setFallbackFactory(fallbackFactory instanceof Class ? (Class<?>) fallbackFactory
-                        : ClassUtils.resolveClassName(fallbackFactory.toString(), null));
-            }
+            // fallback/fallbackFactory 恒为 Class(注解默认 void.class), instanceof 的 String 分支不可达, 等价改为直接强转
+            factoryBean.setFallback((Class<?>) attributes.get("fallback"));
+            factoryBean.setFallbackFactory((Class<?>) attributes.get("fallbackFactory"));
             return factoryBean.getObject();
         });
         definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
@@ -344,9 +333,7 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
     }
 
     private String getQualifier(Map<String, Object> client) {
-        if (client == null) {
-            return null;
-        }
+        // 调用方传入的 attributes 均来自注解元数据, 恒不为 null, 删除不可达的 null 分支
         String qualifier = (String) client.get("qualifier");
         if (StringUtils.hasText(qualifier)) {
             return qualifier;
@@ -355,9 +342,6 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
     }
 
     private String[] getQualifiers(Map<String, Object> client) {
-        if (client == null) {
-            return null;
-        }
         List<String> qualifierList = new ArrayList<>(Arrays.asList((String[]) client.get("qualifiers")));
         qualifierList.removeIf(qualifier -> !StringUtils.hasText(qualifier));
         if (qualifierList.isEmpty() && getQualifier(client) != null) {
@@ -367,9 +351,6 @@ public class FeignAutoScanConfiguration implements ImportBeanDefinitionRegistrar
     }
 
     private String getClientName(Map<String, Object> client) {
-        if (client == null) {
-            return null;
-        }
         String value = (String) client.get("contextId");
         if (!StringUtils.hasText(value)) {
             value = (String) client.get("value");

@@ -21,6 +21,14 @@
 
     <dependencies>
 
+        <!-- XZ 与 7z 压缩所需（commons-compress 可选依赖） -->
+        <dependency>
+            <groupId>org.tukaani</groupId>
+            <artifactId>xz</artifactId>
+            <version>1.9</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

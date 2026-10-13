@@ -91,14 +91,8 @@ public class EventBus {
     }
 
     private static void registerEvent(Class eventClass, Subscriber subscriber) {
-        CopyOnWriteArrayList<Subscriber> set = SUBSCRIBER_MAP.get(eventClass);
-        if (set == null) {
-            set = new CopyOnWriteArrayList<Subscriber>();
-            CopyOnWriteArrayList<Subscriber> old = SUBSCRIBER_MAP.putIfAbsent(eventClass, set);
-            if (old != null) {
-                set = old;
-            }
-        }
+        CopyOnWriteArrayList<Subscriber> set =
+                SUBSCRIBER_MAP.computeIfAbsent(eventClass, k -> new CopyOnWriteArrayList<Subscriber>());
         set.addIfAbsent(subscriber);
         log.debug("Register subscriber: {} of event: {}.", subscriber, eventClass);
     }

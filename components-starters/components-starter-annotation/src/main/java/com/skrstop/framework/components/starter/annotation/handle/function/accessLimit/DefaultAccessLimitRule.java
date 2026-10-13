@@ -1,13 +1,12 @@
 package com.skrstop.framework.components.starter.annotation.handle.function.accessLimit;
 
 import com.google.common.util.concurrent.RateLimiter;
-import com.skrstop.framework.components.util.enums.CharSetEnum;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.DigestUtils;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -27,12 +26,7 @@ public class DefaultAccessLimitRule implements AccessLimitRule {
     @Override
     public boolean canContinue(MethodInvocation invocation, double limitNum) {
         String methodStr = invocation.getMethod().toString();
-        String functionName;
-        try {
-            functionName = DigestUtils.md5DigestAsHex(methodStr.getBytes(CharSetEnum.UTF8.getCharSet()));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        String functionName = DigestUtils.md5DigestAsHex(methodStr.getBytes(StandardCharsets.UTF_8));
         // 获取注解每秒加入桶中的token
         log.debug("function:{}, limit:{}, 开启限流", methodStr, limitNum);
         RateLimiter rateLimiter = limitMap.get(functionName);

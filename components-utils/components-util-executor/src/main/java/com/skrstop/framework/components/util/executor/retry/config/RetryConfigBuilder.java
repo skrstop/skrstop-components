@@ -151,10 +151,6 @@ public class RetryConfigBuilder {
             throw new InvalidRetryConfigException(ALREADY_SPECIFIED_NUMBER_OF_TRIES__ERROR_MSG);
         }
 
-        if (max < 0) {
-            throw new InvalidRetryConfigException(SHOULD_SPECIFY_RETRY_COUNT_AS_POSITIVE__ERROR_MSG);
-        }
-
         maxNumberOfTries = max;
         return this;
     }

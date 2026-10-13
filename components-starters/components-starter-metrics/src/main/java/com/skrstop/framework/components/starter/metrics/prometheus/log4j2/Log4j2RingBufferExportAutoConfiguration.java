@@ -60,27 +60,34 @@ public class Log4j2RingBufferExportAutoConfiguration {
                 // 针对 RootLogger，它的 cfgName 是空字符串，为了显示好看，我们在 prometheus 中将它命名为 root
                 String cfgName = StringUtils.isBlank(k) ? "" : k;
                 String gaugeName = StringUtils.isBlank(k) ? "root" : k;
-                Gauge.builder(gaugeName + "_logger_ring_buffer_remaining_capacity", () ->
-                {
-                    try {
-                        return (Number) ManagementFactory.getPlatformMBeanServer()
-                                .getAttribute(new ObjectName(
-                                        // 按照 Log4j2 源码中的命名方式组装名称
-                                        String.format(RingBufferAdminMBean.PATTERN_ASYNC_LOGGER_CONFIG, ctxName, cfgName)
-                                        // 获取剩余大小，注意这个是严格区分大小写的
-                                ), "RemainingCapacity");
-                    } catch (InstanceNotFoundException e) {
-                        // do nothing
-                    } catch (Exception e) {
-                        log.error("get {} ring buffer remaining size error", k, e);
-                    }
-                    return -1;
-                }).register(meterRegistry.getIfAvailable());
+                Gauge.builder(gaugeName + "_logger_ring_buffer_remaining_capacity", this,
+                        new java.util.function.ToDoubleFunction<Log4j2RingBufferExportAutoConfiguration>() {
+                            @Override
+                            public double applyAsDouble(Log4j2RingBufferExportAutoConfiguration value) {
+                                return getRingBufferRemainingCapacity(ctxName, cfgName).doubleValue();
+                            }
+                        }).strongReference(true).register(meterRegistry.getIfAvailable());
             } catch (Exception e) {
                 log.warn("Log4j2Configuration-init error: {}", e.getMessage(), e);
             }
         });
         isInitialized = true;
+    }
+
+    private Number getRingBufferRemainingCapacity(String ctxName, String cfgName) {
+        try {
+            return (Number) ManagementFactory.getPlatformMBeanServer()
+                    .getAttribute(new ObjectName(
+                            // 按照 Log4j2 源码中的命名方式组装名称
+                            String.format(RingBufferAdminMBean.PATTERN_ASYNC_LOGGER_CONFIG, ctxName, cfgName)
+                            // 获取剩余大小，注意这个是严格区分大小写的
+                    ), "RemainingCapacity");
+        } catch (InstanceNotFoundException e) {
+            // do nothing
+        } catch (Exception e) {
+            log.error("get {} ring buffer remaining size error", cfgName, e);
+        }
+        return -1;
     }
 
 

@@ -49,7 +49,8 @@ public class EntityPropertiesUtil {
                 if (ObjectUtil.isNull(fieldValue)) {
                     ReflectUtil.setFieldValue(entity, fieldName, value);
                 }
-            } else if (!superRepository.onlySetCreateInfoWhenNull()) {
+            } else {
+                // 走到 else 时 onlySetCreateInfoWhenNull 必为 false
                 ReflectUtil.setFieldValue(entity, fieldName, value);
             }
         }

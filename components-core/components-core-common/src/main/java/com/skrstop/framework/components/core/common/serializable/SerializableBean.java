@@ -58,9 +58,6 @@ public class SerializableBean implements Serializable {
     }
 
     private JSONWriter.Context getJsonWriterContext(Object propertyNamingStrategy, Boolean ignoreNull) {
-        if (ignoreNull == null) {
-            ignoreNull = true;
-        }
         if (propertyNamingStrategy == null) {
             propertyNamingStrategy = DEFAULT_PROVIDER_KEY;
         }

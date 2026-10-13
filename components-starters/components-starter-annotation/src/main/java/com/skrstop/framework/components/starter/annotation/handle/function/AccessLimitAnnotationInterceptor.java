@@ -46,17 +46,13 @@ public class AccessLimitAnnotationInterceptor implements MethodInterceptor {
                         throw new RuntimeException("beanName: " + accessLimit.beanName() + "未实现限流规则接口AccessLimitRule");
                     }
                     rule = (AccessLimitRule) bean;
-                    if (ObjectUtil.isNull(rule)) {
-                        throw new RuntimeException("未找到限流规则, beanName: " + accessLimit.beanName());
-                    }
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                     throw new RuntimeException("未找到限流规则, beanName: " + accessLimit.beanName());
                 }
                 ruleMap.put(accessLimit.beanName(), rule);
             }
-        } else if (ObjectUtil.isNotNull(accessLimit.beanClass())
-                && accessLimit.beanClass() != void.class
+        } else if (accessLimit.beanClass() != void.class
                 && accessLimit.beanClass() != Void.class) {
             // beanClass
             rule = ruleMap.get(accessLimit.beanClass());
@@ -66,9 +62,6 @@ public class AccessLimitAnnotationInterceptor implements MethodInterceptor {
                 }
                 try {
                     rule = (AccessLimitRule) SpringUtil.getBean(accessLimit.beanClass());
-                    if (ObjectUtil.isNull(rule)) {
-                        throw new RuntimeException("未找到限流规则, beanClass: " + accessLimit.beanClass().getName());
-                    }
                 } catch (NoUniqueBeanDefinitionException e) {
                     log.error(e.getMessage(), e);
                     throw new RuntimeException("找到多个限流规则, beanClass: " + accessLimit.beanClass().getName());
@@ -78,16 +71,13 @@ public class AccessLimitAnnotationInterceptor implements MethodInterceptor {
                 }
                 ruleMap.put(accessLimit.beanClass(), rule);
             }
-        } else if (ObjectUtil.isNotNull(accessLimit.defaultRule())) {
+        } else {
             // defaultRule
             rule = ruleMap.get(accessLimit.defaultRule());
             if (ObjectUtil.isNull(rule)) {
                 rule = ReflectUtil.newInstance(accessLimit.defaultRule());
                 ruleMap.put(accessLimit.defaultRule(), rule);
             }
-        }
-        if (ObjectUtil.isNull(rule)) {
-            throw new RuntimeException("未设置任何限流规则");
         }
         if (rule.canContinue(invocation, accessLimit.limit())) {
             //执行方法

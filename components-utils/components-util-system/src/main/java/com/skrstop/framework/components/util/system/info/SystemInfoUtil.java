@@ -25,36 +25,23 @@ public class SystemInfoUtil extends SystemUtil {
 
     public static List<NvidiaGPUInfo> getNvidiaGPUInfo() throws IOException, SkrstopRuntimeException {
         String gpus = getNvidiaGPUInfoStr();
-        // 命令行调用后获取的信息
-//        String gpus = "Mon Jun  1 10:47:16 2020       \n" +
-//                "+-----------------------------------------------------------------------------+\n" +
-//                "| NVIDIA-SMI 418.87.01    Driver Version: 418.87.01    CUDA Version: 10.1     |\n" +
-//                "|-------------------------------+----------------------+----------------------+\n" +
-//                "| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |\n" +
-//                "| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |\n" +
-//                "|===============================+======================+======================|\n" +
-////                "|   0  TITAN V             Off  | 00000000:2D:00.0  On |                  N/A |\n" +
-////                "| 29%   43C    P8    27W / 250W |   1123MiB / 12035MiB |      0%      Default |\n" +
-////                "+-------------------------------+----------------------+----------------------+\n" +
-////                "|   1  GeForce RTX 208...  Off  | 00000000:99:00.0 Off |                  N/A |\n" +
-////                "|  0%   29C    P8    20W / 260W |     11MiB / 10989MiB |      0%      Default |\n" +
-//                "|   0  Tesla P100-PCIE...  On   | 00000000:00:08.0 Off |                    0 |\n" +
-//                "| N/A   31C    P0    26W / 250W |      0MiB / 16280MiB |      0%      Default |\n" +
-//                "+-------------------------------+----------------------+----------------------+\n" +
-//                "                                                                               \n" +
-//                "+-----------------------------------------------------------------------------+\n" +
-//                "| Processes:                                                       GPU Memory |\n" +
-//                "|  GPU       PID   Type   Process name                             Usage      |\n" +
-//                "|=============================================================================|\n" +
-//                "|    0     16841      C   inference_worker                            1077MiB |\n" +
-//                "|    0     19996      G   /usr/lib/xorg/Xorg                            33MiB |\n" +
-//                "+-----------------------------------------------------------------------------+\n";
+        return parseGpuInfo(gpus);
+    }
+
+    static List<NvidiaGPUInfo> parseGpuInfo(String gpus) {
+        List<NvidiaGPUInfo> gpuInfoList = new ArrayList<>();
+        if (gpus == null || gpus.isEmpty()) {
+            return gpuInfoList;
+        }
         // 分割无用信息信息
         String[] split = gpus.split("\\|===============================\\+======================\\+======================\\|");
+        if (split.length < 2) {
+            // 非 nvidia-smi 标准输出格式
+            return gpuInfoList;
+        }
         String[] gpusInfoStr = split[1].split("                                                                               ");
         // 分割多个gpu
         String[] gpuInfo = gpusInfoStr[0].split("\\+-------------------------------\\+----------------------\\+----------------------\\+");
-        List<NvidiaGPUInfo> gpuInfoList = new ArrayList<>();
         for (int i = 0; i < gpuInfo.length - 1; i++) {
             NvidiaGPUInfo info = new NvidiaGPUInfo();
             String[] nameAndInfo = gpuInfo[i].split("\n");
@@ -68,7 +55,7 @@ public class SystemInfoUtil extends SystemUtil {
                 info.setNumber(Integer.parseInt(split1[1]));
                 StringBuffer name = new StringBuffer();
                 for (int j = 0; j < split1.length - 1; j++) {
-                    if (j > 1 && j != split1.length) {
+                    if (j > 1) {
                         name.append(split1[j] + " ");
                     }
                 }
@@ -151,26 +138,34 @@ public class SystemInfoUtil extends SystemUtil {
      * @throws IOException
      */
     public static String getNvidiaGPUInfoStr() throws SkrstopRuntimeException, IOException {
-        OsInfo osInfo = SystemUtil.getOsInfo();
+        return readGpuInfo(createGpuProcess(SystemUtil.getOsInfo()));
+    }
+
+    static Process createGpuProcess(OsInfo osInfo) throws IOException, SkrstopRuntimeException {
         if (ObjectUtil.isNull(osInfo)) {
             throw new SkrstopRuntimeException("无法获取系统平台信息");
         }
-        Process process;
         try {
             if (osInfo.isWindows()) {
-                process = Runtime.getRuntime().exec("nvidia-smi.exe");
+                Process windowsProcess = Runtime.getRuntime().exec("nvidia-smi.exe");
+                windowsProcess.getOutputStream().close();
+                return windowsProcess;
             } else if (osInfo.isLinux()
                     || osInfo.isMacOsX()
                     || osInfo.isMac()) {
                 String[] shell = {"/bin/bash", "-c", "nvidia-smi"};
-                process = Runtime.getRuntime().exec(shell);
+                Process process = Runtime.getRuntime().exec(shell);
+                process.getOutputStream().close();
+                return process;
             } else {
                 throw new SkrstopRuntimeException("不支持该系统：" + osInfo.toString());
             }
-            process.getOutputStream().close();
         } catch (IOException e) {
             throw new SkrstopRuntimeException("显卡不存在或获取显卡信息失败", e);
         }
+    }
+
+    static String readGpuInfo(Process process) throws SkrstopRuntimeException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         StringBuilder tempStr = new StringBuilder();
         String line = "";

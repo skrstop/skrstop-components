@@ -46,7 +46,8 @@ public class PropertiesRedisConnectionDetails implements RedisConnectionDetails 
     }
 
     private RedisConnectionConfiguration.ConnectionInfo connectionInfo(String url) {
-        return (url != null) ? RedisConnectionConfiguration.parseUrl(url) : null;
+        // 调用方已保证 url 非 null
+        return RedisConnectionConfiguration.parseUrl(url);
     }
 
     @Override

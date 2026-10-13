@@ -99,15 +99,6 @@ public class ProcessUtil extends RuntimeUtil {
             }
 
             @Override
-            public void onFailure() {
-                if (ObjectUtil.isNotNull(callback)) {
-                    callback.onFailure(ProcessResultText.builder()
-                            .key(key)
-                            .build());
-                }
-            }
-
-            @Override
             public void onExecute() {
                 if (ObjectUtil.isNotNull(callback)) {
                     callback.onExecute(ProcessResultText.builder()
@@ -185,9 +176,7 @@ public class ProcessUtil extends RuntimeUtil {
                 throwable = e;
             } finally {
                 ProcessUtil.shutdown(process);
-                if (ObjectUtil.isNotNull(clearStreamResult)) {
-                    clearStreamResult.close();
-                }
+                clearStreamResult.close();
             }
             return ProcessResult.builder()
                     .success(success)
@@ -200,9 +189,6 @@ public class ProcessUtil extends RuntimeUtil {
             while (true) {
                 try {
                     ProcessResult result = resultFuture.get(callbackTime, TimeUnit.MILLISECONDS);
-                    if (ObjectUtil.isNull(result)) {
-                        result = ProcessResult.builder().success(false).build();
-                    }
                     if (result.getSuccess()) {
                         // success
                         if (ObjectUtil.isNotNull(callback)) {
@@ -212,11 +198,7 @@ public class ProcessUtil extends RuntimeUtil {
                     } else {
                         // fail
                         if (ObjectUtil.isNotNull(callback)) {
-                            if (ObjectUtil.isNull(result.getThrowable())) {
-                                callback.onFailure();
-                            } else {
-                                callback.onFailure(result.getThrowable());
-                            }
+                            callback.onFailure(result.getThrowable());
                         }
                         return false;
                     }
@@ -255,7 +237,7 @@ public class ProcessUtil extends RuntimeUtil {
                 }
             }
         } finally {
-            if (ObjectUtil.isNotNull(resultFuture) && !resultFuture.isDone()) {
+            if (!resultFuture.isDone()) {
                 resultFuture.cancel(true);
             }
         }
@@ -299,16 +281,6 @@ public class ProcessUtil extends RuntimeUtil {
                             .key(key)
                             .result(obj)
                             .throwable(e)
-                            .build());
-                }
-            }
-
-            @Override
-            public void onFailure(String obj) {
-                if (ObjectUtil.isNotNull(callback)) {
-                    callback.onFailure(ProcessResultText.builder()
-                            .key(key)
-                            .result(obj)
                             .build());
                 }
             }
@@ -406,9 +378,6 @@ public class ProcessUtil extends RuntimeUtil {
                 ProcessResult result = ProcessResult.builder().success(false).build();
                 try {
                     result = resultFuture.get(callbackTime, TimeUnit.MILLISECONDS);
-                    if (ObjectUtil.isNull(result)) {
-                        result = ProcessResult.builder().success(false).build();
-                    }
                     if (result.getSuccess()) {
                         // success
                         if (ObjectUtil.isNotNull(callback)) {
@@ -418,11 +387,7 @@ public class ProcessUtil extends RuntimeUtil {
                     } else {
                         // fail
                         if (ObjectUtil.isNotNull(callback)) {
-                            if (ObjectUtil.isNull(result.getThrowable())) {
-                                callback.onFailure(result.getResult());
-                            } else {
-                                callback.onFailure(result.getThrowable(), result.getResult());
-                            }
+                            callback.onFailure(result.getThrowable(), result.getResult());
                         }
                         return false;
                     }
@@ -461,7 +426,7 @@ public class ProcessUtil extends RuntimeUtil {
                 }
             }
         } finally {
-            if (ObjectUtil.isNotNull(resultFuture) && !resultFuture.isDone()) {
+            if (!resultFuture.isDone()) {
                 resultFuture.cancel(true);
             }
         }

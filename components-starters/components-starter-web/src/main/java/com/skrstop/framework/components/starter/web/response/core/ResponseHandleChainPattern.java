@@ -54,7 +54,7 @@ public class ResponseHandleChainPattern {
             }
             InterceptorResult execute = responseHandlerInterceptor.execute(returnValue);
             if (ObjectUtil.isNull(execute)) {
-                return Pair.of(DynamicResult.build(returnValue), ObjectUtil.defaultIfNull(execute.getResponseStatus(), defaultCode));
+                return Pair.of(DynamicResult.build(returnValue), defaultCode);
             }
             if (ObjectUtil.isNull(execute.getResult()) && !execute.isNext()) {
                 return Pair.of(DynamicResult.build(returnValue), ObjectUtil.defaultIfNull(execute.getResponseStatus(), defaultCode));

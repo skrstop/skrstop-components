@@ -43,7 +43,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -117,18 +116,14 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
         }
         Map<String, Object> attributes = exchange.getAttributes();
         Map<String, Object> model = webDataBinder.getBindingResult().getModel();
-        if (ObjectUtil.isNotNull(model) && model.size() > 1) {
-            Iterator<Map.Entry<String, Object>> iterator = model.entrySet().iterator();
-            if (iterator.hasNext()) {
-                Map.Entry<String, Object> bodyMap = iterator.next();
-                attributes.put(RequestConst.BODY_CACHE_NAME, bodyMap.getKey());
-                String content = FastJsonUtil.toJson(bodyMap.getValue());
-                if (ObjectUtil.isNull(content)) {
-                    content = StringPoolConst.EMPTY;
-                }
-                attributes.put(RequestConst.BODY_CACHE, content);
-            }
+        // BindingResult.getModel() 返回的 Map 恒包含 target 与 BindingResult 自身，永不为 null
+        Map.Entry<String, Object> bodyMap = model.entrySet().iterator().next();
+        attributes.put(RequestConst.BODY_CACHE_NAME, bodyMap.getKey());
+        String content = FastJsonUtil.toJson(bodyMap.getValue());
+        if (ObjectUtil.isNull(content)) {
+            content = StringPoolConst.EMPTY;
         }
+        attributes.put(RequestConst.BODY_CACHE, content);
     }
 
     @Override
@@ -139,20 +134,14 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
                 && e instanceof BusinessThrowable
                 && !globalExceptionProperties.isLogBusinessServiceException()) {
             // 不需要打印日志的业务异常信息
-        } else if (ObjectUtil.isNotNull(exchange) && !this.skipErrorPath(exchange)) {
+            // exchange 在方法入口已解引用，判空不可达
+        } else if (!this.skipErrorPath(exchange)) {
             String requestPath, requestQueryPath, requestBodyName, requestBody;
-            // 获取请求信息
-            if (ObjectUtil.isNull(request)) {
-                requestPath = "无法获取请求地址";
-                requestQueryPath = "无法获取请求参数";
-                requestBodyName = "无法获取请求body形参名";
-                requestBody = "无法获取请求body体";
-            } else {
-                requestPath = request.getURI().getPath();
-                requestQueryPath = request.getQueryParams().toString();
-                requestBodyName = ObjectUtil.isNotNull(exchange.getAttribute(RequestConst.BODY_CACHE_NAME)) ? exchange.getAttribute(RequestConst.BODY_CACHE_NAME).toString() : StringPoolConst.EMPTY;
-                requestBody = ObjectUtil.isNotNull(exchange.getAttribute(RequestConst.BODY_CACHE)) ? exchange.getAttribute(RequestConst.BODY_CACHE).toString() : StringPoolConst.EMPTY;
-            }
+            // 获取请求信息（exchange 非空，exchange.getRequest() 恒非空，此处的判空分支不可达）
+            requestPath = request.getURI().getPath();
+            requestQueryPath = request.getQueryParams().toString();
+            requestBodyName = ObjectUtil.isNotNull(exchange.getAttribute(RequestConst.BODY_CACHE_NAME)) ? exchange.getAttribute(RequestConst.BODY_CACHE_NAME).toString() : StringPoolConst.EMPTY;
+            requestBody = ObjectUtil.isNotNull(exchange.getAttribute(RequestConst.BODY_CACHE)) ? exchange.getAttribute(RequestConst.BODY_CACHE).toString() : StringPoolConst.EMPTY;
             log.error("http请求报错 ==>\n请求地址：{} \n请求参数：{} \n请求body形参名：{} \n请求body体：{} \n异常栈：\n\n{}", requestPath, requestQueryPath, requestBodyName, requestBody, ThrowableStackTraceUtil.getStackTraceStr(e));
         } else {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));
@@ -213,9 +202,7 @@ public class RequestExceptionHandler implements ErrorWebExceptionHandler {
     }
 
     private boolean skipErrorPath(ServerWebExchange exchange) {
-        if (ObjectUtil.isNull(exchange)) {
-            return false;
-        }
+        // 仅在 handle 中调用，exchange 恒非空
         ServerHttpRequest request = exchange.getRequest();
         if (StrUtil.equals(request.getURI().getPath(), this.errorPath)) {
             return true;

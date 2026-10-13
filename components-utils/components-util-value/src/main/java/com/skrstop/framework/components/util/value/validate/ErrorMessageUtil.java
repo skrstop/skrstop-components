@@ -69,9 +69,6 @@ public class ErrorMessageUtil {
             return str;
         }
         int indexOf = str.indexOf(ErrorMessageUtil.VALIDATE_SPLIT_CHAR);
-        if (indexOf == -1) {
-            return str;
-        }
         return str.substring(indexOf + 2);
     }
 

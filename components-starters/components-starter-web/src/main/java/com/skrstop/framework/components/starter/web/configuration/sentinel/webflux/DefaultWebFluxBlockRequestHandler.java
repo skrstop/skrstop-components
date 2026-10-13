@@ -19,17 +19,11 @@ import com.alibaba.csp.sentinel.adapter.spring.webflux.callback.BlockRequestHand
 import com.skrstop.framework.components.core.common.response.DefaultResult;
 import com.skrstop.framework.components.core.common.response.common.CommonResultCode;
 import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
-import java.io.IOException;
-import java.util.List;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 
@@ -43,40 +37,21 @@ public class DefaultWebFluxBlockRequestHandler implements BlockRequestHandler {
 
     private static final String DEFAULT_BLOCK_MSG_PREFIX = "Blocked by Sentinel: ";
 
-    @SneakyThrows
+    // buildErrorResult 实际不会抛出受检异常，@SneakyThrows 生成的不可达 catch 分支已移除
     @Override
     public Mono<ServerResponse> handleRequest(ServerWebExchange exchange, Throwable ex) {
-//        if (acceptsHtml(exchange)) {
-//            return htmlErrorResponse(ex);
-//        }
         // JSON result by default.
         return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromValue(buildErrorResult(ex, exchange)));
     }
 
-    private Mono<ServerResponse> htmlErrorResponse(Throwable ex) {
-        return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
-                .contentType(MediaType.TEXT_PLAIN)
-                .bodyValue(DEFAULT_BLOCK_MSG_PREFIX + ex.getClass().getSimpleName());
-    }
-
-    private String buildErrorResult(Throwable ex, ServerWebExchange exchange) throws IOException {
+    private String buildErrorResult(Throwable ex, ServerWebExchange exchange) {
         return FastJsonUtil.toJson(DefaultResult.Builder.result(CommonResultCode.BUSY));
     }
 
     /**
      * Reference from {@code DefaultErrorWebExceptionHandler} of Spring Boot.
      */
-    private boolean acceptsHtml(ServerWebExchange exchange) {
-        try {
-            List<MediaType> acceptedMediaTypes = exchange.getRequest().getHeaders().getAccept();
-            acceptedMediaTypes.remove(MediaType.ALL);
-            MimeTypeUtils.sortBySpecificity(acceptedMediaTypes);
-            return acceptedMediaTypes.stream()
-                    .anyMatch(MediaType.TEXT_HTML::isCompatibleWith);
-        } catch (InvalidMediaTypeException ex) {
-            return false;
-        }
-    }
+
 }

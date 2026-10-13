@@ -71,8 +71,6 @@ public class JarProcessor implements CompressProcessor {
                         fileCompressor, binaryFile, t2, System.currentTimeMillis());
                 entry = zis.getNextJarEntry();
             }
-        } catch (Exception e) {
-            FileCompressor.LOGGER.error("Error on get compressor file", e);
         } finally {
             baos.close();
             zis.close();

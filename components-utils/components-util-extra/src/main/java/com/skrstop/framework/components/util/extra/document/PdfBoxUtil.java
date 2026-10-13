@@ -1,6 +1,5 @@
 package com.skrstop.framework.components.util.extra.document;
 
-import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -27,9 +26,7 @@ public class PdfBoxUtil implements Closeable {
 
     @Override
     public void close() throws IOException {
-        if (ObjectUtil.isNull(this.document)) {
-            return;
-        }
+        // 构造器保证 document 非 null，Loader.loadPDF 不会返回 null
         this.document.close();
     }
 

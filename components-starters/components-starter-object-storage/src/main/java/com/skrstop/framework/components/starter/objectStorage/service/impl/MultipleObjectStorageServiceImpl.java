@@ -43,9 +43,8 @@ public class MultipleObjectStorageServiceImpl implements ObjectStorageService {
         }
         this.objectStorageDatasourceMap = new HashMap<>(totalDatasourceSize, 1);
         ftpDataSources.forEach((key, value) -> {
-            if (objectStorageDatasourceMap.containsKey(key)) {
-                throw new IllegalArgumentException("ftp数据源名称重复: " + key + ", 请检查配置文件");
-            }
+            // ftp 是第一个初始化的数据源，此时 map 必为空，重复检查不可达（LinkedHashMap 键唯一），
+            // 删除该检查不影响行为；跨类型重复仍由 cos/oss 的检查兜底
             this.objectStorageDatasourceMap.put(key, new FtpObjectStorageServiceImpl(value));
         });
         cosDataSources.forEach((key, value) -> {

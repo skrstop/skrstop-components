@@ -137,12 +137,9 @@ public class TarOutputStream extends OutputStream {
      * @throws IOException
      */
     protected void pad() throws IOException {
-        if (bytesWritten > 0) {
-            int extra = (int) (bytesWritten % TarConstants.DATA_BLOCK);
-
-            if (extra > 0) {
-                write(new byte[TarConstants.DATA_BLOCK - extra]);
-            }
+        int extra = (int) (bytesWritten % TarConstants.DATA_BLOCK);
+        if (extra > 0) {
+            write(new byte[TarConstants.DATA_BLOCK - extra]);
         }
     }
 }

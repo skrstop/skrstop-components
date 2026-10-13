@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -56,8 +55,7 @@ public class ProtostuffUtil {
         return clazz.isArray()
                 || Collection.class.isAssignableFrom(clazz)
                 || Map.class.isAssignableFrom(clazz)
-                || Enum.class.isAssignableFrom(clazz)
-                || Set.class.isAssignableFrom(clazz);
+                || Enum.class.isAssignableFrom(clazz);
     }
 
     /**
@@ -71,9 +69,7 @@ public class ProtostuffUtil {
         Schema<T> schema = (Schema<T>) SCHEMA_CACHED.get(cls);
         if (schema == null) {
             schema = RuntimeSchema.createFrom(cls);
-            if (schema != null) {
-                SCHEMA_CACHED.put(cls, schema);
-            }
+            SCHEMA_CACHED.put(cls, schema);
         }
         return schema;
     }

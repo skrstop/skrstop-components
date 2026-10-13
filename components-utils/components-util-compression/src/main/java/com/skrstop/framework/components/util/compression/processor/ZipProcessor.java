@@ -70,8 +70,6 @@ public class ZipProcessor implements CompressProcessor {
                         fileCompressor, binaryFile, t2, System.currentTimeMillis());
                 entry = zis.getNextEntry();
             }
-        } catch (Exception e) {
-            FileCompressor.LOGGER.error("Error on get compressor file", e);
         } finally {
             baos.close();
             zis.close();

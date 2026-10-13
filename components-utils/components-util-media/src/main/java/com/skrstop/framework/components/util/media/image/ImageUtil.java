@@ -418,7 +418,7 @@ public class ImageUtil {
             bufferedImageBuilder.outputFormat(outFormat);
             bufferedImageBuilder.toOutputStream(byteArrayOutputStream);
             return byteArrayOutputStream;
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             throw new ImageHandleException(e);
         }
     }
@@ -618,17 +618,17 @@ public class ImageUtil {
          */
         public static ImageUtil ofUrl(URL url) throws IOException {
             if (ObjectUtil.isNotNull(url) && StrUtil.isNotBlank(url.toString())) {
+                // 等价重构：StreamUtil.getInputStream(URL) 仅在 url 为 null 时返回 null，
+                // 此处 url 已判非空，故 inStream 必不为 null（否则抛 IOException），删除恒假的空判分支
                 InputStream inStream = StreamUtil.getInputStream(url);
-                if (ObjectUtil.isNotNull(inStream)) {
-                    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[2048];
-                    int len = 0;
-                    while ((len = inStream.read(buffer)) != -1) {
-                        outStream.write(buffer, 0, len);
-                    }
-                    inStream.close();
-                    return new ImageUtil(outStream.toByteArray());
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[2048];
+                int len = 0;
+                while ((len = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, len);
                 }
+                inStream.close();
+                return new ImageUtil(outStream.toByteArray());
             }
             return null;
         }

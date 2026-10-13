@@ -11,7 +11,6 @@ import com.skrstop.framework.components.starter.web.response.core.ResponseHandle
 import com.skrstop.framework.components.util.constant.FeignConst;
 import com.skrstop.framework.components.util.constant.StringPoolConst;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
-import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.url.UrlFilterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +33,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,14 +70,15 @@ public class ReturnResponseAutoConfiguration {
                 MethodParameter returnType = result.getReturnTypeSource();
                 ServerHttpRequest request = exchange.getRequest();
                 HttpHeaders headers = request.getHeaders();
-                if (globalResponseProperties != null && !globalResponseProperties.isEnable()) {
+                // globalResponseProperties 为 final 字段恒非空，判空不可达
+                if (!globalResponseProperties.isEnable()) {
                     return writeBody(returnValue, returnType, exchange);
                 }
                 // 使用 全局返回值
                 boolean validPath = false;
                 try {
                     // 当前路径包含在NotTransResultList的集合中，不进行全局替换。
-                    validPath = UrlFilterUtil.valid(ObjectUtil.isNull(globalResponseProperties) ? new ArrayList<>() : globalResponseProperties.getDisableGlobalResponseList()
+                    validPath = UrlFilterUtil.valid(globalResponseProperties.getDisableGlobalResponseList()
                             , request.getURI().getRawPath());
                 } catch (Exception e) {
                     log.error("返回值处理异常：", e);
@@ -98,7 +97,6 @@ public class ReturnResponseAutoConfiguration {
                     useFeign = str.get(0);
                 }
                 if (FeignConst.USE_FEIGN_VALUE.equals(useFeign)
-                        && ObjectUtil.isNotNull(globalResponseProperties)
                         && !globalResponseProperties.isSupportFeign()) {
                     // 不支持feign调用返回值的封装
                     return writeBody(returnValue, returnType, exchange);

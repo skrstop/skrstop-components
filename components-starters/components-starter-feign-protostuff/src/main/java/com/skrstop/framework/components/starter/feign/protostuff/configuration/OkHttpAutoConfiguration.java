@@ -69,7 +69,7 @@ public class OkHttpAutoConfiguration {
     @Bean
     public OkHttpClient client(ConnectionPool connectionPool
             , FeignOkHttpProperties okHttpProperties
-            , GlobalFeignProperties globalFeignProperties) {
+            , GlobalFeignProperties globalFeignProperties) throws NoSuchAlgorithmException, KeyManagementException {
         boolean followRedirects = okHttpProperties.isFollowRedirects();
         int connectTimeout = okHttpProperties.getConnectionTimeout();
         int readTimeout = okHttpProperties.getReadTimeout();
@@ -83,20 +83,16 @@ public class OkHttpAutoConfiguration {
         }
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (disableSslValidation) {
-            try {
-                X509TrustManager disabledTrustManager = new DisableValidationTrustManager();
-                TrustManager[] trustManagers = new TrustManager[1];
-                trustManagers[0] = disabledTrustManager;
-                SSLContext sslContext = SSLContext.getInstance("SSL");
-                sslContext.init(null, trustManagers, new java.security.SecureRandom());
-                SSLSocketFactory disabledSSLSocketFactory = sslContext.getSocketFactory();
-                builder.sslSocketFactory(disabledSSLSocketFactory, disabledTrustManager);
-                builder.hostnameVerifier(new TrustAllHostnames());
-            } catch (NoSuchAlgorithmException e) {
-                log.warn("Error setting SSLSocketFactory in OKHttpClient", e);
-            } catch (KeyManagementException e) {
-                log.warn("Error setting SSLSocketFactory in OKHttpClient", e);
-            }
+            // SSLContext.getInstance("SSL") 在标准 JVM 上不会抛 NoSuchAlgorithmException,
+            // 传入的 TrustManager 数组合法时 init 不会抛 KeyManagementException, catch 不可达, 直接声明抛出
+            X509TrustManager disabledTrustManager = new DisableValidationTrustManager();
+            TrustManager[] trustManagers = new TrustManager[1];
+            trustManagers[0] = disabledTrustManager;
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustManagers, new java.security.SecureRandom());
+            SSLSocketFactory disabledSSLSocketFactory = sslContext.getSocketFactory();
+            builder.sslSocketFactory(disabledSSLSocketFactory, disabledTrustManager);
+            builder.hostnameVerifier(new TrustAllHostnames());
         }
         return builder
                 .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)

@@ -143,10 +143,9 @@ public class WebUtil extends org.springframework.web.util.WebUtils implements Ap
     public static void renderJson(HttpServletResponse response, Object result, String contentType) throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType(contentType);
+        // PrintWriter 不抛 IOException，此处 try-with-resources 等价于原来的 try/catch(IOException){throw e;}
         try (PrintWriter out = response.getWriter()) {
             out.append(FastJsonUtil.toJson(result));
-        } catch (IOException e) {
-            throw e;
         }
     }
 
@@ -165,6 +164,10 @@ public class WebUtil extends org.springframework.web.util.WebUtils implements Ap
      * @param request http请求
      * @return ip地址
      */
+    private static boolean isBlankOrUnknown(String value) {
+        return StrUtil.isBlank(value) || "unknown".equalsIgnoreCase(value);
+    }
+
     @Nullable
     public static String getIP(HttpServletRequest request) {
         Assert.notNull(request, "HttpServletRequest must not null");
@@ -182,19 +185,18 @@ public class WebUtil extends org.springframework.web.util.WebUtils implements Ap
         if (StrUtil.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
             return XFor;
         }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
-            XFor = request.getHeader("Proxy-Client-IP");
-        }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+        // 此时 XFor 只可能为空或 unknown（非空非 unknown 已在上面 return），该条件恒为真
+        XFor = request.getHeader("Proxy-Client-IP");
+        if (isBlankOrUnknown(XFor)) {
             XFor = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+        if (isBlankOrUnknown(XFor)) {
             XFor = request.getHeader("HTTP_CLIENT_IP");
         }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+        if (isBlankOrUnknown(XFor)) {
             XFor = request.getHeader("HTTP_X_FORWARDED_FOR");
         }
-        if (StrUtil.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+        if (isBlankOrUnknown(XFor)) {
             XFor = request.getRemoteAddr();
         }
         return XFor;

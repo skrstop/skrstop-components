@@ -61,21 +61,16 @@ public class FieldUtil {
 
         if (field != null) {
 
-            boolean accessible = field.isAccessible();
+            // findField 每次返回新的 Field 副本，accessible 标志恒为 false
+            ReflectionUtils.makeAccessible(field);
 
             try {
-
-                if (!accessible) {
-                    ReflectionUtils.makeAccessible(field);
-                }
 
                 fieldValue = (T) ReflectionUtils.getField(field, object);
 
             } finally {
 
-                if (!accessible) {
-                    field.setAccessible(accessible);
-                }
+                field.setAccessible(false);
             }
         }
 

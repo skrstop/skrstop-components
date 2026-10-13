@@ -25,7 +25,6 @@ import com.skrstop.framework.components.util.serialization.json.FastJsonUtil;
 import com.skrstop.framework.components.util.value.data.CollectionUtil;
 import com.skrstop.framework.components.util.value.data.ObjectUtil;
 import com.skrstop.framework.components.util.value.data.StrUtil;
-import com.skrstop.framework.components.util.value.validate.ErrorMessageUtil;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,7 +39,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -59,8 +57,10 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 蒋时华 on 2017/10/31.
@@ -245,22 +245,13 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
     @SuppressWarnings("unchecked")
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.debug(ThrowableStackTraceUtil.getStackTraceStr(ex));
-        List<ObjectError> errors = ex.getBindingResult().getAllErrors();
 //        StringBuffer errorMsg=new StringBuffer();
 //        errors.stream().forEach(x -> errorMsg.append(x.getDefaultMessage()).append(";"));
 //        ParameterException.ParameterErrorCode.PARAMETER_VALID_ERROR_CODE.setMessage(errorMsg.toString());
 //        String defaultMessage = errors.get(0).getDefaultMessage();
-        if (ex instanceof BindException) {
-            BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
-            return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
-        }
-        String defaultMessage = null;
-        IResult paramError = EnumCodeUtil.transferEnumCode(CommonExceptionCode.PARAMETER);
-        if (CollectionUtil.isNotEmpty(errors)) {
-            defaultMessage = ErrorMessageUtil.getFirstErrorMessage(errors.stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
-        }
-        paramError.setMessage(defaultMessage);
-        return new ResponseEntity(paramError, HttpStatus.INTERNAL_SERVER_ERROR);
+        // MethodArgumentNotValidException 一定是 BindException 的子类，instanceof 判断恒成立
+        BindExceptionInterceptor bindExceptionInterceptor = new BindExceptionInterceptor();
+        return new ResponseEntity(bindExceptionInterceptor.execute(ex).getResult(), HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -295,14 +286,10 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             return;
         }
         Map<String, Object> model = webDataBinder.getBindingResult().getModel();
-        if (ObjectUtil.isNotNull(model) && model.size() > 1) {
-            Iterator<Map.Entry<String, Object>> iterator = model.entrySet().iterator();
-            if (iterator.hasNext()) {
-                Map.Entry<String, Object> bodyMap = iterator.next();
-                request.setAttribute(RequestConst.BODY_CACHE_NAME, bodyMap.getKey());
-                request.setAttribute(RequestConst.BODY_CACHE, FastJsonUtil.toJson(bodyMap.getValue()));
-            }
-        }
+        // BindingResult.getModel() 返回的 Map 恒包含 target 与 BindingResult 自身，永不为 null
+        Map.Entry<String, Object> bodyMap = model.entrySet().iterator().next();
+        request.setAttribute(RequestConst.BODY_CACHE_NAME, bodyMap.getKey());
+        request.setAttribute(RequestConst.BODY_CACHE, FastJsonUtil.toJson(bodyMap.getValue()));
     }
 
     /**
@@ -324,18 +311,11 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
             // 不需要打印日志的业务异常信息
         } else if (ObjectUtil.isNotNull(request) && !this.skipErrorPath(request)) {
             String requestPath, requestQueryPath, requestBodyName, requestBody;
-            // 获取请求信息
-            if (ObjectUtil.isNull(request)) {
-                requestPath = "无法获取请求地址";
-                requestQueryPath = "无法获取请求参数";
-                requestBodyName = "无法获取请求body形参名";
-                requestBody = "无法获取请求body体";
-            } else {
-                requestPath = request.getRequestURI();
-                requestQueryPath = request.getQueryString();
-                requestBodyName = ObjectUtil.isNotNull(request.getAttribute(RequestConst.BODY_CACHE_NAME)) ? request.getAttribute(RequestConst.BODY_CACHE_NAME).toString() : StringPoolConst.EMPTY;
-                requestBody = ObjectUtil.isNotNull(request.getAttribute(RequestConst.BODY_CACHE)) ? request.getAttribute(RequestConst.BODY_CACHE).toString() : StringPoolConst.EMPTY;
-            }
+            // 获取请求信息（外层已保证 request 非空，此处的判空分支不可达）
+            requestPath = request.getRequestURI();
+            requestQueryPath = request.getQueryString();
+            requestBodyName = ObjectUtil.isNotNull(request.getAttribute(RequestConst.BODY_CACHE_NAME)) ? request.getAttribute(RequestConst.BODY_CACHE_NAME).toString() : StringPoolConst.EMPTY;
+            requestBody = ObjectUtil.isNotNull(request.getAttribute(RequestConst.BODY_CACHE)) ? request.getAttribute(RequestConst.BODY_CACHE).toString() : StringPoolConst.EMPTY;
             log.error("http请求报错 ==>\n请求地址：{} \n请求参数：{} \n请求body形参名：{} \n请求body体：{} \n异常栈：\n\n{}", requestPath, requestQueryPath, requestBodyName, requestBody, ThrowableStackTraceUtil.getStackTraceStr(e));
         } else {
             log.error("异常栈：\n\n{}", ThrowableStackTraceUtil.getStackTraceStr(e));

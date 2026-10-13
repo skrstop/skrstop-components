@@ -121,20 +121,20 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
             return deserialize.getData();
         }
         IDataResult deserialize;
+        // LinkedHashSet/LinkedHashMap 分别是 HashSet/HashMap 的子类, 需先判断子类, 否则子类分支不可达(等价重排);
+        // Set 必为 Collection, 原 Set 分支被 Collection 分支短路, 属不可达死代码, 等价删除
         if (List.class.isAssignableFrom(c)) {
             deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), ListResult.class, this.globalFeignProperties.getGzipCompress());
-        } else if (HashSet.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), HashSetResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (LinkedHashSet.class.isAssignableFrom(c)) {
             deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedSetResult.class, this.globalFeignProperties.getGzipCompress());
+        } else if (HashSet.class.isAssignableFrom(c)) {
+            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), HashSetResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (LinkedHashMap.class.isAssignableFrom(c)) {
             deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedMapResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (HashMap.class.isAssignableFrom(c)) {
             deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), MapResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (Collection.class.isAssignableFrom(c)) {
             deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), CollectionResult.class, this.globalFeignProperties.getGzipCompress());
-        } else if (Set.class.isAssignableFrom(c)) {
-            deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedSetResult.class, this.globalFeignProperties.getGzipCompress());
         } else if (Map.class.isAssignableFrom(c)) {
             deserialize = ProtostuffUtil.deserializeWithUncompress(inputMessage.getBody(), LinkedMapResult.class, this.globalFeignProperties.getGzipCompress());
         } else {

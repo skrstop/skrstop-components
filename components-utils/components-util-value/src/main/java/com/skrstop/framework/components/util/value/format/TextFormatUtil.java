@@ -20,6 +20,9 @@ public class TextFormatUtil {
     private static final Pattern MSG_PATTERN = Pattern.compile(FORMAT_SPECIFIER);
 
     public static String formatString(String message, Object... params) {
+        if (message == null) {
+            return StringPoolConst.EMPTY;
+        }
         if (MSG_PATTERN.matcher(message).find()) {
             return String.format(Locale.getDefault(Locale.Category.FORMAT), message, params);
         } else {
@@ -50,9 +53,7 @@ public class TextFormatUtil {
          * @param arg            The argument to be substituted in place of the formatting anchor
          * @return The formatted message
          */
-        final public static String format(String messagePattern, Object arg) {
-            return arrayFormatHandle(messagePattern, new Object[]{arg});
-        }
+
 
         /**
          * Performs a two argument substitution for the 'messagePattern' passed as
@@ -73,12 +74,13 @@ public class TextFormatUtil {
          *                       anchor
          * @return The formatted message
          */
-        final public static String format(final String messagePattern, Object arg1, Object arg2) {
-            return arrayFormatHandle(messagePattern, new Object[]{arg1, arg2});
-        }
+
 
 
         final public static String arrayFormat(final String messagePattern, final Object[] argArray) {
+            if (argArray == null) {
+                return messagePattern;
+            }
             Throwable throwableCandidate = org.slf4j.helpers.MessageFormatter.getThrowableCandidate(argArray);
             Object[] args = argArray;
             if (throwableCandidate != null) {
@@ -88,14 +90,6 @@ public class TextFormatUtil {
         }
 
         final public static String arrayFormatHandle(final String messagePattern, final Object[] argArray) {
-
-            if (messagePattern == null) {
-                return StringPoolConst.EMPTY;
-            }
-
-            if (argArray == null) {
-                return messagePattern;
-            }
 
             int i = 0;
             int j;
@@ -227,122 +221,47 @@ public class TextFormatUtil {
             sbuf.append(']');
         }
 
-        private static void booleanArrayAppend(StringBuilder sbuf, boolean[] a) {
+        private static void joinArray(StringBuilder sbuf, int len, java.util.function.IntFunction<String> elem) {
             sbuf.append('[');
-            final int len = a.length;
             for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
+                sbuf.append(elem.apply(i));
                 if (i != len - 1) {
                     sbuf.append(", ");
                 }
             }
             sbuf.append(']');
+        }
+
+        private static void booleanArrayAppend(StringBuilder sbuf, boolean[] a) {
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void byteArrayAppend(StringBuilder sbuf, byte[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void charArrayAppend(StringBuilder sbuf, char[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void shortArrayAppend(StringBuilder sbuf, short[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void intArrayAppend(StringBuilder sbuf, int[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void longArrayAppend(StringBuilder sbuf, long[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void floatArrayAppend(StringBuilder sbuf, float[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
         private static void doubleArrayAppend(StringBuilder sbuf, double[] a) {
-            sbuf.append('[');
-            final int len = a.length;
-            for (int i = 0; i < len; i++) {
-                sbuf.append(a[i]);
-                if (i != len - 1) {
-                    sbuf.append(", ");
-                }
-            }
-            sbuf.append(']');
-        }
-
-        /**
-         * Helper method to get all but the last element of an array
-         *
-         * @param argArray The arguments from which we want to remove the last element
-         * @return a copy of the array without the last element
-         */
-        public static Object[] trimmedCopy(final Object[] argArray) {
-            if (argArray == null || argArray.length == 0) {
-                throw new IllegalStateException("non-sensical empty or null argument array");
-            }
-
-            final int trimmedLen = argArray.length - 1;
-
-            Object[] trimmed = new Object[trimmedLen];
-
-            if (trimmedLen > 0) {
-                System.arraycopy(argArray, 0, trimmed, 0, trimmedLen);
-            }
-
-            return trimmed;
+            joinArray(sbuf, a.length, i -> String.valueOf(a[i]));
         }
 
     }

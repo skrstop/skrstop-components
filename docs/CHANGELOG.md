@@ -1,5 +1,16 @@
 # 组件
 
+##### 3.5.100.20261009-RELEASE
+
+* upgrade: springBoot 3.3.13 -> 3.5.16、springCloud 2023.0.6 -> 2025.0.3、springCloudAlibaba 2023.0.3.4 -> 2025.0.0.0
+* upgrade: redisson 3.43.0 -> 4.8.0（移除 getNodesGroup，Config.fromJSON 兼容层 RedissonConfigCompat）、 okhttp 4 ->
+  okhttp-jvm 5.5.0、mybatis-plus 3.5.7 -> 3.5.17（MybatisSqlSessionFactoryBean 包迁移、批量回调签名 Integer）
+* fix: DynamicAopRedissonClient getBoundedBlockingQueue/getDeque 递归自调用 StackOverflowError 修复
+* fix: SuperRepositoryImpl#saveOrUpdateBatch 改用虚分派 getSqlSessionFactory ()，子类覆写生效
+* refactor: 约 40 处不可达防御分支/死代码等价重构（trim/annotation/redis/feign/media/object-storage 等）
+* feat: 全仓 JaCoCo 覆盖率 100%（1514 tests，0 失败/0 跳过），verify 阶段 LINE/BRANCH=1.00 构建门禁，移除全部 excludes
+* docs: 新增升级指南 docs/upgrade/3.5.100.20261009.md
+
 ##### 1.3.5.20260520-RELEASE
 
 * feat: druid usePingMethod支持通过yml配置指定，默认为false
