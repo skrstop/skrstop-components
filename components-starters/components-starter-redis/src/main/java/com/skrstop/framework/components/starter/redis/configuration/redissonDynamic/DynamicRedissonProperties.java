@@ -64,11 +64,6 @@ public class DynamicRedissonProperties {
          * yaml配置文本.
          */
         private String configYamlStr;
-        /**
-         * json配置文本
-         */
-        @Deprecated
-        private String configJsonStr;
     }
 
     @Getter

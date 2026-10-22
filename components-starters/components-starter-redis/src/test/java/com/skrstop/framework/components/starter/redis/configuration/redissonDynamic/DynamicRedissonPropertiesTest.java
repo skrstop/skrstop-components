@@ -27,11 +27,10 @@ public class DynamicRedissonPropertiesTest {
 
         DynamicRedissonProperties.Config config = new DynamicRedissonProperties.Config();
         Assert.assertNull(config.getConfigFile());
-        config.setConfigFile("f").setConfigYamlStr("y").setConfigJsonStr("j");
+        config.setConfigFile("f").setConfigYamlStr("y");
         Assert.assertEquals("f", config.getConfigFile());
         Assert.assertEquals("y", config.getConfigYamlStr());
-        Assert.assertEquals("j", config.getConfigJsonStr());
-        new DynamicRedissonProperties.Config("f", "y", "j");
+        new DynamicRedissonProperties.Config("f", "y");
         DynamicRedissonProperties.Config.builder().build();
 
         DynamicRedissonProperties.Aop aop = new DynamicRedissonProperties.Aop();

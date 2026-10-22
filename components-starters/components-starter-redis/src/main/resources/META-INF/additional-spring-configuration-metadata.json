@@ -124,15 +124,6 @@
       "defaultValue": "false"
     },
     {
-      "name": "skrstop.redis.redisson.config-json-str",
-      "type": "java.lang.String",
-      "description": "从json配置读取redisson配置.",
-      "defaultValue": "false",
-      "deprecation": {
-        "reason": "不建议使用，建议使用spring.redis.redisson.config-yaml-str"
-      }
-    },
-    {
       "name": "skrstop.redis.redisson.dynamic.enabled",
       "type": "java.lang.Boolean",
       "description": "是否开启动态redis数据源.",

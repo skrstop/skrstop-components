@@ -18,6 +18,7 @@ import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author 蒋时华
@@ -36,11 +37,9 @@ public class RedissonAutoConfiguration {
         if (StrUtil.isNotBlank(globalRedissonProperties.getConfigFile())) {
             Resource resource = ctx.getResource(globalRedissonProperties.getConfigFile());
             InputStream is = resource.getInputStream();
-            config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromYaml(new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
+            config = Config.fromYAML(new String(is.readAllBytes(), StandardCharsets.UTF_8));
         } else if (StrUtil.isNotBlank(globalRedissonProperties.getConfigYamlStr())) {
-            config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromYaml(globalRedissonProperties.getConfigYamlStr());
-        } else if (StrUtil.isNotBlank(globalRedissonProperties.getConfigJsonStr())) {
-            config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromJson(globalRedissonProperties.getConfigJsonStr());
+            config = Config.fromYAML(globalRedissonProperties.getConfigYamlStr());
         }
         if (ObjectUtil.isNull(config)) {
             throw new SkrstopRuntimeException("redisson未配置相关参数");

@@ -21,7 +21,6 @@ import static org.mockito.Mockito.when;
 public class RedissonAutoConfigurationTest {
 
     private static final String YAML = "singleServerConfig:\n  address: redis://127.0.0.1:6379\n";
-    private static final String JSON = "{\"singleServerConfig\":{\"address\":\"redis://127.0.0.1:6379\"}}";
 
     @Test
     public void configFile() throws Exception {
@@ -39,16 +38,6 @@ public class RedissonAutoConfigurationTest {
     public void yamlStr() throws Exception {
         GlobalRedissonProperties p = new GlobalRedissonProperties();
         p.setConfigYamlStr(YAML);
-        try (MockedStatic<Redisson> redisson = Mockito.mockStatic(Redisson.class)) {
-            redisson.when(() -> Redisson.create(any(Config.class))).thenReturn(mock(RedissonClient.class));
-            Assert.assertNotNull(new RedissonAutoConfiguration().redissonClient(p, mock(ApplicationContext.class)));
-        }
-    }
-
-    @Test
-    public void jsonStr() throws Exception {
-        GlobalRedissonProperties p = new GlobalRedissonProperties();
-        p.setConfigJsonStr(JSON);
         try (MockedStatic<Redisson> redisson = Mockito.mockStatic(Redisson.class)) {
             redisson.when(() -> Redisson.create(any(Config.class))).thenReturn(mock(RedissonClient.class));
             Assert.assertNotNull(new RedissonAutoConfiguration().redissonClient(p, mock(ApplicationContext.class)));

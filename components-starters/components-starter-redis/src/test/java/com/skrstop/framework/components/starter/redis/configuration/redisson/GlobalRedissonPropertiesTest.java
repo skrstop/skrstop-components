@@ -12,10 +12,8 @@ public class GlobalRedissonPropertiesTest {
         p.setEnabled(true);
         p.setConfigFile("f");
         p.setConfigYamlStr("y");
-        p.setConfigJsonStr("j");
         Assert.assertTrue(p.isEnabled());
         Assert.assertEquals("f", p.getConfigFile());
         Assert.assertEquals("y", p.getConfigYamlStr());
-        Assert.assertEquals("j", p.getConfigJsonStr());
     }
 }

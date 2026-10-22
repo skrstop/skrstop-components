@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -85,11 +86,9 @@ public class MultiRedisson implements InitializingBean, DisposableBean {
             if (StrUtil.isNotBlank(ds.getConfigFile())) {
                 Resource resource = ctx.getResource(ds.getConfigFile());
                 InputStream is = resource.getInputStream();
-                config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromYaml(new String(((java.io.InputStream) is).readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
+                config = Config.fromYAML(new String(is.readAllBytes(), StandardCharsets.UTF_8));
             } else if (StrUtil.isNotBlank(ds.getConfigYamlStr())) {
-                config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromYaml(ds.getConfigYamlStr());
-            } else if (StrUtil.isNotBlank(ds.getConfigJsonStr())) {
-                config = com.skrstop.framework.components.starter.redis.util.RedissonConfigCompat.fromJson(ds.getConfigJsonStr());
+                config = Config.fromYAML(ds.getConfigYamlStr());
             }
             if (ObjectUtil.isNull(config)) {
                 throw new SkrstopRuntimeException("redisson未配置相关参数: " + key);

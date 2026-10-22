@@ -150,22 +150,6 @@ public class MultiRedissonTest {
     }
 
     @Test
-    public void afterPropertiesSetFromJson() throws Exception {
-        DynamicRedissonProperties p = new DynamicRedissonProperties();
-        p.setPrimary("default");
-        Map<String, DynamicRedissonProperties.Config> ds = new LinkedHashMap<>();
-        DynamicRedissonProperties.Config c = new DynamicRedissonProperties.Config();
-        c.setConfigJsonStr("{\"singleServerConfig\":{\"address\":\"redis://127.0.0.1:6379\"}}");
-        ds.put("default", c);
-        p.setDataSources(ds);
-        try (MockedStatic<Redisson> redisson = Mockito.mockStatic(Redisson.class)) {
-            redisson.when(() -> Redisson.create(any(Config.class))).thenReturn(mock(RedissonClient.class));
-            MultiRedisson multi = new MultiRedisson(p, mock(ApplicationContext.class));
-            multi.afterPropertiesSet();
-        }
-    }
-
-    @Test
     @org.junit.After
     public void clearHolder() {
         DynamicRedissonContextHolder.clear();
