@@ -109,7 +109,7 @@ public class JacksonAutoConfiguration {
         }
         // 设置过滤掉null值得属性
         if (globalResponseProperties == null || !globalResponseProperties.isShowNullValue()) {
-            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            objectMapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
         }
         globalObjectMapper = objectMapper.registerModule(simpleModule);
         globalObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
