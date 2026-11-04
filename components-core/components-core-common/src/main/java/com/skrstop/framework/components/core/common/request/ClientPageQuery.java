@@ -1,8 +1,6 @@
 package com.skrstop.framework.components.core.common.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -17,13 +15,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @SuperBuilder
 @Accessors(chain = true)
 public class ClientPageQuery implements Serializable {
-
-    private static final long serialVersionUID = -4053239205088003342L;
 
     private static final int DEFAULT_PAGE_SIZE = 10;
     private static final int DEFAULT_PAGE_NUMBER = 1;
@@ -49,6 +43,20 @@ public class ClientPageQuery implements Serializable {
      * 上一个分页记录，用户深度分页
      */
     private String lastPageInfo;
+
+    public ClientPageQuery() {
+    }
+
+    public ClientPageQuery(Integer page, Integer limit) {
+        this.pageNumber = page;
+        this.pageSize = limit;
+    }
+
+    public ClientPageQuery(Integer page, Integer limit, String lastPageInfo) {
+        this.pageNumber = page;
+        this.pageSize = limit;
+        this.lastPageInfo = lastPageInfo;
+    }
 
     public Integer getPageNumber() {
         if (this.pageNumber == null || this.pageNumber <= 0) {

@@ -80,7 +80,7 @@
 
     <properties>
         <!-- 2.7.x -> springboot 2.7.x -->
-        <framework.components.revision>2.7.1.20260520-RELEASE</framework.components.revision>
+        <framework.components.revision>2.7.2.20261104-RELEASE</framework.components.revision>
         <java.version>1.8</java.version>
         <release.id>sonatype</release.id>
 
