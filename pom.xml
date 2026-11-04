@@ -80,7 +80,7 @@
 
     <properties>
         <!-- 3.5.x -> springboot 3.5.x -->
-        <framework.components.revision>3.5.100.20261009-RELEASE</framework.components.revision>
+        <framework.components.revision>3.5.101.20261104-RELEASE</framework.components.revision>
         <java.version>17</java.version>
         <release.id>sonatype</release.id>
 
