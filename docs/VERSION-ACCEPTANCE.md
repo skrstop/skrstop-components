@@ -7,14 +7,14 @@
 
 ## 一、Spring 生态（用户指定升级）
 
-| 包                                                  | 升级前     | 当前版本   | 备注                        |
-|-----------------------------------------------------|------------|------------|-----------------------------|
-| org.springframework.boot:spring-boot-dependencies   | 3.3.13     | 3.5.16     | ✅ 已升级（用户指定）       |
-| org.springframework.cloud:spring-cloud-dependencies | 2023.0.6   | 2025.0.3   | ✅ 已升级（用户指定）       |
-| com.alibaba.cloud:spring-cloud-alibaba-dependencies | 2023.0.3.4 | 2025.0.0.0 | ✅ 已升级（用户指定）       |
-| org.springdoc:springdoc-openapi-starter-webmvc-ui   | 2.6.0      | 2.8.13     | ✅ 2.x 终线（3.x 属 Boot4） |
-| io.github.openfeign:feign-core                      | 13.2.1     | 13.6.1     | ✅ Cloud BOM 仲裁线最新     |
-| io.seata:seata-spring-boot-starter                  | 2.0.0      | 2.5.0      | ✅ SCA 2025.0.0.0 对齐线    |
+| 包                                                  | 升级前                 | 当前版本   | 备注                        |
+|-----------------------------------------------------|------------------------|------------|-----------------------------|
+| org.springframework.boot:spring-boot-dependencies   | 3.3.13                 | 3.5.16     | ✅ 已升级（用户指定）       |
+| org.springframework.cloud:spring-cloud-dependencies | 2023.0.6               | 2025.0.3   | ✅ 已升级（用户指定）       |
+| com.alibaba.cloud:spring-cloud-alibaba-dependencies | 2023.0.3.4             | 2025.0.0.0 | ✅ 已升级（用户指定）       |
+| org.springdoc:springdoc-openapi-starter-webmvc-ui   | 2.6.0                  | 2.8.13     | ✅ 2.x 终线（3.x 属 Boot4） |
+| io.github.openfeign:feign-core                      | ~~13.6.1~~ → **13.17** | 13.17      | ⬆️ 与 feign 全家桶统一升级  |
+| io.seata:seata-spring-boot-starter                  | 2.0.0                  | 2.5.0      | ✅ SCA 2025.0.0.0 对齐线    |
 
 ## 二、第三方包全量对照（196 坐标）
 

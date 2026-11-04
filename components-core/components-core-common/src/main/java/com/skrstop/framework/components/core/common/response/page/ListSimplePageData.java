@@ -1,6 +1,5 @@
 package com.skrstop.framework.components.core.common.response.page;
 
-import java.io.Serial;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,8 +10,18 @@ import java.util.stream.Collectors;
  * @since 1.0.0
  */
 public class ListSimplePageData<T> extends SimplePageData<List<T>> {
-    @Serial
     private static final long serialVersionUID = -2419450763177948411L;
+
+    public ListSimplePageData() {
+    }
+
+    public ListSimplePageData(int page, int limit) {
+        super(page, limit);
+    }
+
+    public ListSimplePageData(int page, int limit, int total) {
+        super(page, limit, total);
+    }
 
     public <R> ListSimplePageData<R> convert(Function<? super T, ? extends R> mapper) {
         ListSimplePageData<R> convertPage = new ListSimplePageData<>();

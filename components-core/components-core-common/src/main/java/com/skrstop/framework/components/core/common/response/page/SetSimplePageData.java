@@ -12,6 +12,17 @@ import java.util.stream.Collectors;
 public class SetSimplePageData<T> extends SimplePageData<LinkedHashSet<T>> {
     private static final long serialVersionUID = -2419450763177948411L;
 
+    public SetSimplePageData() {
+    }
+
+    public SetSimplePageData(int page, int limit) {
+        super(page, limit);
+    }
+
+    public SetSimplePageData(int page, int limit, int total) {
+        super(page, limit, total);
+    }
+
     public <R> SetSimplePageData<R> convert(Function<? super T, ? extends R> mapper) {
         SetSimplePageData<R> convertPage = new SetSimplePageData<>();
         LinkedHashSet<R> collect = this.getRows().stream()
