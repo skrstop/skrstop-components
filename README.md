@@ -92,7 +92,6 @@ skrstop-components
 │   └── components-starter-web                     #   统一返回值、异常处理、API 文档
 │
 ├── components-utils                               # 工具模块
-│   ├── components-util-compression                #   解压缩
 │   ├── components-util-constant                   #   常量池
 │   ├── components-util-crypto                     #   加解密
 │   ├── components-util-db                         #   database
