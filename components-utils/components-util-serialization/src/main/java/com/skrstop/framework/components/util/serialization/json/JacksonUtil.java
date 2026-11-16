@@ -75,6 +75,7 @@ public class JacksonUtil {
         if (namingStrategy != null) {
             mapper.setPropertyNamingStrategy(namingStrategy);
         }
+        mapper.setTimeZone(TimeZone.getDefault());
         mapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
         mapper.registerModule(buildTimeModule());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
