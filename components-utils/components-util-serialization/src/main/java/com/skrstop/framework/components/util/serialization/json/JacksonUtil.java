@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 /**
  * @author 蒋时华
@@ -18,6 +19,7 @@ public class JacksonUtil {
     private static final ObjectMapper JACKSON_MAPPER = new ObjectMapper();
 
     static {
+        JACKSON_MAPPER.setTimeZone(TimeZone.getDefault());
         JACKSON_MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 //        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         // 忽略未知属性

@@ -21,6 +21,7 @@ import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -59,6 +60,7 @@ public class JacksonAutoConfiguration {
             // 新建jackson解析器
             MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setTimeZone(TimeZone.getDefault());
             jackson2HttpMessageConverter.setObjectMapper(this.setObjectMapper(objectMapper, globalResponseProperties));
             converters.add(jackson2HttpMessageConverter);
         }
